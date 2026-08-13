@@ -1,0 +1,26 @@
+{
+  "name": "@dshhub/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "cf:typegen": "wrangler types --env-interface CloudflareBindings worker-configuration.d.ts",
+    "db:migrate:local": "wrangler d1 migrations apply dshhub --local",
+    "db:migrate:remote": "wrangler d1 migrations apply dshhub --remote",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev --port 8787",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dshhub/contracts": "workspace:*",
+    "@orpc/server": "1.15.0",
+    "hono": "4.13.1"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vitest": "4.1.10",
+    "wrangler": "4.120.0"
+  }
+}

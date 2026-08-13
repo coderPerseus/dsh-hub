@@ -1,0 +1,2 @@
+apps/api/worker-configuration.d.ts linguist-generated=true -whitespace
+apps/web/cloudflare-env.d.ts linguist-generated=true -whitespace
