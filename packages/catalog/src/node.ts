@@ -414,10 +414,17 @@ export async function discoverCatalogSnapshot(
     }
   });
   const sources = discovered.flat();
-  const plugins = await mapConcurrent(sources, GITHUB_CONCURRENCY, source => buildPlugin(source, {
-    ...options,
-    fetch: fetcher,
-  }));
+  const built = await mapConcurrent(sources, GITHUB_CONCURRENCY, async (source) => {
+    try {
+      return await buildPlugin(source, resolvedOptions);
+    } catch (error) {
+      console.warn(
+        `Skipped ${source.repository.full_name}/${source.packageDirectory || "package.json"}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+      return null;
+    }
+  });
+  const plugins = built.filter((plugin): plugin is CatalogPlugin => plugin !== null);
   plugins.sort((left, right) => left.name.localeCompare(right.name));
   const minimumPluginCount = options.minimumPluginCount ?? 1;
   if (plugins.length < minimumPluginCount) {

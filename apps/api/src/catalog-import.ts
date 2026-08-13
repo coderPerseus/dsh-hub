@@ -10,7 +10,7 @@ export type CatalogBindings = CloudflareBindings & {
   CATALOG_QUEUE: Queue<CatalogImportMessage>;
 };
 
-const MAX_CATALOG_BYTES = 5_000_000;
+const MAX_CATALOG_BYTES = 20_000_000;
 const STATEMENT_BATCH_SIZE = 50;
 
 function toHex(bytes: ArrayBuffer): string {
@@ -45,10 +45,10 @@ export async function readCatalogSnapshot(request: Request): Promise<{
   snapshot: CatalogSnapshot;
 }> {
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
-  if (declaredLength > MAX_CATALOG_BYTES) throw new Error("Catalog snapshot exceeds 5 MB.");
+  if (declaredLength > MAX_CATALOG_BYTES) throw new Error("Catalog snapshot exceeds 20 MB.");
 
   const bytes = await request.arrayBuffer();
-  if (bytes.byteLength > MAX_CATALOG_BYTES) throw new Error("Catalog snapshot exceeds 5 MB.");
+  if (bytes.byteLength > MAX_CATALOG_BYTES) throw new Error("Catalog snapshot exceeds 20 MB.");
 
   let decoded: unknown;
   try {

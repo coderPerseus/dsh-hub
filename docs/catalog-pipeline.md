@@ -1,12 +1,14 @@
 # Catalog pipeline
 
-DSH Hub uses a curated registry as the source of truth. CI reads the registered repository list and calls GitHub's repository and Contents APIs for each entry. It does not clone repositories, enumerate an organization, or publish topic-search results without review.
+DSH Hub discovers plugins directly from GitHub topics. No reviewed registry or repository allowlist participates in publication.
 
 ## Data flow
 
 ```text
-registry/*.yaml
-  -> GitHub repository + Contents API
+GitHub topic search
+  -> repository tree + Contents API
+  -> installable package qualification
+  -> automatic category inference
   -> .catalog/catalog.snapshot.json
      -> README catalog section
      -> POST /internal/catalog-imports
@@ -19,36 +21,27 @@ registry/*.yaml
 
 The D1 importer writes a complete run under a new `run_id`. Only after every plugin, category, and search row has been written does it change that run to `current`. The previous run becomes `archived`, so readers never see a partially imported catalog.
 
-## Register a plugin
+## Discovery and qualification
 
-Create `registry/<owner>__<repository>.yaml`:
+The scheduled build searches these topics and deduplicates repositories:
 
-```yaml
-schemaVersion: 1
-repository: owner/repository
-categories:
-  - development
-curation:
-  featured: false
-  hidden: false
-```
+- `dsh-plugin`
+- `deepseek-harness-plugin`
+- `deepseek-harness-plugins`
 
-Optional overrides:
+For each non-archived, non-fork repository, the collector reads the default-branch tree and checks:
 
-```yaml
-display:
-  name: Display name
-  summary: Short description shown in the catalog
-documentation:
-  install: Markdown installation instructions
-  usage: Markdown usage instructions
-```
+- root `package.json`;
+- `packages/*/package.json`;
+- `plugins/*/package.json`.
 
-The current builder validates that the repository has an installable `package.json`, records the default-branch commit, checks the declared bundle path, reads Harness or Cordis peer ranges, and extracts installation and usage sections from the README.
+A package is included when it declares `name` and at least one of `main`, `exports`, or `dsh`. The collector records the exact default-branch commit, checks the declared bundle path, reads Harness or Cordis peer ranges, and extracts installation and usage sections from the nearest README. Categories are inferred from repository topics, package keywords, names, and descriptions.
+
+Malformed packages, empty repositories, and unavailable repositories are logged and skipped. `CATALOG_MIN_PLUGIN_COUNT` prevents a degraded discovery run from replacing the current catalog; CI uses a minimum of 50.
 
 ## GitHub Actions configuration
 
-The `Publish plugin catalog` workflow runs after registry or builder changes, every eight hours, and on manual dispatch. Configure these repository secrets:
+The `Publish plugin catalog` workflow runs after collector changes, every eight hours, and on manual dispatch. Configure these repository secrets:
 
 | Secret | Purpose |
 | --- | --- |

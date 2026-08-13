@@ -22,9 +22,8 @@ apps/
   api/                 Hono Worker、D1 migration、Queue consumer
   web/                 Next.js 应用与 OpenNext Cloudflare 配置
 packages/
-  catalog/             Registry schema、GitHub API collector、README renderer
+  catalog/             GitHub 自动发现、资格验证、README renderer
   contracts/           前后端共享的 oRPC 契约
-registry/              经审核的插件来源，每个插件一个 YAML
 scripts/               Catalog 构建和发布入口
 ```
 
@@ -59,12 +58,12 @@ pnpm deploy:web
 
 ## 插件目录流水线
 
-插件来源由 `registry/*.yaml` 审核管理。GitHub Actions 每 8 小时及 registry 变更时调用 GitHub API 读取仓库元数据、`package.json`、bundle 路径和 README 文档章节，生成同一份快照的两种投影：
+GitHub Actions 每 8 小时搜索 `dsh-plugin`、`deepseek-harness-plugin` 和 `deepseek-harness-plugins` topics，自动验证根包及 `packages/*`、`plugins/*` 多包仓库中的可安装 `package.json`，读取 bundle 路径和 README 文档章节，并生成同一份快照的两种投影：
 
 - README 中的可审阅目录；
 - R2 原始 JSON + D1 搜索、分类和详情数据。
 
-发布经 Queue 异步导入，完整写入新 run 后再切换 `current`，Web 不会读到一半导入的数据。配置、插件 YAML 格式和发布命令见 [Catalog pipeline](docs/catalog-pipeline.md)。
+分类由仓库 topics、包名、描述和关键词自动推导。无效或空仓库会被记录并跳过；整批结果低于安全下限时构建失败。发布经 Queue 异步导入，完整写入新 run 后再切换 `current`，Web 不会读到一半导入的数据。配置和发布命令见 [Catalog pipeline](docs/catalog-pipeline.md)。
 
 ```bash
 pnpm catalog:build
