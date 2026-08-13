@@ -83,6 +83,11 @@ export default async function PluginPage({ params }: PluginPageProps) {
                 <p>此插件尚未提供可验证的 bundle，或兼容性检查未通过。请先阅读仓库说明。</p>
               </div>
             )}
+            {plugin.installation.markdown && (
+              <div className="markdown-body install-markdown">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{plugin.installation.markdown}</ReactMarkdown>
+              </div>
+            )}
             {plugin.installation.notes.map(note => <p className="install-note" key={note}>⚠ {note}</p>)}
             <p className="pin-note">目录固定到提交 <code>{plugin.repository.commit.slice(0, 12)}</code>，避免安装结果随默认分支变化。</p>
           </div>

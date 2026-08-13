@@ -40,8 +40,8 @@ display:
   name: Display name
   summary: Short description shown in the catalog
 documentation:
-  install: Maintainer installation note
-  usage: Maintainer usage note
+  install: Markdown installation instructions
+  usage: Markdown usage instructions
 ```
 
 The current builder validates that the repository has an installable `package.json`, records the default-branch commit, checks the declared bundle path, reads Harness or Cordis peer ranges, and extracts installation and usage sections from the README.

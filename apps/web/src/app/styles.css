@@ -209,6 +209,7 @@ main { width: min(1440px, 100%); margin: 0 auto; }
 .manual-notice { padding: 24px; border-left: 3px solid var(--warn); background: rgb(255 209 102 / 7%); }
 .manual-notice strong { color: var(--warn); font-family: var(--mono); }
 .manual-notice p, .install-note, .pin-note { color: var(--muted); line-height: 1.6; }
+.install-markdown { margin-top: 32px; padding-top: 8px; border-top: 1px solid var(--line); }
 .pin-note code { color: var(--signal); }
 .check-list { border-top: 1px solid var(--line); }
 .check { display: grid; grid-template-columns: 34px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
