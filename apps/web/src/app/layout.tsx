@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { getTranslator } from "../lib/i18n/get-locale";
 import { htmlLang } from "../lib/i18n/locales";
+import { absoluteUrl, siteUrl } from "../lib/site";
 import { LocaleSwitcher } from "./locale-switcher";
 import { SiteHeader } from "./site-header";
 import "./styles.css";
@@ -14,12 +15,32 @@ export const viewport = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getTranslator();
+  const { locale, t } = await getTranslator();
   return {
+    alternates: { canonical: "/" },
+    applicationName: "DSH Hub",
     description: t.siteDescription,
+    keywords: ["DeepSeek Harness", "DSH plugins", "DeepSeek plugins", "Agent plugins", "DSH Hub"],
+    metadataBase: siteUrl,
+    openGraph: {
+      description: t.siteDescription,
+      images: [{ alt: "DSH Hub", url: absoluteUrl("/icon.png") }],
+      locale,
+      siteName: "DSH Hub",
+      title: t.siteTitle,
+      type: "website",
+      url: "/",
+    },
+    robots: { follow: true, index: true },
     title: {
       default: t.siteTitle,
       template: "%s · DSH Hub",
+    },
+    twitter: {
+      card: "summary",
+      description: t.siteDescription,
+      images: [absoluteUrl("/icon.png")],
+      title: t.siteTitle,
     },
   };
 }
