@@ -8,11 +8,14 @@ import { CopyButton } from "../../../copy-button";
 import { PageStage } from "../../../page-stage";
 import { getPlugin } from "../../../../lib/catalog";
 import { getTranslator } from "../../../../lib/i18n/get-locale";
+import { catalogHref } from "../../../../lib/catalog-href";
 import {
   categoryLabel,
   formatDate,
   formatStars,
 } from "../../../../lib/presentation";
+import { absoluteUrl } from "../../../../lib/site";
+import { SimilarPlugins } from "./similar-plugins";
 
 type PluginPageProps = {
   params: Promise<{ owner: string; repository: string }>;
@@ -22,9 +25,26 @@ export async function generateMetadata({ params }: PluginPageProps): Promise<Met
   const { owner, repository } = await params;
   const { t } = await getTranslator();
   const result = await getPlugin(owner, repository);
-  return result.ok && result.plugin
-    ? { title: result.plugin.name, description: result.plugin.description }
-    : { title: t.pluginDetail };
+  if (!result.ok || !result.plugin) {
+    return { robots: { follow: true, index: false }, title: t.pluginDetail };
+  }
+
+  const plugin = result.plugin;
+  const description = (plugin.description || t.missingDescription).slice(0, 160);
+  const path = `/plugins/${plugin.slug}`;
+  return {
+    alternates: { canonical: path },
+    description,
+    keywords: [plugin.name, plugin.package.name, ...plugin.categories, "DeepSeek Harness plugin"],
+    openGraph: {
+      description,
+      title: plugin.name,
+      type: "website",
+      url: path,
+    },
+    title: plugin.name,
+    twitter: { card: "summary", description, title: plugin.name },
+  };
 }
 
 export default async function PluginPage({ params }: PluginPageProps) {
@@ -52,27 +72,61 @@ export default async function PluginPage({ params }: PluginPageProps) {
 
   const plugin = result.plugin;
   if (plugin === null) notFound();
+  const pluginUrl = absoluteUrl(`/plugins/${plugin.slug}`);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@id": `${pluginUrl}#software`,
+        "@type": "SoftwareApplication",
+        applicationCategory: "DeveloperApplication",
+        codeRepository: plugin.repository.url,
+        description: plugin.description || t.missingDescription,
+        isAccessibleForFree: true,
+        license: plugin.repository.license ?? undefined,
+        name: plugin.name,
+        operatingSystem: "DeepSeek Harness",
+        softwareVersion: plugin.package.version ?? undefined,
+        url: pluginUrl,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", item: absoluteUrl(), name: "DSH Hub", position: 1 },
+          { "@type": "ListItem", item: absoluteUrl("/#catalog"), name: t.plugins, position: 2 },
+          { "@type": "ListItem", item: pluginUrl, name: plugin.name, position: 3 },
+        ],
+      },
+    ],
+  };
 
   return (
     <PageStage>
       <article className="detail-main">
+        <script
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+          type="application/ld+json"
+        />
         <div className="ds-container">
-          <Link className="back-link" href="/#catalog">← {t.backToCatalog}</Link>
+          <nav className="back-link" aria-label="Breadcrumb">
+            <Link href="/">DSH Hub</Link> / <Link href="/#catalog">{t.plugins}</Link> / <span>{plugin.name}</span>
+          </nav>
 
-          <a
-            className="detail-hero"
-            href={plugin.repository.url}
-            rel="noreferrer"
-            target="_blank"
-          >
+          <header className="detail-hero">
             <p className="detail-slug">
-              <span>{plugin.slug}</span>
+              <a href={plugin.repository.url} rel="noreferrer" target="_blank">{plugin.slug} ↗</a>
               <span>★ {formatStars(plugin.repository.stars)}</span>
             </p>
             <h1>{plugin.name}</h1>
             <p className="detail-summary">{plugin.description || t.missingDescription}</p>
             <div className="tags">
-              {plugin.categories.map(category => <span key={category}>{categoryLabel(category, t.categories)}</span>)}
+              {plugin.categories.map(category => (
+                <span key={category}>
+                  <Link href={`${catalogHref({ categories: [category] })}#catalog`}>
+                    {categoryLabel(category, t.categories)}
+                  </Link>
+                </span>
+              ))}
             </div>
             <dl className="detail-meta">
               <div>
@@ -88,7 +142,7 @@ export default async function PluginPage({ params }: PluginPageProps) {
                 <dd>{plugin.repository.pushedAt ? formatDate(plugin.repository.pushedAt, locale) : t.unknownDate}</dd>
               </div>
             </dl>
-          </a>
+          </header>
 
           <section className="detail-panel" aria-labelledby="install-title">
             <h2 id="install-title">{t.installTitle}</h2>
@@ -153,6 +207,17 @@ export default async function PluginPage({ params }: PluginPageProps) {
             )}
             <a className="source-link" href={plugin.usage.readmeUrl} rel="noreferrer" target="_blank">{t.readme}</a>
           </section>
+
+          <SimilarPlugins
+            categories={plugin.categories}
+            categoryLabels={t.categories}
+            categoriesLabel={t.categoriesLabel}
+            currentId={plugin.id}
+            currentText={`${plugin.name} ${plugin.package.name} ${plugin.description}`}
+            description={t.relatedPluginsHint}
+            missingDescription={t.missingDescription}
+            title={t.relatedPlugins}
+          />
         </div>
       </article>
     </PageStage>
