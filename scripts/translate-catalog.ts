@@ -3,15 +3,6 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-function repoRoot(): string {
-  let dir = process.cwd();
-  for (let index = 0; index < 6; index += 1) {
-    if (existsSync(resolve(dir, "pnpm-workspace.yaml"))) return dir;
-    dir = resolve(dir, "..");
-  }
-  return process.cwd();
-}
-
 import {
   catalogI18nEntrySchema,
   catalogLocales,
@@ -25,6 +16,15 @@ import {
 const DEFAULT_MODEL = "deepseek-v4-flash";
 const DEFAULT_CONCURRENCY = 3;
 const TRANSLATION_CACHE_VERSION = 2;
+
+function repoRoot(): string {
+  let dir = process.cwd();
+  for (let index = 0; index < 6; index += 1) {
+    if (existsSync(resolve(dir, "pnpm-workspace.yaml"))) return dir;
+    dir = resolve(dir, "..");
+  }
+  return process.cwd();
+}
 
 type CacheFile = Record<string, Record<string, CatalogI18nEntry>>;
 

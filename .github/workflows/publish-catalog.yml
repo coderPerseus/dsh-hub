@@ -57,6 +57,14 @@ jobs:
           CATALOG_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '37 3 * * 0' && 'refresh' || 'discover') }}
           GITHUB_TOKEN: ${{ github.token }}
 
+      - name: Restore catalog translation cache
+        uses: actions/cache@v4
+        with:
+          path: .catalog/i18n-cache.json
+          key: catalog-i18n-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            catalog-i18n-${{ runner.os }}-
+
       - name: Translate catalog snapshot
         run: pnpm catalog:translate
         env:
