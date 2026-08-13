@@ -3,6 +3,18 @@ repository: omdsh-dev/DSH-better-sidebar
 categories:
   - interface
   - productivity
+documentation:
+  usage: |-
+    ## 常用操作
+
+    - 在资源管理器中点击文件可在侧边栏打开；行尾的 `@文件` 可把路径引用到输入框。
+    - 使用 `Ctrl/Cmd + S` 保存编辑内容，使用 `Ctrl + Enter` 提交 Git 变更。
+    - 拖动 Tab 到分栏边缘可以拆分工作区，也可以在右侧栏和底部面板之间移动 Tab。
+    - 设置页的「侧边卡片」可以逐项启用或关闭终端、Git、浏览器等功能。
+
+    ## 扩展侧边栏
+
+    插件暴露 `ctx.betterSidebar` 服务。其他插件可通过 `registerTab()` 注册页面，或注册自己的文件预览器。完整字段和生命周期说明见仓库 README 与 AGENTS.md。
 curation:
   featured: true
   hidden: false

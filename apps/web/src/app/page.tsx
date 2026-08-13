@@ -84,7 +84,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             <span>兼容性</span>
             <select defaultValue={compatibility[0] ?? ""} name="compatibility">
               <option value="">全部状态</option>
-              <option value="compatible">兼容</option>
               <option value="unknown">待验证</option>
               <option value="incompatible">不兼容</option>
             </select>

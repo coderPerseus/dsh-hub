@@ -94,7 +94,7 @@ describe("catalog builder", () => {
     expect(snapshot.plugins[0]?.installation.markdown).toBe("Enable the plugin after installation.");
     expect(snapshot.plugins[0]?.usage.markdown).toBe("## Curated usage\n\nUse the profile settings.");
     expect(snapshot.plugins[0]?.compatibility.level).toBe("declared");
-    expect(snapshot.plugins[0]?.compatibility.status).toBe("compatible");
+    expect(snapshot.plugins[0]?.compatibility.status).toBe("unknown");
   });
 
   it("does not fetch registry entries hidden by curation", async () => {

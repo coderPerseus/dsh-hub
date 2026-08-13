@@ -84,7 +84,7 @@ pnpm --filter @dshhub/api exec wrangler deploy --dry-run
 <!-- catalog:start -->
 ## Plugin catalog
 
-Generated at 2026-08-13T16:35:33.910Z from snapshot `2026-08-13T16:35:33.910Z-local-develo`.
+Generated at 2026-08-13T16:37:59.578Z from snapshot `2026-08-13T16:37:59.578Z-local-develo`.
 
 Plugins: **6**
 

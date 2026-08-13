@@ -1,11 +1,14 @@
 const categoryLabels: Record<string, string> = {
+  agents: "Agent 协作",
   automation: "自动化",
   coding: "编程",
   data: "数据",
   development: "开发工具",
+  interface: "界面",
   productivity: "效率",
   search: "搜索",
   security: "安全",
+  vision: "视觉",
   web: "Web",
 };
 

@@ -67,13 +67,19 @@ async function githubRequest(
     const response = await fetcher(input, init);
     const retryable = response.status === 429
       || response.status >= 500
-      || (response.status === 403 && response.headers.has("retry-after"));
+      || (response.status === 403 && (
+        response.headers.has("retry-after")
+        || response.headers.get("x-ratelimit-remaining") === "0"
+      ));
     if (!retryable || attempt === GITHUB_MAX_ATTEMPTS - 1) return response;
 
     const retryAfter = Number(response.headers.get("retry-after"));
+    const rateLimitReset = Number(response.headers.get("x-ratelimit-reset"));
     const delay = Number.isFinite(retryAfter) && retryAfter > 0
       ? Math.min(retryAfter * 1_000, 60_000)
-      : 1_000 * 2 ** attempt;
+      : Number.isFinite(rateLimitReset) && rateLimitReset > 0
+        ? Math.min(Math.max(rateLimitReset * 1_000 - Date.now(), 1_000), 60_000)
+        : 1_000 * 2 ** attempt;
     await wait(delay);
   }
   throw new Error("GitHub request exhausted its retry budget.");
@@ -253,11 +259,7 @@ async function buildPlugin(
     categories: entry.categories,
     featured: entry.curation.featured,
     compatibility: {
-      status: incompatible
-        ? "incompatible"
-        : harnessRange !== null || cordisRange !== null
-          ? "compatible"
-          : "unknown",
+      status: incompatible ? "incompatible" : "unknown",
       level: harnessRange === null && cordisRange === null ? "unverified" : "declared",
       harnessRange,
       cordisRange,
