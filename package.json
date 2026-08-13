@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "pnpm -r --if-present run build",
+    "catalog:build": "pnpm --filter @dshhub/catalog run build:catalog",
     "cf:typegen": "pnpm --filter @dshhub/api run cf:typegen && pnpm --filter @dshhub/web run cf:typegen",
     "deploy": "pnpm deploy:api && pnpm deploy:web",
     "deploy:api": "pnpm --filter @dshhub/api run deploy",

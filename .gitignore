@@ -1,6 +1,7 @@
 node_modules/
 .pnpm-store/
 .research/
+.catalog/
 
 # Build output
 dist/

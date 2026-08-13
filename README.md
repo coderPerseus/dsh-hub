@@ -63,3 +63,17 @@ pnpm build
 pnpm --filter @dshhub/web run build:cloudflare
 pnpm --filter @dshhub/api exec wrangler deploy --dry-run
 ```
+
+<!-- catalog:start -->
+## Plugin catalog
+
+Generated at 2026-08-13T16:13:41.283Z from snapshot `2026-08-13T16:13:41.283Z-local-develo`.
+
+Plugins: **0**
+
+No categories yet.
+
+| Plugin | Description | Categories | Evidence |
+| --- | --- | --- | --- |
+| — | No plugins registered yet. | — | — |
+<!-- catalog:end -->
