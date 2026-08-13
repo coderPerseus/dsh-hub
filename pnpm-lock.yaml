@@ -101,6 +101,9 @@ importers:
 
   packages/contracts:
     dependencies:
+      '@dshhub/catalog':
+        specifier: workspace:*
+        version: link:../catalog
       '@orpc/contract':
         specifier: 1.15.0
         version: 1.15.0

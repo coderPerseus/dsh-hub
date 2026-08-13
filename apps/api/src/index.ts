@@ -124,7 +124,7 @@ const rpcHandler = new RPCHandler(router, {
 
 app.use("/rpc/*", async (c, next) => {
   const { matched, response } = await rpcHandler.handle(c.req.raw, {
-    context: {},
+    context: { db: c.env.DB },
     prefix: "/rpc",
   });
 
