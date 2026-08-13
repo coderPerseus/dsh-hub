@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { HeroBackdrop } from "./hero-backdrop";
 import { getCatalogIndex } from "../lib/catalog";
 import {
   categoryLabel,
@@ -48,6 +49,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   return (
     <main>
       <section className="hero" aria-labelledby="page-title">
+        <HeroBackdrop />
+        <div className="hero-content">
         <p className="kicker"><span>01</span> COMMUNITY INDEX</p>
         <h1 id="page-title">给 Harness<br />装上新能力。</h1>
         <div className="hero-copy">
@@ -57,6 +60,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             <span>INDEXED<br />PLUGINS</span>
           </div>
         </div>
+        </div>
+        <div className="scroll-hint">MOVE YOUR CURSOR <span>↗</span></div>
       </section>
 
       <section className="catalog" id="catalog" aria-labelledby="catalog-title">
