@@ -1,19 +1,15 @@
-import { readdir, readFile } from "node:fs/promises";
-import path from "node:path";
-
-import { parse } from "yaml";
-
 import {
   catalogSnapshotSchema,
-  registryEntrySchema,
   type CatalogPlugin,
   type CatalogSnapshot,
-  type RegistryEntry,
 } from "./schema";
 
 type GithubRepository = {
+  archived: boolean;
   default_branch: string;
   description: string | null;
+  disabled: boolean;
+  fork: boolean;
   full_name: string;
   html_url: string;
   license: { spdx_id: string } | null;
@@ -24,29 +20,52 @@ type GithubRepository = {
   topics: string[];
 };
 
-type GithubCommit = { sha: string };
+type GithubCommit = { commit: { tree: { sha: string } }; sha: string };
+type GithubSearchResponse = {
+  incomplete_results: boolean;
+  items: GithubRepository[];
+  total_count: number;
+};
+type GithubTree = { tree: Array<{ path: string; type: string }> };
 
 type PackageManifest = {
   description?: string;
   dsh?: { bundle?: { patch?: string } };
   exports?: unknown;
+  keywords?: string[];
   main?: string;
   name?: string;
   peerDependencies?: Record<string, string>;
+  private?: boolean;
   scripts?: Record<string, string>;
   version?: string;
 };
 
 export type CatalogBuildOptions = {
+  discoveryQueries?: string[];
   fetch?: typeof globalThis.fetch;
   generatedAt?: Date;
   githubToken?: string;
   mainline?: CatalogSnapshot["mainline"];
+  minimumPluginCount?: number;
   source: CatalogSnapshot["source"];
 };
 
-const GITHUB_CONCURRENCY = 4;
+type DiscoveredPackage = {
+  head: GithubCommit;
+  manifest: PackageManifest & { name: string };
+  packageDirectory: string;
+  repository: GithubRepository;
+};
+
+const DEFAULT_DISCOVERY_QUERIES = [
+  "topic:dsh-plugin archived:false fork:false",
+  "topic:deepseek-harness-plugin archived:false fork:false",
+  "topic:deepseek-harness-plugins archived:false fork:false",
+];
+const GITHUB_CONCURRENCY = 8;
 const GITHUB_MAX_ATTEMPTS = 4;
+const MAX_PACKAGES_PER_REPOSITORY = 50;
 
 const githubHeaders = (token?: string): HeadersInit => ({
   Accept: "application/vnd.github+json",
@@ -164,45 +183,138 @@ function peerRange(peers: Record<string, string>, matcher: (name: string) => boo
   return match?.[1] ?? null;
 }
 
-async function buildPlugin(
-  entry: RegistryEntry,
+function isInstallablePackage(manifest: PackageManifest): manifest is PackageManifest & { name: string } {
+  return Boolean(manifest.name && (manifest.main || manifest.exports || manifest.dsh));
+}
+
+function joinRepositoryPath(directory: string, file: string): string {
+  return directory ? `${directory}/${file}` : file;
+}
+
+function packageSlug(source: DiscoveredPackage): string {
+  if (!source.packageDirectory) return source.repository.full_name;
+  const suffix = source.packageDirectory
+    .replace(/^(?:packages|plugins)\//, "")
+    .replaceAll(/[^A-Za-z0-9_.-]+/g, "-");
+  return `${source.repository.owner.login}/${source.repository.name}--${suffix}`;
+}
+
+const CATEGORY_RULES: Array<[string, RegExp]> = [
+  ["memory", /\b(memory|memories|recall|knowledge)\b|记忆/i],
+  ["skills", /\b(skill|skills|curator)\b|技能/i],
+  ["agents", /\b(agent|agents|multi-agent|subagent|team)\b|智能体|代理/i],
+  ["vision", /\b(vision|image|ocr|screenshot|multimodal)\b|视觉|图片/i],
+  ["notifications", /\b(notification|notify|reminder|attention|badge|alert)\b|提醒|通知/i],
+  ["finance", /\b(balance|billing|cost|price|token tracker)\b|余额|费用|成本/i],
+  ["interface", /\b(ui|tui|sidebar|theme|desktop|pet|favicon)\b|界面|侧边栏|桌宠/i],
+  ["development", /\b(code|coding|developer|vscode|git|terminal|debug)\b|开发|终端/i],
+  ["integrations", /\b(mcp|integration|bridge|connector|remote)\b|集成/i],
+  ["productivity", /\b(productivity|workflow|automation|session|workspace)\b|效率|工作流|会话/i],
+];
+
+function inferCategories(source: DiscoveredPackage): string[] {
+  const manifest = source.manifest;
+  const evidence = [
+    manifest.name,
+    manifest.description,
+    ...(manifest.keywords ?? []),
+    source.repository.description,
+    ...source.repository.topics,
+  ].filter(Boolean).join(" ");
+  const categories = CATEGORY_RULES
+    .filter(([, pattern]) => pattern.test(evidence))
+    .map(([category]) => category);
+  return categories.length > 0 ? categories : ["other"];
+}
+
+async function discoverRepositories(
   options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
-): Promise<CatalogPlugin> {
-  const repo = await githubJson<GithubRepository>(
-    options.fetch,
-    `/repos/${entry.repository}`,
-    options.githubToken,
-  );
+): Promise<GithubRepository[]> {
+  const repositories = new Map<string, GithubRepository>();
+  for (const query of options.discoveryQueries ?? DEFAULT_DISCOVERY_QUERIES) {
+    for (let page = 1; page <= 10; page += 1) {
+      const result = await githubJson<GithubSearchResponse>(
+        options.fetch,
+        `/search/repositories?q=${encodeURIComponent(query)}&per_page=100&page=${page}`,
+        options.githubToken,
+      );
+      for (const repository of result.items) {
+        if (!repository.archived && !repository.disabled && !repository.fork) {
+          repositories.set(repository.full_name.toLowerCase(), repository);
+        }
+      }
+      if (result.items.length < 100) break;
+    }
+  }
+  return [...repositories.values()];
+}
+
+async function discoverRepositoryPackages(
+  repository: GithubRepository,
+  options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
+): Promise<DiscoveredPackage[]> {
   const head = await githubJson<GithubCommit>(
     options.fetch,
-    `/repos/${entry.repository}/commits/${encodeURIComponent(repo.default_branch)}`,
+    `/repos/${repository.full_name}/commits/${encodeURIComponent(repository.default_branch)}`,
     options.githubToken,
   );
-  const manifestText = await githubRaw(
+  const tree = await githubJson<GithubTree>(
     options.fetch,
-    entry.repository,
-    "package.json",
-    head.sha,
+    `/repos/${repository.full_name}/git/trees/${head.commit.tree.sha}?recursive=1`,
     options.githubToken,
   );
-  if (manifestText === null) throw new Error(`${entry.repository} has no package.json`);
-
-  const manifest = JSON.parse(manifestText) as PackageManifest;
-  if (!manifest.name || (!manifest.main && !manifest.exports && !manifest.dsh)) {
-    throw new Error(`${entry.repository} does not expose an installable package`);
+  const manifestPaths = new Set(["package.json"]);
+  for (const item of tree.tree) {
+    if (item.type === "blob" && /^(?:packages|plugins)\/[^/]+\/package\.json$/.test(item.path)) {
+      manifestPaths.add(item.path);
+    }
   }
 
+  const sources: DiscoveredPackage[] = [];
+  for (const manifestPath of [...manifestPaths].slice(0, MAX_PACKAGES_PER_REPOSITORY + 1)) {
+    const manifestText = await githubRaw(
+      options.fetch,
+      repository.full_name,
+      manifestPath,
+      head.sha,
+      options.githubToken,
+    );
+    if (manifestText === null) continue;
+    try {
+      const manifest = JSON.parse(manifestText) as PackageManifest;
+      if (!isInstallablePackage(manifest)) continue;
+      sources.push({
+        head,
+        manifest,
+        packageDirectory: manifestPath === "package.json" ? "" : manifestPath.slice(0, -"/package.json".length),
+        repository,
+      });
+    } catch {
+      // A malformed package does not block other packages or repositories.
+    }
+  }
+  return sources;
+}
+
+async function buildPlugin(
+  source: DiscoveredPackage,
+  options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
+): Promise<CatalogPlugin> {
+  const { head, manifest, packageDirectory, repository: repo } = source;
+  const repository = repo.full_name;
+
   const readme =
-    (await githubRaw(options.fetch, entry.repository, "README.md", head.sha, options.githubToken))
-    ?? (await githubRaw(options.fetch, entry.repository, "README.zh.md", head.sha, options.githubToken))
+    (await githubRaw(options.fetch, repository, joinRepositoryPath(packageDirectory, "README.md"), head.sha, options.githubToken))
+    ?? (await githubRaw(options.fetch, repository, joinRepositoryPath(packageDirectory, "README.zh.md"), head.sha, options.githubToken))
+    ?? (packageDirectory ? await githubRaw(options.fetch, repository, "README.md", head.sha, options.githubToken) : null)
     ?? "";
   const bundlePatch = manifest.dsh?.bundle?.patch ?? null;
   const bundleExists = bundlePatch === null
     ? null
     : await githubRaw(
       options.fetch,
-      entry.repository,
-      bundlePatch.replace(/^\.\//, ""),
+      repository,
+      joinRepositoryPath(packageDirectory, bundlePatch.replace(/^\.\//, "")),
       head.sha,
       options.githubToken,
     );
@@ -221,26 +333,28 @@ async function buildPlugin(
       : { id: "peer-dependencies", status: "pass", summary: "Harness or Cordis peer ranges are declared." },
   ];
   const incompatible = checks.some(check => check.status === "fail");
-  const spec = `github:${entry.repository}#${head.sha}`;
+  const spec = `github:${repository}#${head.sha}${packageDirectory ? `&path:${packageDirectory}` : ""}`;
   const notes = [
     ...(manifest.scripts?.prepare
       ? ["This source package declares a prepare script; pnpm may require allowBuilds approval."]
       : []),
   ];
-  const installationMarkdown = entry.documentation?.install
-    ?? extractDocumentation(readme, /(install|setup|quick start|安装|开始)/i);
-  const usageMarkdown = entry.documentation?.usage
-    ?? extractDocumentation(readme, /(usage|configuration|使用|配置)/i);
+  const installationMarkdown = extractDocumentation(readme, /(install|setup|quick start|安装|开始)/i);
+  const usageMarkdown = extractDocumentation(readme, /(usage|configuration|使用|配置)/i);
+  const slug = packageSlug(source);
+  const repositoryUrl = packageDirectory
+    ? `${repo.html_url}/tree/${head.sha}/${packageDirectory}`
+    : repo.html_url;
 
   return {
-    id: `github:${entry.repository}`,
-    slug: entry.repository,
-    name: entry.display?.name ?? manifest.name ?? repo.name,
-    description: entry.display?.summary ?? repo.description ?? manifest.description ?? "",
+    id: `github:${repository}${packageDirectory ? `:${packageDirectory}` : ""}`,
+    slug,
+    name: manifest.name,
+    description: manifest.description ?? repo.description ?? "",
     repository: {
       owner: repo.owner.login,
       name: repo.name,
-      url: repo.html_url,
+      url: repositoryUrl,
       defaultBranch: repo.default_branch,
       commit: head.sha,
       stars: repo.stargazers_count,
@@ -256,8 +370,8 @@ async function buildPlugin(
       hasPrepareScript: Boolean(manifest.scripts?.prepare),
       peerDependencies: peers,
     },
-    categories: entry.categories,
-    featured: entry.curation.featured,
+    categories: inferCategories(source),
+    featured: false,
     compatibility: {
       status: incompatible ? "incompatible" : "unknown",
       level: harnessRange === null && cordisRange === null ? "unverified" : "declared",
@@ -275,37 +389,41 @@ async function buildPlugin(
       notes,
     },
     usage: {
-      summary: entry.display?.summary ?? repo.description ?? manifest.description ?? "",
+      summary: manifest.description ?? repo.description ?? "",
       markdown: usageMarkdown,
-      readmeUrl: `${repo.html_url}#readme`,
+      readmeUrl: `${repositoryUrl}#readme`,
     },
   };
 }
 
-export async function loadRegistry(directory: string): Promise<RegistryEntry[]> {
-  const files = (await readdir(directory, { withFileTypes: true }))
-    .filter(entry => entry.isFile() && /\.ya?ml$/i.test(entry.name))
-    .map(entry => entry.name)
-    .sort();
-
-  return Promise.all(files.map(async (file) => {
-    const contents = await readFile(path.join(directory, file), "utf8");
-    return registryEntrySchema.parse(parse(contents));
-  }));
-}
-
-export async function buildCatalogSnapshot(
-  entries: RegistryEntry[],
+export async function discoverCatalogSnapshot(
   options: CatalogBuildOptions,
 ): Promise<CatalogSnapshot> {
   const generatedAt = options.generatedAt ?? new Date();
   const fetcher = options.fetch ?? globalThis.fetch;
-  const visibleEntries = entries.filter(entry => !entry.curation.hidden);
-  const plugins = await mapConcurrent(visibleEntries, GITHUB_CONCURRENCY, entry => buildPlugin(entry, {
+  const resolvedOptions = { ...options, fetch: fetcher };
+  const repositories = await discoverRepositories(resolvedOptions);
+  if (repositories.length === 0) throw new Error("GitHub discovery returned no repositories.");
+
+  const discovered = await mapConcurrent(repositories, GITHUB_CONCURRENCY, async (repository) => {
+    try {
+      return await discoverRepositoryPackages(repository, resolvedOptions);
+    } catch (error) {
+      console.warn(`Skipped ${repository.full_name}: ${error instanceof Error ? error.message : String(error)}`);
+      return [];
+    }
+  });
+  const sources = discovered.flat();
+  const plugins = await mapConcurrent(sources, GITHUB_CONCURRENCY, source => buildPlugin(source, {
     ...options,
     fetch: fetcher,
   }));
   plugins.sort((left, right) => left.name.localeCompare(right.name));
+  const minimumPluginCount = options.minimumPluginCount ?? 1;
+  if (plugins.length < minimumPluginCount) {
+    throw new Error(`Discovery produced ${plugins.length} plugins; minimum is ${minimumPluginCount}.`);
+  }
+  console.log(`Discovered ${repositories.length} repositories and accepted ${plugins.length} installable packages.`);
 
   return catalogSnapshotSchema.parse({
     schemaVersion: 1,

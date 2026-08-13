@@ -13,30 +13,6 @@ const categoryIdSchema = z.string().regex(
   "expected a lowercase kebab-case category",
 );
 
-export const registryEntrySchema = z.object({
-  schemaVersion: z.literal(1),
-  repository: repositoryNameSchema,
-  display: z
-    .object({
-      name: z.string().trim().min(1).max(120).optional(),
-      summary: z.string().trim().min(1).max(500).optional(),
-    })
-    .optional(),
-  categories: z.array(categoryIdSchema).min(1),
-  documentation: z
-    .object({
-      install: z.string().trim().min(1).optional(),
-      usage: z.string().trim().min(1).optional(),
-    })
-    .optional(),
-  curation: z
-    .object({
-      featured: z.boolean().default(false),
-      hidden: z.boolean().default(false),
-    })
-    .default({ featured: false, hidden: false }),
-});
-
 const compatibilityCheckSchema = z.object({
   id: z.string().min(1),
   status: z.enum(["pass", "warn", "fail", "skip"]),
@@ -107,6 +83,5 @@ export const catalogSnapshotSchema = z.object({
   plugins: z.array(catalogPluginSchema),
 });
 
-export type RegistryEntry = z.infer<typeof registryEntrySchema>;
 export type CatalogPlugin = z.infer<typeof catalogPluginSchema>;
 export type CatalogSnapshot = z.infer<typeof catalogSnapshotSchema>;
