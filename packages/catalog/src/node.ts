@@ -170,9 +170,12 @@ async function buildPlugin(
   ];
   const incompatible = checks.some(check => check.status === "fail");
   const spec = `github:${entry.repository}#${head.sha}`;
-  const notes = manifest.scripts?.prepare
-    ? ["This source package declares a prepare script; pnpm may require allowBuilds approval."]
-    : [];
+  const notes = [
+    ...(entry.documentation?.install ? [entry.documentation.install] : []),
+    ...(manifest.scripts?.prepare
+      ? ["This source package declares a prepare script; pnpm may require allowBuilds approval."]
+      : []),
+  ];
 
   return {
     id: `github:${entry.repository}`,
@@ -217,7 +220,7 @@ async function buildPlugin(
     },
     usage: {
       summary: entry.display?.summary ?? repo.description ?? manifest.description ?? "",
-      markdown: extractDocumentation(readme),
+      markdown: entry.documentation?.usage ?? extractDocumentation(readme),
       readmeUrl: `${repo.html_url}#readme`,
     },
   };

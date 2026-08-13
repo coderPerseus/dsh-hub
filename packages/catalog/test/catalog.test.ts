@@ -76,6 +76,10 @@ describe("catalog builder", () => {
       schemaVersion: 1,
       repository: "owner/plugin",
       categories: ["tools"],
+      documentation: {
+        install: "Enable the plugin after installation.",
+        usage: "## Curated usage\n\nUse the profile settings.",
+      },
     });
 
     const snapshot = await buildCatalogSnapshot([entry], {
@@ -87,7 +91,8 @@ describe("catalog builder", () => {
     expect(snapshot.plugins[0]?.installation.command).toBe(
       "dsh plugin --profile <profile> add github:owner/plugin#abc123",
     );
-    expect(snapshot.plugins[0]?.usage.markdown).toContain("## Installation");
+    expect(snapshot.plugins[0]?.installation.notes).toContain("Enable the plugin after installation.");
+    expect(snapshot.plugins[0]?.usage.markdown).toBe("## Curated usage\n\nUse the profile settings.");
     expect(snapshot.plugins[0]?.compatibility.level).toBe("declared");
   });
 });
