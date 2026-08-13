@@ -19,4 +19,11 @@ describe("API", () => {
     expect(response.status).toBe(404);
     await expect(response.json()).resolves.toEqual({ error: "Not found" });
   });
+
+  it("protects the catalog import endpoint", async () => {
+    const response = await app.request("/internal/catalog-imports", { method: "POST" });
+
+    expect(response.status).toBe(401);
+    await expect(response.json()).resolves.toEqual({ error: "Unauthorized" });
+  });
 });

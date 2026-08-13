@@ -8,15 +8,15 @@ importers:
 
   .:
     devDependencies:
-      tsx:
-        specifier: 4.20.6
-        version: 4.20.6
       typescript:
         specifier: 5.9.3
         version: 5.9.3
 
   apps/api:
     dependencies:
+      '@dshhub/catalog':
+        specifier: workspace:*
+        version: link:../../packages/catalog
       '@dshhub/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
@@ -89,6 +89,9 @@ importers:
       '@types/node':
         specifier: 24.3.0
         version: 24.3.0
+      tsx:
+        specifier: 4.20.6
+        version: 4.20.6
       typescript:
         specifier: 5.9.3
         version: 5.9.3

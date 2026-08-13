@@ -23,17 +23,17 @@
   "queues": {
     "producers": [
       {
-        "binding": "EVENT_QUEUE",
-        "queue": "dshhub-events"
+        "binding": "CATALOG_QUEUE",
+        "queue": "dshhub-catalog-imports"
       }
     ],
     "consumers": [
       {
-        "queue": "dshhub-events",
+        "queue": "dshhub-catalog-imports",
         "max_batch_size": 10,
         "max_batch_timeout": 5,
         "max_retries": 3,
-        "dead_letter_queue": "dshhub-events-dlq"
+        "dead_letter_queue": "dshhub-catalog-imports-dlq"
       }
     ]
   },
