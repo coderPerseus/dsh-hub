@@ -6,7 +6,7 @@ DSH Hub discovers plugins directly from GitHub topics. No reviewed registry or r
 
 ```text
 GitHub topic search
-  -> repository tree + Contents API
+  -> repository tree + raw default-branch files
   -> installable package qualification
   -> automatic category inference
   -> .catalog/catalog.snapshot.json
@@ -14,20 +14,21 @@ GitHub topic search
      -> POST /internal/catalog-imports
         -> R2 immutable snapshot
         -> Queue message
-        -> D1 run-scoped import
-        -> current catalog switch
+        -> D1 repository-scoped incremental import
         -> Web oRPC queries
 ```
 
-The D1 importer writes a complete run under a new `run_id`. Only after every plugin, category, and search row has been written does it change that run to `current`. The previous run becomes `archived`, so readers never see a partially imported catalog.
+The first D1 import writes a complete run and switches it to `current`. Later imports update only repositories listed in `changedRepositories`. Repositories outside that list keep their existing rows.
 
 ## Discovery and qualification
 
-The scheduled build searches these topics and deduplicates repositories:
+The hourly discovery build reads the current snapshot from Cloudflare, searches repositories seen since that snapshot, skips repositories already present in the catalog, and deduplicates these topics:
 
 - `dsh-plugin`
 - `deepseek-harness-plugin`
 - `deepseek-harness-plugins`
+
+New repositories are validated and appended to the catalog. A weekly refresh job reloads repositories already in the catalog and replaces only the packages belonging to repositories that refreshed successfully; a temporary repository failure keeps its prior data. The first run or a previous snapshot below the minimum count performs full discovery. Discovery fails instead of publishing when GitHub reports incomplete search results.
 
 For each non-archived, non-fork repository, the collector reads the default-branch tree and checks:
 
@@ -41,7 +42,7 @@ Malformed packages, empty repositories, and unavailable repositories are logged 
 
 ## GitHub Actions configuration
 
-The `Publish plugin catalog` workflow runs after collector changes, every eight hours, and on manual dispatch. Configure these repository secrets:
+The `Publish plugin catalog` workflow runs discovery every hour, refreshes existing repositories every Sunday, and supports either mode through manual dispatch. Configure these repository secrets:
 
 | Secret | Purpose |
 | --- | --- |
@@ -67,6 +68,15 @@ Build the snapshot and generated README section:
 
 ```bash
 GITHUB_TOKEN=... pnpm catalog:build
+```
+
+Refresh every repository already present in the current snapshot:
+
+```bash
+GITHUB_TOKEN=... \
+CATALOG_API_URL=... \
+CATALOG_INGEST_TOKEN=... \
+pnpm catalog:refresh
 ```
 
 Publish to a local or deployed API:

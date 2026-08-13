@@ -70,6 +70,7 @@ export const catalogSnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   snapshotId: z.string().min(1),
   generatedAt: z.iso.datetime(),
+  changedRepositories: z.array(repositoryNameSchema).optional(),
   source: z.object({
     repository: z.string().min(1),
     commit: z.string().min(1),

@@ -2,8 +2,18 @@ name: Publish plugin catalog
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Catalog operation
+        required: true
+        default: discover
+        type: choice
+        options:
+          - discover
+          - refresh
   schedule:
-    - cron: "17 */8 * * *"
+    - cron: "17 * * * *"
+    - cron: "37 3 * * 0"
   push:
     branches: [main]
     paths:
@@ -40,7 +50,10 @@ jobs:
       - name: Build catalog snapshot
         run: pnpm catalog:build
         env:
+          CATALOG_API_URL: ${{ secrets.CATALOG_API_URL }}
+          CATALOG_INGEST_TOKEN: ${{ secrets.CATALOG_INGEST_TOKEN }}
           CATALOG_MIN_PLUGIN_COUNT: "50"
+          CATALOG_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '37 3 * * 0' && 'refresh' || 'discover') }}
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Validate catalog packages

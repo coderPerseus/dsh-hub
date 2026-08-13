@@ -88,4 +88,45 @@ describe("catalog snapshot importer", () => {
     expect(statements[0]).toContain("status = 'importing'");
     expect(batches.at(-1)?.at(-1)).toContain("status = 'current'");
   });
+
+  it("updates only changed repositories when a current catalog exists", async () => {
+    const batches: string[][] = [];
+    const prepare = (sql: string) => {
+      const statement = {
+        sql,
+        bind: (..._values: unknown[]) => statement,
+        first: async () => sql.includes("WHERE status = 'current'")
+          ? { id: "current-run" }
+          : sql.includes("COUNT(*)") ? { count: 7 } : null,
+        run: async () => ({ success: true }),
+      };
+      return statement;
+    };
+    const db = {
+      prepare,
+      batch: async (items: Array<{ sql: string }>) => {
+        batches.push(items.map(item => item.sql));
+        return [];
+      },
+    };
+    const snapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-2",
+      generatedAt: "2026-08-14T01:00:00.000Z",
+      changedRepositories: ["owner/plugin"],
+      source: { repository: "owner/catalog", commit: "def456" },
+      mainline: null,
+      plugins: [],
+    };
+    const env = {
+      DB: db,
+      STORAGE: { get: async () => ({ json: async () => snapshot }) },
+    } as unknown as CatalogBindings;
+
+    await importCatalogSnapshot(env, { runId: "delta-run", r2Key: "catalog/delta.json" });
+
+    expect(batches.flat().some(sql => sql.includes("DELETE FROM plugin_snapshots"))).toBe(true);
+    expect(batches.flat().some(sql => sql.includes("status = 'archived'"))).toBe(true);
+    expect(batches.flat().some(sql => sql.includes("status = 'current'"))).toBe(false);
+  });
 });

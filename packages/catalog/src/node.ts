@@ -18,6 +18,7 @@ type GithubRepository = {
   pushed_at: string | null;
   stargazers_count: number;
   topics: string[];
+  updated_at?: string | null;
 };
 
 type GithubCommit = { commit: { tree: { sha: string } }; sha: string };
@@ -42,12 +43,14 @@ type PackageManifest = {
 };
 
 export type CatalogBuildOptions = {
+  catalogMode?: "discover" | "refresh";
   discoveryQueries?: string[];
   fetch?: typeof globalThis.fetch;
   generatedAt?: Date;
   githubToken?: string;
   mainline?: CatalogSnapshot["mainline"];
   minimumPluginCount?: number;
+  previousSnapshot?: CatalogSnapshot;
   source: CatalogSnapshot["source"];
 };
 
@@ -63,9 +66,17 @@ const DEFAULT_DISCOVERY_QUERIES = [
   "topic:deepseek-harness-plugin archived:false fork:false",
   "topic:deepseek-harness-plugins archived:false fork:false",
 ];
-const GITHUB_CONCURRENCY = 8;
+const GITHUB_CONCURRENCY = 4;
 const GITHUB_MAX_ATTEMPTS = 4;
 const MAX_PACKAGES_PER_REPOSITORY = 50;
+const DISCOVERY_OVERLAP_MS = 5 * 60 * 1_000;
+
+function discoveryCutoff(previousSnapshot?: CatalogSnapshot): string | null {
+  if (!previousSnapshot) return null;
+  return new Date(
+    new Date(previousSnapshot.generatedAt).getTime() - DISCOVERY_OVERLAP_MS,
+  ).toISOString();
+}
 
 const githubHeaders = (token?: string): HeadersInit => ({
   Accept: "application/vnd.github+json",
@@ -125,15 +136,11 @@ async function githubRaw(
   ref: string,
   token?: string,
 ): Promise<string | null> {
+  const encodedPath = file.split("/").map(encodeURIComponent).join("/");
   const response = await githubRequest(
     fetcher,
-    `https://api.github.com/repos/${repository}/contents/${file}?ref=${encodeURIComponent(ref)}`,
-    {
-      headers: {
-        ...githubHeaders(token),
-        Accept: "application/vnd.github.raw+json",
-      },
-    },
+    `https://raw.githubusercontent.com/${repository}/${encodeURIComponent(ref)}/${encodedPath}`,
+    { headers: token ? { Authorization: `Bearer ${token}` } : undefined },
   );
   if (response.status === 404) return null;
   if (!response.ok) {
@@ -184,7 +191,14 @@ function peerRange(peers: Record<string, string>, matcher: (name: string) => boo
 }
 
 function isInstallablePackage(manifest: PackageManifest): manifest is PackageManifest & { name: string } {
-  return Boolean(manifest.name && (manifest.main || manifest.exports || manifest.dsh));
+  if (manifest.private || !manifest.name || (!manifest.main && !manifest.exports && !manifest.dsh)) return false;
+  const evidence = [manifest.name, manifest.description, ...(manifest.keywords ?? [])].filter(Boolean).join(" ");
+  const peers = Object.keys(manifest.peerDependencies ?? {});
+  return Boolean(
+    manifest.dsh
+    || /(?:^|[/_-])dsh(?:$|[/_-])|deepseek[- ]?harness/i.test(evidence)
+    || peers.some(name => name === "@deepseek-ai/cordis" || name.startsWith("@deepseek-ai/dsh-")),
+  );
 }
 
 function joinRepositoryPath(directory: string, file: string): string {
@@ -194,7 +208,6 @@ function joinRepositoryPath(directory: string, file: string): string {
 function packageSlug(source: DiscoveredPackage): string {
   if (!source.packageDirectory) return source.repository.full_name;
   const suffix = source.packageDirectory
-    .replace(/^(?:packages|plugins)\//, "")
     .replaceAll(/[^A-Za-z0-9_.-]+/g, "-");
   return `${source.repository.owner.login}/${source.repository.name}--${suffix}`;
 }
@@ -230,70 +243,113 @@ function inferCategories(source: DiscoveredPackage): string[] {
 async function discoverRepositories(
   options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
 ): Promise<GithubRepository[]> {
+  const cutoff = discoveryCutoff(options.previousSnapshot);
   const repositories = new Map<string, GithubRepository>();
   for (const query of options.discoveryQueries ?? DEFAULT_DISCOVERY_QUERIES) {
     for (let page = 1; page <= 10; page += 1) {
       const result = await githubJson<GithubSearchResponse>(
         options.fetch,
-        `/search/repositories?q=${encodeURIComponent(query)}&per_page=100&page=${page}`,
+        `/search/repositories?q=${encodeURIComponent(query)}&sort=updated&order=desc&per_page=100&page=${page}`,
         options.githubToken,
       );
+      if (result.incomplete_results) {
+        throw new Error(`GitHub discovery returned incomplete results for ${query}.`);
+      }
       for (const repository of result.items) {
+        const updatedAt = repository.updated_at ?? repository.pushed_at;
+        if (cutoff && updatedAt && updatedAt <= cutoff) continue;
         if (!repository.archived && !repository.disabled && !repository.fork) {
           repositories.set(repository.full_name.toLowerCase(), repository);
         }
       }
-      if (result.items.length < 100) break;
+      const oldest = result.items.at(-1);
+      const oldestUpdatedAt = oldest?.updated_at ?? oldest?.pushed_at;
+      if (result.items.length < 100 || (cutoff && oldestUpdatedAt && oldestUpdatedAt <= cutoff)) break;
     }
   }
   return [...repositories.values()];
+}
+
+async function loadExistingRepositories(
+  options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
+): Promise<GithubRepository[]> {
+  const names = new Set((options.previousSnapshot?.plugins ?? []).map(plugin => (
+    `${plugin.repository.owner}/${plugin.repository.name}`
+  )));
+  const loaded = await mapConcurrent([...names], GITHUB_CONCURRENCY, async (name) => {
+    try {
+      return await githubJson<GithubRepository>(options.fetch, `/repos/${name}`, options.githubToken);
+    } catch (error) {
+      console.warn(`Kept stale ${name}: ${error instanceof Error ? error.message : String(error)}`);
+      return null;
+    }
+  });
+  return loaded.filter((repository): repository is GithubRepository => repository !== null);
 }
 
 async function discoverRepositoryPackages(
   repository: GithubRepository,
   options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
 ): Promise<DiscoveredPackage[]> {
+  const manifests: Array<{ manifest: PackageManifest & { name: string }; packageDirectory: string }> = [];
+  const rootManifestText = await githubRaw(
+    options.fetch,
+    repository.full_name,
+    "package.json",
+    repository.default_branch,
+    options.githubToken,
+  );
+  if (rootManifestText !== null) {
+    try {
+      const manifest = JSON.parse(rootManifestText) as PackageManifest;
+      if (isInstallablePackage(manifest)) manifests.push({ manifest, packageDirectory: "" });
+    } catch (error) {
+      console.warn(
+        `Skipped malformed ${repository.full_name}/package.json: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
+  if (manifests.length === 0) {
+    const tree = await githubJson<GithubTree>(
+      options.fetch,
+      `/repos/${repository.full_name}/git/trees/${encodeURIComponent(repository.default_branch)}?recursive=1`,
+      options.githubToken,
+    );
+    const manifestPaths = tree.tree
+      .filter(item => item.type === "blob" && /^(?:packages|plugins)\/[^/]+\/package\.json$/.test(item.path))
+      .map(item => item.path)
+      .slice(0, MAX_PACKAGES_PER_REPOSITORY);
+    for (const manifestPath of manifestPaths) {
+      const manifestText = await githubRaw(
+        options.fetch,
+        repository.full_name,
+        manifestPath,
+        repository.default_branch,
+        options.githubToken,
+      );
+      if (manifestText === null) continue;
+      try {
+        const manifest = JSON.parse(manifestText) as PackageManifest;
+        if (!isInstallablePackage(manifest)) continue;
+        manifests.push({
+          manifest,
+          packageDirectory: manifestPath.slice(0, -"/package.json".length),
+        });
+      } catch (error) {
+        console.warn(
+          `Skipped malformed ${repository.full_name}/${manifestPath}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    }
+  }
+  if (manifests.length === 0) return [];
   const head = await githubJson<GithubCommit>(
     options.fetch,
     `/repos/${repository.full_name}/commits/${encodeURIComponent(repository.default_branch)}`,
     options.githubToken,
   );
-  const tree = await githubJson<GithubTree>(
-    options.fetch,
-    `/repos/${repository.full_name}/git/trees/${head.commit.tree.sha}?recursive=1`,
-    options.githubToken,
-  );
-  const manifestPaths = new Set(["package.json"]);
-  for (const item of tree.tree) {
-    if (item.type === "blob" && /^(?:packages|plugins)\/[^/]+\/package\.json$/.test(item.path)) {
-      manifestPaths.add(item.path);
-    }
-  }
-
-  const sources: DiscoveredPackage[] = [];
-  for (const manifestPath of [...manifestPaths].slice(0, MAX_PACKAGES_PER_REPOSITORY + 1)) {
-    const manifestText = await githubRaw(
-      options.fetch,
-      repository.full_name,
-      manifestPath,
-      head.sha,
-      options.githubToken,
-    );
-    if (manifestText === null) continue;
-    try {
-      const manifest = JSON.parse(manifestText) as PackageManifest;
-      if (!isInstallablePackage(manifest)) continue;
-      sources.push({
-        head,
-        manifest,
-        packageDirectory: manifestPath === "package.json" ? "" : manifestPath.slice(0, -"/package.json".length),
-        repository,
-      });
-    } catch {
-      // A malformed package does not block other packages or repositories.
-    }
-  }
-  return sources;
+  return manifests.map(manifest => ({ ...manifest, head, repository }));
 }
 
 async function buildPlugin(
@@ -402,40 +458,77 @@ export async function discoverCatalogSnapshot(
   const generatedAt = options.generatedAt ?? new Date();
   const fetcher = options.fetch ?? globalThis.fetch;
   const resolvedOptions = { ...options, fetch: fetcher };
-  const repositories = await discoverRepositories(resolvedOptions);
-  if (repositories.length === 0) throw new Error("GitHub discovery returned no repositories.");
+  const isIncremental = Boolean(options.previousSnapshot);
+  let repositories: GithubRepository[];
+  if (isIncremental && options.catalogMode === "refresh") {
+    repositories = await loadExistingRepositories(resolvedOptions);
+  } else {
+    repositories = await discoverRepositories(resolvedOptions);
+    if (isIncremental) {
+      const existing = new Set(options.previousSnapshot?.plugins.map(plugin => (
+        `${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase()
+      )));
+      repositories = repositories.filter(repository => !existing.has(repository.full_name.toLowerCase()));
+    }
+  }
+  if (repositories.length === 0 && !options.previousSnapshot) {
+    throw new Error("GitHub discovery returned no repositories.");
+  }
 
   const discovered = await mapConcurrent(repositories, GITHUB_CONCURRENCY, async (repository) => {
     try {
-      return await discoverRepositoryPackages(repository, resolvedOptions);
+      return {
+        repository,
+        sources: await discoverRepositoryPackages(repository, resolvedOptions),
+        succeeded: true,
+      };
     } catch (error) {
       console.warn(`Skipped ${repository.full_name}: ${error instanceof Error ? error.message : String(error)}`);
-      return [];
+      return { repository, sources: [], succeeded: false };
     }
   });
-  const sources = discovered.flat();
+  const sources = discovered.flatMap(result => result.sources);
   const built = await mapConcurrent(sources, GITHUB_CONCURRENCY, async (source) => {
     try {
-      return await buildPlugin(source, resolvedOptions);
+      return { plugin: await buildPlugin(source, resolvedOptions), source, succeeded: true };
     } catch (error) {
       console.warn(
         `Skipped ${source.repository.full_name}/${source.packageDirectory || "package.json"}: ${error instanceof Error ? error.message : String(error)}`,
       );
-      return null;
+      return { plugin: null, source, succeeded: false };
     }
   });
-  const plugins = built.filter((plugin): plugin is CatalogPlugin => plugin !== null);
+  const failedRepositories = new Set(built
+    .filter(result => !result.succeeded)
+    .map(result => result.source.repository.full_name.toLowerCase()));
+  const changedRepositories = new Set(discovered
+    .filter(result => result.succeeded && !failedRepositories.has(result.repository.full_name.toLowerCase()))
+    .map(result => result.repository.full_name.toLowerCase()));
+  const plugins = built
+    .filter((result): result is typeof result & { plugin: CatalogPlugin } => (
+      result.plugin !== null && changedRepositories.has(result.source.repository.full_name.toLowerCase())
+    ))
+    .map(result => result.plugin);
+  const retained = (options.previousSnapshot?.plugins ?? []).filter(plugin => (
+    !changedRepositories.has(`${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase())
+  ));
+  plugins.push(...retained);
   plugins.sort((left, right) => left.name.localeCompare(right.name));
   const minimumPluginCount = options.minimumPluginCount ?? 1;
   if (plugins.length < minimumPluginCount) {
     throw new Error(`Discovery produced ${plugins.length} plugins; minimum is ${minimumPluginCount}.`);
   }
-  console.log(`Discovered ${repositories.length} repositories and accepted ${plugins.length} installable packages.`);
+  console.log(
+    `${options.previousSnapshot ? "Updated" : "Discovered"} ${repositories.length} repositories and produced ${plugins.length} installable packages.`,
+  );
 
   return catalogSnapshotSchema.parse({
     schemaVersion: 1,
     snapshotId: `${generatedAt.toISOString()}-${options.source.commit.slice(0, 12)}`,
     generatedAt: generatedAt.toISOString(),
+    changedRepositories: options.previousSnapshot
+      ? [...changedRepositories].sort()
+      : undefined,
     source: options.source,
     mainline: options.mainline ?? null,
     plugins,

@@ -109,6 +109,34 @@ app.get("/internal/catalog-imports/:runId", async (c) => {
   return run === null ? c.json({ error: "Import not found" }, 404) : c.json(run);
 });
 
+app.get("/internal/catalog-snapshot", async (c) => {
+  if (!(await authorizeCatalogImport(c.req.header("authorization"), c.env?.CATALOG_INGEST_TOKEN))) {
+    return c.json({ error: "Unauthorized" }, 401);
+  }
+  const run = await c.env.DB.prepare(
+    `SELECT id, snapshot_id, source_repository, source_commit, generated_at
+     FROM catalog_runs WHERE status = 'current' ORDER BY published_at DESC LIMIT 1`,
+  ).first<{
+    generated_at: string;
+    id: string;
+    snapshot_id: string;
+    source_commit: string;
+    source_repository: string;
+  }>();
+  if (run === null) return c.json({ error: "Catalog snapshot not found" }, 404);
+  const rows = await c.env.DB.prepare(
+    "SELECT raw_json FROM plugin_snapshots WHERE run_id = ? ORDER BY name",
+  ).bind(run.id).all<{ raw_json: string }>();
+  return c.json({
+    schemaVersion: 1,
+    snapshotId: run.snapshot_id,
+    generatedAt: run.generated_at,
+    source: { repository: run.source_repository, commit: run.source_commit },
+    mainline: null,
+    plugins: rows.results.map(row => JSON.parse(row.raw_json) as unknown),
+  }, 200, { "Cache-Control": "no-store" });
+});
+
 const rpcHandler = new RPCHandler(router, {
   interceptors: [
     onError((error) => {
