@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { detectLocale, isLocale, localeCookie, localeHeader } from "./lib/i18n/locales";
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const fromCookie = request.cookies.get(localeCookie)?.value;
   const locale = isLocale(fromCookie) ? fromCookie : detectLocale(request.headers.get("accept-language"));
   const requestHeaders = new Headers(request.headers);
