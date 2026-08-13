@@ -80,6 +80,7 @@ export const catalogPluginSchema = z.object({
     kind: z.enum(["github", "npm", "manual", "unavailable"]),
     spec: z.string().nullable(),
     command: z.string().nullable(),
+    markdown: z.string(),
     notes: z.array(z.string()),
   }),
   usage: z.object({

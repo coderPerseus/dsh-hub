@@ -45,18 +45,46 @@ export type CatalogBuildOptions = {
   source: CatalogSnapshot["source"];
 };
 
+const GITHUB_CONCURRENCY = 4;
+const GITHUB_MAX_ATTEMPTS = 4;
+
 const githubHeaders = (token?: string): HeadersInit => ({
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
   ...(token ? { Authorization: `Bearer ${token}` } : {}),
 });
 
+async function wait(milliseconds: number): Promise<void> {
+  await new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
+async function githubRequest(
+  fetcher: typeof globalThis.fetch,
+  input: string,
+  init: RequestInit,
+): Promise<Response> {
+  for (let attempt = 0; attempt < GITHUB_MAX_ATTEMPTS; attempt += 1) {
+    const response = await fetcher(input, init);
+    const retryable = response.status === 429
+      || response.status >= 500
+      || (response.status === 403 && response.headers.has("retry-after"));
+    if (!retryable || attempt === GITHUB_MAX_ATTEMPTS - 1) return response;
+
+    const retryAfter = Number(response.headers.get("retry-after"));
+    const delay = Number.isFinite(retryAfter) && retryAfter > 0
+      ? Math.min(retryAfter * 1_000, 60_000)
+      : 1_000 * 2 ** attempt;
+    await wait(delay);
+  }
+  throw new Error("GitHub request exhausted its retry budget.");
+}
+
 async function githubJson<T>(
   fetcher: typeof globalThis.fetch,
   pathname: string,
   token?: string,
 ): Promise<T> {
-  const response = await fetcher(`https://api.github.com${pathname}`, {
+  const response = await githubRequest(fetcher, `https://api.github.com${pathname}`, {
     headers: githubHeaders(token),
   });
   if (!response.ok) {
@@ -72,7 +100,8 @@ async function githubRaw(
   ref: string,
   token?: string,
 ): Promise<string | null> {
-  const response = await fetcher(
+  const response = await githubRequest(
+    fetcher,
     `https://api.github.com/repos/${repository}/contents/${file}?ref=${encodeURIComponent(ref)}`,
     {
       headers: {
@@ -88,14 +117,14 @@ async function githubRaw(
   return response.text();
 }
 
-function extractDocumentation(readme: string): string {
+function extractDocumentation(readme: string, titlePattern: RegExp): string {
   const headings = /^(#{1,3})\s+(.+)$/gm;
   const matches = [...readme.matchAll(headings)];
   const selected: string[] = [];
 
   for (let index = 0; index < matches.length; index += 1) {
     const match = matches[index];
-    if (!/(install|usage|configuration|setup|quick start|安装|使用|配置|开始)/i.test(match[2])) {
+    if (!titlePattern.test(match[2])) {
       continue;
     }
     const start = match.index ?? 0;
@@ -105,6 +134,23 @@ function extractDocumentation(readme: string): string {
   }
 
   return selected.join("\n\n").slice(0, 16_000);
+}
+
+async function mapConcurrent<Input, Output>(
+  items: Input[],
+  concurrency: number,
+  mapper: (item: Input) => Promise<Output>,
+): Promise<Output[]> {
+  const output = new Array<Output>(items.length);
+  let nextIndex = 0;
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      output[index] = await mapper(items[index]);
+    }
+  }));
+  return output;
 }
 
 function peerRange(peers: Record<string, string>, matcher: (name: string) => boolean): string | null {
@@ -171,11 +217,14 @@ async function buildPlugin(
   const incompatible = checks.some(check => check.status === "fail");
   const spec = `github:${entry.repository}#${head.sha}`;
   const notes = [
-    ...(entry.documentation?.install ? [entry.documentation.install] : []),
     ...(manifest.scripts?.prepare
       ? ["This source package declares a prepare script; pnpm may require allowBuilds approval."]
       : []),
   ];
+  const installationMarkdown = entry.documentation?.install
+    ?? extractDocumentation(readme, /(install|setup|quick start|安装|开始)/i);
+  const usageMarkdown = entry.documentation?.usage
+    ?? extractDocumentation(readme, /(usage|configuration|使用|配置)/i);
 
   return {
     id: `github:${entry.repository}`,
@@ -204,7 +253,11 @@ async function buildPlugin(
     categories: entry.categories,
     featured: entry.curation.featured,
     compatibility: {
-      status: incompatible ? "incompatible" : "unknown",
+      status: incompatible
+        ? "incompatible"
+        : harnessRange !== null || cordisRange !== null
+          ? "compatible"
+          : "unknown",
       level: harnessRange === null && cordisRange === null ? "unverified" : "declared",
       harnessRange,
       cordisRange,
@@ -216,11 +269,12 @@ async function buildPlugin(
       command: bundlePatch === null || incompatible
         ? null
         : `dsh plugin --profile <profile> add ${spec}`,
+      markdown: installationMarkdown,
       notes,
     },
     usage: {
       summary: entry.display?.summary ?? repo.description ?? manifest.description ?? "",
-      markdown: entry.documentation?.usage ?? extractDocumentation(readme),
+      markdown: usageMarkdown,
       readmeUrl: `${repo.html_url}#readme`,
     },
   };
@@ -244,10 +298,11 @@ export async function buildCatalogSnapshot(
 ): Promise<CatalogSnapshot> {
   const generatedAt = options.generatedAt ?? new Date();
   const fetcher = options.fetch ?? globalThis.fetch;
-  const plugins = await Promise.all(entries.map(entry => buildPlugin(entry, {
+  const visibleEntries = entries.filter(entry => !entry.curation.hidden);
+  const plugins = await mapConcurrent(visibleEntries, GITHUB_CONCURRENCY, entry => buildPlugin(entry, {
     ...options,
     fetch: fetcher,
-  })));
+  }));
   plugins.sort((left, right) => left.name.localeCompare(right.name));
 
   return catalogSnapshotSchema.parse({

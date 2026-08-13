@@ -91,8 +91,29 @@ describe("catalog builder", () => {
     expect(snapshot.plugins[0]?.installation.command).toBe(
       "dsh plugin --profile <profile> add github:owner/plugin#abc123",
     );
-    expect(snapshot.plugins[0]?.installation.notes).toContain("Enable the plugin after installation.");
+    expect(snapshot.plugins[0]?.installation.markdown).toBe("Enable the plugin after installation.");
     expect(snapshot.plugins[0]?.usage.markdown).toBe("## Curated usage\n\nUse the profile settings.");
     expect(snapshot.plugins[0]?.compatibility.level).toBe("declared");
+    expect(snapshot.plugins[0]?.compatibility.status).toBe("compatible");
+  });
+
+  it("does not fetch registry entries hidden by curation", async () => {
+    const entry = registryEntrySchema.parse({
+      schemaVersion: 1,
+      repository: "owner/hidden",
+      categories: ["tools"],
+      curation: { featured: false, hidden: true },
+    });
+    const fetcher = async (): Promise<Response> => {
+      throw new Error("hidden repositories must not be fetched");
+    };
+
+    const snapshot = await buildCatalogSnapshot([entry], {
+      fetch: fetcher as typeof fetch,
+      generatedAt: new Date("2026-08-14T01:00:00Z"),
+      source: { repository: "owner/catalog", commit: "source123" },
+    });
+
+    expect(snapshot.plugins).toEqual([]);
   });
 });
