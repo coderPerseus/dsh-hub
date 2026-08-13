@@ -1,46 +1,51 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "dshhub-api",
-  "main": "src/index.ts",
-  "compatibility_date": "2026-08-13",
-  "compatibility_flags": ["nodejs_compat"],
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "dshhub"
-    }
-  ],
-  "kv_namespaces": [
-    {
-      "binding": "CACHE"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "STORAGE"
-    }
-  ],
-  "queues": {
-    "producers": [
-      {
-        "binding": "CATALOG_QUEUE",
-        "queue": "dshhub-catalog-imports"
-      }
-    ],
-    "consumers": [
-      {
-        "queue": "dshhub-catalog-imports",
-        "max_batch_size": 10,
-        "max_batch_timeout": 5,
-        "max_retries": 3,
-        "dead_letter_queue": "dshhub-catalog-imports-dlq"
-      }
-    ]
-  },
-  "observability": {
-    "enabled": true,
-    "logs": {
-      "head_sampling_rate": 1
-    }
-  }
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "dshhub-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-08-13",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "dshhub",
+			"database_id": "1bde86c2-e519-4884-bab8-4bb15a92e609"
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "CACHE",
+			"id": "c0dc522119cd480f8d951969e1aee5ef"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "STORAGE",
+			"bucket_name": "dshhub-api-storage"
+		}
+	],
+	"queues": {
+		"producers": [
+			{
+				"binding": "CATALOG_QUEUE",
+				"queue": "dshhub-catalog-imports"
+			}
+		],
+		"consumers": [
+			{
+				"queue": "dshhub-catalog-imports",
+				"max_batch_size": 10,
+				"max_batch_timeout": 5,
+				"max_retries": 3,
+				"dead_letter_queue": "dshhub-catalog-imports-dlq"
+			}
+		]
+	},
+	"observability": {
+		"enabled": true,
+		"logs": {
+			"head_sampling_rate": 1
+		}
+	}
 }
