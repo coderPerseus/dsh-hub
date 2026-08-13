@@ -1,0 +1,8 @@
+schemaVersion: 1
+repository: omdsh-dev/dsh-open-in-vscode
+categories:
+  - development
+  - productivity
+curation:
+  featured: false
+  hidden: false

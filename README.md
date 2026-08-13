@@ -84,13 +84,22 @@ pnpm --filter @dshhub/api exec wrangler deploy --dry-run
 <!-- catalog:start -->
 ## Plugin catalog
 
-Generated at 2026-08-13T16:30:43.961Z from snapshot `2026-08-13T16:30:43.961Z-local-develo`.
+Generated at 2026-08-13T16:35:33.910Z from snapshot `2026-08-13T16:35:33.910Z-local-develo`.
 
-Plugins: **0**
+Plugins: **6**
 
-No categories yet.
+- `agents`: 1
+- `development`: 2
+- `interface`: 2
+- `productivity`: 5
+- `vision`: 2
 
 | Plugin | Description | Categories | Evidence |
 | --- | --- | --- | --- |
-| — | No plugins registered yet. | — | — |
+| [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | 让纯文本模型更好地做视觉任务的DeepSeek Harness插件：带意图的图片问答、长截图 OCR、UI 还原等｜DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, long-screenshot OCR, UI restoration, grounding, pixel diff, Artifacts, and Web UI. | vision, productivity | declared |
+| [@liustack/modlens](https://github.com/liustack/modlens) | The first vision plugin for DeepSeek Harness, and the vision bridge for every text-only coding agent. Paste an image, get structured JSON evidence (OCR, layout, semantics). | vision, development | unverified |
+| [dsh-agent-teams](https://github.com/NanmiCoder/dsh-agent-teams) | AgentTeams plugin for DeepSeek Harness | agents, productivity | declared |
+| [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | 一个侧边栏的完整工作台，支持三方拓展注册新Tab页面，内置文件渲染编辑/终端/Git/子代理 | interface, productivity | declared |
+| [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | DSH 官方尚无终端 TUI 的补位之作：Claude Code 风格全屏交互终端插件——像素鲸鱼顶栏、实时工作状态行、思考流式展开、双击 Esc 回滚、上下文进度条 + TPS 仪表。npm 一键安装。 | interface, productivity | declared |
+| [dsh-open-in-vscode](https://github.com/omdsh-dev/dsh-open-in-vscode) | Open DeepSeek Harness workspace directories in VS Code directly from the web GUI. | development, productivity | declared |
 <!-- catalog:end -->
