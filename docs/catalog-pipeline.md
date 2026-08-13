@@ -99,6 +99,9 @@ Optional environment:
 
 The publish workflow runs this translation step after catalog discovery. Configure
 `NEW_API_URL` and `NEW_API_KEY` as GitHub Actions repository secrets before running it.
+It restores the translation cache between runs and chunks long Markdown fields before
+translation. A translated snapshot is published as a full import so translations for
+unchanged repositories also reach the API.
 
 Then apply D1 migrations and publish so the API can serve locale-specific descriptions:
 

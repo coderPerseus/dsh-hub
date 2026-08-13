@@ -33,7 +33,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
         with:
@@ -66,7 +66,7 @@ jobs:
             catalog-i18n-${{ runner.os }}-
 
       - name: Translate catalog snapshot
-        run: pnpm catalog:translate
+        run: pnpm catalog:translate -- --concurrency 10
         env:
           NEW_API_KEY: ${{ secrets.NEW_API_KEY }}
           NEW_API_URL: ${{ secrets.NEW_API_URL }}

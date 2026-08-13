@@ -15,7 +15,8 @@ import {
 
 const DEFAULT_MODEL = "deepseek-v4-flash";
 const DEFAULT_CONCURRENCY = 3;
-const TRANSLATION_CACHE_VERSION = 2;
+const MAX_TRANSLATION_CHUNK = 1_800;
+const TRANSLATION_CACHE_VERSION = 3;
 
 function repoRoot(): string {
   let dir = process.cwd();
@@ -93,6 +94,20 @@ export function translationPayload(plugin: CatalogPlugin): TranslationPayload {
   };
 }
 
+export function chunkText(value: string, limit = MAX_TRANSLATION_CHUNK): string[] {
+  if (!value) return [];
+  const chunks: string[] = [];
+  let remaining = value;
+  while (remaining.length > limit) {
+    const newline = remaining.lastIndexOf("\n", limit);
+    const splitAt = newline > Math.floor(limit / 2) ? newline + 1 : limit;
+    chunks.push(remaining.slice(0, splitAt));
+    remaining = remaining.slice(splitAt);
+  }
+  if (remaining) chunks.push(remaining);
+  return chunks;
+}
+
 export function validateTranslations(
   value: unknown,
   source: TranslationPayload,
@@ -135,13 +150,13 @@ export function asFullSnapshot(
   return { ...fullSnapshot, plugins };
 }
 
-async function translatePlugin(
-  plugin: CatalogPlugin,
+async function requestTranslation(
+  pluginSlug: string,
+  payload: TranslationPayload,
   apiUrl: string,
   apiKey: string,
   model: string,
 ): Promise<Record<CatalogLocale, CatalogI18nEntry>> {
-  const payload = translationPayload(plugin);
   const response = await fetch(apiUrl, {
     method: "POST",
     headers: {
@@ -165,7 +180,7 @@ async function translatePlugin(
         {
           role: "user",
           content: JSON.stringify({
-            plugin: plugin.slug,
+            plugin: pluginSlug,
             source: payload,
             targets: catalogLocales,
           }),
@@ -175,16 +190,60 @@ async function translatePlugin(
     signal: AbortSignal.timeout(120_000),
   });
   if (!response.ok) {
-    throw new Error(`${plugin.slug}: ${response.status} ${await response.text()}`);
+    throw new Error(`${pluginSlug}: ${response.status} ${await response.text()}`);
   }
   const body = await response.json() as { choices?: ChatChoice[] };
   const content = body.choices?.[0]?.message?.content;
-  if (!content) throw new Error(`${plugin.slug}: empty model response`);
+  if (!content) throw new Error(`${pluginSlug}: empty model response`);
   try {
     return validateTranslations(parseModelJson(content), payload);
   } catch (error) {
-    throw new Error(`${plugin.slug}: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error(`${pluginSlug}: ${error instanceof Error ? error.message : String(error)}`);
   }
+}
+
+async function translatePlugin(
+  plugin: CatalogPlugin,
+  apiUrl: string,
+  apiKey: string,
+  model: string,
+): Promise<Record<CatalogLocale, CatalogI18nEntry>> {
+  const source = translationPayload(plugin);
+  const baseSource: TranslationPayload = {
+    ...source,
+    installationMarkdown: "",
+    usageMarkdown: "",
+  };
+  const translated = await requestTranslation(plugin.slug, baseSource, apiUrl, apiKey, model);
+  for (const locale of catalogLocales) {
+    translated[locale].installationMarkdown = "";
+    translated[locale].usageMarkdown = "";
+  }
+
+  const markdownFields = ["installationMarkdown", "usageMarkdown"] as const;
+  for (const field of markdownFields) {
+    for (const chunk of chunkText(source[field])) {
+      const chunkSource: TranslationPayload = {
+        description: "",
+        installationMarkdown: "",
+        installationNotes: [],
+        usageMarkdown: "",
+        usageSummary: "",
+        [field]: chunk,
+      };
+      const chunkTranslation = await requestTranslation(
+        plugin.slug,
+        chunkSource,
+        apiUrl,
+        apiKey,
+        model,
+      );
+      for (const locale of catalogLocales) {
+        translated[locale][field] += chunkTranslation[locale][field] ?? "";
+      }
+    }
+  }
+  return validateTranslations(translated, source);
 }
 
 async function mapPool<T>(

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { CatalogPlugin, CatalogSnapshot } from "../src/schema";
 import {
   asFullSnapshot,
+  chunkText,
   translationPayload,
   validateTranslations,
 } from "../../../scripts/translate-catalog";
@@ -40,6 +41,14 @@ describe("catalog translation", () => {
 
     expect(payload.installationMarkdown).toHaveLength(3_000);
     expect(payload.usageMarkdown).toHaveLength(3_000);
+  });
+
+  it("chunks long markdown without dropping content", () => {
+    const markdown = `${"a".repeat(1_000)}\n${"b".repeat(2_500)}`;
+    const chunks = chunkText(markdown, 1_200);
+
+    expect(chunks.every(chunk => chunk.length <= 1_200)).toBe(true);
+    expect(chunks.join("")).toBe(markdown);
   });
 
   it("rejects a response that omits any target locale", () => {

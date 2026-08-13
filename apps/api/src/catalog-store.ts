@@ -20,13 +20,13 @@ type PluginSummaryRow = {
   compatibility_status: CatalogPluginSummary["compatibilityStatus"];
   description: string;
   featured: number;
-  i18n_json: string | null;
   id: string;
   install_command: string | null;
   name: string;
   package_name: string;
   pushed_at: string | null;
   repository_url: string;
+  raw_json: string;
   slug: string;
   stars: number;
 };
@@ -51,12 +51,13 @@ function placeholders(values: readonly unknown[]): string {
 
 function localizedRowDescription(
   description: string,
-  i18nJson: string | null,
+  rawJson: string,
   locale: string | undefined,
 ): string {
-  if (!locale || !i18nJson) return description;
+  if (!locale) return description;
   try {
-    const i18n = catalogI18nSchema.parse(JSON.parse(i18nJson));
+    const raw = JSON.parse(rawJson) as { i18n?: unknown };
+    const i18n = catalogI18nSchema.parse(raw.i18n ?? {});
     return localizedDescription({ description, i18n }, locale);
   } catch {
     return description;
@@ -167,7 +168,7 @@ export class CatalogStore {
       `SELECT
         p.plugin_id AS id, p.slug, p.name, p.package_name, p.description,
         p.compatibility_status, p.compatibility_level, p.stars, p.pushed_at,
-        p.repository_url, p.featured, p.i18n_json,
+        p.repository_url, p.featured, p.raw_json,
         json_extract(p.installation_json, '$.command') AS install_command
        FROM plugin_snapshots p ${searchJoin}
        WHERE ${whereSql}
@@ -191,7 +192,7 @@ export class CatalogStore {
         id: row.id,
         slug: row.slug,
         name: row.name,
-        description: localizedRowDescription(row.description, row.i18n_json, input.locale),
+        description: localizedRowDescription(row.description, row.raw_json, input.locale),
         packageName: row.package_name,
         repositoryUrl: row.repository_url,
         stars: row.stars,
