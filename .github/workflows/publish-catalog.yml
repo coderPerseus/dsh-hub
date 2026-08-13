@@ -75,5 +75,6 @@ jobs:
           git add README.md
           if ! git diff --cached --quiet; then
             git commit -m "docs(catalog): refresh generated index"
+            git pull --rebase origin main
             git push
           fi
