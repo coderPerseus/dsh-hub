@@ -19,6 +19,7 @@ on:
     paths:
       - "packages/catalog/**"
       - "scripts/build-catalog.ts"
+      - "scripts/translate-catalog.ts"
       - "scripts/publish-catalog.ts"
       - ".github/workflows/publish-catalog.yml"
 
@@ -55,6 +56,12 @@ jobs:
           CATALOG_MIN_PLUGIN_COUNT: "50"
           CATALOG_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '37 3 * * 0' && 'refresh' || 'discover') }}
           GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Translate catalog snapshot
+        run: pnpm catalog:translate
+        env:
+          NEW_API_KEY: ${{ secrets.NEW_API_KEY }}
+          NEW_API_URL: ${{ secrets.NEW_API_URL }}
 
       - name: Validate catalog packages
         run: |

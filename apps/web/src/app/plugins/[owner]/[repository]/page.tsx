@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 import { CopyButton } from "../../../copy-button";
 import { PageStage } from "../../../page-stage";
 import { getPlugin } from "../../../../lib/catalog";
-import { getTranslator } from "../../../../lib/i18n/get-locale";
 import { catalogHref } from "../../../../lib/catalog-href";
+import { getTranslator } from "../../../../lib/i18n/get-locale";
 import {
   categoryLabel,
   formatDate,
   formatStars,
 } from "../../../../lib/presentation";
 import { absoluteUrl } from "../../../../lib/site";
-import { SimilarPlugins } from "./similar-plugins";
 
 type PluginPageProps = {
   params: Promise<{ owner: string; repository: string }>;
@@ -23,8 +20,8 @@ type PluginPageProps = {
 
 export async function generateMetadata({ params }: PluginPageProps): Promise<Metadata> {
   const { owner, repository } = await params;
-  const { t } = await getTranslator();
-  const result = await getPlugin(owner, repository);
+  const { locale, t } = await getTranslator();
+  const result = await getPlugin(owner, repository, locale);
   if (!result.ok || !result.plugin) {
     return { robots: { follow: true, index: false }, title: t.pluginDetail };
   }
@@ -50,7 +47,7 @@ export async function generateMetadata({ params }: PluginPageProps): Promise<Met
 export default async function PluginPage({ params }: PluginPageProps) {
   const { owner, repository } = await params;
   const { locale, t } = await getTranslator();
-  const result = await getPlugin(owner, repository);
+  const result = await getPlugin(owner, repository, locale);
   if (result.ok && result.plugin === null) notFound();
 
   if (!result.ok) {
@@ -73,6 +70,13 @@ export default async function PluginPage({ params }: PluginPageProps) {
   const plugin = result.plugin;
   if (plugin === null) notFound();
   const pluginUrl = absoluteUrl(`/plugins/${plugin.slug}`);
+  const facts = [
+    plugin.package.version ? { label: t.version, value: plugin.package.version } : null,
+    plugin.repository.license ? { label: t.license, value: plugin.repository.license } : null,
+    plugin.repository.pushedAt
+      ? { label: t.lastUpdated, value: formatDate(plugin.repository.pushedAt, locale) }
+      : null,
+  ].filter((item): item is { label: string; value: string } => item !== null);
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -118,33 +122,31 @@ export default async function PluginPage({ params }: PluginPageProps) {
               <span>★ {formatStars(plugin.repository.stars)}</span>
             </p>
             <h1>{plugin.name}</h1>
-            <p className="detail-summary">{plugin.description || t.missingDescription}</p>
-            <div className="tags">
-              {plugin.categories.map(category => (
-                <span key={category}>
-                  <Link href={`${catalogHref({ categories: [category] })}#catalog`}>
-                    {categoryLabel(category, t.categories)}
-                  </Link>
-                </span>
-              ))}
-            </div>
-            <dl className="detail-meta">
-              <div>
-                <dt>{t.version}</dt>
-                <dd>{plugin.package.version ?? t.notDeclared}</dd>
+            {plugin.description ? <p className="detail-summary">{plugin.description}</p> : null}
+            {plugin.categories.length > 0 && (
+              <div className="tags">
+                {plugin.categories.map(category => (
+                  <span key={category}>
+                    <Link href={`${catalogHref({ categories: [category] })}#catalog`}>
+                      {categoryLabel(category, t.categories)}
+                    </Link>
+                  </span>
+                ))}
               </div>
-              <div>
-                <dt>{t.license}</dt>
-                <dd>{plugin.repository.license ?? t.notDeclared}</dd>
-              </div>
-              <div>
-                <dt>{t.lastUpdated}</dt>
-                <dd>{plugin.repository.pushedAt ? formatDate(plugin.repository.pushedAt, locale) : t.unknownDate}</dd>
-              </div>
-            </dl>
+            )}
+            {facts.length > 0 && (
+              <dl className="detail-meta">
+                {facts.map(fact => (
+                  <div key={fact.label}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </header>
 
-          <section className="detail-panel" aria-labelledby="install-title">
+          <section className="detail-install" aria-labelledby="install-title">
             <h2 id="install-title">{t.installTitle}</h2>
             {plugin.installation.command ? (
               <div className="command-block">
@@ -153,71 +155,12 @@ export default async function PluginPage({ params }: PluginPageProps) {
                 <CopyButton copiedLabel={t.copied} copyLabel={t.copy} value={plugin.installation.command} />
               </div>
             ) : (
-              <div className="manual-notice">
-                <strong>{t.manualInstall}</strong>
-                <p>{t.manualInstallHint}</p>
-              </div>
-            )}
-            {plugin.installation.notes.map(note => <p className="install-note" key={note}>⚠ {note}</p>)}
-            <p className="pin-note">
-              {t.pinNoteBefore} <code>{plugin.repository.commit.slice(0, 12)}</code>{t.pinNoteAfter}
-            </p>
-            {plugin.installation.markdown && (
-              <div className="markdown-body install-markdown">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{plugin.installation.markdown}</ReactMarkdown>
-              </div>
+              <p className="detail-install-fallback">
+                {t.manualInstallHint}{" "}
+                <a href={plugin.repository.url} rel="noreferrer" target="_blank">{t.readme}</a>
+              </p>
             )}
           </section>
-
-          <div className="detail-split">
-            <section className="detail-panel" aria-labelledby="evidence-title">
-              <h2 id="evidence-title">{t.compatibility.label}</h2>
-              <div className="check-list">
-                {plugin.compatibility.checks.map(check => (
-                  <div className={`check check-${check.status}`} key={check.id}>
-                    <span>{check.status === "pass" ? "✓" : check.status === "fail" ? "×" : check.status === "warn" ? "!" : "–"}</span>
-                    <div><strong>{check.id}</strong><p>{check.summary}</p></div>
-                  </div>
-                ))}
-              </div>
-              <dl className="range-list">
-                <div><dt>{t.harnessRange}</dt><dd>{plugin.compatibility.harnessRange ?? t.notDeclared}</dd></div>
-                <div><dt>{t.cordisRange}</dt><dd>{plugin.compatibility.cordisRange ?? t.notDeclared}</dd></div>
-              </dl>
-            </section>
-
-            <aside className="detail-panel source-panel">
-              <div><span>{t.package}</span><code>{plugin.package.name}</code></div>
-              <div>
-                <span>{t.source}</span>
-                <a href={plugin.repository.url} rel="noreferrer" target="_blank">{plugin.slug} ↗</a>
-              </div>
-              <div><span>{t.defaultBranch}</span><code>{plugin.repository.defaultBranch}</code></div>
-            </aside>
-          </div>
-
-          <section className="detail-panel" aria-labelledby="usage-title">
-            <h2 id="usage-title">{t.usageTitle}</h2>
-            {plugin.usage.markdown ? (
-              <div className="markdown-body">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{plugin.usage.markdown}</ReactMarkdown>
-              </div>
-            ) : (
-              <p className="missing-docs">{t.missingDocs}</p>
-            )}
-            <a className="source-link" href={plugin.usage.readmeUrl} rel="noreferrer" target="_blank">{t.readme}</a>
-          </section>
-
-          <SimilarPlugins
-            categories={plugin.categories}
-            categoryLabels={t.categories}
-            categoriesLabel={t.categoriesLabel}
-            currentId={plugin.id}
-            currentText={`${plugin.name} ${plugin.package.name} ${plugin.description}`}
-            description={t.relatedPluginsHint}
-            missingDescription={t.missingDescription}
-            title={t.relatedPlugins}
-          />
         </div>
       </article>
     </PageStage>

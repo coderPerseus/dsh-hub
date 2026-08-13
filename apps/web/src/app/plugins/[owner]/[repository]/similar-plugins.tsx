@@ -1,9 +1,7 @@
-import type { CatalogPluginSummary } from "@dshhub/contracts";
-import type { CSSProperties } from "react";
-import Link from "next/link";
+import type { CatalogListInput, CatalogPluginSummary } from "@dshhub/contracts";
 
+import { PluginCard } from "../../../plugin-card";
 import { orpc } from "../../../../lib/orpc";
-import { categoryLabel, formatStars } from "../../../../lib/presentation";
 
 type SimilarPluginsProps = {
   categories: string[];
@@ -12,6 +10,7 @@ type SimilarPluginsProps = {
   currentId: string;
   currentText: string;
   description: string;
+  locale: CatalogListInput["locale"];
   missingDescription: string;
   title: string;
 };
@@ -44,6 +43,7 @@ export async function SimilarPlugins(props: SimilarPluginsProps) {
       compatibility: [],
       cursor: null,
       limit: 24,
+      locale: props.locale,
       query: "",
       sort: "stars",
     });
@@ -69,18 +69,14 @@ export async function SimilarPlugins(props: SimilarPluginsProps) {
       <p className="missing-docs">{props.description}</p>
       <div className="plugin-grid">
         {related.map((plugin, index) => (
-          <article className="plugin-card" key={plugin.id} style={{ "--order": index } as CSSProperties}>
-            <div className="card-head">
-              <h3><Link href={`/plugins/${plugin.slug}`}>{plugin.name}</Link></h3>
-              <span className="card-stars">★ {formatStars(plugin.stars)}</span>
-            </div>
-            <p>{plugin.description || props.missingDescription}</p>
-            <div className="card-meta">
-              <span className="card-cats" aria-label={props.categoriesLabel}>
-                {plugin.categories.map(category => categoryLabel(category, props.categoryLabels)).join(" · ")}
-              </span>
-            </div>
-          </article>
+          <PluginCard
+            categoriesLabel={props.categoriesLabel}
+            categoryLabels={props.categoryLabels}
+            index={index}
+            key={plugin.id}
+            missingDescription={props.missingDescription}
+            plugin={plugin}
+          />
         ))}
       </div>
     </section>

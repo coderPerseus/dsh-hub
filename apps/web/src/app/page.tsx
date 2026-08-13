@@ -1,15 +1,14 @@
-import type { CSSProperties } from "react";
 import Link from "next/link";
 
 import { CatalogSearch } from "./catalog-search";
 import { HeroBackdrop } from "./hero-backdrop";
+import { PluginCard } from "./plugin-card";
 import { getCatalogIndex } from "../lib/catalog";
 import { catalogHref } from "../lib/catalog-href";
 import { getTranslator } from "../lib/i18n/get-locale";
 import {
   categoryLabel,
   formatDate,
-  formatStars,
 } from "../lib/presentation";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -36,7 +35,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     ? requestedSort
     : "featured";
   const cursor = scalar(raw.cursor) || null;
-  const catalog = await getCatalogIndex({ query, categories, compatibility, sort, cursor });
+  const catalog = await getCatalogIndex({ query, categories, compatibility, sort, cursor, locale });
   const hasFilters = Boolean(query || categories.length > 0 || compatibility.length > 0 || sort !== "featured");
   const hrefState = { query, categories, compatibility, sort };
   const sortOptions = [
@@ -155,24 +154,16 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           ) : (
             <div className="plugin-grid">
               {catalog.list.items.map((plugin, index) => (
-                <article className="plugin-card" key={plugin.id} style={{ "--order": index } as CSSProperties}>
-                  <div className="card-topline">
-                    <span>★ {formatStars(plugin.stars)}</span>
-                  </div>
-                  <h3><Link href={`/plugins/${plugin.slug}`}>{plugin.name}</Link></h3>
-                  <code>{plugin.packageName}</code>
-                  <p>{plugin.description || t.missingDescription}</p>
-                  <div className="tags" aria-label={t.categoriesLabel}>
-                    {plugin.categories.map(category => <span key={category}>{categoryLabel(category, t.categories)}</span>)}
-                  </div>
-                  {plugin.installCommand && (
-                    <code className="card-command"><em>$</em> {plugin.installCommand}</code>
-                  )}
-                  <div className="card-footer">
-                    <span>{plugin.pushedAt ? formatDate(plugin.pushedAt, locale) : t.updatedUnknown}</span>
-                    <Link href={`/plugins/${plugin.slug}`}>{t.viewInstall}</Link>
-                  </div>
-                </article>
+                <PluginCard
+                  categoriesLabel={t.categoriesLabel}
+                  categoryLabels={t.categories}
+                  index={index}
+                  key={plugin.id}
+                  missingDescription={t.missingDescription}
+                  plugin={plugin}
+                  updatedText={plugin.pushedAt ? formatDate(plugin.pushedAt, locale) : t.updatedUnknown}
+                  viewLabel={t.viewInstall}
+                />
               ))}
             </div>
           )}

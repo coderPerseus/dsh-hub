@@ -1,5 +1,5 @@
 import { oc } from "@orpc/contract";
-import { catalogPluginSchema } from "@dshhub/catalog";
+import { catalogLocaleSchema, catalogPluginSchema } from "@dshhub/catalog";
 import { z } from "zod";
 
 const compatibilityStatusSchema = z.enum(["compatible", "incompatible", "unknown"]);
@@ -35,6 +35,7 @@ const catalogListInputSchema = z.object({
   sort: z.enum(["featured", "stars", "updated", "name"]).default("featured"),
   cursor: z.string().max(40).nullable().default(null),
   limit: z.number().int().min(1).max(50).default(24),
+  locale: catalogLocaleSchema.optional(),
 });
 
 const catalogListContract = oc
@@ -49,6 +50,7 @@ const catalogDetailContract = oc
   .input(z.object({
     owner: z.string().regex(/^[A-Za-z0-9_.-]+$/),
     repository: z.string().regex(/^[A-Za-z0-9_.-]+$/),
+    locale: catalogLocaleSchema.optional(),
   }))
   .output(catalogPluginSchema.nullable());
 

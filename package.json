@@ -11,6 +11,7 @@
     "catalog:build": "pnpm --filter @dshhub/catalog run build:catalog",
     "catalog:refresh": "CATALOG_MODE=refresh pnpm catalog:build",
     "catalog:publish": "pnpm --filter @dshhub/catalog exec tsx ../../scripts/publish-catalog.ts",
+    "catalog:translate": "pnpm --filter @dshhub/catalog exec tsx ../../scripts/translate-catalog.ts",
     "cf:typegen": "pnpm --filter @dshhub/api run cf:typegen && pnpm --filter @dshhub/web run cf:typegen",
     "deploy": "pnpm deploy:api && pnpm deploy:web",
     "deploy:api": "pnpm --filter @dshhub/api run deploy",

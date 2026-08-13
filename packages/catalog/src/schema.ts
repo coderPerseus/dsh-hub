@@ -19,6 +19,19 @@ const compatibilityCheckSchema = z.object({
   summary: z.string().min(1),
 });
 
+export const catalogLocales = ["zh-CN", "en", "ja", "ko", "zh-TW"] as const;
+export const catalogLocaleSchema = z.enum(catalogLocales);
+
+export const catalogI18nEntrySchema = z.object({
+  description: z.string().optional(),
+  installationMarkdown: z.string().optional(),
+  installationNotes: z.array(z.string()).optional(),
+  usageMarkdown: z.string().optional(),
+  usageSummary: z.string().optional(),
+});
+
+export const catalogI18nSchema = z.record(z.string(), catalogI18nEntrySchema);
+
 export const catalogPluginSchema = z.object({
   id: z.string().startsWith("github:"),
   slug: repositoryNameSchema,
@@ -64,6 +77,7 @@ export const catalogPluginSchema = z.object({
     markdown: z.string(),
     readmeUrl: z.url(),
   }),
+  i18n: catalogI18nSchema.optional(),
 });
 
 export const catalogSnapshotSchema = z.object({
@@ -86,3 +100,5 @@ export const catalogSnapshotSchema = z.object({
 
 export type CatalogPlugin = z.infer<typeof catalogPluginSchema>;
 export type CatalogSnapshot = z.infer<typeof catalogSnapshotSchema>;
+export type CatalogLocale = z.infer<typeof catalogLocaleSchema>;
+export type CatalogI18nEntry = z.infer<typeof catalogI18nEntrySchema>;

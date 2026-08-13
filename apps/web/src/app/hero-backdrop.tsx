@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Point = {
   restX: number;
@@ -445,12 +445,44 @@ function WhaleParticles() {
   return <canvas ref={canvasRef} className="hero-whale" aria-hidden="true" />;
 }
 
+function useDesktopParticles() {
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      setEnabled(finePointer.matches && desktop.matches && !reduceMotion.matches);
+    };
+    update();
+    finePointer.addEventListener("change", update);
+    desktop.addEventListener("change", update);
+    reduceMotion.addEventListener("change", update);
+    return () => {
+      finePointer.removeEventListener("change", update);
+      desktop.removeEventListener("change", update);
+      reduceMotion.removeEventListener("change", update);
+    };
+  }, []);
+
+  return enabled;
+}
+
 export function HeroBackdrop() {
+  const particles = useDesktopParticles();
+
   return (
     <div className="hero-backdrop" aria-hidden="true">
-      <FluidBackdrop />
-      <WhaleParticles />
-      <ParticleGrid />
+      {particles ? (
+        <>
+          <FluidBackdrop />
+          <WhaleParticles />
+          <ParticleGrid />
+        </>
+      ) : (
+        <div className="hero-backdrop-static" />
+      )}
       <div className="hero-fade" />
     </div>
   );

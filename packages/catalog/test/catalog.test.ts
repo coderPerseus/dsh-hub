@@ -1,10 +1,25 @@
 import { describe, expect, it } from "vitest";
 
+import { localizePlugin } from "../src/i18n";
 import {
   discoverCatalogSnapshot,
   renderCatalogSection,
   replaceCatalogSection,
 } from "../src/node";
+
+describe("catalog i18n", () => {
+  it("falls back to the source description when a locale is missing", () => {
+    const plugin = {
+      description: "Source description",
+      i18n: { "zh-CN": { description: "中文描述" } },
+      installation: { markdown: "install", notes: ["note"] },
+      usage: { markdown: "usage", summary: "summary" },
+    } as unknown as Parameters<typeof localizePlugin>[0];
+
+    expect(localizePlugin(plugin, "ja").description).toBe("Source description");
+    expect(localizePlugin(plugin, "zh-CN").description).toBe("中文描述");
+  });
+});
 
 describe("catalog README projection", () => {
   const snapshot = {

@@ -1,4 +1,9 @@
-import { catalogSnapshotSchema, type CatalogPlugin, type CatalogSnapshot } from "@dshhub/catalog";
+import {
+  catalogSnapshotSchema,
+  i18nSearchText,
+  type CatalogPlugin,
+  type CatalogSnapshot,
+} from "@dshhub/catalog";
 
 export type CatalogImportMessage = {
   r2Key: string;
@@ -89,8 +94,9 @@ function pluginStatements(
       `INSERT INTO plugin_snapshots (
         run_id, plugin_id, slug, owner, repo, name, package_name, description,
         compatibility_status, compatibility_level, stars, pushed_at, repository_url,
-        featured, installation_json, compatibility_json, usage_summary, usage_markdown, raw_json
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        featured, installation_json, compatibility_json, usage_summary, usage_markdown, raw_json,
+        i18n_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).bind(
       runId,
       plugin.id,
@@ -111,6 +117,7 @@ function pluginStatements(
       plugin.usage.summary,
       plugin.usage.markdown,
       JSON.stringify(plugin),
+      JSON.stringify(plugin.i18n ?? {}),
     ));
     for (const category of plugin.categories) {
       statements.push(db.prepare(
@@ -126,7 +133,7 @@ function pluginStatements(
       plugin.id,
       plugin.name,
       plugin.package.name,
-      plugin.description,
+      i18nSearchText(plugin),
       plugin.repository.topics.join(" "),
       `${plugin.usage.summary}\n${plugin.usage.markdown}`,
     ));

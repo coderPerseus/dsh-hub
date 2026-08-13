@@ -1,4 +1,10 @@
-import { catalogPluginSchema, type CatalogPlugin } from "@dshhub/catalog";
+import {
+  catalogI18nSchema,
+  catalogPluginSchema,
+  localizePlugin,
+  localizedDescription,
+  type CatalogPlugin,
+} from "@dshhub/catalog";
 import type { CatalogListInput, CatalogPluginSummary } from "@dshhub/contracts";
 
 type CurrentRun = {
@@ -14,6 +20,7 @@ type PluginSummaryRow = {
   compatibility_status: CatalogPluginSummary["compatibilityStatus"];
   description: string;
   featured: number;
+  i18n_json: string | null;
   id: string;
   install_command: string | null;
   name: string;
@@ -40,6 +47,20 @@ function decodeCursor(cursor: string | null | undefined): number {
 
 function placeholders(values: readonly unknown[]): string {
   return values.map(() => "?").join(", ");
+}
+
+function localizedRowDescription(
+  description: string,
+  i18nJson: string | null,
+  locale: string | undefined,
+): string {
+  if (!locale || !i18nJson) return description;
+  try {
+    const i18n = catalogI18nSchema.parse(JSON.parse(i18nJson));
+    return localizedDescription({ description, i18n }, locale);
+  } catch {
+    return description;
+  }
 }
 
 function toFtsQuery(query: string): string {
@@ -86,13 +107,14 @@ export class CatalogStore {
     return result.results;
   }
 
-  async detail(owner: string, repository: string): Promise<CatalogPlugin | null> {
+  async detail(owner: string, repository: string, locale?: string): Promise<CatalogPlugin | null> {
     const run = await this.currentRun();
     if (run === null) return null;
     const row = await this.db.prepare(
       "SELECT raw_json FROM plugin_snapshots WHERE run_id = ? AND slug = ? LIMIT 1",
     ).bind(run.id, `${owner}/${repository}`).first<{ raw_json: string }>();
-    return row === null ? null : catalogPluginSchema.parse(JSON.parse(row.raw_json));
+    if (row === null) return null;
+    return localizePlugin(catalogPluginSchema.parse(JSON.parse(row.raw_json)), locale);
   }
 
   async list(input: CatalogListInput): Promise<{
@@ -145,7 +167,7 @@ export class CatalogStore {
       `SELECT
         p.plugin_id AS id, p.slug, p.name, p.package_name, p.description,
         p.compatibility_status, p.compatibility_level, p.stars, p.pushed_at,
-        p.repository_url, p.featured,
+        p.repository_url, p.featured, p.i18n_json,
         json_extract(p.installation_json, '$.command') AS install_command
        FROM plugin_snapshots p ${searchJoin}
        WHERE ${whereSql}
@@ -169,7 +191,7 @@ export class CatalogStore {
         id: row.id,
         slug: row.slug,
         name: row.name,
-        description: row.description,
+        description: localizedRowDescription(row.description, row.i18n_json, input.locale),
         packageName: row.package_name,
         repositoryUrl: row.repository_url,
         stars: row.stars,

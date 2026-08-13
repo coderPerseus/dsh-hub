@@ -12,7 +12,7 @@ const catalogList = os.catalog.list.handler(({ context, input }) => (
   new CatalogStore(context.db).list(input)
 ));
 const catalogDetail = os.catalog.detail.handler(({ context, input }) => (
-  new CatalogStore(context.db).detail(input.owner, input.repository)
+  new CatalogStore(context.db).detail(input.owner, input.repository, input.locale)
 ));
 const catalogCategories = os.catalog.categories.handler(({ context }) => (
   new CatalogStore(context.db).categories()

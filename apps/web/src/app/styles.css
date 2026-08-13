@@ -145,12 +145,21 @@ button, input, select { font: inherit; color: inherit; }
   background: #050708;
 }
 .hero-backdrop,
+.hero-backdrop-static,
 .hero-canvas,
 .hero-fade {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+.hero-backdrop-static {
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 78% 28%, rgba(234, 220, 180, .16), transparent 58%),
+    radial-gradient(ellipse 80% 60% at 18% 22%, rgba(55, 110, 171, .42), transparent 62%),
+    radial-gradient(ellipse 70% 50% at 52% 40%, rgba(21, 67, 121, .4), transparent 70%),
+    linear-gradient(180deg, #183b67 0%, #122d50 42%, #07111e 78%, #030608 100%);
 }
 .hero-canvas-fluid { z-index: 0; animation: reveal 1.8s ease-out both; }
 .hero-canvas-grid {
@@ -604,72 +613,97 @@ button, input, select { font: inherit; color: inherit; }
 .plugin-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
   margin-top: 22px;
 }
 .plugin-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 0;
-  padding: 22px;
+  min-height: 248px;
+  padding: 26px 24px 22px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(4, 10, 18, .28));
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(4, 10, 18, .22));
   backdrop-filter: blur(22px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 20px 50px rgba(0, 0, 0, .12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
   animation: enter .55s both;
   animation-delay: calc(var(--order) * 55ms);
   transition: transform .3s, border-color .3s, background .3s, box-shadow .3s;
 }
 .plugin-card:hover {
-  border-color: rgba(155, 196, 255, .38);
-  background: linear-gradient(180deg, rgba(255, 255, 255, .1), rgba(8, 20, 36, .36));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 24px 60px rgba(12, 36, 72, .28);
-  transform: translateY(-4px);
+  border-color: rgba(155, 196, 255, .34);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .1), rgba(8, 20, 36, .3));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 18px 40px rgba(8, 24, 48, .18);
+  transform: translateY(-3px);
 }
-.card-topline,
-.card-footer {
+.card-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
-  color: rgba(255, 255, 255, .38);
-  font-size: 12px;
+  gap: 16px;
 }
-.card-topline { justify-content: flex-end; }
+.card-stars {
+  flex: none;
+  color: rgba(255, 255, 255, .42);
+  font-size: 12px;
+  letter-spacing: .01em;
+}
 .compatibility { color: var(--ds-warn); }
 .compatibility.is-compatible { color: var(--ds-ok); }
 .compatibility.is-incompatible { color: var(--ds-danger); }
 .plugin-card h3 {
-  position: relative;
-  margin: 16px 0 8px;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   font-family: var(--ds-font-display);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
-  letter-spacing: -.02em;
+  letter-spacing: -.03em;
   line-height: 1.25;
 }
 .plugin-card h3 a { text-decoration: none; }
-.plugin-card h3 a::after { position: absolute; inset: -8px; content: ""; }
-.plugin-card > code {
+.plugin-card h3 a::after { position: absolute; inset: 0; content: ""; }
+.card-package {
+  margin-top: 8px;
+  overflow: hidden;
   color: var(--ds-color-brand);
   font: 12px/1.4 var(--ds-font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .plugin-card > p {
   display: -webkit-box;
+  flex: 1;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
-  min-height: 0;
-  margin: 14px 0;
-  color: var(--ds-color-text-description);
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, .52);
   font-size: 14px;
   line-height: 1.6;
 }
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  color: rgba(255, 255, 255, .38);
+  font-size: 12px;
+}
+.card-cats {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-meta time { flex: none; }
 .card-command {
   display: block;
   max-width: 100%;
@@ -684,11 +718,10 @@ button, input, select { font: inherit; color: inherit; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.card-command em {
-  margin-right: 8px;
-  color: #65a8ef;
-  font-style: normal;
-}
+.card-command em { margin-right: 8px; color: #65a8ef; font-style: normal; }
+.card-footer { margin-top: 14px; text-align: right; }
+.card-footer a { position: relative; z-index: 2; color: #fff; font-size: 12px; text-decoration: none; }
+.card-footer a:hover { color: var(--ds-color-brand); }
 .tags { display: flex; flex-wrap: wrap; gap: 7px; }
 .tags span {
   padding: 5px 9px;
@@ -698,14 +731,7 @@ button, input, select { font: inherit; color: inherit; }
   font-size: 12px;
   background: rgba(255, 255, 255, .03);
 }
-.card-footer { margin-top: 22px; }
-.card-footer a {
-  position: relative;
-  z-index: 2;
-  color: #fff;
-  text-decoration: none;
-}
-.card-footer a:hover { color: var(--ds-color-brand); }
+.tags a { color: inherit; text-decoration: none; }
 
 .empty-state {
   margin-top: 28px;
@@ -762,7 +788,7 @@ button, input, select { font: inherit; color: inherit; }
 .back-link:hover { color: #fff; }
 .detail-hero {
   display: block;
-  margin-bottom: 18px;
+  margin-bottom: 36px;
   padding: 28px 30px 24px;
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 18px;
@@ -771,13 +797,6 @@ button, input, select { font: inherit; color: inherit; }
   backdrop-filter: blur(22px);
   color: inherit;
   text-decoration: none;
-  transition: transform .3s, border-color .3s, background .3s, box-shadow .3s;
-}
-.detail-hero:hover {
-  border-color: rgba(155, 196, 255, .38);
-  background: linear-gradient(180deg, rgba(255, 255, 255, .1), rgba(8, 20, 36, .36));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14), 0 24px 60px rgba(12, 36, 72, .28);
-  transform: translateY(-3px);
 }
 .detail-slug {
   display: flex;
@@ -828,28 +847,23 @@ button, input, select { font: inherit; color: inherit; }
   margin: 0;
   font-size: 12px;
 }
-.detail-panel {
-  margin-top: 16px;
-  padding: 24px 26px;
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(4, 10, 18, .26));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 18px 46px rgba(0, 0, 0, .1);
-  backdrop-filter: blur(22px);
+.detail-install {
+  max-width: 860px;
 }
-.detail-panel h2 {
-  margin: 0 0 18px;
+.detail-install h2 {
+  margin: 0 0 14px;
   font-family: var(--ds-font-display);
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: -.02em;
 }
-.detail-split {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(240px, .8fr);
-  gap: 16px;
-  align-items: start;
+.detail-install-fallback {
+  margin: 0;
+  color: var(--ds-color-text-description);
+  font-size: 15px;
+  line-height: 1.7;
 }
+.detail-install-fallback a { color: #fff; }
 .command-block {
   display: flex;
   align-items: center;
@@ -1162,9 +1176,9 @@ button, input, select { font: inherit; color: inherit; }
   .filters > label { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, .07); }
   .filters button { width: calc(100% - 24px); }
   .plugin-grid { grid-template-columns: 1fr; }
-  .plugin-card { min-height: 0; padding: 18px; }
-  .plugin-card h3 { font-size: 20px; }
-  .card-footer { margin-top: 16px; }
+  .plugin-card { min-height: 0; padding: 20px 18px 16px; }
+  .plugin-card h3 { font-size: 18px; }
+  .card-meta { margin-top: 16px; }
   .empty-state { padding: 36px 18px; }
   .empty-state h1,
   .empty-state h3 { font-size: 24px; }
@@ -1195,7 +1209,6 @@ button, input, select { font: inherit; color: inherit; }
 }
 
 @media (hover: none), (pointer: coarse) {
-  .hero-canvas-grid { display: none; }
   .plugin-card:hover,
   .detail-hero:hover { transform: none; }
 }

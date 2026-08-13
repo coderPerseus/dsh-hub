@@ -24,9 +24,13 @@ export async function getCatalogIndex(input: CatalogListInput): Promise<
   }
 }
 
-export const getPlugin = cache(async (owner: string, repository: string) => {
+export const getPlugin = cache(async (
+  owner: string,
+  repository: string,
+  locale?: CatalogListInput["locale"],
+) => {
   try {
-    return { ok: true as const, plugin: await orpc.catalog.detail({ owner, repository }) };
+    return { ok: true as const, plugin: await orpc.catalog.detail({ owner, repository, locale }) };
   } catch {
     return { ok: false as const, plugin: null };
   }
