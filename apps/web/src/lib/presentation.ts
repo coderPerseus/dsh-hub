@@ -1,19 +1,8 @@
-const categoryLabels: Record<string, string> = {
-  agents: "Agent 协作",
-  automation: "自动化",
-  coding: "编程",
-  data: "数据",
-  development: "开发工具",
-  interface: "界面",
-  productivity: "效率",
-  search: "搜索",
-  security: "安全",
-  vision: "视觉",
-  web: "Web",
-};
+import type { Locale } from "./i18n/locales";
+import type { Messages } from "./i18n/messages";
 
-export function categoryLabel(category: string): string {
-  return categoryLabels[category] ?? category.replaceAll("-", " ");
+export function categoryLabel(category: string, labels: Record<string, string>): string {
+  return labels[category] ?? category.replaceAll("-", " ");
 }
 
 export function compatibilityTone(status: "compatible" | "incompatible" | "unknown"): string {
@@ -23,14 +12,13 @@ export function compatibilityTone(status: "compatible" | "incompatible" | "unkno
 export function compatibilityLabel(
   status: "compatible" | "incompatible" | "unknown",
   level: "unverified" | "declared" | "validated" | "tested",
+  labels: Messages["compatibility"],
 ): string {
-  const statusLabel = status === "compatible" ? "兼容" : status === "incompatible" ? "不兼容" : "待验证";
-  const levelLabel = level === "tested" ? "已测试" : level === "validated" ? "已校验" : level === "declared" ? "依赖声明" : "未验证";
-  return `${statusLabel} · ${levelLabel}`;
+  return `${labels[status]} · ${labels[level]}`;
 }
 
-export function formatDate(value: string): string {
-  return new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(value));
+export function formatDate(value: string, locale: Locale): string {
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(new Date(value));
 }
 
 export function formatStars(value: number): string {

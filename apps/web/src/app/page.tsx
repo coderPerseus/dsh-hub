@@ -1,11 +1,13 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 
+import { CatalogSearch } from "./catalog-search";
 import { HeroBackdrop } from "./hero-backdrop";
 import { getCatalogIndex } from "../lib/catalog";
+import { catalogHref } from "../lib/catalog-href";
+import { getTranslator } from "../lib/i18n/get-locale";
 import {
   categoryLabel,
-  compatibilityLabel,
-  compatibilityTone,
   formatDate,
   formatStars,
 } from "../lib/presentation";
@@ -20,19 +22,9 @@ function scalar(value: string | string[] | undefined): string {
   return Array.isArray(value) ? value[0] ?? "" : value ?? "";
 }
 
-function pageHref(params: Record<string, string | string[]>, cursor: string): string {
-  const query = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    for (const item of Array.isArray(value) ? value : [value]) {
-      if (item) query.append(key, item);
-    }
-  }
-  query.set("cursor", cursor);
-  return `/?${query.toString()}#catalog`;
-}
-
 export default async function Home({ searchParams }: { searchParams: SearchParams }) {
   const raw = await searchParams;
+  const { locale, t } = await getTranslator();
   const query = scalar(raw.q).slice(0, 100);
   const categories = values(raw.category).slice(0, 10);
   const compatibility = values(raw.compatibility)
@@ -45,121 +37,152 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     : "featured";
   const cursor = scalar(raw.cursor) || null;
   const catalog = await getCatalogIndex({ query, categories, compatibility, sort, cursor });
+  const hasFilters = Boolean(query || categories.length > 0 || compatibility.length > 0 || sort !== "featured");
+  const hrefState = { query, categories, compatibility, sort };
+  const sortOptions = [
+    { id: "featured", label: t.recommended },
+    { id: "stars", label: t.sortStars },
+    { id: "updated", label: t.recentlyUpdated },
+    { id: "name", label: t.sortName },
+  ] as const;
+  const compatibilityOptions = [
+    { id: "", label: t.compatibilityAll },
+    { id: "unknown", label: t.compatibilityUnknown },
+    { id: "incompatible", label: t.compatibilityIncompatible },
+  ] as const;
 
   return (
     <main>
-      <section className="hero" aria-labelledby="page-title">
+      <section className="hero" aria-hidden="true">
         <HeroBackdrop />
-        <div className="hero-content">
-        <p className="kicker"><span>01</span> COMMUNITY INDEX</p>
-        <h1 id="page-title">给 Harness<br />装上新能力。</h1>
-        <div className="hero-copy">
-          <p>从社区仓库生成的 DeepSeek Harness 插件目录。搜索功能、核对兼容性，再按固定提交安装。</p>
-          <div className="hero-stat" aria-label="目录插件数">
-            <strong>{catalog.ok ? catalog.meta.pluginCount : "—"}</strong>
-            <span>INDEXED<br />PLUGINS</span>
-          </div>
-        </div>
-        </div>
-        <div className="scroll-hint">MOVE YOUR CURSOR <span>↗</span></div>
       </section>
-
       <section className="catalog" id="catalog" aria-labelledby="catalog-title">
-        <div className="section-heading">
-          <p className="kicker"><span>02</span> CATALOG</p>
-          <h2 id="catalog-title">插件目录</h2>
-          {catalog.ok && <p>{catalog.list.total} 个结果</p>}
-        </div>
+        <div className="ds-container">
+          <header className="catalog-intro">
+            <p className="slogan">{t.slogan}</p>
+            <div className="catalog-intro-row">
+              <h1 id="catalog-title">{t.catalogTitle}</h1>
+              {catalog.ok && (
+                <p className="catalog-count">
+                  <strong>{catalog.list.total}</strong>
+                  <span>{t.resultCount}</span>
+                </p>
+              )}
+            </div>
+          </header>
 
-        <form className="filters" action="/" method="get">
-          <label className="search-field">
-            <span>搜索插件</span>
-            <input defaultValue={query} name="q" placeholder="名称、描述、包名…" type="search" />
-          </label>
-          <label>
-            <span>排序</span>
-            <select defaultValue={sort} name="sort">
-              <option value="featured">编辑推荐</option>
-              <option value="stars">Star 数</option>
-              <option value="updated">最近更新</option>
-              <option value="name">名称</option>
-            </select>
-          </label>
-          <label>
-            <span>兼容性</span>
-            <select defaultValue={compatibility[0] ?? ""} name="compatibility">
-              <option value="">全部状态</option>
-              <option value="unknown">待验证</option>
-              <option value="incompatible">不兼容</option>
-            </select>
-          </label>
-          <button type="submit">应用筛选 →</button>
+          <CatalogSearch
+            categories={categories}
+            compatibility={compatibility}
+            placeholder={t.searchPlaceholder}
+            query={query}
+            sort={sort}
+            submitLabel={t.search}
+          />
 
-          {catalog.ok && catalog.categories.length > 0 && (
-            <fieldset className="category-filter">
-              <legend>分类</legend>
-              {catalog.categories.map(category => (
-                <label key={category.id}>
-                  <input
-                    defaultChecked={categories.includes(category.id)}
-                    name="category"
-                    type="checkbox"
-                    value={category.id}
-                  />
-                  <span>{categoryLabel(category.id)} <small>{category.count}</small></span>
-                </label>
+          <div className="filter-bar">
+            <div className="chip-row" aria-label={t.categoriesLabel}>
+              <Link className={categories.length === 0 ? "chip is-active" : "chip"} href={catalogHref({ ...hrefState, categories: [] })}>
+                {t.allCategories}
+              </Link>
+              {catalog.ok && catalog.categories.map(category => {
+                const active = categories.includes(category.id);
+                const next = active
+                  ? categories.filter(item => item !== category.id)
+                  : [...categories, category.id];
+                return (
+                  <Link
+                    className={active ? "chip is-active" : "chip"}
+                    href={catalogHref({ ...hrefState, categories: next })}
+                    key={category.id}
+                  >
+                    {categoryLabel(category.id, t.categories)}
+                    <small>{category.count}</small>
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="filter-meta">
+              <div className="filter-groups">
+                <div className="segment" aria-label={t.sort}>
+                  {sortOptions.map(option => (
+                    <Link
+                      className={sort === option.id ? "is-active" : undefined}
+                      href={catalogHref({ ...hrefState, sort: option.id })}
+                      key={option.id}
+                    >
+                      {option.label}
+                    </Link>
+                  ))}
+                </div>
+                <div className="segment" aria-label={t.compatibility.label}>
+                  {compatibilityOptions.map(option => {
+                    const active = option.id === "" ? compatibility.length === 0 : compatibility[0] === option.id;
+                    return (
+                      <Link
+                        className={active ? "is-active" : undefined}
+                        href={catalogHref({
+                          ...hrefState,
+                          compatibility: option.id ? [option.id] : [],
+                        })}
+                        key={option.id || "all"}
+                      >
+                        {option.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+              {hasFilters && (
+                <Link className="clear-filters" href="/">{t.clear}</Link>
+              )}
+            </div>
+          </div>
+
+          {!catalog.ok ? (
+            <div className="empty-state error-state">
+              <span>503</span>
+              <h3>{t.errorTitle}</h3>
+              <p>{t.errorHint}</p>
+            </div>
+          ) : catalog.list.items.length === 0 ? (
+            <div className="empty-state">
+              <span>000</span>
+              <h3>{catalog.meta.pluginCount === 0 ? t.emptyCatalog : t.noMatch}</h3>
+              <p>{catalog.meta.pluginCount === 0 ? t.emptyCatalogHint : t.noMatchHint}</p>
+              {hasFilters && <Link href="/">{t.clearFilters}</Link>}
+            </div>
+          ) : (
+            <div className="plugin-grid">
+              {catalog.list.items.map((plugin, index) => (
+                <article className="plugin-card" key={plugin.id} style={{ "--order": index } as CSSProperties}>
+                  <div className="card-topline">
+                    <span>★ {formatStars(plugin.stars)}</span>
+                  </div>
+                  <h3><Link href={`/plugins/${plugin.slug}`}>{plugin.name}</Link></h3>
+                  <code>{plugin.packageName}</code>
+                  <p>{plugin.description || t.missingDescription}</p>
+                  <div className="tags" aria-label={t.categoriesLabel}>
+                    {plugin.categories.map(category => <span key={category}>{categoryLabel(category, t.categories)}</span>)}
+                  </div>
+                  {plugin.installCommand && (
+                    <code className="card-command"><em>$</em> {plugin.installCommand}</code>
+                  )}
+                  <div className="card-footer">
+                    <span>{plugin.pushedAt ? formatDate(plugin.pushedAt, locale) : t.updatedUnknown}</span>
+                    <Link href={`/plugins/${plugin.slug}`}>{t.viewInstall}</Link>
+                  </div>
+                </article>
               ))}
-            </fieldset>
+            </div>
           )}
-        </form>
 
-        {!catalog.ok ? (
-          <div className="empty-state error-state">
-            <span>503</span>
-            <h3>目录服务暂时不可用</h3>
-            <p>API 没有响应。请检查 API Service Binding，或为本地环境配置 API_URL。</p>
-          </div>
-        ) : catalog.list.items.length === 0 ? (
-          <div className="empty-state">
-            <span>000</span>
-            <h3>{catalog.meta.pluginCount === 0 ? "目录还没有发布插件" : "没有匹配的插件"}</h3>
-            <p>{catalog.meta.pluginCount === 0 ? "向 registry 添加首个插件后，CI 会生成并发布目录。" : "换一个关键词，或减少筛选条件。"}</p>
-            {(query || categories.length > 0 || compatibility.length > 0) && <Link href="/#catalog">清除筛选</Link>}
-          </div>
-        ) : (
-          <div className="plugin-grid">
-            {catalog.list.items.map((plugin, index) => (
-              <article className="plugin-card" key={plugin.id} style={{ "--order": index } as React.CSSProperties}>
-                <div className="card-index">{String(index + 1).padStart(2, "0")}</div>
-                <div className="card-topline">
-                  <span className={`compatibility ${compatibilityTone(plugin.compatibilityStatus)}`}>
-                    {compatibilityLabel(plugin.compatibilityStatus, plugin.compatibilityLevel)}
-                  </span>
-                  <span>★ {formatStars(plugin.stars)}</span>
-                </div>
-                <h3><Link href={`/plugins/${plugin.slug}`}>{plugin.name}</Link></h3>
-                <code>{plugin.packageName}</code>
-                <p>{plugin.description || "仓库暂未提供描述。"}</p>
-                <div className="tags" aria-label="插件分类">
-                  {plugin.categories.map(category => <span key={category}>{categoryLabel(category)}</span>)}
-                </div>
-                <div className="card-footer">
-                  <span>{plugin.pushedAt ? formatDate(plugin.pushedAt) : "更新时间未知"}</span>
-                  <Link href={`/plugins/${plugin.slug}`}>查看安装 →</Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-
-        {catalog.ok && catalog.list.nextCursor && (
-          <Link
-            className="load-more"
-            href={pageHref({ q: query, category: categories, compatibility, sort }, catalog.list.nextCursor)}
-          >
-            下一页 <span>↓</span>
-          </Link>
-        )}
+          {catalog.ok && catalog.list.nextCursor && (
+            <Link className="load-more" href={catalogHref({ ...hrefState, cursor: catalog.list.nextCursor })}>
+              {t.nextPage}
+            </Link>
+          )}
+        </div>
       </section>
     </main>
   );
