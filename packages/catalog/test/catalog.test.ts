@@ -137,9 +137,9 @@ describe("catalog README projection", () => {
 
 describe("catalog discovery", () => {
   it("features only the dshhub search plugin", () => {
-    expect(isFeaturedPlugin("coderPerseus/dsh-hub", "@dshhub/plugin-search")).toBe(true);
-    expect(isFeaturedPlugin("other/dsh-hub", "@dshhub/plugin-search")).toBe(false);
-    expect(isFeaturedPlugin("coderPerseus/dsh-hub", "@dshhub/cli")).toBe(false);
+    expect(isFeaturedPlugin("coderPerseus/dsh-hub", "@dshhubs/plugin-search")).toBe(true);
+    expect(isFeaturedPlugin("other/dsh-hub", "@dshhubs/plugin-search")).toBe(false);
+    expect(isFeaturedPlugin("coderPerseus/dsh-hub", "@dshhubs/cli")).toBe(false);
   });
 
   it("discovers and builds installable root packages from GitHub topics", async () => {

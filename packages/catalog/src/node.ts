@@ -73,7 +73,7 @@ const GITHUB_MAX_ATTEMPTS = 4;
 const MAX_PACKAGES_PER_REPOSITORY = 50;
 const DISCOVERY_OVERLAP_MS = 5 * 60 * 1_000;
 const DSHHUB_PLUGIN_REPOSITORY = "coderperseus/dsh-hub";
-const DSHHUB_PLUGIN_PACKAGE = "@dshhub/plugin-search";
+const DSHHUB_PLUGIN_PACKAGE = "@dshhubs/plugin-search";
 
 export function isFeaturedPlugin(repository: string, packageName: string): boolean {
   return repository.toLowerCase() === DSHHUB_PLUGIN_REPOSITORY

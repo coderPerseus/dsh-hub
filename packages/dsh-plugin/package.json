@@ -1,5 +1,5 @@
 {
-  "name": "@dshhub/plugin-search",
+  "name": "@dshhubs/plugin-search",
   "version": "0.1.0",
   "description": "DeepSeek Harness tools for finding and inspecting plugins in the dshhub catalog",
   "type": "module",
@@ -26,11 +26,11 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "pretypecheck": "pnpm --filter @dshhub/client build",
+    "pretypecheck": "pnpm --filter @dshhubs/client build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dshhub/client": "workspace:^"
+    "@dshhubs/client": "workspace:^"
   },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",

@@ -1,5 +1,5 @@
 {
-  "name": "@dshhub/cli",
+  "name": "@dshhubs/cli",
   "version": "0.1.0",
   "description": "Search and inspect plugins from the dshhub catalog",
   "type": "module",
@@ -22,13 +22,13 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "pretest": "pnpm --filter @dshhub/client build",
+    "pretest": "pnpm --filter @dshhubs/client build",
     "test": "vitest run",
-    "pretypecheck": "pnpm --filter @dshhub/client build",
+    "pretypecheck": "pnpm --filter @dshhubs/client build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dshhub/client": "workspace:*"
+    "@dshhubs/client": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "24.3.0",

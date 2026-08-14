@@ -107,7 +107,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@dshhub/client':
+      '@dshhubs/client':
         specifier: workspace:*
         version: link:../client
     devDependencies:
@@ -148,7 +148,7 @@ importers:
 
   packages/dsh-plugin:
     dependencies:
-      '@dshhub/client':
+      '@dshhubs/client':
         specifier: workspace:^
         version: link:../client
     devDependencies:

@@ -5,7 +5,7 @@ import {
   type PluginDetail,
   type SearchPluginsInput,
   type SearchPluginsResult,
-} from "@dshhub/client";
+} from "@dshhubs/client";
 
 const HELP = `Usage:
   dshhub search <query> [--category <id>] [--compatibility <status>] [--limit <n>] [--json]

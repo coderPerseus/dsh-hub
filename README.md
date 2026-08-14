@@ -36,10 +36,10 @@ DSH Hub 提供两种使用方法。
 
 ```bash
 # 搜索插件
-npx -y @dshhub/cli@0.1.0 search "跨会话记忆" --limit 10
+npx -y @dshhubs/cli@0.1.0 search "跨会话记忆" --limit 10
 
 # 查看某个搜索结果的详情
-npx -y @dshhub/cli@0.1.0 plugin owner/repository
+npx -y @dshhubs/cli@0.1.0 plugin owner/repository
 ```
 
 需要让脚本处理结果时加上 `--json`。
@@ -49,7 +49,7 @@ npx -y @dshhub/cli@0.1.0 plugin owner/repository
 在 DeepSeek Harness 中安装 DSH Hub 搜索插件：
 
 ```bash
-npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhub/plugin-search
+npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhubs/plugin-search
 ```
 
 安装后，Agent 会获得两个只读工具：

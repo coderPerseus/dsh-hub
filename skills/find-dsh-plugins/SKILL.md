@@ -20,7 +20,7 @@ Search the dshhub catalog through structured tools when available and use the CL
    If `dshhub` is unavailable, run the pinned package:
 
    ```bash
-   npx -y @dshhub/cli@0.1.0 search "<capability>" --limit 10 --json
+   npx -y @dshhubs/cli@0.1.0 search "<capability>" --limit 10 --json
    ```
 
 4. Inspect promising results with `get_dsh_plugin`. With the CLI, run:

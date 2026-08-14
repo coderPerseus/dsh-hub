@@ -1,5 +1,5 @@
 {
-  "name": "@dshhub/client",
+  "name": "@dshhubs/client",
   "version": "0.1.0",
   "description": "Typed client for the dshhub plugin catalog API",
   "type": "module",

@@ -1,4 +1,4 @@
-import { DEFAULT_DSHHUB_API_URL, DshHubClient, } from "@dshhub/client";
+import { DEFAULT_DSHHUB_API_URL, DshHubClient, } from "@dshhubs/client";
 const HELP = `Usage:
   dshhub search <query> [--category <id>] [--compatibility <status>] [--limit <n>] [--json]
   dshhub plugin <owner/repository> [--locale <locale>] [--json]

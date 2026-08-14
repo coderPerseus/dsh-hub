@@ -1,4 +1,4 @@
-import { type PluginDetail, type SearchPluginsInput, type SearchPluginsResult } from "@dshhub/client";
+import { type PluginDetail, type SearchPluginsInput, type SearchPluginsResult } from "@dshhubs/client";
 type Io = {
     stdout: (value: string) => void;
     stderr: (value: string) => void;

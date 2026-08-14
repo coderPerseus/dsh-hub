@@ -1,11 +1,11 @@
-# @dshhub/plugin-search
+# @dshhubs/plugin-search
 
 DeepSeek Harness plugin that gives agents structured access to the [dshhub](https://dshhub.org) plugin catalog.
 
 ## Installation
 
 ```bash
-npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhub/plugin-search
+npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhubs/plugin-search
 ```
 
 ## Usage

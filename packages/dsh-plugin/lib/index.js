@@ -1,5 +1,5 @@
 import { defineTool } from "@deepseek-ai/dsh-tools";
-import { DshHubClient, } from "@dshhub/client";
+import { DshHubClient, } from "@dshhubs/client";
 export const name = "dshhub-plugin-search";
 export const inject = ["tools"];
 const summaryProperties = {

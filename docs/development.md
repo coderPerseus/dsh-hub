@@ -54,7 +54,7 @@ pnpm dev
 CLI 默认访问 `https://dshhub.org/api/v1`，也可通过 `DSHHUB_API_URL` 或 `--api-url` 覆盖：
 
 ```bash
-pnpm --filter @dshhub/cli build
+pnpm --filter @dshhubs/cli build
 node packages/cli/lib/bin.js search "cross-session memory" --limit 10 --json
 node packages/cli/lib/bin.js plugin owner/repository --json
 ```
@@ -62,7 +62,7 @@ node packages/cli/lib/bin.js plugin owner/repository --json
 DSH 插件注册 `search_dsh_plugins` 和 `get_dsh_plugin` 两个只读工具：
 
 ```bash
-npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhub/plugin-search
+npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhubs/plugin-search
 ```
 
 仓库内的 `skills/find-dsh-plugins` 负责搜索、检查和比较流程；它优先使用 DSH 原生工具，不可用时调用 CLI。插件和 Skill 都不会自动安装搜索结果。

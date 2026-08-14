@@ -4,7 +4,7 @@ import {
   DshHubClient,
   type PluginDetail,
   type PluginSummary,
-} from "@dshhub/client";
+} from "@dshhubs/client";
 
 export const name = "dshhub-plugin-search";
 export const inject = ["tools"];
