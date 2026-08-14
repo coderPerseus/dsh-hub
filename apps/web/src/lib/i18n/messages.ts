@@ -47,18 +47,21 @@ export type Messages = {
   missingDocs: string;
   navAria: string;
   nextPage: string;
+  previousPage: string;
   noMatch: string;
   noMatchHint: string;
   notDeclared: string;
   notFoundHint: string;
   notFoundTitle: string;
   package: string;
+  packagePath: string;
   pinNoteBefore: string;
   pinNoteAfter: string;
   plugin: string;
   pluginDetail: string;
   plugins: string;
   readme: string;
+  readmeTitle: string;
   relatedPlugins: string;
   relatedPluginsHint: string;
   recentlyUpdated: string;
@@ -83,6 +86,7 @@ export type Messages = {
   usageTitle: string;
   version: string;
   viewInstall: string;
+  website: string;
 };
 
 export const messages: Record<Locale, Messages> = {
@@ -128,6 +132,7 @@ export const messages: Record<Locale, Messages> = {
     noMatch: "没有匹配的插件",
     noMatchHint: "换一个关键词，或减少筛选条件。",
     nextPage: "下一页",
+    previousPage: "上一页",
     plugins: "插件",
     docs: "文档",
     navAria: "站点导航",
@@ -156,9 +161,12 @@ export const messages: Record<Locale, Messages> = {
     pinNoteAfter: "，避免安装结果随默认分支变化。",
     missingDocs: "没有抓取到安装、使用或配置章节。请查看仓库 README。",
     readme: "阅读完整 README ↗",
+    readmeTitle: "说明文档",
     relatedPlugins: "相似插件推荐",
     relatedPluginsHint: "根据分类、名称与能力描述为你推荐。",
     package: "包名",
+    packagePath: "子包",
+    website: "网站",
     source: "源码",
     defaultBranch: "默认分支",
     harnessRange: "Harness 依赖范围",
@@ -224,6 +232,7 @@ export const messages: Record<Locale, Messages> = {
     noMatch: "No matching plugins",
     noMatchHint: "Try another keyword, or remove some filters.",
     nextPage: "Next page",
+    previousPage: "Previous page",
     plugins: "Plugins",
     docs: "Docs",
     navAria: "Site navigation",
@@ -252,9 +261,12 @@ export const messages: Record<Locale, Messages> = {
     pinNoteAfter: " so installs do not follow the default branch.",
     missingDocs: "No install, usage, or configuration section was found. See the repository README.",
     readme: "Read the full README ↗",
+    readmeTitle: "README",
     relatedPlugins: "Similar plugins",
     relatedPluginsHint: "Recommended by category, name, and capability description.",
     package: "Package",
+    packagePath: "Package path",
+    website: "Website",
     source: "Source",
     defaultBranch: "Default branch",
     harnessRange: "Harness peer range",
@@ -320,6 +332,7 @@ export const messages: Record<Locale, Messages> = {
     noMatch: "一致するプラグインがありません",
     noMatchHint: "キーワードを変えるか、条件を減らしてください。",
     nextPage: "次のページ",
+    previousPage: "前のページ",
     plugins: "プラグイン",
     docs: "ドキュメント",
     navAria: "サイトナビゲーション",
@@ -348,9 +361,12 @@ export const messages: Record<Locale, Messages> = {
     pinNoteAfter: " に固定されているため、デフォルトブランチの変化に左右されません。",
     missingDocs: "インストール、使い方、設定の章を取得できませんでした。README を参照してください。",
     readme: "README 全文を読む ↗",
+    readmeTitle: "ドキュメント",
     relatedPlugins: "類似プラグイン",
     relatedPluginsHint: "カテゴリ、名前、機能の説明に基づくおすすめです。",
     package: "パッケージ",
+    packagePath: "パッケージパス",
+    website: "ウェブサイト",
     source: "ソース",
     defaultBranch: "デフォルトブランチ",
     harnessRange: "Harness ピア範囲",
@@ -416,6 +432,7 @@ export const messages: Record<Locale, Messages> = {
     noMatch: "일치하는 플러그인이 없습니다",
     noMatchHint: "다른 키워드를 쓰거나 필터를 줄여 보세요.",
     nextPage: "다음 페이지",
+    previousPage: "이전 페이지",
     plugins: "플러그인",
     docs: "문서",
     navAria: "사이트 탐색",
@@ -444,9 +461,12 @@ export const messages: Record<Locale, Messages> = {
     pinNoteAfter: " 에 고정되어 기본 브랜치 변화에 영향을 받지 않습니다.",
     missingDocs: "설치, 사용, 설정 섹션을 가져오지 못했습니다. README를 확인하세요.",
     readme: "전체 README 읽기 ↗",
+    readmeTitle: "문서",
     relatedPlugins: "유사 플러그인",
     relatedPluginsHint: "카테고리, 이름 및 기능 설명을 기준으로 추천합니다.",
     package: "패키지",
+    packagePath: "패키지 경로",
+    website: "웹사이트",
     source: "소스",
     defaultBranch: "기본 브랜치",
     harnessRange: "Harness peer 범위",
@@ -512,6 +532,7 @@ export const messages: Record<Locale, Messages> = {
     noMatch: "沒有符合的插件",
     noMatchHint: "換一個關鍵詞，或減少篩選條件。",
     nextPage: "下一頁",
+    previousPage: "上一頁",
     plugins: "插件",
     docs: "文件",
     navAria: "網站導覽",
@@ -540,9 +561,12 @@ export const messages: Record<Locale, Messages> = {
     pinNoteAfter: "，避免安裝結果隨預設分支變化。",
     missingDocs: "沒有擷取到安裝、使用或設定章節。請查看倉庫 README。",
     readme: "閱讀完整 README ↗",
+    readmeTitle: "說明文件",
     relatedPlugins: "相似插件推薦",
     relatedPluginsHint: "根據分類、名稱與能力描述為你推薦。",
     package: "套件",
+    packagePath: "子套件",
+    website: "網站",
     source: "原始碼",
     defaultBranch: "預設分支",
     harnessRange: "Harness 依賴範圍",

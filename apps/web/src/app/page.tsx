@@ -4,7 +4,7 @@ import { CatalogSearch } from "./catalog-search";
 import { HeroBackdrop } from "./hero-backdrop";
 import { PluginCard } from "./plugin-card";
 import { getCatalogIndex } from "../lib/catalog";
-import { catalogHref } from "../lib/catalog-href";
+import { catalogHref, previousCatalogCursor } from "../lib/catalog-href";
 import { getTranslator } from "../lib/i18n/get-locale";
 import {
   categoryLabel,
@@ -37,6 +37,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const cursor = scalar(raw.cursor) || null;
   const catalog = await getCatalogIndex({ query, categories, compatibility, sort, cursor, locale });
   const hasFilters = Boolean(query || categories.length > 0 || compatibility.length > 0 || sort !== "featured");
+  const showPrevious = Boolean(cursor);
+  const previousCursor = previousCatalogCursor(cursor);
+  const showNext = Boolean(catalog.ok && catalog.list.nextCursor);
   const hrefState = { query, categories, compatibility, sort };
   const sortOptions = [
     { id: "featured", label: t.recommended },
@@ -168,10 +171,19 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             </div>
           )}
 
-          {catalog.ok && catalog.list.nextCursor && (
-            <Link className="load-more" href={catalogHref({ ...hrefState, cursor: catalog.list.nextCursor })}>
-              {t.nextPage}
-            </Link>
+          {catalog.ok && (showPrevious || showNext) && (
+            <nav className="pager" aria-label="pagination">
+              {showPrevious ? (
+                <Link className="pager-btn" href={catalogHref({ ...hrefState, cursor: previousCursor })}>
+                  {t.previousPage}
+                </Link>
+              ) : <span />}
+              {showNext ? (
+                <Link className="pager-btn pager-next" href={catalogHref({ ...hrefState, cursor: catalog.list.nextCursor })}>
+                  {t.nextPage}
+                </Link>
+              ) : null}
+            </nav>
           )}
         </div>
       </section>

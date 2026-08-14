@@ -2,6 +2,7 @@ import type { CatalogPluginSummary } from "@dshhub/contracts";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 
+import { displayInstallCommand } from "../lib/install-command";
 import { categoryLabel, formatStars } from "../lib/presentation";
 
 type PluginCardProps = {
@@ -16,6 +17,9 @@ type PluginCardProps = {
 
 export function PluginCard(props: PluginCardProps) {
   const href = `/plugins/${props.plugin.slug}`;
+  const installCommand = props.plugin.installCommand
+    ? displayInstallCommand(props.plugin.installCommand)
+    : null;
   return (
     <article className="plugin-card" style={{ "--order": props.index } as CSSProperties}>
       <div className="card-head">
@@ -30,8 +34,8 @@ export function PluginCard(props: PluginCardProps) {
         </span>
         {props.updatedText && <time>{props.updatedText}</time>}
       </div>
-      {props.plugin.installCommand && (
-        <code className="card-command"><em>$</em> {props.plugin.installCommand}</code>
+      {installCommand && (
+        <code className="card-command"><em>$</em> {installCommand}</code>
       )}
       {props.viewLabel && (
         <div className="card-footer">

@@ -1,5 +1,5 @@
 export const siteUrl = new URL(
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://dshhub-web.snailrun160.workers.dev",
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://dshhub.org",
 );
 
 export function absoluteUrl(path = "/"): string {

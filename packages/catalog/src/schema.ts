@@ -47,6 +47,7 @@ export const catalogPluginSchema = z.object({
     license: z.string().nullable(),
     topics: z.array(z.string()),
     pushedAt: z.iso.datetime().nullable(),
+    homepage: z.url().nullable().optional(),
   }),
   package: z.object({
     name: z.string().min(1),

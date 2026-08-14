@@ -1,3 +1,4 @@
+import { firstPlainParagraph, isSubstantialDocumentation } from "./readme";
 import {
   catalogSnapshotSchema,
   type CatalogPlugin,
@@ -11,6 +12,7 @@ type GithubRepository = {
   disabled: boolean;
   fork: boolean;
   full_name: string;
+  homepage?: string | null;
   html_url: string;
   license: { spdx_id: string } | null;
   name: string;
@@ -147,6 +149,56 @@ async function githubRaw(
     throw new Error(`GitHub ${repository}/${file} returned ${response.status}`);
   }
   return response.text();
+}
+
+const README_FILES = ["README.md", "README.zh-CN.md", "README.zh.md", "readme.md"];
+const README_STORE_MAX = 16_000;
+
+function firstNonEmpty(...values: Array<string | null | undefined>): string {
+  return values.map(value => value?.trim() ?? "").find(Boolean) ?? "";
+}
+
+function optionalHttpUrl(value: string | null | undefined): string | null {
+  const raw = value?.trim();
+  if (!raw) return null;
+  try {
+    const url = new URL(raw.includes("://") ? raw : `https://${raw}`);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+async function firstExistingReadme(
+  files: string[],
+  repository: string,
+  ref: string,
+  options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
+): Promise<{ file: string; text: string } | null> {
+  let stub: { file: string; text: string } | null = null;
+  for (const file of files) {
+    const text = await githubRaw(options.fetch, repository, file, ref, options.githubToken);
+    if (text === null || !text.trim()) continue;
+    if (isSubstantialDocumentation(text)) return { file, text };
+    stub ??= { file, text };
+  }
+  return stub;
+}
+
+async function loadPluginReadme(
+  repository: string,
+  packageDirectory: string,
+  ref: string,
+  options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
+): Promise<{ file: string; text: string }> {
+  const packageFiles = packageDirectory
+    ? README_FILES.map(file => joinRepositoryPath(packageDirectory, file))
+    : README_FILES;
+  const packageReadme = await firstExistingReadme(packageFiles, repository, ref, options);
+  if (packageReadme) return packageReadme;
+  if (!packageDirectory) return { file: "", text: "" };
+  return await firstExistingReadme(README_FILES, repository, ref, options) ?? { file: "", text: "" };
 }
 
 function extractDocumentation(readme: string, titlePattern: RegExp): string {
@@ -359,11 +411,12 @@ async function buildPlugin(
   const { head, manifest, packageDirectory, repository: repo } = source;
   const repository = repo.full_name;
 
-  const readme =
-    (await githubRaw(options.fetch, repository, joinRepositoryPath(packageDirectory, "README.md"), head.sha, options.githubToken))
-    ?? (await githubRaw(options.fetch, repository, joinRepositoryPath(packageDirectory, "README.zh.md"), head.sha, options.githubToken))
-    ?? (packageDirectory ? await githubRaw(options.fetch, repository, "README.md", head.sha, options.githubToken) : null)
-    ?? "";
+  const readme = await loadPluginReadme(repository, packageDirectory, head.sha, options);
+  const description = firstNonEmpty(
+    manifest.description,
+    repo.description,
+    firstPlainParagraph(readme.text),
+  );
   const bundlePatch = manifest.dsh?.bundle?.patch ?? null;
   const bundleExists = bundlePatch === null
     ? null
@@ -390,23 +443,30 @@ async function buildPlugin(
   ];
   const incompatible = checks.some(check => check.status === "fail");
   const spec = `github:${repository}#${head.sha}${packageDirectory ? `&path:${packageDirectory}` : ""}`;
+  const commandSpec = packageDirectory ? spec : `github:${repository}`;
   const notes = [
     ...(manifest.scripts?.prepare
       ? ["This source package declares a prepare script; pnpm may require allowBuilds approval."]
       : []),
   ];
-  const installationMarkdown = extractDocumentation(readme, /(install|setup|quick start|安装|开始)/i);
-  const usageMarkdown = extractDocumentation(readme, /(usage|configuration|使用|配置)/i);
+  const installationMarkdown = extractDocumentation(readme.text, /(install|setup|quick start|安装|开始)/i);
+  const extractedUsage = extractDocumentation(readme.text, /(usage|configuration|使用|配置)/i);
+  const usageMarkdown = extractedUsage || (isSubstantialDocumentation(readme.text)
+    ? readme.text.slice(0, README_STORE_MAX)
+    : "");
   const slug = packageSlug(source);
   const repositoryUrl = packageDirectory
     ? `${repo.html_url}/tree/${head.sha}/${packageDirectory}`
     : repo.html_url;
+  const readmeUrl = readme.file
+    ? `${repo.html_url}/blob/${head.sha}/${readme.file}`
+    : `${repo.html_url}#readme`;
 
   return {
     id: `github:${repository}${packageDirectory ? `:${packageDirectory}` : ""}`,
     slug,
     name: manifest.name,
-    description: manifest.description ?? repo.description ?? "",
+    description,
     repository: {
       owner: repo.owner.login,
       name: repo.name,
@@ -417,6 +477,7 @@ async function buildPlugin(
       license: repo.license?.spdx_id ?? null,
       topics: repo.topics,
       pushedAt: repo.pushed_at,
+      homepage: optionalHttpUrl(repo.homepage),
     },
     package: {
       name: manifest.name,
@@ -440,14 +501,14 @@ async function buildPlugin(
       spec,
       command: bundlePatch === null || incompatible
         ? null
-        : `dsh plugin --profile <profile> add ${spec}`,
+        : `npx -p @deepseek-ai/dsh dsh plugin --profile web add ${commandSpec}`,
       markdown: installationMarkdown,
       notes,
     },
     usage: {
-      summary: manifest.description ?? repo.description ?? "",
+      summary: description,
       markdown: usageMarkdown,
-      readmeUrl: `${repositoryUrl}#readme`,
+      readmeUrl,
     },
   };
 }

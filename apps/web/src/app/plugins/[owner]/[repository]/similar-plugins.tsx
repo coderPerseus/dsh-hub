@@ -1,17 +1,15 @@
 import type { CatalogListInput, CatalogPluginSummary } from "@dshhub/contracts";
+import Link from "next/link";
 
-import { PluginCard } from "../../../plugin-card";
+import { categoryLabel, formatStars } from "../../../../lib/presentation";
 import { orpc } from "../../../../lib/orpc";
 
 type SimilarPluginsProps = {
   categories: string[];
   categoryLabels: Record<string, string>;
-  categoriesLabel: string;
   currentId: string;
   currentText: string;
-  description: string;
   locale: CatalogListInput["locale"];
-  missingDescription: string;
   title: string;
 };
 
@@ -42,7 +40,7 @@ export async function SimilarPlugins(props: SimilarPluginsProps) {
       categories: props.categories,
       compatibility: [],
       cursor: null,
-      limit: 24,
+      limit: 48,
       locale: props.locale,
       query: "",
       sort: "stars",
@@ -60,25 +58,27 @@ export async function SimilarPlugins(props: SimilarPluginsProps) {
       similarityScore(right, sourceCategories, sourceTokens)
       - similarityScore(left, sourceCategories, sourceTokens)
     ))
-    .slice(0, 3);
+    .slice(0, 10);
   if (related.length === 0) return null;
 
   return (
-    <section className="detail-panel" aria-labelledby="similar-plugins-title">
+    <aside className="similar-rail" aria-labelledby="similar-plugins-title">
       <h2 id="similar-plugins-title">{props.title}</h2>
-      <p className="missing-docs">{props.description}</p>
-      <div className="plugin-grid">
-        {related.map((plugin, index) => (
-          <PluginCard
-            categoriesLabel={props.categoriesLabel}
-            categoryLabels={props.categoryLabels}
-            index={index}
-            key={plugin.id}
-            missingDescription={props.missingDescription}
-            plugin={plugin}
-          />
+      <ol className="similar-list">
+        {related.map(plugin => (
+          <li key={plugin.id}>
+            <Link className="similar-item" href={`/plugins/${plugin.slug}`}>
+              <strong>{plugin.name}</strong>
+              <span>
+                ★ {formatStars(plugin.stars)}
+                {plugin.categories[0]
+                  ? ` · ${categoryLabel(plugin.categories[0], props.categoryLabels)}`
+                  : ""}
+              </span>
+            </Link>
+          </li>
         ))}
-      </div>
-    </section>
+      </ol>
+    </aside>
   );
 }

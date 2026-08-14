@@ -38,7 +38,7 @@ For each non-archived, non-fork repository, the collector reads the default-bran
 - `packages/*/package.json`;
 - `plugins/*/package.json`.
 
-A package is included when it declares `name` and at least one of `main`, `exports`, or `dsh`. The collector records the exact default-branch commit, checks the declared bundle path, reads Harness or Cordis peer ranges, and extracts installation and usage sections from the nearest README. Categories are inferred from repository topics, package keywords, names, and descriptions.
+A package is included when it declares `name` and at least one of `main`, `exports`, or `dsh`. The collector records the exact default-branch commit, checks the declared bundle path, reads Harness or Cordis peer ranges, and extracts installation and usage sections from the nearest README. Workspace packages use their own directory README when that file exists, even if it is short, and only fall back to the repository root README when the package has no README. The plugin description uses `package.json`, then the GitHub repository description, then the first README paragraph. Categories are inferred from repository topics, package keywords, names, and descriptions. The detail page also fetches the live README (preferring locale-specific files such as `README.zh-CN.md`) so the stored excerpt is not the only documentation shown.
 
 Malformed packages, empty repositories, and unavailable repositories are logged and skipped. `CATALOG_MIN_PLUGIN_COUNT` prevents a degraded discovery run from replacing the current catalog; CI uses a minimum of 50.
 

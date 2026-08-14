@@ -1,11 +1,75 @@
 import { describe, expect, it } from "vitest";
 
 import { localizePlugin } from "../src/i18n";
+import { catalogPluginSchema } from "../src/schema";
 import {
   discoverCatalogSnapshot,
   renderCatalogSection,
   replaceCatalogSection,
 } from "../src/node";
+import { firstPlainParagraph, isSubstantialDocumentation } from "../src/readme";
+
+function monorepoReadmeFixture(options: { packageReadme?: string } = {}) {
+  const repository = {
+    archived: false,
+    default_branch: "main",
+    description: null,
+    disabled: false,
+    fork: false,
+    full_name: "owner/monorepo",
+    homepage: "docs.example.com",
+    html_url: "https://github.com/owner/monorepo",
+    license: { spdx_id: "MIT" },
+    name: "monorepo",
+    owner: { login: "owner" },
+    pushed_at: "2026-08-14T00:00:00Z",
+    stargazers_count: 3,
+    topics: ["dsh-plugin"],
+  };
+  const rootReadme = [
+    "# Monorepo plugins",
+    "",
+    "This workspace ships installable DeepSeek Harness plugins for memory and recall.",
+    "",
+    "## Installation",
+    "",
+    "Add the memory package from this repository.",
+    "",
+    "## Usage",
+    "",
+    "Call the memory tool after install.",
+  ].join("\n");
+  const responses = new Map<string, string>([
+    ["/search/repositories", JSON.stringify({ total_count: 1, incomplete_results: false, items: [repository] })],
+    ["/repos/owner/monorepo/commits/main", JSON.stringify({
+      sha: "commit456",
+      commit: { tree: { sha: "tree456" } },
+    })],
+    ["/repos/owner/monorepo/git/trees/main?recursive=1", JSON.stringify({
+      tree: [{ path: "packages/memory/package.json", type: "blob" }],
+    })],
+    ["/owner/monorepo/main/package.json", JSON.stringify({ name: "workspace-root", private: true })],
+    ["/owner/monorepo/main/packages/memory/package.json", JSON.stringify({
+      name: "@owner/dsh-memory",
+      main: "lib/index.js",
+      dsh: { bundle: { patch: "./cordis.patch.yml" } },
+    })],
+    ["/owner/monorepo/commit456/README.md", rootReadme],
+    ["/owner/monorepo/commit456/packages/memory/cordis.patch.yml", "- insert: []"],
+  ]);
+  if (options.packageReadme !== undefined) {
+    responses.set("/owner/monorepo/commit456/packages/memory/README.md", options.packageReadme);
+  }
+  const fetcher = async (input: string | URL | Request): Promise<Response> => {
+    const pathname = new URL(typeof input === "string" ? input : input instanceof URL ? input : input.url);
+    const key = pathname.pathname === "/search/repositories"
+      ? pathname.pathname
+      : `${pathname.pathname}${pathname.search}`;
+    const body = responses.get(key);
+    return body === undefined ? new Response(null, { status: 404 }) : new Response(body);
+  };
+  return { fetcher, rootReadme };
+}
 
 describe("catalog i18n", () => {
   it("falls back to the source description when a locale is missing", () => {
@@ -58,6 +122,7 @@ describe("catalog discovery", () => {
           disabled: false,
           fork: false,
           full_name: "owner/plugin",
+          homepage: "https://example.com/plugin",
           html_url: "https://github.com/owner/plugin",
           license: { spdx_id: "MIT" },
           name: "plugin",
@@ -78,6 +143,7 @@ describe("catalog discovery", () => {
         disabled: false,
         fork: false,
         full_name: "owner/plugin",
+        homepage: "https://example.com/plugin",
         html_url: "https://github.com/owner/plugin",
         license: { spdx_id: "MIT" },
         name: "plugin",
@@ -112,8 +178,10 @@ describe("catalog discovery", () => {
     });
 
     expect(snapshot.plugins[0]?.installation.command).toBe(
-      "dsh plugin --profile <profile> add github:owner/plugin#abc123",
+      "npx -p @deepseek-ai/dsh dsh plugin --profile web add github:owner/plugin",
     );
+    expect(snapshot.plugins[0]?.description).toBe("Repository description");
+    expect(snapshot.plugins[0]?.repository.homepage).toBe("https://example.com/plugin");
     expect(snapshot.plugins[0]?.installation.markdown).toContain("## Installation");
     expect(snapshot.plugins[0]?.categories).toContain("vision");
     expect(snapshot.plugins[0]?.compatibility.level).toBe("declared");
@@ -233,6 +301,9 @@ describe("catalog discovery", () => {
     expect(snapshot.plugins[0]?.installation.spec).toBe(
       "github:owner/plugins#commit123&path:packages/memory",
     );
+    expect(snapshot.plugins[0]?.installation.command).toBe(
+      "npx -p @deepseek-ai/dsh dsh plugin --profile web add github:owner/plugins#commit123&path:packages/memory",
+    );
   });
 
   it("excludes private and unrelated workspace packages", async () => {
@@ -279,5 +350,116 @@ describe("catalog discovery", () => {
 
     expect(snapshot.plugins.map(plugin => plugin.package.name)).toEqual(["dsh-good"]);
     expect(snapshot.plugins[0]?.slug).toBe("owner/plugin-workspace--plugins-good");
+  });
+
+  it("prefers a workspace package README over the root README", async () => {
+    const { fetcher, rootReadme } = monorepoReadmeFixture({
+      packageReadme: "# @owner/dsh-memory\n\nPackage-local install notes for the memory plugin.\n",
+    });
+
+    const snapshot = await discoverCatalogSnapshot({
+      discoveryQueries: ["topic:dsh-plugin"],
+      fetch: fetcher as typeof fetch,
+      generatedAt: new Date("2026-08-14T01:00:00Z"),
+      source: { repository: "owner/catalog", commit: "source123" },
+    });
+
+    expect(snapshot.plugins).toHaveLength(1);
+    expect(snapshot.plugins[0]?.description).toBe("Package-local install notes for the memory plugin.");
+    expect(snapshot.plugins[0]?.usage.markdown).not.toContain("Call the memory tool after install.");
+    expect(rootReadme).toContain("Call the memory tool after install.");
+    expect(snapshot.plugins[0]?.repository.homepage).toBe("https://docs.example.com/");
+    expect(snapshot.plugins[0]?.usage.readmeUrl).toBe(
+      "https://github.com/owner/monorepo/blob/commit456/packages/memory/README.md",
+    );
+  });
+
+  it("uses the root README only when the workspace package has none", async () => {
+    const { fetcher } = monorepoReadmeFixture();
+
+    const snapshot = await discoverCatalogSnapshot({
+      discoveryQueries: ["topic:dsh-plugin"],
+      fetch: fetcher as typeof fetch,
+      generatedAt: new Date("2026-08-14T01:00:00Z"),
+      source: { repository: "owner/catalog", commit: "source123" },
+    });
+
+    expect(snapshot.plugins).toHaveLength(1);
+    expect(snapshot.plugins[0]?.description).toContain("installable DeepSeek Harness plugins");
+    expect(snapshot.plugins[0]?.installation.markdown).toContain("## Installation");
+    expect(snapshot.plugins[0]?.usage.markdown).toContain("## Usage");
+    expect(snapshot.plugins[0]?.usage.readmeUrl).toBe(
+      "https://github.com/owner/monorepo/blob/commit456/README.md",
+    );
+  });
+});
+
+describe("catalog schema compatibility", () => {
+  it("accepts plugins that predate the homepage field", () => {
+    const plugin = catalogPluginSchema.parse({
+      id: "github:owner/plugin",
+      slug: "owner/plugin",
+      name: "plugin",
+      description: "A plugin",
+      repository: {
+        owner: "owner",
+        name: "plugin",
+        url: "https://github.com/owner/plugin",
+        defaultBranch: "main",
+        commit: "abc123",
+        stars: 1,
+        license: null,
+        topics: [],
+        pushedAt: null,
+      },
+      package: {
+        name: "plugin",
+        version: "1.0.0",
+        hasBundle: false,
+        bundlePatch: null,
+        hasPrepareScript: false,
+        peerDependencies: {},
+      },
+      categories: ["other"],
+      featured: false,
+      compatibility: {
+        status: "unknown",
+        level: "unverified",
+        harnessRange: null,
+        cordisRange: null,
+        checks: [],
+      },
+      installation: {
+        kind: "manual",
+        spec: null,
+        command: null,
+        markdown: "",
+        notes: [],
+      },
+      usage: {
+        summary: "A plugin",
+        markdown: "",
+        readmeUrl: "https://github.com/owner/plugin#readme",
+      },
+    });
+
+    expect(plugin.repository.homepage).toBeUndefined();
+  });
+});
+
+describe("readme projection", () => {
+  it("treats heading-only stubs as empty documentation", () => {
+    expect(isSubstantialDocumentation("# @owner/package\n")).toBe(false);
+    expect(isSubstantialDocumentation("This package adds a memory tool to DeepSeek Harness and explains how to install it.")).toBe(true);
+  });
+
+  it("reads the first visible paragraph from HTML-heavy READMEs", () => {
+    expect(firstPlainParagraph([
+      "<p align=\"center\"><img src=\"banner.jpg\" alt=\"Banner\" /></p>",
+      "",
+      "# ModLens",
+      "",
+      "Give a text-only model sight, and just paste the image.",
+    ].join("\n"))).toBe("Give a text-only model sight, and just paste the image.");
   });
 });

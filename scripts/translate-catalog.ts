@@ -15,6 +15,7 @@ import {
 
 const DEFAULT_MODEL = "deepseek-v4-flash";
 const DEFAULT_CONCURRENCY = 3;
+const MAX_TRANSLATION_ATTEMPTS = 3;
 const MAX_TRANSLATION_CHUNK = 1_800;
 const TRANSLATION_CACHE_VERSION = 3;
 
@@ -157,49 +158,55 @@ async function requestTranslation(
   apiKey: string,
   model: string,
 ): Promise<Record<CatalogLocale, CatalogI18nEntry>> {
-  const response = await fetch(apiUrl, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.2,
-      messages: [
-        {
-          role: "system",
-          content: [
-            "Translate DeepSeek Harness plugin catalog copy.",
-            `Return a JSON object whose keys are exactly: ${catalogLocales.join(", ")}.`,
-            "Each value must be an object with optional keys: description, usageSummary, usageMarkdown, installationMarkdown, installationNotes.",
-            "Keep package names, CLI commands, URLs, code fences, and file paths unchanged.",
-            "Do not invent features. Do not wrap the JSON in markdown.",
-          ].join(" "),
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_TRANSLATION_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
         },
-        {
-          role: "user",
-          content: JSON.stringify({
-            plugin: pluginSlug,
-            source: payload,
-            targets: catalogLocales,
-          }),
-        },
-      ],
-    }),
-    signal: AbortSignal.timeout(120_000),
-  });
-  if (!response.ok) {
-    throw new Error(`${pluginSlug}: ${response.status} ${await response.text()}`);
+        body: JSON.stringify({
+          model,
+          temperature: 0.2,
+          messages: [
+            {
+              role: "system",
+              content: [
+                "Translate DeepSeek Harness plugin catalog copy.",
+                `Return a JSON object whose keys are exactly: ${catalogLocales.join(", ")}.`,
+                "Each value must be an object with optional keys: description, usageSummary, usageMarkdown, installationMarkdown, installationNotes.",
+                "installationNotes must always be an array of strings.",
+                "Keep package names, CLI commands, URLs, code fences, and file paths unchanged.",
+                "Do not invent features. Do not wrap the JSON in markdown.",
+              ].join(" "),
+            },
+            {
+              role: "user",
+              content: JSON.stringify({
+                plugin: pluginSlug,
+                source: payload,
+                targets: catalogLocales,
+              }),
+            },
+          ],
+        }),
+        signal: AbortSignal.timeout(120_000),
+      });
+      if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
+      const body = await response.json() as { choices?: ChatChoice[] };
+      const content = body.choices?.[0]?.message?.content;
+      if (!content) throw new Error("empty model response");
+      return validateTranslations(parseModelJson(content), payload);
+    } catch (error) {
+      lastError = error;
+      if (attempt < MAX_TRANSLATION_ATTEMPTS) {
+        process.stderr.write(`${pluginSlug}: attempt ${attempt} failed; retrying\n`);
+      }
+    }
   }
-  const body = await response.json() as { choices?: ChatChoice[] };
-  const content = body.choices?.[0]?.message?.content;
-  if (!content) throw new Error(`${pluginSlug}: empty model response`);
-  try {
-    return validateTranslations(parseModelJson(content), payload);
-  } catch (error) {
-    throw new Error(`${pluginSlug}: ${error instanceof Error ? error.message : String(error)}`);
-  }
+  throw new Error(`${pluginSlug}: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
 }
 
 async function translatePlugin(
@@ -304,6 +311,7 @@ export async function main(): Promise<void> {
       const i18n = await translatePlugin(plugin, apiUrl, apiKey, model);
       plugin.i18n = i18n;
       cache[key] = i18n;
+      writeJson(cachePath, cache);
       translated += 1;
       process.stdout.write(`translated ${plugin.slug}\n`);
     } catch (error) {
