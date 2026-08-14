@@ -1,7 +1,8 @@
-import { appContract } from "@dshhub/contracts";
+import { appContract, normalizeGitHubRepositoryUrl } from "@dshhub/contracts";
 import { implement } from "@orpc/server";
 
 import { CatalogStore } from "./catalog-store";
+import { SubmissionStore } from "./submission-store";
 
 type RouterContext = { db: D1Database };
 
@@ -24,6 +25,12 @@ const health = os.system.health.handler(() => ({
   timestamp: new Date().toISOString(),
 }));
 
+const submissionCreate = os.submissions.create.handler(({ context, input }) => {
+  const repository = normalizeGitHubRepositoryUrl(input.repositoryUrl);
+  if (repository === null) throw new Error("Invalid GitHub repository URL");
+  return new SubmissionStore(context.db).create(repository);
+});
+
 const hello = os.greeting.hello.handler(({ input }) => ({
   message: `你好，${input.name}！`,
 }));
@@ -37,6 +44,9 @@ export const router = os.router({
   },
   greeting: {
     hello,
+  },
+  submissions: {
+    create: submissionCreate,
   },
   system: {
     health,

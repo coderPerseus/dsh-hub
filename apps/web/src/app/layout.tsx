@@ -7,6 +7,7 @@ import { absoluteUrl, siteUrl } from "../lib/site";
 import { LocaleSwitcher } from "./locale-switcher";
 import { SiteHeader } from "./site-header";
 import "./styles.css";
+import "./submission.css";
 
 export const viewport = {
   initialScale: 1,
@@ -56,6 +57,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           homeAria={t.homeAria}
           navAria={t.navAria}
           pluginsLabel={t.plugins}
+          submission={t.submission}
         />
         {children}
         <footer className="site-footer">

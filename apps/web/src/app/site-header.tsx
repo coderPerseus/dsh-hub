@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+import type { Messages } from "../lib/i18n/messages";
+import { SubmissionDialog } from "./submission-dialog";
+
 function Mark() {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true">
@@ -16,13 +19,16 @@ export function SiteHeader({
   homeAria,
   navAria,
   pluginsLabel,
+  submission,
 }: {
   docsLabel: string;
   homeAria: string;
   navAria: string;
   pluginsLabel: string;
+  submission: Messages["submission"];
 }) {
   const [scrolled, setScrolled] = useState(false);
+  const [submissionOpen, setSubmissionOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -38,15 +44,27 @@ export function SiteHeader({
         <span className="wordmark-text"><span className="wordmark-lead">DeepSeek </span>Harness</span>
         <b>Hub</b>
       </a>
-      <nav className="site-nav" aria-label={navAria}>
-        <a href="/">{pluginsLabel}</a>
-        <a href="https://deepseek-harness.github.io/deepseek-harness/guide/quickstart" rel="noreferrer" target="_blank">
-          {docsLabel}
-        </a>
-        <a href="https://github.com/deepseek-ai/deepseek-harness" rel="noreferrer" target="_blank">
-          GitHub
-        </a>
-      </nav>
+      <div className="header-actions">
+        <nav className="site-nav" aria-label={navAria}>
+          <a href="/">{pluginsLabel}</a>
+          <a href="https://deepseek-harness.github.io/deepseek-harness/guide/quickstart" rel="noreferrer" target="_blank">
+            {docsLabel}
+          </a>
+          <a href="https://github.com/deepseek-ai/deepseek-harness" rel="noreferrer" target="_blank">
+            GitHub
+          </a>
+        </nav>
+        <button
+          aria-haspopup="dialog"
+          className="header-submit-button"
+          onClick={() => setSubmissionOpen(true)}
+          type="button"
+        >
+          <span aria-hidden="true">＋</span>
+          {submission.button}
+        </button>
+      </div>
+      {submissionOpen && <SubmissionDialog labels={submission} onClose={() => setSubmissionOpen(false)} />}
     </header>
   );
 }

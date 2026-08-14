@@ -77,6 +77,28 @@ export type Messages = {
   sortName: string;
   sortStars: string;
   source: string;
+  submission: {
+    acceptedBody: string;
+    acceptedTitle: string;
+    button: string;
+    close: string;
+    description: string;
+    duplicateBody: string;
+    duplicateTitle: string;
+    error: string;
+    eyebrow: string;
+    finish: string;
+    hint: string;
+    indexedBody: string;
+    indexedTitle: string;
+    inputLabel: string;
+    invalid: string;
+    placeholder: string;
+    resultEyebrow: string;
+    submit: string;
+    submitting: string;
+    title: string;
+  };
   harnessRange: string;
   cordisRange: string;
   unknownDate: string;
@@ -134,6 +156,28 @@ export const messages: Record<Locale, Messages> = {
     nextPage: "下一页",
     previousPage: "上一页",
     plugins: "插件",
+    submission: {
+      acceptedBody: "我们会检查仓库结构、文档与兼容性，通过后加入目录。",
+      acceptedTitle: "已进入收录队列",
+      button: "提交插件",
+      close: "关闭提交窗口",
+      description: "粘贴公开 GitHub 仓库地址，剩下的抓取、校验与整理交给我们。",
+      duplicateBody: "这个仓库已经在等待处理中，我们记录了你的再次推荐。",
+      duplicateTitle: "仓库已在队列中",
+      error: "提交服务暂时不可用，请稍后重试。",
+      eyebrow: "社区收录通道",
+      finish: "完成",
+      hint: "仅支持公开仓库，例如 https://github.com/owner/repository",
+      indexedBody: "这个仓库已经可以在 DSH Hub 中搜索和查看。",
+      indexedTitle: "插件已经收录",
+      inputLabel: "GitHub 仓库地址",
+      invalid: "请输入完整的 GitHub 仓库地址。",
+      placeholder: "https://github.com/owner/repository",
+      resultEyebrow: "提交结果",
+      submit: "提交收录",
+      submitting: "正在提交…",
+      title: "把好插件带进 DSH Hub",
+    },
     docs: "文档",
     navAria: "站点导航",
     homeAria: "DSH Hub 首页",
@@ -234,6 +278,28 @@ export const messages: Record<Locale, Messages> = {
     nextPage: "Next page",
     previousPage: "Previous page",
     plugins: "Plugins",
+    submission: {
+      acceptedBody: "We will review the repository structure, documentation, and compatibility before adding it to the catalog.",
+      acceptedTitle: "Added to the review queue",
+      button: "Submit plugin",
+      close: "Close submission dialog",
+      description: "Paste a public GitHub repository URL. We will handle discovery, validation, and cataloging.",
+      duplicateBody: "This repository is already awaiting review. We recorded your additional recommendation.",
+      duplicateTitle: "Already in the queue",
+      error: "The submission service is temporarily unavailable. Please try again later.",
+      eyebrow: "Community intake",
+      finish: "Done",
+      hint: "Public repositories only, for example https://github.com/owner/repository",
+      indexedBody: "This repository is already searchable and available on DSH Hub.",
+      indexedTitle: "Plugin already indexed",
+      inputLabel: "GitHub repository URL",
+      invalid: "Enter a complete GitHub repository URL.",
+      placeholder: "https://github.com/owner/repository",
+      resultEyebrow: "Submission result",
+      submit: "Submit for review",
+      submitting: "Submitting…",
+      title: "Bring a plugin to DSH Hub",
+    },
     docs: "Docs",
     navAria: "Site navigation",
     homeAria: "DSH Hub home",
@@ -334,6 +400,28 @@ export const messages: Record<Locale, Messages> = {
     nextPage: "次のページ",
     previousPage: "前のページ",
     plugins: "プラグイン",
+    submission: {
+      acceptedBody: "リポジトリ構成、ドキュメント、互換性を確認し、承認後にカタログへ追加します。",
+      acceptedTitle: "審査キューに追加しました",
+      button: "プラグインを投稿",
+      close: "投稿画面を閉じる",
+      description: "公開 GitHub リポジトリの URL を貼り付けてください。取得、検証、整理は私たちが行います。",
+      duplicateBody: "このリポジトリはすでに審査待ちです。追加の推薦として記録しました。",
+      duplicateTitle: "すでにキューにあります",
+      error: "投稿サービスを一時的に利用できません。後でもう一度お試しください。",
+      eyebrow: "コミュニティ受付",
+      finish: "完了",
+      hint: "公開リポジトリのみ。例: https://github.com/owner/repository",
+      indexedBody: "このリポジトリはすでに DSH Hub で検索・閲覧できます。",
+      indexedTitle: "すでに収録されています",
+      inputLabel: "GitHub リポジトリ URL",
+      invalid: "完全な GitHub リポジトリ URL を入力してください。",
+      placeholder: "https://github.com/owner/repository",
+      resultEyebrow: "投稿結果",
+      submit: "審査に送信",
+      submitting: "送信中…",
+      title: "プラグインを DSH Hub へ",
+    },
     docs: "ドキュメント",
     navAria: "サイトナビゲーション",
     homeAria: "DSH Hub ホーム",
@@ -434,6 +522,28 @@ export const messages: Record<Locale, Messages> = {
     nextPage: "다음 페이지",
     previousPage: "이전 페이지",
     plugins: "플러그인",
+    submission: {
+      acceptedBody: "저장소 구조, 문서, 호환성을 확인한 뒤 카탈로그에 추가합니다.",
+      acceptedTitle: "검토 대기열에 추가됨",
+      button: "플러그인 제출",
+      close: "제출 창 닫기",
+      description: "공개 GitHub 저장소 URL을 붙여 넣으세요. 수집, 검증, 정리는 저희가 처리합니다.",
+      duplicateBody: "이 저장소는 이미 검토 대기 중입니다. 추가 추천으로 기록했습니다.",
+      duplicateTitle: "이미 대기열에 있음",
+      error: "제출 서비스를 잠시 사용할 수 없습니다. 나중에 다시 시도해 주세요.",
+      eyebrow: "커뮤니티 접수",
+      finish: "완료",
+      hint: "공개 저장소만 지원합니다. 예: https://github.com/owner/repository",
+      indexedBody: "이 저장소는 이미 DSH Hub에서 검색하고 볼 수 있습니다.",
+      indexedTitle: "이미 수록된 플러그인",
+      inputLabel: "GitHub 저장소 URL",
+      invalid: "전체 GitHub 저장소 URL을 입력해 주세요.",
+      placeholder: "https://github.com/owner/repository",
+      resultEyebrow: "제출 결과",
+      submit: "검토 요청",
+      submitting: "제출 중…",
+      title: "플러그인을 DSH Hub로",
+    },
     docs: "문서",
     navAria: "사이트 탐색",
     homeAria: "DSH Hub 홈",
@@ -534,6 +644,28 @@ export const messages: Record<Locale, Messages> = {
     nextPage: "下一頁",
     previousPage: "上一頁",
     plugins: "插件",
+    submission: {
+      acceptedBody: "我們會檢查倉庫結構、文件與相容性，通過後加入目錄。",
+      acceptedTitle: "已進入收錄佇列",
+      button: "提交插件",
+      close: "關閉提交視窗",
+      description: "貼上公開 GitHub 倉庫網址，剩下的擷取、校驗與整理交給我們。",
+      duplicateBody: "這個倉庫已在等待處理，我們記錄了你的再次推薦。",
+      duplicateTitle: "倉庫已在佇列中",
+      error: "提交服務暫時無法使用，請稍後再試。",
+      eyebrow: "社群收錄通道",
+      finish: "完成",
+      hint: "僅支援公開倉庫，例如 https://github.com/owner/repository",
+      indexedBody: "這個倉庫已經可以在 DSH Hub 中搜尋和查看。",
+      indexedTitle: "插件已經收錄",
+      inputLabel: "GitHub 倉庫網址",
+      invalid: "請輸入完整的 GitHub 倉庫網址。",
+      placeholder: "https://github.com/owner/repository",
+      resultEyebrow: "提交結果",
+      submit: "提交收錄",
+      submitting: "正在提交…",
+      title: "把好插件帶進 DSH Hub",
+    },
     docs: "文件",
     navAria: "網站導覽",
     homeAria: "DSH Hub 首頁",
