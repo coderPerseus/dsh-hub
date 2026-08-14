@@ -36,6 +36,10 @@ async function main(): Promise<void> {
   const sourceRepository = process.env.GITHUB_REPOSITORY ?? "local/dshhub";
   const sourceCommit = process.env.GITHUB_SHA ?? "local-development";
   const catalogMode = process.env.CATALOG_MODE === "refresh" ? "refresh" : "discover";
+  const targetRepository = process.env.CATALOG_REPOSITORY?.trim();
+  if (targetRepository && !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(targetRepository)) {
+    throw new Error("CATALOG_REPOSITORY must use owner/repo format.");
+  }
 
   const minimumPluginCount = Number(process.env.CATALOG_MIN_PLUGIN_COUNT ?? 50);
   if (!Number.isSafeInteger(minimumPluginCount) || minimumPluginCount < 1) {
@@ -44,6 +48,7 @@ async function main(): Promise<void> {
   const previousSnapshot = await readPreviousSnapshot(minimumPluginCount);
   const snapshot = await discoverCatalogSnapshot({
     catalogMode,
+    discoveryQueries: targetRepository ? [`repo:${targetRepository}`] : undefined,
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,
     previousSnapshot,

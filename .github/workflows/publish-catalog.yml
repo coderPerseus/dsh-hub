@@ -11,6 +11,10 @@ on:
         options:
           - discover
           - refresh
+      repository:
+        description: Optional owner/repo to discover
+        required: false
+        type: string
   schedule:
     - cron: "17 * * * *"
     - cron: "37 3 * * 0"
@@ -55,6 +59,7 @@ jobs:
           CATALOG_INGEST_TOKEN: ${{ secrets.CATALOG_INGEST_TOKEN }}
           CATALOG_MIN_PLUGIN_COUNT: "50"
           CATALOG_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '37 3 * * 0' && 'refresh' || 'discover') }}
+          CATALOG_REPOSITORY: ${{ github.event_name == 'workflow_dispatch' && inputs.repository || '' }}
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Restore catalog translation cache
