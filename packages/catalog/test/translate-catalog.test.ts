@@ -4,6 +4,7 @@ import type { CatalogPlugin, CatalogSnapshot } from "../src/schema";
 import {
   asFullSnapshot,
   chunkText,
+  reusableTranslations,
   translationPayload,
   validateTranslations,
 } from "../../../scripts/translate-catalog";
@@ -57,6 +58,15 @@ describe("catalog translation", () => {
 
     expect(() => validateTranslations(translations, translationPayload(plugin)))
       .toThrow("model response is missing locale zh-TW");
+  });
+
+  it("reuses complete translations from the previous snapshot", () => {
+    const translatedPlugin = {
+      ...plugin,
+      i18n: completeTranslations(),
+    } as unknown as CatalogPlugin;
+
+    expect(reusableTranslations(translatedPlugin)).toEqual(translatedPlugin.i18n);
   });
 
   it("publishes translated snapshots as full imports", () => {

@@ -95,6 +95,17 @@ export function translationPayload(plugin: CatalogPlugin): TranslationPayload {
   };
 }
 
+export function reusableTranslations(
+  plugin: CatalogPlugin,
+): Record<CatalogLocale, CatalogI18nEntry> | null {
+  if (!plugin.i18n) return null;
+  try {
+    return validateTranslations(plugin.i18n, translationPayload(plugin));
+  } catch {
+    return null;
+  }
+}
+
 export function chunkText(value: string, limit = MAX_TRANSLATION_CHUNK): string[] {
   if (!value) return [];
   const chunks: string[] = [];
@@ -305,6 +316,15 @@ export async function main(): Promise<void> {
         return;
       } catch {
         delete cache[key];
+      }
+    }
+    if (!force) {
+      const existing = reusableTranslations(plugin);
+      if (existing) {
+        plugin.i18n = existing;
+        cache[key] = existing;
+        reused += 1;
+        return;
       }
     }
     try {
