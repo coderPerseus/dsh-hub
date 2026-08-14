@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **992 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **1612 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 377
+### agents · 572
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,9 +78,9 @@ Discover **992 community plugins** across 11 categories. Each category highlight
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 202 | declared |
 
-[View all 377 agents plugins →](https://dshhub.org/?category=agents)
+[View all 572 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 205
+### development · 317
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,33 +90,33 @@ Discover **992 community plugins** across 11 categories. Each category highlight
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 202 | declared |
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 129 | declared |
 
-[View all 205 development plugins →](https://dshhub.org/?category=development)
+[View all 317 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 57
+### finance · 96
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
-| [dsh-usage-plugin](https://github.com/Yihong89/dsh-usage-plugin/tree/c6b4cb340422fca2f18be4f0884c98383683bb8d/packages/usage-report) | DeepSeek Harness plugin: per-session token usage and estimated cost report (/usage command + usage_report tool + live cost in the web composer dock), priced fr… | ★ 2 | declared |
-| [@deepseek-ai/dsh-client-ui-billing](https://github.com/WilliamLIiii/DeepSeek-Harness-billing-plugin/tree/7ab1dae615afbd72a7bcf503c17a0291ddc55477/packages/ui-billing) | Session-header DeepSeek account balance badge over the billing Remote | ★ 2 | declared |
-| [context-vista](https://github.com/GooodWei/context-vista) | A live context-window donut for DeepSeek Harness: token usage, compaction savings, and cost at a glance | ★ 2 | declared |
-| [dsh-cost](https://github.com/GiantGKL/dsh-cost) | DeepSeek Harness (DSH) plugin: live conversation cost and DeepSeek account balance in the composer stats row — RMB in Chinese UI, USD in English UI | ★ 2 | declared |
-| [dsh-usage-dashboard](https://github.com/1690834643/dsh-usage-dashboard) | DeepSeek Harness (dsh) web plugin: API balance + today's spend widget in the sidebar footer. /api/dsh-usage route + React client bundle, no build step required. | ★ 2 | declared |
+| [@pinkbanana/dsh-balance](https://github.com/crazywoola/dsh-balance) | DeepSeek Harness plugin that shows API balances and available models in Settings | ★ 9 | declared |
+| [dsh-balance-plugin](https://github.com/stevenx65/dsh-balance-plugin) | DeepSeek API balance and token usage monitor for the dsh web sidebar | ★ 4 | declared |
+| [deepseek-harness-external-migration](https://github.com/buguoshixc/deepseek-harness-external-migration) | Safely migrate Codex, Claude Code, Qoder and OpenCode configuration and sessions into DeepSeek Harness. | ★ 3 | declared |
+| [dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) | DeepSeek 用量 / 成本 / 余额仪表盘 for DSH Web：输入框下方实时指标指示器 + 零依赖 SVG 用量可视化图表，token 数据来自官方 adapter 上报，余额来自官方 /user/balance 接口。 | ★ 2 | declared |
+| [dsh-gauge](https://github.com/noone89A/dsh-gauge) | Accurate cache-hit rate, token usage, and cost estimates for the DeepSeek Harness Web UI: one-decimal hit rate, bucket breakdown, peak/off-peak pricing with au… | ★ 2 | declared |
 
-[View all 57 finance plugins →](https://dshhub.org/?category=finance)
+[View all 96 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 154
+### integrations · 233
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@linxin666/dsh-client-ui-aionui-panel](https://github.com/zhu1090093659/dsh-web-ui/tree/ef3ef0dbcb057135c41bcd2b9b5cf85cfb3716e8/packages/dsh-aionui-panel) | DSH web GUI right-panel system: a pixel-faithful re-implementation of AionUi's Explorer + Preview columns (file tree, filename search, git changes, multi-tab p… | ★ 514 | declared |
 | [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 153 | declared |
+| [@multica-ai/dsh-runtime](https://github.com/multica-ai/dsh-multica-runtime) | Private DeepSeek Harness runtime bridge for Multica | ★ 30 | declared |
+| [@deepseek-ai/dsh-product-bridge](https://github.com/vibeinging/dsh-work/tree/b4c477d554e8f9fbeed212c84d7cf45b043493a8/packages/dsh-product-bridge) | Session-scoped dsh-work product capabilities for the current DSH Web profile | ★ 25 | declared |
 | [@openbiliclaw/dsh-plugin](https://github.com/whiteguo233/dsh-openbiliclaw) | OpenBiliClaw DeepSeek Harness plugin: the user-consumption side (recommendations, delight, saved, Socratic chat, profile, probes, activity) as a web-GUI sideba… | ★ 17 | declared |
-| [dsh-code-review](https://github.com/Dominic789654/awesome-deepseek-harness/tree/986e7fb75e52402afe475d38527a83aebb14e2f2/plugins/dsh-code-review) | Code review assistant for DeepSeek Harness: code_review_context collects deterministic git diff context; a bundled skill drives the review checklist. | ★ 10 | declared |
-| [@loserfox/telegram](https://github.com/LoserFox/telegram) | Telegram Bot API bridge plugin: relay Telegram chats to harness agent sessions (long polling, per-chat sessions, HTML formatting) | ★ 6 | declared |
 
-[View all 154 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 233 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 233
+### interface · 414
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,45 +126,45 @@ Discover **992 community plugins** across 11 categories. Each category highlight
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 202 | declared |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 
-[View all 233 interface plugins →](https://dshhub.org/?category=interface)
+[View all 414 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 51
+### memory · 100
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@mstar-harness/dsh](https://github.com/btspoony/mstar-harness/tree/fb2f6ba496ad38e9d578c0a7395450e4179a106b/packages/dsh) | Morning Star harness dsh (DeepSeek Harness) cordis function plugin — in-process engine gates (status/dispatch/lease) with hard refusal channels. | ★ 39 | declared |
+| [dsh-archived-sessions](https://github.com/Zephyr-vibe/dsh-archived-sessions) | DSH web plugin: an Archived Sessions manager in Settings — browse archived conversations, expand per-session details (disk usage, downloads, tool usage, lineag… | ★ 4 | declared |
 | [resanity](https://github.com/Thhoho/reSanity) | reSanity 散修：散户研究心法 skill + DeepSeek Harness 插件（skill provider、锚体检定时提醒、/resanity-check 命令） | ★ 4 | declared |
+| [dsh-personalize](https://github.com/Zephyr-vibe/dsh-personalize) | DSH web plugin: per-host personalization — global custom instructions, local long-term memory (collect / retain / integrate / manage), and reply tone presets. | ★ 3 | declared |
 | [@graycode/dsh-plugin](https://github.com/Komeiji-Shiki/graycode-for-dsh/tree/a697a6f42be82786842fb1965763807dda8e3f9a/packages/plugin) | GrayCode host plugin for DeepSeek Harness: workflows, permanent memory, and workspace checkpoints | ★ 3 | declared |
-| [@deepseek-ai/dsh-tool-diff](https://github.com/omdsh-dev/dsh-tool-diff) | DSH diff tool: structured comparison of text/JSON/CSV/Markdown plus unified diff generation and in-memory patch validation. Zero-dependency, read-only. | ★ 2 | declared |
-| [dsh-plugin-claude-bridge](https://github.com/YYTbit/dsh-plugin-claude-bridge) | Bridge Claude Code's memory, skills, and configuration into DeepSeek Harness — zero migration, full compatibility | ★ 2 | declared |
 
-[View all 51 memory plugins →](https://dshhub.org/?category=memory)
+[View all 100 memory plugins →](https://dshhub.org/?category=memory)
 
-### notifications · 30
+### notifications · 52
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [dsh-notification](https://github.com/omdsh-dev/dsh-notification) | Browser desktop notifications when the DeepSeek Harness finishes a turn: configurable per-outcome toggles and include/exclude keyword rules, shown through the… | ★ 25 | declared |
 | [resanity](https://github.com/Thhoho/reSanity) | reSanity 散修：散户研究心法 skill + DeepSeek Harness 插件（skill provider、锚体检定时提醒、/resanity-check 命令） | ★ 4 | declared |
+| [@lyhalal/dsh-notification-center](https://github.com/610la/dsh-notification-center) | 通知中心：对话/任务完成、报错、等待批准等事件触发浏览器通知 + 21 种匹配音效，每类事件独立配置（音效/文件/URL/音量/开关）。 | ★ 3 | declared |
 | [dsh-telegram-relay](https://github.com/congchuanling-dot/DSH-Telegram-Relay) | A DeepSeek Harness plugin bundle for Telegram relay integration. | ★ 3 | declared |
-| [@deepseek-ai/dsh-client-ui-billing](https://github.com/WilliamLIiii/DeepSeek-Harness-billing-plugin/tree/7ab1dae615afbd72a7bcf503c17a0291ddc55477/packages/ui-billing) | Session-header DeepSeek account balance badge over the billing Remote | ★ 2 | declared |
-| [dsh-plugin-usage-dashboard](https://github.com/hnmrxz/dsh-plugin-usage-dashboard) | DeepSeek usage & cost dashboard for the DeepSeek Harness bottom status bar: token/cost aggregation per session, budget alert, and a balance guard. | ★ 1 | declared |
+| [@linxin666/dsh-task-notify](https://github.com/ltao0829/dsh-task-notify) | Task-completion reminder for DeepSeek Harness: in-page toast, OS notification, and sound when an agent turn or background job finishes | ★ 2 | declared |
 
-[View all 30 notifications plugins →](https://dshhub.org/?category=notifications)
+[View all 52 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 196
+### other · 301
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@zseven-w/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil plugin for DSH with exact multi-frame previews, an interactive canvas, and managed editor workbenches. | ★ 34 | declared |
+| [dsh-toy](https://github.com/c3ll256/dsh-toy) | DeepSeek Harness plugin for safety-bounded Buttplug/Intiface and MonsterParty toy control | ★ 24 | declared |
 | [dsh-interconnect](https://github.com/Chinesezjc/dsh-interconnect) | Cross-instance message/event handoff plugins for DeepSeek Harness (DSH): interconnect service + model-facing tools | ★ 15 | declared |
+| [@dsh-scholar/research-plugin](https://github.com/lzszq/dsh-scholar) | DSH Research OS — a fully automated scientific research plugin for DSH (DeepSeek Harness): survey, idea, experiment contract, durable runner jobs, claim-eviden… | ★ 11 | declared |
 | [@deepseek-ai/dsh-plugin-check](https://github.com/omdsh-dev/dsh-plugin-check) | DSH plugin health checker: scan plugin repos for manifest protocol / patch format / build pitfalls / hub registration, zero-dependency read-only diagnostics | ★ 11 | declared |
-| [@deepseek-ai/dsh-toolkit](https://github.com/omdsh-dev/dsh-toolkit) | DSH zero-dependency toolkit collection: time / encoding / json / calculator / csv / regex / markdown / diff / stat / schema in one entry point | ★ 10 | declared |
-| [dsh-stock-market](https://github.com/AnacondaKC/dsh-stock-market) | DSH Shanghai and Shenzhen A-share market plugin | ★ 5 | declared |
 
-[View all 196 other plugins →](https://dshhub.org/?category=other)
+[View all 301 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 240
+### productivity · 408
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,9 +174,9 @@ Discover **992 community plugins** across 11 categories. Each category highlight
 | [@dsh-external/dsh-visualize](https://github.com/Nagi-ovo/dsh-visualize) | DSH inline visualization plugin: a visualize tool + bundled skill let the model render interactive HTML fragments as sandboxed cards in the conversation (Codex… | ★ 44 | declared |
 | [@mstar-harness/dsh](https://github.com/btspoony/mstar-harness/tree/fb2f6ba496ad38e9d578c0a7395450e4179a106b/packages/dsh) | Morning Star harness dsh (DeepSeek Harness) cordis function plugin — in-process engine gates (status/dispatch/lease) with hard refusal channels. | ★ 39 | declared |
 
-[View all 240 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 408 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 111
+### skills · 163
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -186,21 +186,21 @@ Discover **992 community plugins** across 11 categories. Each category highlight
 | [@dsh-external/dsh-visualize](https://github.com/Nagi-ovo/dsh-visualize) | DSH inline visualization plugin: a visualize tool + bundled skill let the model render interactive HTML fragments as sandboxed cards in the conversation (Codex… | ★ 44 | declared |
 | [@mstar-harness/dsh](https://github.com/btspoony/mstar-harness/tree/fb2f6ba496ad38e9d578c0a7395450e4179a106b/packages/dsh) | Morning Star harness dsh (DeepSeek Harness) cordis function plugin — in-process engine gates (status/dispatch/lease) with hard refusal channels. | ★ 39 | declared |
 
-[View all 111 skills plugins →](https://dshhub.org/?category=skills)
+[View all 163 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 83
+### vision · 134
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 | [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 153 | declared |
 | [@dsh-external/dsh-share](https://github.com/hellodigua/dsh-share) | Share a DSH conversation turn as a PNG image. | ★ 14 | declared |
-| [@runzhliu/dsh-browser-desktop](https://github.com/runzhliu/deepseek-harness-docker/tree/7befa374f629de1facdcf1a7496e578d61404302/plugins/dsh-browser-desktop) | Movable, resizable Chromium desktop embedded in the DeepSeek Harness Web UI through noVNC. | ★ 5 | declared |
-| [deepseek-harness-qqbot](https://github.com/sliverp/DeepSeek-harness-qqbot) | QQ Bot channel bridge for DeepSeek Harness | ★ 4 | declared |
+| [@linenxi-ctrl/dsh-vision](https://github.com/linenxi-ctrl/dsh-vision) | 为 DeepSeek Harness 提供外挂识图模型：网页配置面板、发送图片识图自动回传、模型自主截图识图工具，支持多协议与一键安装。 | ★ 9 | declared |
+| [@dsh-external/dsh-drop-to-path](https://github.com/loudMore/dsh-drop-to-path) | Drop or paste images, PDFs, office docs, zips, videos and audio into the DSH composer as workspace file paths instead of model attachments — lets a text-only m… | ★ 6 | declared |
 
-[View all 83 vision plugins →](https://dshhub.org/?category=vision)
+[View all 134 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-14T08:39:40.370Z-a1ff28e433f8`, generated 2026-08-14T08:39:40.370Z.</sub>
+<sub>Catalog snapshot `2026-08-14T15:39:05.960Z-8e6d3e2f1f06`, generated 2026-08-14T15:39:05.960Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
