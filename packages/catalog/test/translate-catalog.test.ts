@@ -4,6 +4,7 @@ import type { CatalogPlugin, CatalogSnapshot } from "../src/schema";
 import {
   asFullSnapshot,
   chunkText,
+  pluginsNeedingTranslation,
   reusableTranslations,
   translationPayload,
   validateTranslations,
@@ -13,7 +14,7 @@ const plugin = {
   id: "github:owner/plugin",
   slug: "owner/plugin",
   description: "Source description",
-  repository: { commit: "abc123" },
+  repository: { owner: "owner", name: "plugin", commit: "abc123" },
   installation: {
     markdown: "i".repeat(3_000),
     notes: ["Keep the command unchanged"],
@@ -67,6 +68,26 @@ describe("catalog translation", () => {
     } as unknown as CatalogPlugin;
 
     expect(reusableTranslations(translatedPlugin)).toEqual(translatedPlugin.i18n);
+  });
+
+  it("translates only changed repositories in an incremental snapshot", () => {
+    const unchanged = {
+      ...plugin,
+      id: "github:other/plugin",
+      slug: "other/plugin",
+      repository: { owner: "other", name: "plugin", commit: "def456" },
+    } as unknown as CatalogPlugin;
+    const snapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-1",
+      generatedAt: "2026-08-14T00:00:00.000Z",
+      changedRepositories: ["owner/plugin"],
+      source: { repository: "owner/catalog", commit: "abc123" },
+      mainline: null,
+      plugins: [plugin, unchanged],
+    } satisfies CatalogSnapshot;
+
+    expect(pluginsNeedingTranslation(snapshot)).toEqual([plugin]);
   });
 
   it("publishes translated snapshots as full imports", () => {

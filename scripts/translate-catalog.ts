@@ -106,6 +106,14 @@ export function reusableTranslations(
   }
 }
 
+export function pluginsNeedingTranslation(snapshot: CatalogSnapshot): CatalogPlugin[] {
+  if (!snapshot.changedRepositories) return snapshot.plugins;
+  const changed = new Set(snapshot.changedRepositories.map(repository => repository.toLowerCase()));
+  return snapshot.plugins.filter(plugin => (
+    changed.has(`${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase())
+  ));
+}
+
 export function chunkText(value: string, limit = MAX_TRANSLATION_CHUNK): string[] {
   if (!value) return [];
   const chunks: string[] = [];
@@ -302,7 +310,8 @@ export async function main(): Promise<void> {
 
   const snapshot = catalogSnapshotSchema.parse(readJson<CatalogSnapshot>(inputPath));
   const cache = existsSync(cachePath) ? readJson<CacheFile>(cachePath) : {};
-  const plugins = limit > 0 ? snapshot.plugins.slice(0, limit) : snapshot.plugins;
+  const candidates = pluginsNeedingTranslation(snapshot);
+  const plugins = limit > 0 ? candidates.slice(0, limit) : candidates;
   let translated = 0;
   let reused = 0;
   let failed = 0;
