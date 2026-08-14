@@ -4,6 +4,7 @@ import { localizePlugin } from "../src/i18n";
 import { catalogPluginSchema } from "../src/schema";
 import {
   discoverCatalogSnapshot,
+  isFeaturedPlugin,
   renderCatalogSection,
   replaceCatalogSection,
 } from "../src/node";
@@ -110,6 +111,12 @@ describe("catalog README projection", () => {
 });
 
 describe("catalog discovery", () => {
+  it("features only the dshhub search plugin", () => {
+    expect(isFeaturedPlugin("coderPerseus/dsh-hub", "@dshhub/plugin-search")).toBe(true);
+    expect(isFeaturedPlugin("other/dsh-hub", "@dshhub/plugin-search")).toBe(false);
+    expect(isFeaturedPlugin("coderPerseus/dsh-hub", "@dshhub/cli")).toBe(false);
+  });
+
   it("discovers and builds installable root packages from GitHub topics", async () => {
     const responses = new Map<string, string>([
       ["/search/repositories", JSON.stringify({
@@ -257,6 +264,7 @@ describe("catalog discovery", () => {
       })],
       ["/repos/owner/plugins/git/trees/main?recursive=1", JSON.stringify({
         tree: [
+          { path: "packages/cli/package.json", type: "blob" },
           { path: "packages/memory/package.json", type: "blob" },
           { path: "packages/skill-curator/package.json", type: "blob" },
         ],
@@ -264,6 +272,11 @@ describe("catalog discovery", () => {
       ["/owner/plugins/main/package.json", JSON.stringify({
         name: "workspace-root",
         private: true,
+      })],
+      ["/owner/plugins/main/packages/cli/package.json", JSON.stringify({
+        name: "@owner/cli",
+        description: "Search and inspect plugins from a catalog",
+        main: "lib/index.js",
       })],
       ["/owner/plugins/main/packages/memory/package.json", JSON.stringify({
         name: "@owner/dsh-memory",

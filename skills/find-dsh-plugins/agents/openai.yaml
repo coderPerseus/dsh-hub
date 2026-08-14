@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find DSH Plugins"
+  short_description: "Find and compare DeepSeek Harness plugins"
+  default_prompt: "Use $find-dsh-plugins to find a DSH plugin for my task."

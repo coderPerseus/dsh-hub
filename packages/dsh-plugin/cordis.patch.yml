@@ -1,0 +1,3 @@
+- insert:
+    - id: dshhub-plugin-search
+      name: '@dshhub/plugin-search'

@@ -51,7 +51,7 @@ const catalogMetaContract = oc.output(z.object({
   pluginCount: z.number().int().nonnegative(),
 }));
 
-const catalogListInputSchema = z.object({
+export const catalogListInputSchema = z.object({
   query: z.string().trim().max(100).default(""),
   categories: z.array(z.string()).max(10).default([]),
   compatibility: z.array(compatibilityStatusSchema).max(3).default([]),

@@ -72,6 +72,13 @@ const GITHUB_CONCURRENCY = 4;
 const GITHUB_MAX_ATTEMPTS = 4;
 const MAX_PACKAGES_PER_REPOSITORY = 50;
 const DISCOVERY_OVERLAP_MS = 5 * 60 * 1_000;
+const DSHHUB_PLUGIN_REPOSITORY = "coderperseus/dsh-hub";
+const DSHHUB_PLUGIN_PACKAGE = "@dshhub/plugin-search";
+
+export function isFeaturedPlugin(repository: string, packageName: string): boolean {
+  return repository.toLowerCase() === DSHHUB_PLUGIN_REPOSITORY
+    && packageName === DSHHUB_PLUGIN_PACKAGE;
+}
 
 function discoveryCutoff(previousSnapshot?: CatalogSnapshot): string | null {
   if (!previousSnapshot) return null;
@@ -488,7 +495,7 @@ async function buildPlugin(
       peerDependencies: peers,
     },
     categories: inferCategories(source),
-    featured: false,
+    featured: isFeaturedPlugin(repository, manifest.name),
     compatibility: {
       status: incompatible ? "incompatible" : "unknown",
       level: harnessRange === null && cordisRange === null ? "unverified" : "declared",

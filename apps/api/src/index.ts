@@ -2,7 +2,10 @@ import { onError } from "@orpc/server";
 import { RPCHandler } from "@orpc/server/fetch";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { ZodError } from "zod";
 
+import { CatalogStore } from "./catalog-store";
+import { parseCatalogListQuery } from "./public-api";
 import { router } from "./router";
 import {
   authorizeCatalogImport,
@@ -16,14 +19,37 @@ import {
 const app = new Hono<{ Bindings: CatalogBindings }>();
 export { app };
 
-app.use(
-  "/rpc/*",
-  cors({
-    allowHeaders: ["Content-Type", "Authorization"],
-    allowMethods: ["GET", "POST", "OPTIONS"],
-    origin: "*",
-  }),
-);
+const publicCors = cors({
+  allowHeaders: ["Content-Type", "Authorization"],
+  allowMethods: ["GET", "POST", "OPTIONS"],
+  origin: "*",
+});
+app.use("/rpc/*", publicCors);
+app.use("/v1/*", publicCors);
+
+app.get("/v1/plugins", async (c) => {
+  try {
+    const input = parseCatalogListQuery(new URL(c.req.url));
+    const result = await new CatalogStore(c.env.DB).list(input);
+    return c.json(result, 200, { "Cache-Control": "public, max-age=60" });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return c.json({ error: "Invalid query", issues: error.issues }, 400);
+    }
+    throw error;
+  }
+});
+
+app.get("/v1/plugins/:owner/:repository", async (c) => {
+  const plugin = await new CatalogStore(c.env.DB).detail(
+    c.req.param("owner"),
+    c.req.param("repository"),
+    c.req.query("locale"),
+  );
+  return plugin === null
+    ? c.json({ error: "Plugin not found" }, 404)
+    : c.json(plugin, 200, { "Cache-Control": "public, max-age=60" });
+});
 
 app.get("/", (c) =>
   c.json({

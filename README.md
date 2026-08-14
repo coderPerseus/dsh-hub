@@ -23,7 +23,12 @@ apps/
   web/                 Next.js 应用与 OpenNext Cloudflare 配置
 packages/
   catalog/             GitHub 自动发现、资格验证、README renderer
+  client/              公共 catalog API 的 TypeScript client
+  cli/                 面向开发者和 Agent 的 dshhub CLI
   contracts/           前后端共享的 oRPC 契约
+  dsh-plugin/           注册搜索和详情工具的 DSH 原生插件
+skills/
+  find-dsh-plugins/     原生工具优先、CLI 回退的 Agent workflow
 scripts/               Catalog 构建和发布入口
 ```
 
@@ -42,6 +47,25 @@ pnpm dev
 - API：<http://localhost:8787>
 - API health：<http://localhost:8787/health>
 - oRPC：<http://localhost:8787/rpc>
+- Catalog REST API：<http://localhost:3000/api/v1/plugins>
+
+## Agent 搜索入口
+
+CLI 默认访问 `https://dshhub.org/api/v1`，也可通过 `DSHHUB_API_URL` 或 `--api-url` 覆盖：
+
+```bash
+pnpm --filter @dshhub/cli build
+node packages/cli/lib/bin.js search "cross-session memory" --limit 10 --json
+node packages/cli/lib/bin.js plugin owner/repository --json
+```
+
+DSH 插件注册 `search_dsh_plugins` 和 `get_dsh_plugin` 两个只读工具：
+
+```bash
+npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhub/plugin-search
+```
+
+仓库内的 `skills/find-dsh-plugins` 负责搜索、检查和比较流程；它优先使用 DSH 原生工具，不可用时调用 CLI。插件和 Skill 都不会自动安装搜索结果。
 
 ## Cloudflare 资源
 

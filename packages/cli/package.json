@@ -1,0 +1,47 @@
+{
+  "name": "@dshhub/cli",
+  "version": "0.1.0",
+  "description": "Search and inspect plugins from the dshhub catalog",
+  "type": "module",
+  "bin": {
+    "dshhub": "./lib/bin.js"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "pretest": "pnpm --filter @dshhub/client build",
+    "test": "vitest run",
+    "pretypecheck": "pnpm --filter @dshhub/client build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dshhub/client": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "24.3.0",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coderPerseus/dsh-hub.git",
+    "directory": "packages/cli"
+  }
+}

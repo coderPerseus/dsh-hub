@@ -26,4 +26,11 @@ describe("API", () => {
     expect(response.status).toBe(401);
     await expect(response.json()).resolves.toEqual({ error: "Unauthorized" });
   });
+
+  it("rejects invalid public catalog queries before accessing storage", async () => {
+    const response = await app.request("/v1/plugins?limit=500");
+
+    expect(response.status).toBe(400);
+    await expect(response.json()).resolves.toMatchObject({ error: "Invalid query" });
+  });
 });
