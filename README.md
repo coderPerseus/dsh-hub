@@ -83,15 +83,15 @@ pnpm --filter @dshhub/api exec wrangler deploy --dry-run
 <!-- catalog:start -->
 ## Plugin catalog
 
-Generated at 2026-08-14T00:01:35.000Z from snapshot `2026-08-14T00:01:35.000Z-38c8f0ccef88`.
+Generated at 2026-08-14T01:53:19.969Z from snapshot `2026-08-14T01:53:19.969Z-7b14ce8f3e70`.
 
-Plugins: **491**
+Plugins: **492**
 
-- `agents`: 210
+- `agents`: 211
 - `development`: 109
 - `finance`: 24
 - `integrations`: 88
-- `interface`: 99
+- `interface`: 100
 - `memory`: 28
 - `notifications`: 15
 - `other`: 90
@@ -199,6 +199,7 @@ Plugins: **491**
 | [@loserfox/git-identity](https://github.com/LoserFox/dsh-git-identity) | DSH profile bundle：git 提交固定使用环境自身作者身份（优先 gh CLI 登录账号，GitHub noreply 邮箱），GIT_AUTHOR_*/GIT_COMMITTER_* 环境变量注入压过一切 git config | development | unverified |
 | [@loserfox/telegram](https://github.com/LoserFox/telegram) | Telegram Bot API bridge plugin: relay Telegram chats to harness agent sessions (long polling, per-chat sessions, HTML formatting) | agents, integrations, productivity | declared |
 | [@mstar-harness/dsh](https://github.com/btspoony/mstar-harness/tree/fb2f6ba496ad38e9d578c0a7395450e4179a106b/packages/dsh) | Morning Star harness dsh (DeepSeek Harness) cordis function plugin — in-process engine gates (status/dispatch/lease) with hard refusal channels. | memory, skills, agents, productivity | declared |
+| [@oh-dsh/desktop](https://github.com/hust-open-atom-club/oh-dsh) | An extensible DeepSeek Harness plugin collection and Electron desktop distribution | agents, interface | unverified |
 | [@oh-my-dsh/a2a-bridge](https://github.com/LaplaceYoung/oh-my-dsh/tree/7981ba6bbefd5ce0a4acc85fe495bcfc7b3f36a2/plugins/a2a-bridge) | Round-8 GAP plugin | agents, integrations | unverified |
 | [@oh-my-dsh/achievement-engine](https://github.com/LaplaceYoung/oh-my-dsh/tree/7981ba6bbefd5ce0a4acc85fe495bcfc7b3f36a2/plugins/achievement-engine) | Round-22 GAP plugin | agents | unverified |
 | [@oh-my-dsh/acp-sessions](https://github.com/LaplaceYoung/oh-my-dsh/tree/7981ba6bbefd5ce0a4acc85fe495bcfc7b3f36a2/plugins/acp-sessions) | Round-5 GAP ecosystem plugin | agents | unverified |
