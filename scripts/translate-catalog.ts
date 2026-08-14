@@ -16,7 +16,7 @@ import {
 const DEFAULT_MODEL = "deepseek-v4-flash";
 const DEFAULT_CONCURRENCY = 3;
 const MAX_TRANSLATION_ATTEMPTS = 3;
-const MAX_TRANSLATION_CHUNK = 1_800;
+const MAX_TRANSLATION_CHUNK = 300;
 const TRANSLATION_CACHE_VERSION = 3;
 
 function repoRoot(): string {
