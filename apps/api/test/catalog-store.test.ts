@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { CatalogStore } from "../src/catalog-store";
+import { CatalogStore, toFtsQuery } from "../src/catalog-store";
 
 function emptyDatabase(): D1Database {
   return {
@@ -11,6 +11,11 @@ function emptyDatabase(): D1Database {
 }
 
 describe("CatalogStore", () => {
+  it("builds broad prefix queries while keeping FTS syntax quoted", () => {
+    expect(toFtsQuery("image clipboard")).toBe('"image"* OR "clipboard"*');
+    expect(toFtsQuery('say "hello"')).toBe('"say"* OR """hello"""*');
+  });
+
   it("returns stable empty results before the first catalog is published", async () => {
     const store = new CatalogStore(emptyDatabase());
 

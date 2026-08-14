@@ -2,12 +2,15 @@ import type { CatalogPluginSummary } from "@dshhub/contracts";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 
+import { CopyButton } from "./copy-button";
 import { displayInstallCommand } from "../lib/install-command";
 import { categoryLabel, formatStars } from "../lib/presentation";
 
 type PluginCardProps = {
   categoriesLabel: string;
   categoryLabels: Record<string, string>;
+  copiedLabel: string;
+  copyLabel: string;
   index: number;
   missingDescription: string;
   plugin: CatalogPluginSummary;
@@ -35,7 +38,10 @@ export function PluginCard(props: PluginCardProps) {
         {props.updatedText && <time>{props.updatedText}</time>}
       </div>
       {installCommand && (
-        <code className="card-command"><em>$</em> {installCommand}</code>
+        <div className="card-command">
+          <code><em>$</em> {installCommand}</code>
+          <CopyButton copiedLabel={props.copiedLabel} copyLabel={props.copyLabel} value={installCommand} />
+        </div>
       )}
       {props.viewLabel && (
         <div className="card-footer">

@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import { localizePlugin } from "../src/i18n";
-import { catalogPluginSchema } from "../src/schema";
+import { catalogPluginSchema, type CatalogPlugin } from "../src/schema";
 import {
   discoverCatalogSnapshot,
   isFeaturedPlugin,
   renderCatalogSection,
   replaceCatalogSection,
+  selectCategoryHighlights,
 } from "../src/node";
 import { firstPlainParagraph, isSubstantialDocumentation } from "../src/readme";
 
@@ -107,6 +108,30 @@ describe("catalog README projection", () => {
     expect(updated).toContain("# Intro");
     expect(updated).toContain("Footer");
     expect(updated).not.toContain("\nold\n");
+  });
+
+  it("selects five repository-diverse highlights for each category", () => {
+    const plugins = [
+      ["owner-a", "plugin-a", 100],
+      ["owner-a", "plugin-b", 90],
+      ["owner-b", "plugin-c", 80],
+      ["owner-c", "plugin-d", 70],
+      ["owner-d", "plugin-e", 60],
+      ["owner-e", "plugin-f", 50],
+    ].map(([owner, name, stars]) => ({
+      name,
+      featured: false,
+      repository: { owner, name: owner, stars, pushedAt: null },
+      compatibility: { status: "unknown", level: "declared" },
+    })) as unknown as CatalogPlugin[];
+
+    expect(selectCategoryHighlights(plugins).map(plugin => plugin.name)).toEqual([
+      "plugin-a",
+      "plugin-c",
+      "plugin-d",
+      "plugin-e",
+      "plugin-f",
+    ]);
   });
 });
 

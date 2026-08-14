@@ -4,6 +4,7 @@ import type { CatalogPlugin, CatalogSnapshot } from "../src/schema";
 import {
   asFullSnapshot,
   chunkText,
+  createTaskLimiter,
   pluginsNeedingTranslation,
   reusableTranslations,
   translationPayload,
@@ -51,6 +52,34 @@ describe("catalog translation", () => {
 
     expect(chunks.every(chunk => chunk.length <= 1_200)).toBe(true);
     expect(chunks.join("")).toBe(markdown);
+  });
+
+  it("limits concurrent tasks and preserves result order", async () => {
+    const limit = createTaskLimiter(2);
+    let active = 0;
+    let maximumActive = 0;
+    const release: Array<() => void> = [];
+
+    const tasks = [0, 1, 2].map(index => limit(async () => {
+      active += 1;
+      maximumActive = Math.max(maximumActive, active);
+      await new Promise<void>(resolve => release[index] = resolve);
+      active -= 1;
+      return index;
+    }));
+
+    expect(maximumActive).toBe(2);
+    expect(release[2]).toBeUndefined();
+
+    release[0]?.();
+    await tasks[0];
+    expect(release[2]).toBeTypeOf("function");
+
+    release[2]?.();
+    await tasks[2];
+    release[1]?.();
+    await expect(Promise.all(tasks)).resolves.toEqual([0, 1, 2]);
+    expect(maximumActive).toBe(2);
   });
 
   it("rejects a response that omits any target locale", () => {

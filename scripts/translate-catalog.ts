@@ -42,6 +42,27 @@ type TranslationPayload = {
   usageSummary: string;
 };
 
+export function createTaskLimiter(concurrency: number) {
+  const maximum = Number.isFinite(concurrency) ? Math.max(1, Math.floor(concurrency)) : 1;
+  let active = 0;
+  const waiting: Array<() => void> = [];
+
+  return async function runLimited<T>(task: () => Promise<T>): Promise<T> {
+    if (active >= maximum) {
+      await new Promise<void>(resolve => waiting.push(resolve));
+    } else {
+      active += 1;
+    }
+    try {
+      return await task();
+    } finally {
+      const next = waiting.shift();
+      if (next) next();
+      else active -= 1;
+    }
+  };
+}
+
 function argValue(name: string, fallback?: string): string | undefined {
   const index = process.argv.indexOf(name);
   if (index >= 0 && process.argv[index + 1]) return process.argv[index + 1];
@@ -233,6 +254,7 @@ async function translatePlugin(
   apiUrl: string,
   apiKey: string,
   model: string,
+  request: typeof requestTranslation,
 ): Promise<Record<CatalogLocale, CatalogI18nEntry>> {
   const source = translationPayload(plugin);
   const baseSource: TranslationPayload = {
@@ -240,35 +262,34 @@ async function translatePlugin(
     installationMarkdown: "",
     usageMarkdown: "",
   };
-  const translated = await requestTranslation(plugin.slug, baseSource, apiUrl, apiKey, model);
+  const translated = await request(plugin.slug, baseSource, apiUrl, apiKey, model);
   for (const locale of catalogLocales) {
     translated[locale].installationMarkdown = "";
     translated[locale].usageMarkdown = "";
   }
 
   const markdownFields = ["installationMarkdown", "usageMarkdown"] as const;
-  for (const field of markdownFields) {
-    for (const chunk of chunkText(source[field])) {
-      const chunkSource: TranslationPayload = {
+  await Promise.all(markdownFields.map(async (field) => {
+    const chunkTranslations = await Promise.all(chunkText(source[field]).map(chunk => request(
+      plugin.slug,
+      {
         description: "",
         installationMarkdown: "",
         installationNotes: [],
         usageMarkdown: "",
         usageSummary: "",
         [field]: chunk,
-      };
-      const chunkTranslation = await requestTranslation(
-        plugin.slug,
-        chunkSource,
-        apiUrl,
-        apiKey,
-        model,
-      );
+      },
+      apiUrl,
+      apiKey,
+      model,
+    )));
+    for (const chunkTranslation of chunkTranslations) {
       for (const locale of catalogLocales) {
         translated[locale][field] += chunkTranslation[locale][field] ?? "";
       }
     }
-  }
+  }));
   return validateTranslations(translated, source);
 }
 
@@ -316,7 +337,13 @@ export async function main(): Promise<void> {
   let reused = 0;
   let failed = 0;
 
-  await mapPool(plugins, Number.isFinite(concurrency) ? Math.max(1, concurrency) : DEFAULT_CONCURRENCY, async (plugin) => {
+  const requestConcurrency = Number.isFinite(concurrency)
+    ? Math.max(1, Math.floor(concurrency))
+    : DEFAULT_CONCURRENCY;
+  const limitRequest = createTaskLimiter(requestConcurrency);
+  const limitedRequest: typeof requestTranslation = (...args) => limitRequest(() => requestTranslation(...args));
+
+  await mapPool(plugins, requestConcurrency, async (plugin) => {
     const key = `${plugin.id}:${fingerprint(plugin, model)}`;
     if (!force && cache[key]) {
       try {
@@ -337,7 +364,7 @@ export async function main(): Promise<void> {
       }
     }
     try {
-      const i18n = await translatePlugin(plugin, apiUrl, apiKey, model);
+      const i18n = await translatePlugin(plugin, apiUrl, apiKey, model, limitedRequest);
       plugin.i18n = i18n;
       cache[key] = i18n;
       writeJson(cachePath, cache);

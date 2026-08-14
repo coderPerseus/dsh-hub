@@ -39,3 +39,42 @@ export function i18nSearchText(plugin: CatalogPlugin): string {
     .filter((value): value is string => Boolean(value));
   return [plugin.description, plugin.usage.summary, ...translated].join("\n");
 }
+
+export function catalogSearchText(plugin: CatalogPlugin): string {
+  const translated = Object.values(plugin.i18n ?? {}).flatMap(entry => [
+    entry?.description,
+    entry?.installationMarkdown,
+    ...(entry?.installationNotes ?? []),
+    entry?.usageMarkdown,
+    entry?.usageSummary,
+  ]);
+  const peerDependencies = Object.entries(plugin.package.peerDependencies).flat();
+  const compatibility = plugin.compatibility.checks.flatMap(check => [
+    check.id,
+    check.status,
+    check.summary,
+  ]);
+
+  return [
+    plugin.repository.owner,
+    plugin.repository.name,
+    plugin.repository.defaultBranch,
+    plugin.repository.homepage,
+    ...plugin.repository.topics,
+    plugin.package.name,
+    plugin.package.version,
+    plugin.package.bundlePatch,
+    ...peerDependencies,
+    ...plugin.categories,
+    plugin.compatibility.harnessRange,
+    plugin.compatibility.cordisRange,
+    ...compatibility,
+    plugin.installation.spec,
+    plugin.installation.command,
+    plugin.installation.markdown,
+    ...plugin.installation.notes,
+    plugin.usage.summary,
+    plugin.usage.markdown,
+    ...translated,
+  ].filter((value): value is string => Boolean(value)).join("\n");
+}

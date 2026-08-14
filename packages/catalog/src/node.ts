@@ -603,34 +603,92 @@ export async function discoverCatalogSnapshot(
   });
 }
 
-export function renderCatalogSection(snapshot: CatalogSnapshot): string {
-  const categoryCount = new Map<string, number>();
-  for (const plugin of snapshot.plugins) {
-    for (const category of plugin.categories) {
-      categoryCount.set(category, (categoryCount.get(category) ?? 0) + 1);
+const README_CATEGORY_LIMIT = 5;
+const COMPATIBILITY_LEVEL_SCORE: Record<CatalogPlugin["compatibility"]["level"], number> = {
+  unverified: 0,
+  declared: 1,
+  validated: 2,
+  tested: 3,
+};
+
+function compareReadmeHighlights(left: CatalogPlugin, right: CatalogPlugin): number {
+  if (left.featured !== right.featured) return left.featured ? -1 : 1;
+  const leftCompatible = left.compatibility.status !== "incompatible";
+  const rightCompatible = right.compatibility.status !== "incompatible";
+  if (leftCompatible !== rightCompatible) return leftCompatible ? -1 : 1;
+  const evidence = COMPATIBILITY_LEVEL_SCORE[right.compatibility.level]
+    - COMPATIBILITY_LEVEL_SCORE[left.compatibility.level];
+  if (evidence !== 0) return evidence;
+  if (left.repository.stars !== right.repository.stars) {
+    return right.repository.stars - left.repository.stars;
+  }
+  const freshness = (Date.parse(right.repository.pushedAt ?? "") || 0)
+    - (Date.parse(left.repository.pushedAt ?? "") || 0);
+  return freshness || left.name.localeCompare(right.name);
+}
+
+export function selectCategoryHighlights(
+  plugins: CatalogPlugin[],
+  limit = README_CATEGORY_LIMIT,
+): CatalogPlugin[] {
+  const sorted = [...plugins].sort(compareReadmeHighlights);
+  const selected: CatalogPlugin[] = [];
+  const repeated: CatalogPlugin[] = [];
+  const repositories = new Set<string>();
+
+  for (const plugin of sorted) {
+    const repository = `${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase();
+    if (repositories.has(repository)) repeated.push(plugin);
+    else {
+      repositories.add(repository);
+      selected.push(plugin);
     }
   }
-  const categories = [...categoryCount.entries()]
-    .sort(([left], [right]) => left.localeCompare(right))
-    .map(([category, count]) => `- \`${category}\`: ${count}`)
-    .join("\n");
-  const rows = snapshot.plugins.map(plugin => (
-    `| [${plugin.name}](${plugin.repository.url}) | ${plugin.description.replaceAll("|", "\\|")} | ${plugin.categories.join(", ")} | ${plugin.compatibility.level} |`
+  return [...selected, ...repeated].slice(0, Math.max(0, limit));
+}
+
+function readmeDescription(value: string, limit = 160): string {
+  const compact = value.replaceAll(/\s+/g, " ").trim().replaceAll("|", "\\|");
+  return compact.length > limit ? `${compact.slice(0, limit - 1).trimEnd()}…` : compact;
+}
+
+function renderReadmePluginRows(plugins: CatalogPlugin[]): string {
+  return plugins.map(plugin => (
+    `| [${plugin.name}](${plugin.repository.url}) | ${readmeDescription(plugin.description)} | ★ ${plugin.repository.stars} | ${plugin.compatibility.level} |`
   )).join("\n");
+}
+
+export function renderCatalogSection(snapshot: CatalogSnapshot): string {
+  const categories = new Map<string, CatalogPlugin[]>();
+  for (const plugin of snapshot.plugins) {
+    for (const category of plugin.categories) {
+      const members = categories.get(category) ?? [];
+      members.push(plugin);
+      categories.set(category, members);
+    }
+  }
+  const categorySections = [...categories.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([category, plugins]) => [
+      `### ${category} · ${plugins.length}`,
+      "",
+      "| Plugin | Description | Stars | Evidence |",
+      "| --- | --- | ---: | --- |",
+      renderReadmePluginRows(selectCategoryHighlights(plugins)),
+      "",
+      `[View all ${plugins.length} ${category} plugins →](https://dshhub.org/?category=${encodeURIComponent(category)})`,
+    ].join("\n"))
+    .join("\n\n");
 
   return [
     "<!-- catalog:start -->",
-    "## Plugin catalog",
+    "## Explore plugins by category",
     "",
-    `Generated at ${snapshot.generatedAt} from snapshot \`${snapshot.snapshotId}\`.`,
+    `Discover **${snapshot.plugins.length} community plugins** across ${categories.size} categories. Each category highlights five plugins; open the category to search and browse the complete list.`,
     "",
-    `Plugins: **${snapshot.plugins.length}**`,
+    categorySections || "No plugins registered yet.",
     "",
-    categories || "No categories yet.",
-    "",
-    "| Plugin | Description | Categories | Evidence |",
-    "| --- | --- | --- | --- |",
-    rows || "| — | No plugins registered yet. | — | — |",
+    `<sub>Catalog snapshot \`${snapshot.snapshotId}\`, generated ${snapshot.generatedAt}.</sub>`,
     "<!-- catalog:end -->",
   ].join("\n");
 }

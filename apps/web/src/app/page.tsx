@@ -160,6 +160,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                 <PluginCard
                   categoriesLabel={t.categoriesLabel}
                   categoryLabels={t.categories}
+                  copiedLabel={t.copied}
+                  copyLabel={t.copy}
                   index={index}
                   key={plugin.id}
                   missingDescription={t.missingDescription}

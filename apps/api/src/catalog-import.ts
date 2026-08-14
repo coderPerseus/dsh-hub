@@ -1,4 +1,5 @@
 import {
+  catalogSearchText,
   catalogSnapshotSchema,
   i18nSearchText,
   type CatalogPlugin,
@@ -132,8 +133,8 @@ function pluginStatements(
       plugin.name,
       plugin.package.name,
       i18nSearchText(plugin),
-      plugin.repository.topics.join(" "),
-      `${plugin.usage.summary}\n${plugin.usage.markdown}`,
+      [...plugin.repository.topics, ...plugin.categories].join(" "),
+      catalogSearchText(plugin),
     ));
   }
   return statements;

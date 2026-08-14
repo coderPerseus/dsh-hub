@@ -705,20 +705,35 @@ button, input, select { font: inherit; color: inherit; }
 }
 .card-meta time { flex: none; }
 .card-command {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   max-width: 100%;
   margin-top: 14px;
   padding: 10px 12px;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, .08);
   border-radius: 10px;
   color: rgba(255, 255, 255, .72);
   background: rgba(0, 0, 0, .22);
   font: 12px/1.4 var(--ds-font-mono);
+}
+.card-command code {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  font: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .card-command em { margin-right: 8px; color: #65a8ef; font-style: normal; }
+.card-command .copy-button {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  padding: 2px 0 2px 10px;
+  border-left: 1px solid rgba(255, 255, 255, .1);
+  font: inherit;
+}
 .card-footer { margin-top: 14px; text-align: right; }
 .card-footer a { position: relative; z-index: 2; color: #fff; font-size: 12px; text-decoration: none; }
 .card-footer a:hover { color: var(--ds-color-brand); }

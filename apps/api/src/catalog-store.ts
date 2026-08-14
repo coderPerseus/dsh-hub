@@ -64,12 +64,12 @@ function localizedRowDescription(
   }
 }
 
-function toFtsQuery(query: string): string {
+export function toFtsQuery(query: string): string {
   return query
     .split(/\s+/)
     .filter(Boolean)
-    .map(token => `"${token.replaceAll('"', '""')}"`)
-    .join(" AND ");
+    .map(token => `"${token.replaceAll('"', '""')}"*`)
+    .join(" OR ");
 }
 
 export class CatalogStore {

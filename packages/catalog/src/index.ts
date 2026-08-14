@@ -1,4 +1,5 @@
 export {
+  catalogSearchText,
   i18nSearchText,
   isCatalogLocale,
   localizePlugin,
