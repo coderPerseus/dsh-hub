@@ -2,6 +2,7 @@ import {
   catalogLocales,
   type CatalogLocale,
   type CatalogPlugin,
+  type CatalogSnapshot,
 } from "./schema";
 
 export function isCatalogLocale(value: string | null | undefined): value is CatalogLocale {
@@ -38,6 +39,18 @@ export function i18nSearchText(plugin: CatalogPlugin): string {
     .flatMap(entry => [entry?.description, entry?.usageSummary])
     .filter((value): value is string => Boolean(value));
   return [plugin.description, plugin.usage.summary, ...translated].join("\n");
+}
+
+export function stripCatalogTranslations(snapshot: CatalogSnapshot): CatalogSnapshot {
+  if (!snapshot.plugins.some(plugin => plugin.i18n !== undefined)) return snapshot;
+  const { changedRepositories: _changedRepositories, ...fullSnapshot } = snapshot;
+  return {
+    ...fullSnapshot,
+    plugins: snapshot.plugins.map(plugin => {
+      const { i18n: _i18n, ...sourcePlugin } = plugin;
+      return sourcePlugin;
+    }),
+  };
 }
 
 export function catalogSearchText(plugin: CatalogPlugin): string {

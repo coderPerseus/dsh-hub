@@ -4,6 +4,7 @@ export {
   isCatalogLocale,
   localizePlugin,
   localizedDescription,
+  stripCatalogTranslations,
 } from "./i18n";
 export {
   catalogI18nEntrySchema,

@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { localizePlugin, localizedDescription } from "../src/i18n";
-import { catalogPluginSchema, type CatalogPlugin } from "../src/schema";
+import {
+  localizePlugin,
+  localizedDescription,
+  stripCatalogTranslations,
+} from "../src/i18n";
+import {
+  catalogPluginSchema,
+  type CatalogPlugin,
+  type CatalogSnapshot,
+} from "../src/schema";
 import {
   discoverCatalogSnapshot,
   isFeaturedPlugin,
@@ -95,6 +103,29 @@ describe("catalog i18n", () => {
 
     expect(localizePlugin(plugin, "zh-CN")).toBe(plugin);
     expect(localizedDescription(plugin, "zh-CN")).toBe("Source description");
+  });
+
+  it("removes legacy translations and requests a one-time full import", () => {
+    const plugin = {
+      description: "Source description",
+      i18n: { "zh-CN": { description: "中文描述" } },
+      installation: { markdown: "Source install", notes: [] },
+      usage: { markdown: "Source usage", summary: "Source summary" },
+    } as unknown as CatalogPlugin;
+    const snapshot: CatalogSnapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-with-translations",
+      generatedAt: "2026-08-14T00:00:00.000Z",
+      changedRepositories: ["owner/plugin"],
+      source: { repository: "owner/catalog", commit: "abcdef" },
+      mainline: null,
+      plugins: [plugin],
+    };
+
+    const stripped = stripCatalogTranslations(snapshot);
+
+    expect(stripped.changedRepositories).toBeUndefined();
+    expect(stripped.plugins[0]?.i18n).toBeUndefined();
   });
 });
 

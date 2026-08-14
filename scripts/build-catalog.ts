@@ -3,6 +3,7 @@ import path from "node:path";
 
 import {
   catalogSnapshotSchema,
+  stripCatalogTranslations,
   type CatalogSnapshot,
 } from "../packages/catalog/src";
 import {
@@ -46,7 +47,7 @@ async function main(): Promise<void> {
     throw new Error("CATALOG_MIN_PLUGIN_COUNT must be a positive integer.");
   }
   const previousSnapshot = await readPreviousSnapshot(minimumPluginCount);
-  const snapshot = await discoverCatalogSnapshot({
+  const discoveredSnapshot = await discoverCatalogSnapshot({
     catalogMode,
     discoveryQueries: targetRepository ? [`repo:${targetRepository}`] : undefined,
     githubToken: process.env.GITHUB_TOKEN,
@@ -54,6 +55,7 @@ async function main(): Promise<void> {
     previousSnapshot,
     source: { repository: sourceRepository, commit: sourceCommit },
   });
+  const snapshot = stripCatalogTranslations(discoveredSnapshot);
 
   await mkdir(outputDirectory, { recursive: true });
   await writeFile(
