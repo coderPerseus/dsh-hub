@@ -15,11 +15,6 @@ on:
         description: Optional owner/repo to discover
         required: false
         type: string
-      translate:
-        description: Translate changed plugin documentation
-        required: true
-        default: true
-        type: boolean
   schedule:
     - cron: "17 * * * *"
     - cron: "37 3 * * 0"
@@ -28,7 +23,6 @@ on:
     paths:
       - "packages/catalog/**"
       - "scripts/build-catalog.ts"
-      - "scripts/translate-catalog.ts"
       - "scripts/publish-catalog.ts"
       - ".github/workflows/publish-catalog.yml"
 
@@ -67,20 +61,7 @@ jobs:
           CATALOG_REPOSITORY: ${{ github.event_name == 'workflow_dispatch' && inputs.repository || '' }}
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Restore catalog translation cache
-        uses: actions/cache@v4
-        with:
-          path: .catalog/i18n-cache.json
-          key: catalog-i18n-${{ runner.os }}-${{ github.run_id }}
-          restore-keys: |
-            catalog-i18n-${{ runner.os }}-
-
-      - name: Translate catalog snapshot
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.translate }}
-        run: pnpm catalog:translate -- --concurrency 10
-        env:
-          NEW_API_KEY: ${{ secrets.NEW_API_KEY }}
-          NEW_API_URL: ${{ secrets.NEW_API_URL }}
+      # Publish repository-authored catalog content without machine translation.
 
       - name: Validate catalog packages
         run: |

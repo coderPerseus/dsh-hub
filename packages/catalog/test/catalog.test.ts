@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { localizePlugin } from "../src/i18n";
+import { localizePlugin, localizedDescription } from "../src/i18n";
 import { catalogPluginSchema, type CatalogPlugin } from "../src/schema";
 import {
   discoverCatalogSnapshot,
@@ -84,6 +84,17 @@ describe("catalog i18n", () => {
 
     expect(localizePlugin(plugin, "ja").description).toBe("Source description");
     expect(localizePlugin(plugin, "zh-CN").description).toBe("中文描述");
+  });
+
+  it("serves repository-authored content when translations are absent", () => {
+    const plugin = {
+      description: "Source description",
+      installation: { markdown: "Source install", notes: ["Source note"] },
+      usage: { markdown: "Source usage", summary: "Source summary" },
+    } as unknown as Parameters<typeof localizePlugin>[0];
+
+    expect(localizePlugin(plugin, "zh-CN")).toBe(plugin);
+    expect(localizedDescription(plugin, "zh-CN")).toBe("Source description");
   });
 });
 

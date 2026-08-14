@@ -22,7 +22,7 @@ The first D1 import writes a complete run and switches it to `current`. Later im
 
 ## Discovery and qualification
 
-Web requests pass the current UI locale into `catalog.list` and `catalog.detail`. The API overlays `plugin.i18n[locale]` onto description, usage, and installation copy, then falls back to the original scraped text.
+Web requests pass the current UI locale into `catalog.list` and `catalog.detail`. Catalog content is published in the language used by each repository. The API still accepts older snapshots containing `plugin.i18n`, and falls back to the original scraped text whenever a locale-specific entry is absent.
 
 The hourly discovery build reads the current snapshot from Cloudflare, searches repositories seen since that snapshot, skips repositories already present in the catalog, and deduplicates these topics:
 
@@ -81,29 +81,7 @@ CATALOG_INGEST_TOKEN=... \
 pnpm catalog:refresh
 ```
 
-Translate scraped plugin copy into `zh-CN`, `en`, `ja`, `ko`, and `zh-TW` after a local snapshot exists. The script caches results in `.catalog/i18n-cache.json` and writes translations back onto the snapshot:
-
-```bash
-NEW_API_URL=https://api.example.com/v1/chat/completions NEW_API_KEY=... pnpm catalog:translate
-NEW_API_URL=https://api.example.com/v1/chat/completions NEW_API_KEY=... pnpm catalog:translate -- --limit 5
-```
-
-Required environment:
-
-- `NEW_API_URL` — OpenAI-compatible chat completions endpoint
-- `NEW_API_KEY` — API key for that endpoint
-
-Optional environment:
-
-- `NEW_API_MODEL` — default `deepseek-v4-flash`
-
-The publish workflow runs this translation step after catalog discovery. Configure
-`NEW_API_URL` and `NEW_API_KEY` as GitHub Actions repository secrets before running it.
-It restores the translation cache between runs and chunks long Markdown fields before
-translation. A translated snapshot is published as a full import so translations for
-unchanged repositories also reach the API.
-
-Then apply D1 migrations and publish so the API can serve locale-specific descriptions:
+Apply D1 migrations before publishing catalog data:
 
 ```bash
 pnpm --filter @dshhub/api run db:migrate:local

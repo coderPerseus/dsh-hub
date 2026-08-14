@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useFormStatus } from "react-dom";
 
 import type { Messages } from "../lib/i18n/messages";
@@ -55,7 +56,7 @@ export function SubmissionDialog({
       ? { body: labels.duplicateBody, title: labels.duplicateTitle }
       : { body: labels.indexedBody, title: labels.indexedTitle };
 
-  return (
+  return createPortal(
     <div
       className="submission-backdrop"
       onMouseDown={event => {
@@ -112,6 +113,7 @@ export function SubmissionDialog({
           </>
         )}
       </section>
-    </div>
+    </div>,
+    document.body,
   );
 }
