@@ -243,7 +243,7 @@ function peerRange(peers: Record<string, string>, matcher: (name: string) => boo
 }
 
 function isInstallablePackage(manifest: PackageManifest): manifest is PackageManifest & { name: string } {
-  if (manifest.private || !manifest.name || (!manifest.main && !manifest.exports && !manifest.dsh)) return false;
+  if ((manifest.private && !manifest.dsh) || !manifest.name || (!manifest.main && !manifest.exports && !manifest.dsh)) return false;
   const evidence = [manifest.name, manifest.description, ...(manifest.keywords ?? [])].filter(Boolean).join(" ");
   const peers = Object.keys(manifest.peerDependencies ?? {});
   return Boolean(

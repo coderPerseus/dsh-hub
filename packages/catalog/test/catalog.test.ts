@@ -306,6 +306,58 @@ describe("catalog discovery", () => {
     );
   });
 
+  it("discovers a private GitHub package with an explicit DSH manifest", async () => {
+    const repository = {
+      archived: false,
+      default_branch: "main",
+      description: "Desktop DSH distribution",
+      disabled: false,
+      fork: false,
+      full_name: "owner/private-dsh",
+      html_url: "https://github.com/owner/private-dsh",
+      license: { spdx_id: "BSD-3-Clause" },
+      name: "private-dsh",
+      owner: { login: "owner" },
+      pushed_at: "2026-08-14T00:00:00Z",
+      stargazers_count: 2,
+      topics: ["dsh-plugin"],
+    };
+    const responses = new Map<string, string>([
+      ["/search/repositories", JSON.stringify({ total_count: 1, incomplete_results: false, items: [repository] })],
+      ["/repos/owner/private-dsh/commits/main", JSON.stringify({
+        sha: "commit123",
+        commit: { tree: { sha: "tree123" } },
+      })],
+      ["/owner/private-dsh/main/package.json", JSON.stringify({
+        name: "@owner/private-dsh",
+        private: true,
+        main: "dist/plugin.js",
+        dsh: { bundle: { patch: "./dist/cordis.patch.yml" } },
+      })],
+      ["/owner/private-dsh/commit123/dist/cordis.patch.yml", "- insert: []"],
+    ]);
+    const fetcher = async (input: string | URL | Request): Promise<Response> => {
+      const pathname = new URL(typeof input === "string" ? input : input instanceof URL ? input : input.url);
+      const key = pathname.pathname === "/search/repositories"
+        ? pathname.pathname
+        : `${pathname.pathname}${pathname.search}`;
+      const body = responses.get(key);
+      return body === undefined ? new Response(null, { status: 404 }) : new Response(body);
+    };
+
+    const snapshot = await discoverCatalogSnapshot({
+      discoveryQueries: ["topic:dsh-plugin"],
+      fetch: fetcher as typeof fetch,
+      source: { repository: "owner/catalog", commit: "source123" },
+    });
+
+    expect(snapshot.plugins).toHaveLength(1);
+    expect(snapshot.plugins[0]?.slug).toBe("owner/private-dsh");
+    expect(snapshot.plugins[0]?.installation.command).toBe(
+      "npx -p @deepseek-ai/dsh dsh plugin --profile web add github:owner/private-dsh",
+    );
+  });
+
   it("excludes private and unrelated workspace packages", async () => {
     const repository = {
       archived: false,
