@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **3225 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **3247 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 1085
+### agents · 1094
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,9 +78,9 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [@linxin666/dsh-ssh](https://github.com/zhu1090093659/dsh-web-ui/tree/ef3ef0dbcb057135c41bcd2b9b5cf85cfb3716e8/packages/dsh-ssh) | Remote SSH operations for the dsh web GUI: host config store (~/.dsh/dsh-ssh.json, import from ~/.ssh/config), a persistent ssh2 connection pool with jump-host… | ★ 514 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 
-[View all 1085 agents plugins →](https://dshhub.org/?category=agents)
+[View all 1094 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 564
+### development · 567
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,7 +90,7 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 202 | declared |
 
-[View all 564 development plugins →](https://dshhub.org/?category=development)
+[View all 567 development plugins →](https://dshhub.org/?category=development)
 
 ### finance · 189
 
@@ -104,7 +104,7 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 
 [View all 189 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 414
+### integrations · 418
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -114,9 +114,9 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [@linxin666/dsh-remote-web-ui](https://github.com/ningbainb/deepseek-harness-desktop/tree/91a112efeee32e8e34b073194b9217863bed7436/packages/dsh-remote-web-ui) | Mobile remote control for the dsh web GUI: scan-to-pair QR entry beside the settings button, one-time pairing tokens, live device status, and revocable mobile… | ★ 44 | declared |
 | [@multica-ai/dsh-runtime](https://github.com/multica-ai/dsh-multica-runtime) | Private DeepSeek Harness runtime bridge for Multica | ★ 30 | declared |
 
-[View all 414 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 418 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 892
+### interface · 896
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,9 +126,9 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 202 | declared |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 
-[View all 892 interface plugins →](https://dshhub.org/?category=interface)
+[View all 896 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 208
+### memory · 209
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -138,9 +138,9 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [dsh-archived-sessions](https://github.com/Zephyr-vibe/dsh-archived-sessions) | DSH web plugin: an Archived Sessions manager in Settings — browse archived conversations, expand per-session details (disk usage, downloads, tool usage, lineag… | ★ 4 | declared |
 | [resanity](https://github.com/Thhoho/reSanity) | reSanity 散修：散户研究心法 skill + DeepSeek Harness 插件（skill provider、锚体检定时提醒、/resanity-check 命令） | ★ 4 | declared |
 
-[View all 208 memory plugins →](https://dshhub.org/?category=memory)
+[View all 209 memory plugins →](https://dshhub.org/?category=memory)
 
-### notifications · 112
+### notifications · 113
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -150,9 +150,9 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [@lyhalal/dsh-notification-center](https://github.com/610la/dsh-notification-center) | 通知中心：对话/任务完成、报错、等待批准等事件触发浏览器通知 + 21 种匹配音效，每类事件独立配置（音效/文件/URL/音量/开关）。 | ★ 3 | declared |
 | [dsh-telegram-relay](https://github.com/congchuanling-dot/DSH-Telegram-Relay) | A DeepSeek Harness plugin bundle for Telegram relay integration. | ★ 3 | declared |
 
-[View all 112 notifications plugins →](https://dshhub.org/?category=notifications)
+[View all 113 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 614
+### other · 620
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,9 +162,9 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [@yejiming/dsh-gomoku](https://github.com/omdsh-dev/dsh-gomoku) | Gomoku (five-in-a-row) for the dsh web GUI: AI move routes, model catalog, and default prompt (node half) plus the conversation-view tab with the board (browse… | ★ 13 | declared |
 | [@dsh-scholar/research-plugin](https://github.com/lzszq/dsh-scholar) | DSH Research OS — a fully automated scientific research plugin for DSH (DeepSeek Harness): survey, idea, experiment contract, durable runner jobs, claim-eviden… | ★ 11 | declared |
 
-[View all 614 other plugins →](https://dshhub.org/?category=other)
+[View all 620 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 777
+### productivity · 782
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,9 +174,9 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [@deepseek-ai/dsh-product-bridge](https://github.com/vibeinging/deepseek-harness-desktop-app/tree/a7cfa02b2937730fd3e3d75b97524550afa957f7/packages/dsh-product-bridge) | Session-scoped DeepSeek Harness Desktop App capabilities for the current DSH Web profile | ★ 111 | declared |
 | [@linxin666/dsh-client-ui-git-graph](https://github.com/ningbainb/deepseek-harness-desktop/tree/91a112efeee32e8e34b073194b9217863bed7436/packages/dsh-git-graph) | External dsh web GUI plugin: a git branch selector + Git graph in the conversation header's context hole (beside the official workspace selector), with real ho… | ★ 44 | declared |
 
-[View all 777 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 782 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 306
+### skills · 307
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -186,7 +186,7 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 | [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 153 | declared |
 | [@linxin666/dsh-client-ui-aionui-panel](https://github.com/ningbainb/deepseek-harness-desktop/tree/91a112efeee32e8e34b073194b9217863bed7436/packages/dsh-aionui-panel) | DSH web GUI right-panel system: a pixel-faithful re-implementation of AionUi's Explorer + Preview columns (file tree, filename search, git changes, multi-tab p… | ★ 44 | declared |
 
-[View all 306 skills plugins →](https://dshhub.org/?category=skills)
+[View all 307 skills plugins →](https://dshhub.org/?category=skills)
 
 ### vision · 266
 
@@ -200,7 +200,7 @@ Discover **3225 community plugins** across 11 categories. Each category highligh
 
 [View all 266 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-15T18:49:27.008Z-4b41913a0cb8`, generated 2026-08-15T18:49:27.008Z.</sub>
+<sub>Catalog snapshot `2026-08-15T19:37:55.359Z-4c6f8f8de136`, generated 2026-08-15T19:37:55.359Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
