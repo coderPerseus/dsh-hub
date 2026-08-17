@@ -341,7 +341,7 @@ async function discoverRepositories(
       if (result.incomplete_results) {
         throw new Error(`GitHub discovery returned incomplete results for ${query}.`);
       }
-      if (result.total_count > 1_000) {
+      if (options.catalogMode === "backfill" && result.total_count > 1_000) {
         throw new Error(`GitHub discovery query exceeds 1000 repositories: ${query}.`);
       }
       for (const repository of result.items) {

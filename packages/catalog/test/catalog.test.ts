@@ -350,8 +350,11 @@ describe("catalog discovery", () => {
     }));
 
     await expect(discoverCatalogSnapshot({
+      catalogMode: "backfill",
       discoveryQueries: ["topic:dsh-plugin"],
+      discoverySince: new Date("2026-08-14T00:00:00Z"),
       fetch: fetcher as typeof fetch,
+      generatedAt: new Date("2026-08-14T01:00:00Z"),
       source: { repository: "owner/catalog", commit: "source123" },
     })).rejects.toThrow(/incomplete results/);
   });
@@ -364,8 +367,11 @@ describe("catalog discovery", () => {
     }));
 
     await expect(discoverCatalogSnapshot({
+      catalogMode: "backfill",
       discoveryQueries: ["topic:dsh-plugin"],
+      discoverySince: new Date("2026-08-14T00:00:00Z"),
       fetch: fetcher as typeof fetch,
+      generatedAt: new Date("2026-08-14T01:00:00Z"),
       source: { repository: "owner/catalog", commit: "source123" },
     })).rejects.toThrow(/exceeds 1000 repositories/);
   });
