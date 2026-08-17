@@ -282,6 +282,31 @@ describe("catalog discovery", () => {
     expect(refreshed.plugins[0]?.repository.stars).toBe(43);
     expect(refreshed.changedRepositories).toEqual(["owner/plugin"]);
 
+    responses.set("/repos/owner/plugin", JSON.stringify({
+      archived: false,
+      default_branch: "main",
+      description: "Repository description",
+      disabled: false,
+      fork: false,
+      full_name: "owner/plugin",
+      homepage: "https://example.com/plugin",
+      html_url: "https://github.com/owner/plugin",
+      license: { spdx_id: "MIT" },
+      name: "plugin",
+      owner: { login: "owner" },
+      pushed_at: "2026-08-14T00:00:00Z",
+      stargazers_count: 42,
+      topics: ["dsh-plugin", "vision"],
+    }));
+    const unchangedRefresh = await discoverCatalogSnapshot({
+      catalogMode: "refresh",
+      fetch: fetcher as typeof fetch,
+      generatedAt: new Date("2026-08-14T03:30:00Z"),
+      previousSnapshot: snapshot,
+      source: { repository: "owner/catalog", commit: "source890" },
+    });
+    expect(unchangedRefresh.changedRepositories).toEqual([]);
+
     const failedRefresh = await discoverCatalogSnapshot({
       catalogMode: "refresh",
       fetch: (async () => new Response(null, { status: 403 })) as typeof fetch,

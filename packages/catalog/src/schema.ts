@@ -97,6 +97,12 @@ export const catalogSnapshotSchema = z.object({
     })
     .nullable(),
   plugins: z.array(catalogPluginSchema),
+  importBatch: z.object({
+    advancesCursor: z.boolean(),
+    id: z.string().min(1),
+    index: z.number().int().positive(),
+    total: z.number().int().positive(),
+  }).refine(batch => batch.index <= batch.total, "batch index cannot exceed total").optional(),
 });
 
 export type CatalogPlugin = z.infer<typeof catalogPluginSchema>;

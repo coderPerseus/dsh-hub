@@ -569,19 +569,37 @@ export async function discoverCatalogSnapshot(
   const failedRepositories = new Set(built
     .filter(result => !result.succeeded)
     .map(result => result.source.repository.full_name.toLowerCase()));
-  const changedRepositories = new Set(discovered
+  const refreshedRepositories = new Set(discovered
     .filter(result => result.succeeded && !failedRepositories.has(result.repository.full_name.toLowerCase()))
     .map(result => result.repository.full_name.toLowerCase()));
   const plugins = built
     .filter((result): result is typeof result & { plugin: CatalogPlugin } => (
-      result.plugin !== null && changedRepositories.has(result.source.repository.full_name.toLowerCase())
+      result.plugin !== null && refreshedRepositories.has(result.source.repository.full_name.toLowerCase())
     ))
     .map(result => result.plugin);
   const retained = (options.previousSnapshot?.plugins ?? []).filter(plugin => (
-    !changedRepositories.has(`${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase())
+    !refreshedRepositories.has(`${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase())
   ));
   plugins.push(...retained);
   plugins.sort((left, right) => left.name.localeCompare(right.name));
+  const pluginsByRepository = (items: CatalogPlugin[]) => {
+    const grouped = new Map<string, CatalogPlugin[]>();
+    for (const plugin of items) {
+      const repository = `${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase();
+      grouped.set(repository, [...(grouped.get(repository) ?? []), plugin]);
+    }
+    for (const repositoryPlugins of grouped.values()) {
+      repositoryPlugins.sort((left, right) => left.id.localeCompare(right.id));
+    }
+    return grouped;
+  };
+  const previousByRepository = pluginsByRepository(options.previousSnapshot?.plugins ?? []);
+  const currentByRepository = pluginsByRepository(plugins);
+  const changedRepositories = [...refreshedRepositories].filter(repository => {
+    const previous = previousByRepository.get(repository) ?? [];
+    const current = currentByRepository.get(repository) ?? [];
+    return JSON.stringify(previous) !== JSON.stringify(current);
+  });
   const minimumPluginCount = options.minimumPluginCount ?? 1;
   if (plugins.length < minimumPluginCount) {
     throw new Error(`Discovery produced ${plugins.length} plugins; minimum is ${minimumPluginCount}.`);
@@ -595,7 +613,7 @@ export async function discoverCatalogSnapshot(
     snapshotId: `${generatedAt.toISOString()}-${options.source.commit.slice(0, 12)}`,
     generatedAt: generatedAt.toISOString(),
     changedRepositories: options.previousSnapshot
-      ? [...changedRepositories].sort()
+      ? changedRepositories.sort()
       : undefined,
     source: options.source,
     mainline: options.mainline ?? null,

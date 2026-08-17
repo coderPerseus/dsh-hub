@@ -95,8 +95,9 @@ app.post("/internal/catalog-imports", async (c) => {
   await c.env.DB.prepare(
     `INSERT INTO catalog_runs (
       id, snapshot_id, schema_version, source_repository, source_commit, mainline_commit,
-      r2_key, sha256, status, plugin_count, generated_at, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'queued', ?, ?, ?, ?)
+      r2_key, sha256, status, plugin_count, generated_at, created_at, updated_at,
+      batch_id, batch_index, batch_total, batch_advances_cursor
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'queued', ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       r2_key = excluded.r2_key, status = 'queued', error = NULL, updated_at = excluded.updated_at`,
   ).bind(
@@ -112,6 +113,10 @@ app.post("/internal/catalog-imports", async (c) => {
     input.snapshot.generatedAt,
     now,
     now,
+    input.snapshot.importBatch?.id ?? null,
+    input.snapshot.importBatch?.index ?? null,
+    input.snapshot.importBatch?.total ?? null,
+    input.snapshot.importBatch ? Number(input.snapshot.importBatch.advancesCursor) : null,
   ).run();
 
   try {

@@ -76,11 +76,35 @@ async function runBatches(db: D1Database, statements: D1PreparedStatement[]): Pr
   }
 }
 
-async function clearRun(db: D1Database, runId: string): Promise<void> {
+async function clearRunProjection(db: D1Database, runId: string): Promise<void> {
   await db.batch([
     db.prepare("DELETE FROM plugin_search WHERE run_id = ?").bind(runId),
     db.prepare("DELETE FROM plugin_categories WHERE run_id = ?").bind(runId),
     db.prepare("DELETE FROM plugin_snapshots WHERE run_id = ?").bind(runId),
+  ]);
+}
+
+async function copyRunProjection(db: D1Database, sourceRunId: string, targetRunId: string): Promise<void> {
+  await db.batch([
+    db.prepare(
+      `INSERT INTO plugin_snapshots (
+        run_id, plugin_id, slug, owner, repo, name, package_name, description,
+        compatibility_status, compatibility_level, stars, pushed_at, repository_url,
+        featured, installation_json, compatibility_json, usage_summary, usage_markdown, raw_json
+      ) SELECT ?, plugin_id, slug, owner, repo, name, package_name, description,
+        compatibility_status, compatibility_level, stars, pushed_at, repository_url,
+        featured, installation_json, compatibility_json, usage_summary, usage_markdown, raw_json
+      FROM plugin_snapshots WHERE run_id = ?`,
+    ).bind(targetRunId, sourceRunId),
+    db.prepare(
+      `INSERT INTO plugin_categories (run_id, plugin_id, category_id)
+       SELECT ?, plugin_id, category_id FROM plugin_categories WHERE run_id = ?`,
+    ).bind(targetRunId, sourceRunId),
+    db.prepare(
+      `INSERT INTO plugin_search (run_id, plugin_id, name, package_name, description, topics, usage)
+       SELECT ?, plugin_id, name, package_name, description, topics, usage
+       FROM plugin_search WHERE run_id = ?`,
+    ).bind(targetRunId, sourceRunId),
   ]);
 }
 
@@ -140,6 +164,28 @@ function pluginStatements(
   return statements;
 }
 
+async function replaceRepositories(
+  env: CatalogBindings,
+  targetRunId: string,
+  snapshot: CatalogSnapshot,
+  changedRepositories: string[],
+): Promise<void> {
+  for (const repository of changedRepositories) {
+    const [owner, repo] = repository.split("/");
+    const refreshedPlugins = snapshot.plugins.filter(plugin => (
+      plugin.repository.owner.toLowerCase() === owner?.toLowerCase()
+      && plugin.repository.name.toLowerCase() === repo?.toLowerCase()
+    ));
+    const match = "run_id = ? AND lower(owner) = lower(?) AND lower(repo) = lower(?)";
+    await runBatches(env.DB, [
+      env.DB.prepare(`DELETE FROM plugin_search WHERE run_id = ? AND plugin_id IN (SELECT plugin_id FROM plugin_snapshots WHERE ${match})`).bind(targetRunId, targetRunId, owner, repo),
+      env.DB.prepare(`DELETE FROM plugin_categories WHERE run_id = ? AND plugin_id IN (SELECT plugin_id FROM plugin_snapshots WHERE ${match})`).bind(targetRunId, targetRunId, owner, repo),
+      env.DB.prepare(`DELETE FROM plugin_snapshots WHERE ${match}`).bind(targetRunId, owner, repo),
+      ...pluginStatements(env.DB, targetRunId, refreshedPlugins),
+    ]);
+  }
+}
+
 async function importIncrementalSnapshot(
   env: CatalogBindings,
   runId: string,
@@ -152,20 +198,7 @@ async function importIncrementalSnapshot(
   ).first<{ id: string }>();
   if (current === null) return false;
 
-  for (const repository of changedRepositories) {
-    const [owner, repo] = repository.split("/");
-    const refreshedPlugins = snapshot.plugins.filter(plugin => (
-      plugin.repository.owner.toLowerCase() === owner?.toLowerCase()
-      && plugin.repository.name.toLowerCase() === repo?.toLowerCase()
-    ));
-    const match = "run_id = ? AND lower(owner) = lower(?) AND lower(repo) = lower(?)";
-    await runBatches(env.DB, [
-      env.DB.prepare(`DELETE FROM plugin_search WHERE run_id = ? AND plugin_id IN (SELECT plugin_id FROM plugin_snapshots WHERE ${match})`).bind(current.id, current.id, owner, repo),
-      env.DB.prepare(`DELETE FROM plugin_categories WHERE run_id = ? AND plugin_id IN (SELECT plugin_id FROM plugin_snapshots WHERE ${match})`).bind(current.id, current.id, owner, repo),
-      env.DB.prepare(`DELETE FROM plugin_snapshots WHERE ${match}`).bind(current.id, owner, repo),
-      ...pluginStatements(env.DB, current.id, refreshedPlugins),
-    ]);
-  }
+  await replaceRepositories(env, current.id, snapshot, changedRepositories);
   const count = await env.DB.prepare(
     "SELECT COUNT(*) AS count FROM plugin_snapshots WHERE run_id = ?",
   ).bind(current.id).first<{ count: number }>();
@@ -182,6 +215,101 @@ async function importIncrementalSnapshot(
   return true;
 }
 
+async function importBatchedSnapshot(
+  env: CatalogBindings,
+  runId: string,
+  snapshot: CatalogSnapshot,
+  now: string,
+): Promise<void> {
+  const batch = snapshot.importBatch;
+  if (!batch || !snapshot.changedRepositories) {
+    throw new Error("Catalog import batch metadata is incomplete.");
+  }
+
+  let stagingRunId: string;
+  if (batch.index === 1) {
+    stagingRunId = runId;
+    await clearRunProjection(env.DB, stagingRunId);
+    const current = await env.DB.prepare(
+      "SELECT id FROM catalog_runs WHERE status = 'current' ORDER BY published_at DESC LIMIT 1",
+    ).first<{ id: string }>();
+    if (current !== null) await copyRunProjection(env.DB, current.id, stagingRunId);
+  } else {
+    const completed = await env.DB.prepare(
+      `SELECT COUNT(*) AS count FROM catalog_runs
+       WHERE batch_id = ? AND batch_total = ? AND source_repository = ? AND source_commit = ?
+         AND generated_at = ? AND batch_advances_cursor = ?
+         AND batch_index < ? AND status = 'archived'`,
+    ).bind(
+      batch.id,
+      batch.total,
+      snapshot.source.repository,
+      snapshot.source.commit,
+      snapshot.generatedAt,
+      Number(batch.advancesCursor),
+      batch.index,
+    ).first<{ count: number }>();
+    if (completed?.count !== batch.index - 1) {
+      throw new Error(`Catalog import batch ${batch.id} is missing a completed part.`);
+    }
+    const staging = await env.DB.prepare(
+      `SELECT id FROM catalog_runs
+       WHERE batch_id = ? AND batch_index = 1 AND status IN ('archived', 'importing')
+       ORDER BY created_at DESC LIMIT 1`,
+    ).bind(batch.id).first<{ id: string }>();
+    if (staging === null) throw new Error(`Catalog import batch ${batch.id} is missing its first part.`);
+    stagingRunId = staging.id;
+  }
+
+  await replaceRepositories(env, stagingRunId, snapshot, snapshot.changedRepositories);
+  if (batch.index < batch.total) {
+    await env.DB.prepare(
+      "UPDATE catalog_runs SET status = 'archived', updated_at = ?, error = NULL WHERE id = ?",
+    ).bind(now, runId).run();
+    return;
+  }
+
+  const count = await env.DB.prepare(
+    "SELECT COUNT(*) AS count FROM plugin_snapshots WHERE run_id = ?",
+  ).bind(stagingRunId).first<{ count: number }>();
+  const previousCurrent = await env.DB.prepare(
+    "SELECT generated_at FROM catalog_runs WHERE status = 'current' AND id <> ? ORDER BY published_at DESC LIMIT 1",
+  ).bind(stagingRunId).first<{ generated_at: string }>();
+  const publishedGeneratedAt = batch.advancesCursor
+    ? snapshot.generatedAt
+    : previousCurrent?.generated_at ?? snapshot.generatedAt;
+  const statements = [
+    env.DB.prepare("DELETE FROM plugin_search WHERE run_id <> ?").bind(stagingRunId),
+    env.DB.prepare("DELETE FROM plugin_categories WHERE run_id <> ?").bind(stagingRunId),
+    env.DB.prepare("DELETE FROM plugin_snapshots WHERE run_id <> ?").bind(stagingRunId),
+    env.DB.prepare(
+      "UPDATE catalog_runs SET status = 'archived', updated_at = ? WHERE status = 'current' AND id <> ?",
+    ).bind(now, stagingRunId),
+    env.DB.prepare(
+      `UPDATE catalog_runs SET
+        snapshot_id = ?, source_repository = ?, source_commit = ?, mainline_commit = ?,
+        status = 'current', plugin_count = ?, generated_at = ?, published_at = ?, updated_at = ?, error = NULL
+       WHERE id = ?`,
+    ).bind(
+      batch.id,
+      snapshot.source.repository,
+      snapshot.source.commit,
+      snapshot.mainline?.commit ?? null,
+      count?.count ?? 0,
+      publishedGeneratedAt,
+      now,
+      now,
+      stagingRunId,
+    ),
+  ];
+  if (runId !== stagingRunId) {
+    statements.push(env.DB.prepare(
+      "UPDATE catalog_runs SET status = 'archived', updated_at = ?, error = NULL WHERE id = ?",
+    ).bind(now, runId));
+  }
+  await env.DB.batch(statements);
+}
+
 export async function importCatalogSnapshot(
   env: CatalogBindings,
   message: CatalogImportMessage,
@@ -194,6 +322,10 @@ export async function importCatalogSnapshot(
   await env.DB.prepare(
     "UPDATE catalog_runs SET status = 'importing', error = NULL, updated_at = ? WHERE id = ?",
   ).bind(now, message.runId).run();
+  if (snapshot.importBatch) {
+    await importBatchedSnapshot(env, message.runId, snapshot, now);
+    return;
+  }
   if (snapshot.changedRepositories && await importIncrementalSnapshot(
     env,
     message.runId,
@@ -201,7 +333,7 @@ export async function importCatalogSnapshot(
     snapshot.changedRepositories,
     now,
   )) return;
-  await clearRun(env.DB, message.runId);
+  await clearRunProjection(env.DB, message.runId);
 
   await runBatches(env.DB, pluginStatements(env.DB, message.runId, snapshot.plugins));
 

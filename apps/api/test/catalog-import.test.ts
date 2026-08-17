@@ -129,4 +129,119 @@ describe("catalog snapshot importer", () => {
     expect(batches.flat().some(sql => sql.includes("status = 'archived'"))).toBe(true);
     expect(batches.flat().some(sql => sql.includes("status = 'current'"))).toBe(false);
   });
+
+  it("stages a batch group without changing the current run before the final batch", async () => {
+    const batches: string[][] = [];
+    const prepare = (sql: string) => {
+      const statement = {
+        sql,
+        bind: (..._values: unknown[]) => statement,
+        first: async () => sql.includes("WHERE status = 'current'")
+          ? { id: "current-run" }
+          : null,
+        run: async () => ({ success: true }),
+      };
+      return statement;
+    };
+    const db = {
+      prepare,
+      batch: async (items: Array<{ sql: string }>) => {
+        batches.push(items.map(item => item.sql));
+        return [];
+      },
+    };
+    const snapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-3:batch:000001",
+      generatedAt: "2026-08-14T02:00:00.000Z",
+      changedRepositories: ["owner/plugin"],
+      source: { repository: "owner/catalog", commit: "ghi789" },
+      mainline: null,
+      plugins: [],
+      importBatch: { advancesCursor: true, id: "snapshot-3", index: 1, total: 2 },
+    };
+    const env = {
+      DB: db,
+      STORAGE: { get: async () => ({ json: async () => snapshot }) },
+    } as unknown as CatalogBindings;
+
+    await importCatalogSnapshot(env, { runId: "staging-run", r2Key: "catalog/batch-1.json" });
+
+    expect(batches.flat().some(sql => (
+      sql.includes("INSERT INTO plugin_snapshots") && sql.includes("SELECT")
+    ))).toBe(true);
+    expect(batches.flat().some(sql => sql.includes("status = 'current'"))).toBe(false);
+  });
+
+  it("does not finalize a batch group with missing intermediate parts", async () => {
+    const prepare = (sql: string) => {
+      const statement = {
+        bind: (..._values: unknown[]) => statement,
+        first: async () => sql.includes("COUNT(*) AS count") ? { count: 1 } : null,
+        run: async () => ({ success: true }),
+      };
+      return statement;
+    };
+    const snapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-4:batch:000003",
+      generatedAt: "2026-08-14T03:00:00.000Z",
+      changedRepositories: ["owner/plugin"],
+      source: { repository: "owner/catalog", commit: "jkl012" },
+      mainline: null,
+      plugins: [],
+      importBatch: { advancesCursor: true, id: "snapshot-4", index: 3, total: 3 },
+    };
+    const env = {
+      DB: { prepare, batch: async () => [] },
+      STORAGE: { get: async () => ({ json: async () => snapshot }) },
+    } as unknown as CatalogBindings;
+
+    await expect(importCatalogSnapshot(env, {
+      runId: "final-run",
+      r2Key: "catalog/batch-3.json",
+    })).rejects.toThrow(/missing a completed part/);
+  });
+
+  it("switches the staged projection only when the final batch completes", async () => {
+    const batches: string[][] = [];
+    const prepare = (sql: string) => {
+      const statement = {
+        sql,
+        bind: (..._values: unknown[]) => statement,
+        first: async () => sql.includes("SELECT generated_at")
+          ? { generated_at: "2026-08-14T02:00:00.000Z" }
+          : sql.includes("WHERE status = 'current'")
+            ? { id: "current-run" }
+            : sql.includes("COUNT(*)") ? { count: 8 } : null,
+        run: async () => ({ success: true }),
+      };
+      return statement;
+    };
+    const snapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-5:batch:000001",
+      generatedAt: "2026-08-14T04:00:00.000Z",
+      changedRepositories: [],
+      source: { repository: "owner/catalog", commit: "mno345" },
+      mainline: null,
+      plugins: [],
+      importBatch: { advancesCursor: true, id: "snapshot-5", index: 1, total: 1 },
+    };
+    const env = {
+      DB: {
+        prepare,
+        batch: async (items: Array<{ sql: string }>) => {
+          batches.push(items.map(item => item.sql));
+          return [];
+        },
+      },
+      STORAGE: { get: async () => ({ json: async () => snapshot }) },
+    } as unknown as CatalogBindings;
+
+    await importCatalogSnapshot(env, { runId: "staging-run", r2Key: "catalog/final.json" });
+
+    expect(batches.at(-1)?.some(sql => sql.includes("snapshot_id = ?"))).toBe(true);
+    expect(batches.at(-1)?.some(sql => sql.includes("status = 'current'"))).toBe(true);
+  });
 });

@@ -11,14 +11,15 @@ GitHub topic search
   -> automatic category inference
   -> .catalog/catalog.snapshot.json
      -> README catalog section
-     -> POST /internal/catalog-imports
-        -> R2 immutable snapshot
+     -> changed-repository projection
+     -> size-bounded POST /internal/catalog-imports batches
+        -> R2 immutable import batches
         -> Queue message
         -> D1 repository-scoped incremental import
         -> Web oRPC queries
 ```
 
-The first D1 import writes a complete run and switches it to `current`. Later imports update only repositories listed in `changedRepositories`. Repositories outside that list keep their existing rows.
+The first D1 import writes a complete run and switches it to `current`. Later imports send only repositories listed in `changedRepositories`; repositories outside that list stay in D1 and are not retransmitted. The publisher uses compact JSON and splits large changes into requests below the API byte limit. A repository whose projection cannot fit in one request is isolated so its prior D1 projection remains current while other repositories publish. D1 applies every batch to a staging run, verifies that all preceding parts completed, switches `current` only after the final batch succeeds, and removes archived searchable projections after the switch. R2 retains the import history.
 
 ## Discovery and qualification
 
@@ -30,7 +31,7 @@ The hourly discovery build reads the current snapshot from Cloudflare, searches 
 - `deepseek-harness-plugin`
 - `deepseek-harness-plugins`
 
-New repositories are validated and appended to the catalog. A weekly refresh job reloads repositories already in the catalog and replaces only the packages belonging to repositories that refreshed successfully; a temporary repository failure keeps its prior data. The first run or a previous snapshot below the minimum count performs full discovery. Discovery fails instead of publishing when GitHub reports incomplete search results.
+New repositories are validated and appended to the catalog. A weekly refresh job reloads repositories already in the catalog and marks a repository as changed only when its stored plugin projection differs; a temporary repository failure keeps its prior data. The first run or a previous snapshot below the minimum count performs full discovery. Discovery fails instead of publishing when GitHub reports incomplete search results.
 
 For each non-archived, non-fork repository, the collector reads the default-branch tree and checks:
 
@@ -95,4 +96,4 @@ CATALOG_INGEST_TOKEN=... \
 pnpm catalog:publish
 ```
 
-`.catalog/` is ignored because it contains the generated transport artifact. R2 keeps the durable raw snapshot; D1 holds the searchable projection.
+`.catalog/` is ignored because it contains the generated catalog artifact. R2 keeps the durable import batches; D1 holds the searchable projection and preserves repositories omitted from incremental requests.

@@ -6,6 +6,7 @@ export {
   localizedDescription,
   stripCatalogTranslations,
 } from "./i18n";
+export { createCatalogImportBatches } from "./import";
 export {
   catalogI18nEntrySchema,
   catalogI18nSchema,
