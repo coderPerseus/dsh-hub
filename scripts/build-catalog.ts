@@ -35,7 +35,9 @@ async function main(): Promise<void> {
   const outputDirectory = path.join(root, ".catalog");
   const readmePath = path.join(root, "README.md");
   const sourceRepository = process.env.GITHUB_REPOSITORY ?? "local/dshhub";
-  const sourceCommit = process.env.GITHUB_SHA ?? "local-development";
+  const sourceCommit = process.env.CATALOG_SOURCE_COMMIT
+    ?? process.env.GITHUB_SHA
+    ?? "local-development";
   const catalogMode = process.env.CATALOG_MODE === "refresh"
     ? "refresh"
     : process.env.CATALOG_MODE === "backfill" ? "backfill" : "discover";
