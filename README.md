@@ -66,141 +66,141 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **3928 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **4941 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 1291
+### agents · 1628
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@dshhubs/plugin-search](https://github.com/coderPerseus/dsh-hub/tree/c3c80405693d4edbc341315cb5143be36f7a8b31/packages/dsh-plugin) | DeepSeek Harness tools for finding and inspecting plugins in the dshhub catalog | ★ 1 | declared |
-| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eea8a8522dfc10951ff3e3575488c83ffcad8a33/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 85660 | declared |
-| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/270c6265bb66da7641f5c7933febcc77c0c7a006/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1072 | declared |
-| [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1002 | declared |
-| [@linxin666/dsh-ssh](https://github.com/zhu1090093659/dsh-web-ui/tree/ef3ef0dbcb057135c41bcd2b9b5cf85cfb3716e8/packages/dsh-ssh) | Remote SSH operations for the dsh web GUI: host config store (~/.dsh/dsh-ssh.json, import from ~/.ssh/config), a persistent ssh2 connection pool with jump-host… | ★ 514 | declared |
+| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eee03776fbffc24e40f8278b38ef6e95c011f870/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 87709 | declared |
+| [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
+| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
+| [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 
-[View all 1291 agents plugins →](https://dshhub.org/?category=agents)
+[View all 1628 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 666
+### development · 863
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
-| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eea8a8522dfc10951ff3e3575488c83ffcad8a33/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 85660 | declared |
-| [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1002 | declared |
-| [@linxin666/dsh-client-ui-aionui-panel](https://github.com/zhu1090093659/dsh-web-ui/tree/ef3ef0dbcb057135c41bcd2b9b5cf85cfb3716e8/packages/dsh-aionui-panel) | DSH web GUI right-panel system: a pixel-faithful re-implementation of AionUi's Explorer + Preview columns (file tree, filename search, git changes, multi-tab p… | ★ 514 | declared |
+| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eee03776fbffc24e40f8278b38ef6e95c011f870/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 87709 | declared |
+| [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
+| [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 202 | declared |
 
-[View all 666 development plugins →](https://dshhub.org/?category=development)
+[View all 863 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 239
-
-| Plugin | Description | Stars | Evidence |
-| --- | --- | ---: | --- |
-| [@pinkbanana/dsh-balance](https://github.com/crazywoola/dsh-balance) | DeepSeek Harness plugin that shows API balances and available models in Settings | ★ 9 | declared |
-| [dsh-plugin-deepseek-balance](https://github.com/hnmrxz/dsh-plugin-deepseek-balance) | Real-time DeepSeek account balance in the DSH bottom status bar (composer dock). | ★ 5 | declared |
-| [dsh-balance-plugin](https://github.com/stevenx65/dsh-balance-plugin) | DeepSeek API balance and token usage monitor for the dsh web sidebar | ★ 4 | declared |
-| [dsh-whale-balance](https://github.com/enchangcui340-cloud/dsh-whale-balance) | DeepSeek Harness 原生插件：页面右下角的小鲸鱼余额提醒挂件 | ★ 3 | declared |
-| [deepseek-harness-external-migration](https://github.com/buguoshixc/deepseek-harness-external-migration) | Safely migrate Codex, Claude Code, Qoder and OpenCode configuration and sessions into DeepSeek Harness. | ★ 3 | declared |
-
-[View all 239 finance plugins →](https://dshhub.org/?category=finance)
-
-### integrations · 508
+### finance · 312
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
-| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/270c6265bb66da7641f5c7933febcc77c0c7a006/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1072 | declared |
-| [@linxin666/dsh-client-ui-aionui-panel](https://github.com/zhu1090093659/dsh-web-ui/tree/ef3ef0dbcb057135c41bcd2b9b5cf85cfb3716e8/packages/dsh-aionui-panel) | DSH web GUI right-panel system: a pixel-faithful re-implementation of AionUi's Explorer + Preview columns (file tree, filename search, git changes, multi-tab p… | ★ 514 | declared |
-| [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 153 | declared |
+| [@feiyang666/dsh-usage-plugin](https://github.com/feiyang-dev/dsh-usage-plugin) | DeepSeek Harness usage & cost tracker plugin: per-call token/cache-hit stats, peak/off-peak billing, DeepSeek balance query, CSV/JSON/PNG export with custom de… | ★ 22 | declared |
+| [@pinkbanana/dsh-balance](https://github.com/crazywoola/dsh-balance) | DeepSeek Harness plugin that shows API balances and models in Settings, with balance below the chat composer | ★ 19 | declared |
+| [dsh-opencode-go-usage](https://github.com/Xenia0922/dsh-opencode-go-usage) | OpenCode Go 用量与花费面板 — DeepSeek Harness 插件:可拖拽缩放的悬浮仪表盘,实时展示 OpenCode Go 配额、逐请求用量与花费 | ★ 10 | declared |
+| [@cassius0924/dsh-usage-dashboard](https://github.com/Cassius0924/dsh-usage-dashboard) | DeepSeek 额度与用量仪表盘 —— DSH (DeepSeek Harness) Web 插件：余额还能撑几天、今日/本月花了多少、哪个模型和哪个会话最贵、缓存省了多少，以及 2026-08-17 峰谷定价后的账单预估 | ★ 6 | declared |
+| [dsh-spend](https://github.com/nonewind/dsh-spend) | Token usage, multi-dimensional statistics, auto-detected billing plans (Code/Token) and estimated spend for the dsh web UI | ★ 5 | declared |
+
+[View all 312 finance plugins →](https://dshhub.org/?category=finance)
+
+### integrations · 625
+
+| Plugin | Description | Stars | Evidence |
+| --- | --- | ---: | --- |
+| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
+| [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
 | [@deepseek-ai/dsh-product-bridge](https://github.com/vibeinging/deepseek-harness-desktop-app/tree/a7cfa02b2937730fd3e3d75b97524550afa957f7/packages/dsh-product-bridge) | Session-scoped DeepSeek Harness Desktop App capabilities for the current DSH Web profile | ★ 111 | declared |
-| [@linxin666/dsh-remote-web-ui](https://github.com/ningbainb/deepseek-harness-desktop/tree/91a112efeee32e8e34b073194b9217863bed7436/packages/dsh-remote-web-ui) | Mobile remote control for the dsh web GUI: scan-to-pair QR entry beside the settings button, one-time pairing tokens, live device status, and revocable mobile… | ★ 44 | declared |
+| [dsh-code-review](https://github.com/Dominic789654/awesome-deepseek-harness/tree/58d9b94bd0d9e7008fdbe3cad9d47c080e0635da/plugins/dsh-code-review) | Code review assistant for DeepSeek Harness: code_review_context collects deterministic git diff context; a bundled skill drives the review checklist. | ★ 98 | declared |
+| [@linxin666/dsh-client-ui-mode-switcher](https://github.com/ningbainb/deepseek-harness-desktop/tree/768bba225cfc49159413788052c177e6ca174270/packages/dsh-mode-switcher) | A session-header agent mode switcher that applies in place for blank sessions and starts a safe same-workspace session after conversation history exists. | ★ 66 | declared |
 
-[View all 508 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 625 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 1114
+### interface · 1425
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
-| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eea8a8522dfc10951ff3e3575488c83ffcad8a33/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 85660 | declared |
-| [@linxin666/dsh-client-ui-aionui-panel](https://github.com/zhu1090093659/dsh-web-ui/tree/ef3ef0dbcb057135c41bcd2b9b5cf85cfb3716e8/packages/dsh-aionui-panel) | DSH web GUI right-panel system: a pixel-faithful re-implementation of AionUi's Explorer + Preview columns (file tree, filename search, git changes, multi-tab p… | ★ 514 | declared |
+| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eee03776fbffc24e40f8278b38ef6e95c011f870/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 87709 | declared |
+| [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
+| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
+| [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
-| [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 202 | declared |
-| [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 
-[View all 1114 interface plugins →](https://dshhub.org/?category=interface)
+[View all 1425 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 246
+### memory · 291
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
-| [@mstar-harness/dsh](https://github.com/btspoony/mstar-harness/tree/fb2f6ba496ad38e9d578c0a7395450e4179a106b/packages/dsh) | Morning Star harness dsh (DeepSeek Harness) cordis function plugin — in-process engine gates (status/dispatch/lease) with hard refusal channels. | ★ 39 | declared |
-| [powercontext-dsh](https://github.com/knqiufan/powercontext-dsh) | DeepSeek Harness plugin that connects to a PowerContext Server over HTTP for recall, memory, handoff, experience, and skills. | ★ 8 | declared |
-| [@graycode/dsh-plugin](https://github.com/GrayCodeTeam/graycode-for-dsh/tree/4c71da7f553a3bef025315e24a2bd0e985d17bac/packages/plugin) | GrayCode host plugin for DeepSeek Harness: workflows, permanent memory, and workspace checkpoints | ★ 5 | declared |
-| [dsh-archived-sessions](https://github.com/Zephyr-vibe/dsh-archived-sessions) | DSH web plugin: an Archived Sessions manager in Settings — browse archived conversations, expand per-session details (disk usage, downloads, tool usage, lineag… | ★ 4 | declared |
-| [resanity](https://github.com/Thhoho/reSanity) | reSanity 散修：散户研究心法 skill + DeepSeek Harness 插件（skill provider、锚体检定时提醒、/resanity-check 命令） | ★ 4 | declared |
+| [dsh-mnemon](https://github.com/omdsh-dev/dsh-mnemon) | Three-tier memory system for DeepSeek Harness with nine pluggable providers, smart routing, independent task Agents, WebUI, and headless tools. | ★ 60 | declared |
+| [@mstar-harness/dsh](https://github.com/btspoony/mstar-harness/tree/515438fc2d5fcadc971f213af10ade4b18ecdfbd/packages/dsh) | Morning Star harness dsh (DeepSeek Harness) cordis function plugin — in-process engine gates (status/dispatch/lease) with hard refusal channels. | ★ 46 | declared |
+| [@modusensus/dsh-mneme](https://github.com/modusensus/dsh-mneme) | Structured memory engine for DeepSeek Harness. Offline semantic search, entity-attribute-timeline, autoDream self-consolidation, and human-editable Markdown st… | ★ 18 | declared |
+| [dsh-recall-plugin](https://github.com/limbo947/dsh-recall-plugin) | DSH 消息撤回插件：在用户消息气泡旁加「撤回」按钮，把项目文件（独立影子 git 仓库快照）与对话历史（官方 fork）一并回退到该消息发送之前。 | ★ 12 | declared |
+| [@furongjun1999/dsh-memory](https://github.com/FuRongJun-1999/dsh-memory) | 灵枢（Lingshu·líng shū）DeepSeek Harness 插件：完整大脑——长期记忆/知识飞轮/自我认知/递归反思接入 DSH，对话自动沉淀进记忆库 | ★ 12 | declared |
 
-[View all 246 memory plugins →](https://dshhub.org/?category=memory)
+[View all 291 memory plugins →](https://dshhub.org/?category=memory)
 
-### notifications · 141
+### notifications · 184
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
+| [dsh-notification](https://github.com/omdsh-dev/dsh-notification) | Browser desktop notifications when the DeepSeek Harness finishes a turn: configurable per-outcome toggles and include/exclude keyword rules, shown through the… | ★ 55 | declared |
 | [dsh-notifier](https://github.com/THEWOLFWALKER/dsh-notifier) | DSH 统一通知推送插件：一个 notify() API 打天下 + 多渠道 adapter；远程审批/远程会话支持 telegram/feishu/qq/wxpusher/wechat/dingtalk 六通道双向回传；移动指挥中心（长任务心跳 / 疑似卡住提醒 / 通知按钮停止任务）；开放事件源（其他插件经 no… | ★ 31 | declared |
-| [dsh-notification](https://github.com/omdsh-dev/dsh-notification) | Browser desktop notifications when the DeepSeek Harness finishes a turn: configurable per-outcome toggles and include/exclude keyword rules, shown through the… | ★ 25 | declared |
-| [dsh-notify-on-complete](https://github.com/pitetow/dsh-notify-on-complete) | Desktop notifications for DeepSeek Harness (dsh): get a system notification when a run completes, the model asks a question, or waits for approval. Zero-depend… | ★ 4 | declared |
-| [resanity](https://github.com/Thhoho/reSanity) | reSanity 散修：散户研究心法 skill + DeepSeek Harness 插件（skill provider、锚体检定时提醒、/resanity-check 命令） | ★ 4 | declared |
-| [dsh-whale-balance](https://github.com/enchangcui340-cloud/dsh-whale-balance) | DeepSeek Harness 原生插件：页面右下角的小鲸鱼余额提醒挂件 | ★ 3 | declared |
+| [dsh-lark-bot](https://github.com/PlutoKeating/dsh-lark-bot) | Bridge DeepSeek Harness (dsh) into Feishu / Lark with streaming cards, project workspaces, approvals and scheduling | ★ 18 | declared |
+| [dsh-memoir](https://github.com/Qinling-Melon-Farmers/dsh-memoir) | Project persistent memory and session-lessons distillation for DeepSeek Harness (DSH): an agent records a session's work summary, lessons learned, and next-act… | ★ 8 | declared |
+| [@just-genius/dsh-desktop-update](https://github.com/JustGenius-s/DSH-Plugs/tree/dd69eb2a6a9cf561110190d2d4885454339039fc/plugins/dsh-desktop-update) | Desktop update badge for DSH-Desktop: renders an update icon next to the sidebar Settings button, driven by window.dshDesktop (Electron preload bridge) | ★ 6 | declared |
 
-[View all 141 notifications plugins →](https://dshhub.org/?category=notifications)
+[View all 184 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 754
-
-| Plugin | Description | Stars | Evidence |
-| --- | --- | ---: | --- |
-| [anime-find](https://github.com/cocofhu/anime-find) | DeepSeek Harness 插件：对话内多源搜番，卡片详情、磁力复制与规则流媒体在线播放 | ★ 130 | declared |
-| [@zseven-w/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil plugin for DSH with exact multi-frame previews, an interactive canvas, and managed editor workbenches. | ★ 34 | declared |
-| [dsh-toy](https://github.com/c3ll256/dsh-toy) | DeepSeek Harness plugin for safety-bounded Buttplug/Intiface and MonsterParty toy control | ★ 24 | declared |
-| [dsh-interconnect](https://github.com/Chinesezjc/dsh-interconnect) | Cross-instance message/event handoff plugins for DeepSeek Harness (DSH): interconnect service + model-facing tools | ★ 15 | declared |
-| [@yejiming/dsh-gomoku](https://github.com/omdsh-dev/dsh-gomoku) | Gomoku (five-in-a-row) for the dsh web GUI: AI move routes, model catalog, and default prompt (node half) plus the conversation-view tab with the board (browse… | ★ 13 | declared |
-
-[View all 754 other plugins →](https://dshhub.org/?category=other)
-
-### productivity · 959
+### other · 941
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
-| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/270c6265bb66da7641f5c7933febcc77c0c7a006/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1072 | declared |
-| [@linxin666/dsh-client-ui-git-graph](https://github.com/zhu1090093659/dsh-web-ui/tree/ef3ef0dbcb057135c41bcd2b9b5cf85cfb3716e8/packages/dsh-git-graph) | External dsh web GUI plugin: a git branch selector + Git graph in the conversation header's context hole (beside the official workspace selector), with real ho… | ★ 514 | declared |
-| [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 153 | declared |
-| [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 129 | declared |
-| [@deepseek-ai/dsh-product-bridge](https://github.com/vibeinging/deepseek-harness-desktop-app/tree/a7cfa02b2937730fd3e3d75b97524550afa957f7/packages/dsh-product-bridge) | Session-scoped DeepSeek Harness Desktop App capabilities for the current DSH Web profile | ★ 111 | declared |
+| [dshmarket](https://github.com/dsh-market/dsh-market) | Visual plugin market inside DeepSeek Harness — browse, search, and one-click install community plugins. · DSH 可视化插件市场：逛一逛，点一下，装好。 | ★ 637 | declared |
+| [anime-find](https://github.com/cocofhu/anime-find) | DeepSeek Harness 插件：对话内多源搜番，卡片详情、磁力复制与规则流媒体在线播放 | ★ 131 | declared |
+| [@nanmicoder/dsh-auto-mode](https://github.com/NanmiCoder/dsh-auto-mode) | Sandbox-first automatic permission policy for DeepSeek Harness | ★ 74 | declared |
+| [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
+| [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 959 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 941 other plugins →](https://dshhub.org/?category=other)
 
-### skills · 381
+### productivity · 1258
+
+| Plugin | Description | Stars | Evidence |
+| --- | --- | ---: | --- |
+| [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
+| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
+| [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
+| [dsh-at-file](https://github.com/omdsh-dev/dsh-at-file) | Codex-style @path references for the DeepSeek Harness web GUI: search workspace paths without injecting file content | ★ 279 | declared |
+| [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive TUI layer over the dsh-base profile, installable as a plugin (`dsh plugin --profile tui add @huiliyi37/dsh-tianshu-tui`) | ★ 194 | declared |
+
+[View all 1258 productivity plugins →](https://dshhub.org/?category=productivity)
+
+### skills · 465
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@dshhubs/plugin-search](https://github.com/coderPerseus/dsh-hub/tree/c3c80405693d4edbc341315cb5143be36f7a8b31/packages/dsh-plugin) | DeepSeek Harness tools for finding and inspecting plugins in the dshhub catalog | ★ 1 | declared |
-| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eea8a8522dfc10951ff3e3575488c83ffcad8a33/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 85660 | declared |
-| [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1002 | declared |
-| [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 153 | declared |
-| [@linxin666/dsh-client-ui-aionui-panel](https://github.com/ningbainb/deepseek-harness-desktop/tree/91a112efeee32e8e34b073194b9217863bed7436/packages/dsh-aionui-panel) | DSH web GUI right-panel system: a pixel-faithful re-implementation of AionUi's Explorer + Preview columns (file tree, filename search, git changes, multi-tab p… | ★ 44 | declared |
+| [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eee03776fbffc24e40f8278b38ef6e95c011f870/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 87709 | declared |
+| [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
+| [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
+| [@omdsh-dev/dsh-genui](https://github.com/omdsh-dev/dsh-genui) | GenUI for DeepSeek Harness: interactive UI components rendered inline in assistant replies via the ```dsh-ui fence — layout, charts, plots, forms, quizzes, mer… | ★ 149 | declared |
 
-[View all 381 skills plugins →](https://dshhub.org/?category=skills)
+[View all 465 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 318
+### vision · 406
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
+| [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
+| [dsh-vision-router](https://github.com/ysr666/dsh-vision-router) | Eyes for text-only DeepSeek Harness agents: built-in free vision chain (no key) + pixel-level vision tools (Q&A, grounding, crop, pixel diff, colors, OCR, SVG… | ★ 469 | declared |
+| [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive TUI layer over the dsh-base profile, installable as a plugin (`dsh plugin --profile tui add @huiliyi37/dsh-tianshu-tui`) | ★ 194 | declared |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
-| [@dsh-external/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 153 | declared |
-| [@dsh-external/dsh-share](https://github.com/hellodigua/dsh-share) | Share a DSH conversation turn as a PNG image. | ★ 14 | declared |
-| [@linenxi-ctrl/dsh-vision](https://github.com/linenxi-ctrl/dsh-vision) | 为 DeepSeek Harness 提供外挂识图模型：网页配置面板、发送图片识图自动回传、模型自主截图识图工具，支持多协议与一键安装。 | ★ 9 | declared |
-| [@dsh-external/dsh-drop-to-path](https://github.com/loudMore/dsh-drop-to-path) | Drop or paste images, PDFs, office docs, zips, videos and audio into the DSH composer as workspace file paths instead of model attachments — lets a text-only m… | ★ 6 | declared |
+| [dsh-codex](https://github.com/Yan-Zero/dsh-codex) | ChatGPT OAuth, Codex models, search, read_image URL support, and gpt-image-2 generation for DeepSeek Harness | ★ 16 | declared |
 
-[View all 318 vision plugins →](https://dshhub.org/?category=vision)
+[View all 406 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-17T03:26:06.940Z-432fa4b22a1b`, generated 2026-08-17T03:26:06.940Z.</sub>
+<sub>Catalog snapshot `2026-08-17T03:29:29.378Z-224dc0500896`, generated 2026-08-17T03:29:29.378Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
