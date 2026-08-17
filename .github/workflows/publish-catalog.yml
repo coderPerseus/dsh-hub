@@ -11,6 +11,11 @@ on:
         options:
           - discover
           - refresh
+          - backfill
+      since:
+        description: ISO timestamp required for backfill mode
+        required: false
+        type: string
       repository:
         description: Optional owner/repo to discover
         required: false
@@ -59,6 +64,7 @@ jobs:
           CATALOG_MIN_PLUGIN_COUNT: "50"
           CATALOG_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '37 3 * * 0' && 'refresh' || 'discover') }}
           CATALOG_REPOSITORY: ${{ github.event_name == 'workflow_dispatch' && inputs.repository || '' }}
+          CATALOG_DISCOVERY_SINCE: ${{ github.event_name == 'workflow_dispatch' && inputs.since || '' }}
           GITHUB_TOKEN: ${{ github.token }}
 
       # Publish repository-authored catalog content without machine translation.

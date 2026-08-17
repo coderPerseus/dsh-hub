@@ -236,8 +236,12 @@ describe("catalog discovery", () => {
       ["/owner/plugin/abc123/README.md", "# Plugin\n\n## Installation\n\nRun it."],
       ["/owner/plugin/abc123/cordis.patch.yml", "- insert: []"],
     ]);
+    const searchQueries: string[] = [];
     const fetcher = async (input: string | URL | Request): Promise<Response> => {
       const pathname = new URL(typeof input === "string" ? input : input instanceof URL ? input : input.url);
+      if (pathname.pathname === "/search/repositories") {
+        searchQueries.push(pathname.searchParams.get("q") ?? "");
+      }
       const body = responses.get(pathname.pathname === "/search/repositories"
         ? pathname.pathname
         : `${pathname.pathname}${pathname.search}`);
@@ -271,6 +275,26 @@ describe("catalog discovery", () => {
     });
     expect(incremental.plugins).toEqual(snapshot.plugins);
     expect(incremental.changedRepositories).toEqual([]);
+
+    const searchResult = JSON.parse(responses.get("/search/repositories") ?? "{}") as {
+      items: Array<{ stargazers_count: number }>;
+    };
+    searchResult.items[0].stargazers_count = 44;
+    responses.set("/search/repositories", JSON.stringify(searchResult));
+    searchQueries.length = 0;
+    const backfilled = await discoverCatalogSnapshot({
+      catalogMode: "backfill",
+      discoveryQueries: ["topic:dsh-plugin"],
+      discoverySince: new Date("2026-08-14T00:00:00Z"),
+      fetch: fetcher as typeof fetch,
+      generatedAt: new Date("2026-08-14T02:00:00Z"),
+      previousSnapshot: snapshot,
+      source: { repository: "owner/catalog", commit: "source-backfill" },
+    });
+    expect(searchQueries).toHaveLength(2);
+    expect(searchQueries.every(query => query.includes("pushed:"))).toBe(true);
+    expect(backfilled.plugins[0]?.repository.stars).toBe(44);
+    expect(backfilled.changedRepositories).toEqual(["owner/plugin"]);
 
     const refreshed = await discoverCatalogSnapshot({
       catalogMode: "refresh",
@@ -330,6 +354,20 @@ describe("catalog discovery", () => {
       fetch: fetcher as typeof fetch,
       source: { repository: "owner/catalog", commit: "source123" },
     })).rejects.toThrow(/incomplete results/);
+  });
+
+  it("rejects discovery queries that exceed GitHub's result window", async () => {
+    const fetcher = async (): Promise<Response> => new Response(JSON.stringify({
+      total_count: 1_001,
+      incomplete_results: false,
+      items: [],
+    }));
+
+    await expect(discoverCatalogSnapshot({
+      discoveryQueries: ["topic:dsh-plugin"],
+      fetch: fetcher as typeof fetch,
+      source: { repository: "owner/catalog", commit: "source123" },
+    })).rejects.toThrow(/exceeds 1000 repositories/);
   });
 
   it("discovers multiple installable packages in a monorepo", async () => {

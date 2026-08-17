@@ -45,7 +45,8 @@ type PackageManifest = {
 };
 
 export type CatalogBuildOptions = {
-  catalogMode?: "discover" | "refresh";
+  catalogMode?: "backfill" | "discover" | "refresh";
+  discoverySince?: Date;
   discoveryQueries?: string[];
   fetch?: typeof globalThis.fetch;
   generatedAt?: Date;
@@ -72,6 +73,7 @@ const GITHUB_CONCURRENCY = 4;
 const GITHUB_MAX_ATTEMPTS = 4;
 const MAX_PACKAGES_PER_REPOSITORY = 50;
 const DISCOVERY_OVERLAP_MS = 5 * 60 * 1_000;
+const BACKFILL_WINDOW_MS = 60 * 60 * 1_000;
 const DSHHUB_PLUGIN_REPOSITORY = "coderperseus/dsh-hub";
 const DSHHUB_PLUGIN_PACKAGE = "@dshhubs/plugin-search";
 
@@ -85,6 +87,28 @@ function discoveryCutoff(previousSnapshot?: CatalogSnapshot): string | null {
   return new Date(
     new Date(previousSnapshot.generatedAt).getTime() - DISCOVERY_OVERLAP_MS,
   ).toISOString();
+}
+
+function discoveryQueries(options: CatalogBuildOptions, generatedAt: Date): string[] {
+  const queries = options.discoveryQueries ?? DEFAULT_DISCOVERY_QUERIES;
+  if (options.catalogMode !== "backfill") return queries;
+  if (!options.discoverySince) throw new Error("Backfill discovery requires a start time.");
+  if (options.discoverySince >= generatedAt) {
+    throw new Error("Backfill discovery start time must be before the generated time.");
+  }
+
+  const windows: string[] = [];
+  for (
+    let start = options.discoverySince.getTime();
+    start < generatedAt.getTime();
+    start += BACKFILL_WINDOW_MS
+  ) {
+    const end = Math.min(start + BACKFILL_WINDOW_MS, generatedAt.getTime());
+    for (const query of queries) {
+      windows.push(`${query} pushed:${new Date(start).toISOString()}..${new Date(end).toISOString()}`);
+    }
+  }
+  return windows;
 }
 
 const githubHeaders = (token?: string): HeadersInit => ({
@@ -301,10 +325,13 @@ function inferCategories(source: DiscoveredPackage): string[] {
 
 async function discoverRepositories(
   options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
+  generatedAt: Date,
 ): Promise<GithubRepository[]> {
-  const cutoff = discoveryCutoff(options.previousSnapshot);
+  const cutoff = options.catalogMode === "backfill"
+    ? null
+    : discoveryCutoff(options.previousSnapshot);
   const repositories = new Map<string, GithubRepository>();
-  for (const query of options.discoveryQueries ?? DEFAULT_DISCOVERY_QUERIES) {
+  for (const query of discoveryQueries(options, generatedAt)) {
     for (let page = 1; page <= 10; page += 1) {
       const result = await githubJson<GithubSearchResponse>(
         options.fetch,
@@ -313,6 +340,9 @@ async function discoverRepositories(
       );
       if (result.incomplete_results) {
         throw new Error(`GitHub discovery returned incomplete results for ${query}.`);
+      }
+      if (result.total_count > 1_000) {
+        throw new Error(`GitHub discovery query exceeds 1000 repositories: ${query}.`);
       }
       for (const repository of result.items) {
         const updatedAt = repository.updated_at ?? repository.pushed_at;
@@ -531,8 +561,8 @@ export async function discoverCatalogSnapshot(
   if (isIncremental && options.catalogMode === "refresh") {
     repositories = await loadExistingRepositories(resolvedOptions);
   } else {
-    repositories = await discoverRepositories(resolvedOptions);
-    if (isIncremental) {
+    repositories = await discoverRepositories(resolvedOptions, generatedAt);
+    if (isIncremental && options.catalogMode !== "backfill") {
       const existing = new Set(options.previousSnapshot?.plugins.map(plugin => (
         `${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase()
       )));

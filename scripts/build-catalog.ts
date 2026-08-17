@@ -36,7 +36,17 @@ async function main(): Promise<void> {
   const readmePath = path.join(root, "README.md");
   const sourceRepository = process.env.GITHUB_REPOSITORY ?? "local/dshhub";
   const sourceCommit = process.env.GITHUB_SHA ?? "local-development";
-  const catalogMode = process.env.CATALOG_MODE === "refresh" ? "refresh" : "discover";
+  const catalogMode = process.env.CATALOG_MODE === "refresh"
+    ? "refresh"
+    : process.env.CATALOG_MODE === "backfill" ? "backfill" : "discover";
+  const discoverySinceValue = process.env.CATALOG_DISCOVERY_SINCE?.trim();
+  const discoverySince = discoverySinceValue ? new Date(discoverySinceValue) : undefined;
+  if (discoverySince && Number.isNaN(discoverySince.getTime())) {
+    throw new Error("CATALOG_DISCOVERY_SINCE must be an ISO 8601 timestamp.");
+  }
+  if (catalogMode === "backfill" && !discoverySince) {
+    throw new Error("CATALOG_DISCOVERY_SINCE is required in backfill mode.");
+  }
   const targetRepository = process.env.CATALOG_REPOSITORY?.trim();
   if (targetRepository && !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(targetRepository)) {
     throw new Error("CATALOG_REPOSITORY must use owner/repo format.");
@@ -49,6 +59,7 @@ async function main(): Promise<void> {
   const previousSnapshot = await readPreviousSnapshot(minimumPluginCount);
   const discoveredSnapshot = await discoverCatalogSnapshot({
     catalogMode,
+    discoverySince,
     discoveryQueries: targetRepository ? [`repo:${targetRepository}`] : undefined,
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,
