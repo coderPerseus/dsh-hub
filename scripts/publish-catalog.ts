@@ -56,7 +56,7 @@ async function publishSnapshot(
   if (!created.runId || !created.status) throw new Error("Catalog API did not return a run ID and status.");
 
   let status = created;
-  for (let attempt = 0; pendingStatuses.has(status.status ?? "") && attempt < 60; attempt += 1) {
+  for (let attempt = 0; pendingStatuses.has(status.status ?? "") && attempt < 180; attempt += 1) {
     await wait(2_000);
     status = await responseJson(await fetch(new URL(created.runId, `${endpoint.toString().replace(/\/$/, "")}/`), {
       headers,

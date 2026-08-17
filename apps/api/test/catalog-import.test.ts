@@ -173,6 +173,46 @@ describe("catalog snapshot importer", () => {
     expect(batches.flat().some(sql => sql.includes("status = 'current'"))).toBe(false);
   });
 
+  it("deletes changed repositories in set-based batches", async () => {
+    const batches: string[][] = [];
+    const prepare = (sql: string) => {
+      const statement = {
+        sql,
+        bind: (..._values: unknown[]) => statement,
+        first: async () => sql.includes("WHERE status = 'current'")
+          ? { id: "current-run" }
+          : sql.includes("COUNT(*)") ? { count: 5 } : null,
+        run: async () => ({ success: true }),
+      };
+      return statement;
+    };
+    const snapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-set-based",
+      generatedAt: "2026-08-14T02:30:00.000Z",
+      changedRepositories: ["owner/one", "owner/two"],
+      source: { repository: "owner/catalog", commit: "set123" },
+      mainline: null,
+      plugins: [],
+    };
+    const env = {
+      DB: {
+        prepare,
+        batch: async (items: Array<{ sql: string }>) => {
+          batches.push(items.map(item => item.sql));
+          return [];
+        },
+      },
+      STORAGE: { get: async () => ({ json: async () => snapshot }) },
+    } as unknown as CatalogBindings;
+
+    await importCatalogSnapshot(env, { runId: "delta-run", r2Key: "catalog/set-based.json" });
+
+    const deletes = batches.flat().filter(sql => sql.startsWith("DELETE FROM plugin_"));
+    expect(deletes).toHaveLength(3);
+    expect(deletes.every(sql => sql.includes(" OR "))).toBe(true);
+  });
+
   it("does not finalize a batch group with missing intermediate parts", async () => {
     const prepare = (sql: string) => {
       const statement = {

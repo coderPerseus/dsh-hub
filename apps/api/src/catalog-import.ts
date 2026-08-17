@@ -18,6 +18,7 @@ export type CatalogBindings = CloudflareBindings & {
 
 const MAX_CATALOG_BYTES = 20_000_000;
 const STATEMENT_BATCH_SIZE = 50;
+const REPOSITORY_DELETE_BATCH_SIZE = 40;
 
 function toHex(bytes: ArrayBuffer): string {
   return [...new Uint8Array(bytes)].map(byte => byte.toString(16).padStart(2, "0")).join("");
@@ -170,20 +171,34 @@ async function replaceRepositories(
   snapshot: CatalogSnapshot,
   changedRepositories: string[],
 ): Promise<void> {
-  for (const repository of changedRepositories) {
-    const [owner, repo] = repository.split("/");
-    const refreshedPlugins = snapshot.plugins.filter(plugin => (
-      plugin.repository.owner.toLowerCase() === owner?.toLowerCase()
-      && plugin.repository.name.toLowerCase() === repo?.toLowerCase()
-    ));
-    const match = "run_id = ? AND lower(owner) = lower(?) AND lower(repo) = lower(?)";
-    await runBatches(env.DB, [
-      env.DB.prepare(`DELETE FROM plugin_search WHERE run_id = ? AND plugin_id IN (SELECT plugin_id FROM plugin_snapshots WHERE ${match})`).bind(targetRunId, targetRunId, owner, repo),
-      env.DB.prepare(`DELETE FROM plugin_categories WHERE run_id = ? AND plugin_id IN (SELECT plugin_id FROM plugin_snapshots WHERE ${match})`).bind(targetRunId, targetRunId, owner, repo),
-      env.DB.prepare(`DELETE FROM plugin_snapshots WHERE ${match}`).bind(targetRunId, owner, repo),
-      ...pluginStatements(env.DB, targetRunId, refreshedPlugins),
-    ]);
+  const repositories = changedRepositories.map(repository => repository.split("/"));
+  const deleteStatements: D1PreparedStatement[] = [];
+  for (let index = 0; index < repositories.length; index += REPOSITORY_DELETE_BATCH_SIZE) {
+    const group = repositories.slice(index, index + REPOSITORY_DELETE_BATCH_SIZE);
+    const repositoryMatch = group.map(() => (
+      "(lower(owner) = lower(?) AND lower(repo) = lower(?))"
+    )).join(" OR ");
+    const bindings = group.flatMap(([owner, repo]) => [owner, repo]);
+    const matchingPlugins = `SELECT plugin_id FROM plugin_snapshots WHERE run_id = ? AND (${repositoryMatch})`;
+    deleteStatements.push(
+      env.DB.prepare(
+        `DELETE FROM plugin_search WHERE run_id = ? AND plugin_id IN (${matchingPlugins})`,
+      ).bind(targetRunId, targetRunId, ...bindings),
+      env.DB.prepare(
+        `DELETE FROM plugin_categories WHERE run_id = ? AND plugin_id IN (${matchingPlugins})`,
+      ).bind(targetRunId, targetRunId, ...bindings),
+      env.DB.prepare(
+        `DELETE FROM plugin_snapshots WHERE run_id = ? AND (${repositoryMatch})`,
+      ).bind(targetRunId, ...bindings),
+    );
   }
+  await runBatches(env.DB, deleteStatements);
+
+  const changed = new Set(changedRepositories.map(repository => repository.toLowerCase()));
+  const refreshedPlugins = snapshot.plugins.filter(plugin => changed.has(
+    `${plugin.repository.owner}/${plugin.repository.name}`.toLowerCase(),
+  ));
+  await runBatches(env.DB, pluginStatements(env.DB, targetRunId, refreshedPlugins));
 }
 
 async function importIncrementalSnapshot(
