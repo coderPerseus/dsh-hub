@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **6474 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **6502 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 2098
+### agents · 2107
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,9 +78,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 
-[View all 2098 agents plugins →](https://dshhub.org/?category=agents)
+[View all 2107 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 1094
+### development · 1105
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,9 +90,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 | [@ethanyoq/dsh-ai-novel-writer](https://github.com/EthanYoQ/AI-Novel-Writer/tree/6ae77d61b0895cd0fc64b63950b3178461ad82ea/plugins/dsh-ai-novel-writer) | A local-first novel project plugin for DeepSeek Harness | ★ 369 | declared |
 
-[View all 1094 development plugins →](https://dshhub.org/?category=development)
+[View all 1105 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 399
+### finance · 402
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -102,9 +102,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [dsh-context-doctor](https://github.com/Zhenyu98/dsh-context-doctor) | DSH 上下文注入审计插件：统计 AGENTS.md 指令链 / 技能目录 / 工具 schema / MCP 工具的 token 成本，检测重复与冲突；原生 Context Doctor 面板 + context_audit 工具。 | ★ 12 | declared |
 | [dsh-opencode-go-usage](https://github.com/Xenia0922/dsh-opencode-go-usage) | OpenCode Go 用量与花费面板 — DeepSeek Harness 插件:可拖拽缩放的悬浮仪表盘,实时展示 OpenCode Go 配额、逐请求用量与花费 | ★ 10 | declared |
 
-[View all 399 finance plugins →](https://dshhub.org/?category=finance)
+[View all 402 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 814
+### integrations · 819
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -114,9 +114,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [dsh-code-review](https://github.com/Dominic789654/awesome-deepseek-harness/tree/58d9b94bd0d9e7008fdbe3cad9d47c080e0635da/plugins/dsh-code-review) | Code review assistant for DeepSeek Harness: code_review_context collects deterministic git diff context; a bundled skill drives the review checklist. | ★ 98 | declared |
 | [@linxin666/dsh-client-ui-mode-switcher](https://github.com/ningbainb/deepseek-harness-desktop/tree/768bba225cfc49159413788052c177e6ca174270/packages/dsh-mode-switcher) | A session-header agent mode switcher that applies in place for blank sessions and starts a safe same-workspace session after conversation history exists. | ★ 66 | declared |
 
-[View all 814 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 819 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 1909
+### interface · 1920
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,9 +126,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 
-[View all 1909 interface plugins →](https://dshhub.org/?category=interface)
+[View all 1920 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 384
+### memory · 386
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -138,9 +138,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [@modusensus/dsh-mneme](https://github.com/modusensus/dsh-mneme) | Structured memory engine for DeepSeek Harness. Offline semantic search, entity-attribute-timeline, autoDream self-consolidation, and human-editable Markdown st… | ★ 18 | declared |
 | [@flowboard/dsh](https://github.com/juntaoding/Flowboard/tree/0122200e5a42e32491d42163a134ce02a514a563/packages/dsh) | 运行在 DeepSeek Harness 中的开源办公协作与团队管理插件 | ★ 12 | declared |
 
-[View all 384 memory plugins →](https://dshhub.org/?category=memory)
+[View all 386 memory plugins →](https://dshhub.org/?category=memory)
 
-### notifications · 245
+### notifications · 247
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -150,9 +150,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [dsh-memoir](https://github.com/Qinling-Melon-Farmers/dsh-memoir) | Project persistent memory and session-lessons distillation for DeepSeek Harness (DSH): an agent records a session's work summary, lessons learned, and next-act… | ★ 8 | declared |
 | [@just-genius/dsh-desktop-update](https://github.com/JustGenius-s/DSH-Plugs/tree/dd69eb2a6a9cf561110190d2d4885454339039fc/plugins/dsh-desktop-update) | Desktop update badge for DSH-Desktop: renders an update icon next to the sidebar Settings button, driven by window.dshDesktop (Electron preload bridge) | ★ 6 | declared |
 
-[View all 245 notifications plugins →](https://dshhub.org/?category=notifications)
+[View all 247 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 1231
+### other · 1232
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,9 +162,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 1231 other plugins →](https://dshhub.org/?category=other)
+[View all 1232 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 1648
+### productivity · 1655
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,9 +174,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
 | [dsh-at-file](https://github.com/omdsh-dev/dsh-at-file) | Codex-style @path references for the DeepSeek Harness web GUI: search workspace paths without injecting file content | ★ 279 | declared |
 
-[View all 1648 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 1655 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 619
+### skills · 622
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -186,9 +186,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 | [@mindmemos/deepseek-harness-plugin](https://github.com/mindscale-noah/MindMemOS/tree/0c2fdb1ed41d09c7446f809d00bc11821e96cb24/plugins/deepseek-harness-plugin) | DeepSeek Harness (dsh) plugin that recalls and writes MindMemOS memories through the mindmemos CLI. | ★ 938 | declared |
 
-[View all 619 skills plugins →](https://dshhub.org/?category=skills)
+[View all 622 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 513
+### vision · 516
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -198,9 +198,9 @@ Discover **6474 community plugins** across 11 categories. Each category highligh
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 | [@oil-oil/dsh-vision](https://github.com/oil-oil/dsh-vision) | Near-native image understanding for text-only DeepSeek Harness models | ★ 68 | declared |
 
-[View all 513 vision plugins →](https://dshhub.org/?category=vision)
+[View all 516 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-18T16:51:04.966Z-dbed3f45e386`, generated 2026-08-18T16:51:04.966Z.</sub>
+<sub>Catalog snapshot `2026-08-18T17:46:37.860Z-6fe754b70e17`, generated 2026-08-18T17:46:37.860Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
