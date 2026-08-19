@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **7433 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **7468 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 2363
+### agents · 2397
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,9 +78,9 @@ Discover **7433 community plugins** across 11 categories. Each category highligh
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 
-[View all 2363 agents plugins →](https://dshhub.org/?category=agents)
+[View all 2397 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 1217
+### development · 1222
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,9 +90,9 @@ Discover **7433 community plugins** across 11 categories. Each category highligh
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 
-[View all 1217 development plugins →](https://dshhub.org/?category=development)
+[View all 1222 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 442
+### finance · 444
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -102,7 +102,7 @@ Discover **7433 community plugins** across 11 categories. Each category highligh
 | [dsh-context-doctor](https://github.com/Zhenyu98/dsh-context-doctor) | DSH 上下文注入审计插件：统计 AGENTS.md 指令链 / 技能目录 / 工具 schema / MCP 工具的 token 成本，检测重复与冲突；原生 Context Doctor 面板 + context_audit 工具。 | ★ 12 | declared |
 | [dsh-opencode-go-usage](https://github.com/Xenia0922/dsh-opencode-go-usage) | OpenCode Go 用量与花费面板 — DeepSeek Harness 插件:可拖拽缩放的悬浮仪表盘,实时展示 OpenCode Go 配额、逐请求用量与花费 | ★ 10 | declared |
 
-[View all 442 finance plugins →](https://dshhub.org/?category=finance)
+[View all 444 finance plugins →](https://dshhub.org/?category=finance)
 
 ### integrations · 897
 
@@ -176,7 +176,7 @@ Discover **7433 community plugins** across 11 categories. Each category highligh
 
 [View all 1831 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 740
+### skills · 772
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -186,7 +186,7 @@ Discover **7433 community plugins** across 11 categories. Each category highligh
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 
-[View all 740 skills plugins →](https://dshhub.org/?category=skills)
+[View all 772 skills plugins →](https://dshhub.org/?category=skills)
 
 ### vision · 564
 
@@ -200,7 +200,7 @@ Discover **7433 community plugins** across 11 categories. Each category highligh
 
 [View all 564 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-19T20:48:20.296Z-1d6c549c4986`, generated 2026-08-19T20:48:20.296Z.</sub>
+<sub>Catalog snapshot `2026-08-19T21:43:39.376Z-b565c404c6b5`, generated 2026-08-19T21:43:39.376Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
