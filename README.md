@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **7402 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **7433 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 2338
+### agents · 2363
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,9 +78,9 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 
-[View all 2338 agents plugins →](https://dshhub.org/?category=agents)
+[View all 2363 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 1212
+### development · 1217
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,7 +90,7 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 | [dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 387 | declared |
 
-[View all 1212 development plugins →](https://dshhub.org/?category=development)
+[View all 1217 development plugins →](https://dshhub.org/?category=development)
 
 ### finance · 442
 
@@ -104,7 +104,7 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 
 [View all 442 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 896
+### integrations · 897
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -114,9 +114,9 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
 | [@deepseek-ai/dsh-product-bridge](https://github.com/vibeinging/deepseek-harness-desktop-app/tree/a7cfa02b2937730fd3e3d75b97524550afa957f7/packages/dsh-product-bridge) | Session-scoped DeepSeek Harness Desktop App capabilities for the current DSH Web profile | ★ 111 | declared |
 
-[View all 896 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 897 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 2109
+### interface · 2110
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,9 +126,9 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
 
-[View all 2109 interface plugins →](https://dshhub.org/?category=interface)
+[View all 2110 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 425
+### memory · 426
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -138,7 +138,7 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [dsh-opencontext](https://github.com/melandlabs/opencontext/tree/931ed5a1cf9c0fdfc3eab641252f9b15210a8139/plugins/dsh-opencontext) | DeepSeek Harness plugin that wires DSH agents to OpenContext for durable memory + retrieval-augmented context. | ★ 45 | declared |
 | [@modusensus/dsh-mneme](https://github.com/modusensus/dsh-mneme) | Structured memory engine for DeepSeek Harness. Offline semantic search, entity-attribute-timeline, autoDream self-consolidation, and human-editable Markdown st… | ★ 18 | declared |
 
-[View all 425 memory plugins →](https://dshhub.org/?category=memory)
+[View all 426 memory plugins →](https://dshhub.org/?category=memory)
 
 ### notifications · 274
 
@@ -152,7 +152,7 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 
 [View all 274 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 1576
+### other · 1581
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,9 +162,9 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 1576 other plugins →](https://dshhub.org/?category=other)
+[View all 1581 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 1825
+### productivity · 1831
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,9 +174,9 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [dsh-tongflow](https://github.com/tong-io/tongflow/tree/a5f2bac33f963d950a1721c3b3e59951a8f01e3e/packages/dsh-tongflow) | TongFlow studio plugin for DeepSeek Harness (dsh): film-crew style project model, agent-authored TongFlow workflows, deterministic media generation, embedded c… | ★ 859 | declared |
 
-[View all 1825 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 1831 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 718
+### skills · 740
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -186,7 +186,7 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 
-[View all 718 skills plugins →](https://dshhub.org/?category=skills)
+[View all 740 skills plugins →](https://dshhub.org/?category=skills)
 
 ### vision · 564
 
@@ -200,7 +200,7 @@ Discover **7402 community plugins** across 11 categories. Each category highligh
 
 [View all 564 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-19T19:42:29.750Z-2562f5a5e21d`, generated 2026-08-19T19:42:29.750Z.</sub>
+<sub>Catalog snapshot `2026-08-19T20:48:20.296Z-1d6c549c4986`, generated 2026-08-19T20:48:20.296Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
