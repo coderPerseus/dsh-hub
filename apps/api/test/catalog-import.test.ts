@@ -49,6 +49,48 @@ describe("catalog snapshot request", () => {
 });
 
 describe("catalog snapshot importer", () => {
+  it("ignores a queue message that another delivery already claimed", async () => {
+    let storageReads = 0;
+    const statement = {
+      bind: (..._values: unknown[]) => statement,
+      first: async () => ({ status: "current" }),
+      run: async () => ({ success: true, meta: { changes: 0 } }),
+    };
+    const env = {
+      DB: { prepare: () => statement },
+      STORAGE: {
+        get: async () => {
+          storageReads += 1;
+          return null;
+        },
+      },
+    } as unknown as CatalogBindings;
+
+    await expect(importCatalogSnapshot(env, {
+      runId: "current-run",
+      r2Key: "catalog/replayed.json",
+    })).resolves.toBe("duplicate");
+
+    expect(storageReads).toBe(0);
+  });
+
+  it("keeps retrying a queue message while another delivery is importing it", async () => {
+    const statement = {
+      bind: (..._values: unknown[]) => statement,
+      first: async () => ({ status: "importing" }),
+      run: async () => ({ success: true, meta: { changes: 0 } }),
+    };
+    const env = {
+      DB: { prepare: () => statement },
+      STORAGE: { get: async () => null },
+    } as unknown as CatalogBindings;
+
+    await expect(importCatalogSnapshot(env, {
+      runId: "active-run",
+      r2Key: "catalog/active.json",
+    })).resolves.toBe("busy");
+  });
+
   it("activates a run only after its snapshot has been read and staged", async () => {
     const statements: string[] = [];
     const batches: string[][] = [];
@@ -58,7 +100,7 @@ describe("catalog snapshot importer", () => {
         bind: (..._values: unknown[]) => statement,
         run: async () => {
           statements.push(sql);
-          return { success: true };
+          return { success: true, meta: { changes: 1 } };
         },
       };
       return statement;
@@ -98,7 +140,7 @@ describe("catalog snapshot importer", () => {
         first: async () => sql.includes("WHERE status = 'current'")
           ? { id: "current-run" }
           : sql.includes("COUNT(*)") ? { count: 7 } : null,
-        run: async () => ({ success: true }),
+        run: async () => ({ success: true, meta: { changes: 1 } }),
       };
       return statement;
     };
@@ -139,7 +181,7 @@ describe("catalog snapshot importer", () => {
         first: async () => sql.includes("WHERE status = 'current'")
           ? { id: "current-run" }
           : null,
-        run: async () => ({ success: true }),
+        run: async () => ({ success: true, meta: { changes: 1 } }),
       };
       return statement;
     };
@@ -158,7 +200,13 @@ describe("catalog snapshot importer", () => {
       source: { repository: "owner/catalog", commit: "ghi789" },
       mainline: null,
       plugins: [],
-      importBatch: { advancesCursor: true, id: "snapshot-3", index: 1, total: 2 },
+      importBatch: {
+        advancesCursor: true,
+        expectedPluginCount: 1,
+        id: "snapshot-3",
+        index: 1,
+        total: 2,
+      },
     };
     const env = {
       DB: db,
@@ -182,7 +230,7 @@ describe("catalog snapshot importer", () => {
         first: async () => sql.includes("WHERE status = 'current'")
           ? { id: "current-run" }
           : sql.includes("COUNT(*)") ? { count: 5 } : null,
-        run: async () => ({ success: true }),
+        run: async () => ({ success: true, meta: { changes: 1 } }),
       };
       return statement;
     };
@@ -218,7 +266,7 @@ describe("catalog snapshot importer", () => {
       const statement = {
         bind: (..._values: unknown[]) => statement,
         first: async () => sql.includes("COUNT(*) AS count") ? { count: 1 } : null,
-        run: async () => ({ success: true }),
+        run: async () => ({ success: true, meta: { changes: 1 } }),
       };
       return statement;
     };
@@ -230,7 +278,13 @@ describe("catalog snapshot importer", () => {
       source: { repository: "owner/catalog", commit: "jkl012" },
       mainline: null,
       plugins: [],
-      importBatch: { advancesCursor: true, id: "snapshot-4", index: 3, total: 3 },
+      importBatch: {
+        advancesCursor: true,
+        expectedPluginCount: 1,
+        id: "snapshot-4",
+        index: 3,
+        total: 3,
+      },
     };
     const env = {
       DB: { prepare, batch: async () => [] },
@@ -254,7 +308,7 @@ describe("catalog snapshot importer", () => {
           : sql.includes("WHERE status = 'current'")
             ? { id: "current-run" }
             : sql.includes("COUNT(*)") ? { count: 8 } : null,
-        run: async () => ({ success: true }),
+        run: async () => ({ success: true, meta: { changes: 1 } }),
       };
       return statement;
     };
@@ -266,7 +320,13 @@ describe("catalog snapshot importer", () => {
       source: { repository: "owner/catalog", commit: "mno345" },
       mainline: null,
       plugins: [],
-      importBatch: { advancesCursor: true, id: "snapshot-5", index: 1, total: 1 },
+      importBatch: {
+        advancesCursor: true,
+        expectedPluginCount: 8,
+        id: "snapshot-5",
+        index: 1,
+        total: 1,
+      },
     };
     const env = {
       DB: {
@@ -283,5 +343,45 @@ describe("catalog snapshot importer", () => {
 
     expect(batches.at(-1)?.some(sql => sql.includes("snapshot_id = ?"))).toBe(true);
     expect(batches.at(-1)?.some(sql => sql.includes("status = 'current'"))).toBe(true);
+  });
+
+  it("rejects a staged projection whose final count differs from the snapshot", async () => {
+    const prepare = (sql: string) => {
+      const statement = {
+        bind: (..._values: unknown[]) => statement,
+        first: async () => sql.includes("SELECT generated_at")
+          ? { generated_at: "2026-08-14T02:00:00.000Z" }
+          : sql.includes("WHERE status = 'current'")
+            ? { id: "current-run" }
+            : sql.includes("COUNT(*)") ? { count: 35 } : null,
+        run: async () => ({ success: true, meta: { changes: 1 } }),
+      };
+      return statement;
+    };
+    const snapshot = {
+      schemaVersion: 1,
+      snapshotId: "snapshot-guard:batch:000001",
+      generatedAt: "2026-08-14T05:00:00.000Z",
+      changedRepositories: ["owner/plugin"],
+      source: { repository: "owner/catalog", commit: "guard123" },
+      mainline: null,
+      plugins: [],
+      importBatch: {
+        advancesCursor: true,
+        expectedPluginCount: 7_503,
+        id: "snapshot-guard",
+        index: 1,
+        total: 1,
+      },
+    };
+    const env = {
+      DB: { prepare, batch: async () => [] },
+      STORAGE: { get: async () => ({ json: async () => snapshot }) },
+    } as unknown as CatalogBindings;
+
+    await expect(importCatalogSnapshot(env, {
+      runId: "staging-run",
+      r2Key: "catalog/guard.json",
+    })).rejects.toThrow("expected 7503 plugins but staged 35");
   });
 });

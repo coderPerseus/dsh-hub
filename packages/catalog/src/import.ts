@@ -38,7 +38,13 @@ export function createCatalogImportBatches(
       snapshotId: `${snapshot.snapshotId}:batch:000001`,
       changedRepositories: [],
       plugins: [],
-      importBatch: { advancesCursor: true, id: snapshot.snapshotId, index: 1, total: 1 },
+      importBatch: {
+        advancesCursor: true,
+        expectedPluginCount: snapshot.plugins.length,
+        id: snapshot.snapshotId,
+        index: 1,
+        total: 1,
+      },
     }];
   }
 
@@ -46,14 +52,19 @@ export function createCatalogImportBatches(
   let batchRepositories: string[] = [];
   let batchPlugins: CatalogPlugin[] = [];
   let batchBytes = 0;
-  let skippedRepository = false;
 
   const createBatchSnapshot = (index: number, changedRepositories: string[], plugins: CatalogPlugin[]) => ({
     ...snapshot,
     snapshotId: `${snapshot.snapshotId}:batch:${String(index).padStart(6, "0")}`,
     changedRepositories,
     plugins,
-    importBatch: { advancesCursor: true, id: snapshot.snapshotId, index, total: 999_999 },
+    importBatch: {
+      advancesCursor: true,
+      expectedPluginCount: snapshot.plugins.length,
+      id: snapshot.snapshotId,
+      index,
+      total: 999_999,
+    },
   });
   const flush = () => {
     batches.push(createBatchSnapshot(batches.length + 1, batchRepositories, batchPlugins));
@@ -78,9 +89,7 @@ export function createCatalogImportBatches(
       0,
     );
     if (emptyBatchBytes + singleBatchAddedBytes > maximumBytes) {
-      console.warn(`Skipped catalog repository ${repository}: its import projection exceeds the byte limit.`);
-      skippedRepository = true;
-      continue;
+      throw new Error(`Catalog repository ${repository} exceeds the import byte limit.`);
     }
     if (batchBytes + addedBytes <= maximumBytes) {
       batchRepositories.push(repository);
@@ -95,20 +104,11 @@ export function createCatalogImportBatches(
   }
   if (batchRepositories.length > 0) flush();
 
-  if (batches.length === 0) {
-    return [{
-      ...snapshot,
-      snapshotId: `${snapshot.snapshotId}:batch:000001`,
-      changedRepositories: [],
-      plugins: [],
-      importBatch: { advancesCursor: !skippedRepository, id: snapshot.snapshotId, index: 1, total: 1 },
-    }];
-  }
-
   return batches.map((batch, index) => ({
     ...batch,
     importBatch: {
-      advancesCursor: !skippedRepository,
+      advancesCursor: true,
+      expectedPluginCount: snapshot.plugins.length,
       id: snapshot.snapshotId,
       index: index + 1,
       total: batches.length,

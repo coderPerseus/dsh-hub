@@ -19,6 +19,9 @@ export type CatalogBindings = CloudflareBindings & {
 const MAX_CATALOG_BYTES = 20_000_000;
 const STATEMENT_BATCH_SIZE = 50;
 const REPOSITORY_DELETE_BATCH_SIZE = 40;
+const IMPORT_CLAIM_LEASE_MS = 16 * 60 * 1_000;
+
+export type CatalogImportResult = "busy" | "duplicate" | "processed";
 
 function toHex(bytes: ArrayBuffer): string {
   return [...new Uint8Array(bytes)].map(byte => byte.toString(16).padStart(2, "0")).join("");
@@ -287,6 +290,11 @@ async function importBatchedSnapshot(
   const count = await env.DB.prepare(
     "SELECT COUNT(*) AS count FROM plugin_snapshots WHERE run_id = ?",
   ).bind(stagingRunId).first<{ count: number }>();
+  if (count?.count !== batch.expectedPluginCount) {
+    throw new Error(
+      `Catalog import expected ${batch.expectedPluginCount} plugins but staged ${count?.count ?? 0}.`,
+    );
+  }
   const previousCurrent = await env.DB.prepare(
     "SELECT generated_at FROM catalog_runs WHERE status = 'current' AND id <> ? ORDER BY published_at DESC LIMIT 1",
   ).bind(stagingRunId).first<{ generated_at: string }>();
@@ -328,18 +336,30 @@ async function importBatchedSnapshot(
 export async function importCatalogSnapshot(
   env: CatalogBindings,
   message: CatalogImportMessage,
-): Promise<void> {
+): Promise<CatalogImportResult> {
+  const claimTime = new Date();
+  const expiredClaim = new Date(claimTime.getTime() - IMPORT_CLAIM_LEASE_MS).toISOString();
+  const claim = await env.DB.prepare(
+    `UPDATE catalog_runs SET status = 'importing', error = NULL, updated_at = ?
+     WHERE id = ? AND (
+       status IN ('queued', 'failed') OR (status = 'importing' AND updated_at < ?)
+     )`,
+  ).bind(claimTime.toISOString(), message.runId, expiredClaim).run();
+  if (claim.meta.changes === 0) {
+    const existing = await env.DB.prepare(
+      "SELECT status FROM catalog_runs WHERE id = ?",
+    ).bind(message.runId).first<{ status: string }>();
+    return existing?.status === "importing" ? "busy" : "duplicate";
+  }
+
   const object = await env.STORAGE.get(message.r2Key);
   if (object === null) throw new Error(`Catalog object ${message.r2Key} is missing.`);
 
   const snapshot = catalogSnapshotSchema.parse(await object.json());
   const now = new Date().toISOString();
-  await env.DB.prepare(
-    "UPDATE catalog_runs SET status = 'importing', error = NULL, updated_at = ? WHERE id = ?",
-  ).bind(now, message.runId).run();
   if (snapshot.importBatch) {
     await importBatchedSnapshot(env, message.runId, snapshot, now);
-    return;
+    return "processed";
   }
   if (snapshot.changedRepositories && await importIncrementalSnapshot(
     env,
@@ -347,7 +367,7 @@ export async function importCatalogSnapshot(
     snapshot,
     snapshot.changedRepositories,
     now,
-  )) return;
+  )) return "processed";
   await clearRunProjection(env.DB, message.runId);
 
   await runBatches(env.DB, pluginStatements(env.DB, message.runId, snapshot.plugins));
@@ -362,6 +382,7 @@ export async function importCatalogSnapshot(
        WHERE id = ?`,
     ).bind(snapshot.plugins.length, now, now, message.runId),
   ]);
+  return "processed";
 }
 
 export async function markCatalogImportFailed(

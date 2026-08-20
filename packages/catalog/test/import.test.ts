@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import { createCatalogImportBatches } from "../src/import";
 import { catalogPluginSchema, type CatalogPlugin, type CatalogSnapshot } from "../src/schema";
@@ -78,6 +78,7 @@ describe("catalog import batches", () => {
     expect(batches[0]?.plugins.map(item => item.id)).toEqual(["github:owner/changed"]);
     expect(batches[0]?.importBatch).toEqual({
       advancesCursor: true,
+      expectedPluginCount: 2,
       id: "snapshot-1",
       index: 1,
       total: 1,
@@ -94,7 +95,13 @@ describe("catalog import batches", () => {
       snapshotId: `${input.snapshotId}:batch:000001`,
       changedRepositories: ["owner/one"],
       plugins: [input.plugins[0]],
-      importBatch: { advancesCursor: true, id: input.snapshotId, index: 1, total: 999_999 },
+      importBatch: {
+        advancesCursor: true,
+        expectedPluginCount: 2,
+        id: input.snapshotId,
+        index: 1,
+        total: 999_999,
+      },
     }));
     const batches = createCatalogImportBatches(input, oneRepositoryBytes + 10);
 
@@ -116,7 +123,13 @@ describe("catalog import batches", () => {
       snapshotId: `${input.snapshotId}:batch:000001`,
       changedRepositories: ["owner/one"],
       plugins: [input.plugins[0]],
-      importBatch: { advancesCursor: true, id: input.snapshotId, index: 1, total: 999_999 },
+      importBatch: {
+        advancesCursor: true,
+        expectedPluginCount: 2,
+        id: input.snapshotId,
+        index: 1,
+        total: 999_999,
+      },
     }));
     const batches = createCatalogImportBatches(input, oneRepositoryBytes + 10);
 
@@ -127,17 +140,9 @@ describe("catalog import batches", () => {
     ]);
   });
 
-  it("isolates a repository that cannot fit in one request", () => {
-    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-    const batches = createCatalogImportBatches(snapshot([
+  it("rejects a repository that cannot fit in one request", () => {
+    expect(() => createCatalogImportBatches(snapshot([
       plugin("owner/large", "x".repeat(2_000)),
-    ], ["owner/large"]), 500);
-
-    expect(batches).toHaveLength(1);
-    expect(batches[0]?.changedRepositories).toEqual([]);
-    expect(batches[0]?.plugins).toEqual([]);
-    expect(batches[0]?.importBatch?.advancesCursor).toBe(false);
-    expect(warning).toHaveBeenCalledWith(expect.stringContaining("owner/large"));
-    warning.mockRestore();
+    ], ["owner/large"]), 500)).toThrow("owner/large exceeds the import byte limit");
   });
 });

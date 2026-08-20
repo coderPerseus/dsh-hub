@@ -99,6 +99,7 @@ export const catalogSnapshotSchema = z.object({
   plugins: z.array(catalogPluginSchema),
   importBatch: z.object({
     advancesCursor: z.boolean(),
+    expectedPluginCount: z.number().int().nonnegative(),
     id: z.string().min(1),
     index: z.number().int().positive(),
     total: z.number().int().positive(),

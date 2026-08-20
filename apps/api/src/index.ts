@@ -201,8 +201,9 @@ export default {
   async queue(batch: MessageBatch<CatalogImportMessage>, env: CatalogBindings) {
     await Promise.all(batch.messages.map(async (message) => {
       try {
-        await importCatalogSnapshot(env, message.body);
-        message.ack();
+        const result = await importCatalogSnapshot(env, message.body);
+        if (result === "busy") message.retry({ delaySeconds: 600 });
+        else message.ack();
       } catch (error) {
         await markCatalogImportFailed(env.DB, message.body.runId, error);
         message.retry();
