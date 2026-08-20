@@ -66,21 +66,21 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **1311 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **1700 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 466
+### agents · 527
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@dshhubs/plugin-search](https://github.com/coderPerseus/dsh-hub/tree/65215d345547f70ba670d46904e6ac2a655da4f9/packages/dsh-plugin) | DeepSeek Harness tools for finding and inspecting plugins in the dshhub catalog | ★ 3 | declared |
 | [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/057b0f4e10636dd5bbb09cef546d0e47f1090661/packages/dsh-runtime) | DeepSeek Harness profile runtime for OpenDesign | ★ 89324 | declared |
+| [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/dbbab6fd7610cf1472d0e0377fc0e966faf7acda/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 41178 | declared |
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 2331 | declared |
 | [@deepseek-harness-tui/dsh-tui](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code style interactive TUI front door for DeepSeek Harness agents, built on the ported Ink core. | ★ 2077 | declared |
-| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/f3ce8eec13e1909719ad86819ddaa24916bc86eb/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1081 | declared |
 
-[View all 466 agents plugins →](https://dshhub.org/?category=agents)
+[View all 527 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 211
+### development · 234
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,9 +90,9 @@ Discover **1311 community plugins** across 11 categories. Each category highligh
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/f3ce8eec13e1909719ad86819ddaa24916bc86eb/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1081 | declared |
 | [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive terminal UI plugin for the official DeepSeek Harness — streaming markdown/tool cards, 16+ themes, slash commands, session tabs,… | ★ 220 | declared |
 
-[View all 211 development plugins →](https://dshhub.org/?category=development)
+[View all 234 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 45
+### finance · 61
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -102,21 +102,21 @@ Discover **1311 community plugins** across 11 categories. Each category highligh
 | [@dsh-external/dsh-route-boost](https://github.com/SeaOf0/dsh-redteam-model/tree/94d5e25b2b834a3f5cb611556859e6cb86389f3e/plugins/dsh-route-boost) | DSH host-plane route booster for the nine security presets: infers the current (mode, phase) from the latest user message (sticky phase memory) and re-injects… | ★ 5 | declared |
 | [dsh-calculator](https://github.com/bobcat848/dsh-calculator) | DeepSeek Harness web plugin: DeepSeek API spend (per session / all sessions) and account balance in a top-right overlay card. Only deepseek-official routes are… | ★ 5 | declared |
 
-[View all 45 finance plugins →](https://dshhub.org/?category=finance)
+[View all 61 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 139
+### integrations · 166
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
+| [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/dbbab6fd7610cf1472d0e0377fc0e966faf7acda/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 41178 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/f3ce8eec13e1909719ad86819ddaa24916bc86eb/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1081 | declared |
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 751 | declared |
 | [dsh-pocket](https://github.com/shaobeichen/dsh-pocket) | 把 DeepSeek Harness 装进你的口袋：一个包、一个设置页，手机扫码即同步访问电脑上的 DSH（局域网 + 公网，实时同屏）。 | ★ 222 | declared |
 | [dsh-code-review](https://github.com/Dominic789654/awesome-deepseek-harness/tree/ee8a6299b17cb0e39da085f8adc19004c4a1cff1/plugins/dsh-code-review) | Code review assistant for DeepSeek Harness: code_review_context collects deterministic git diff context; a bundled skill drives the review checklist. | ★ 159 | declared |
-| [@zseven-w/dsh-crew](https://github.com/ZSeven-W/dsh-crew) | DeepSeek Harness plugin: dispatch work to DSH agents from Claude Code / Codex, as native subagents with live progress | ★ 61 | declared |
 
-[View all 139 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 166 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 309
+### interface · 348
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,9 +126,9 @@ Discover **1311 community plugins** across 11 categories. Each category highligh
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/f3ce8eec13e1909719ad86819ddaa24916bc86eb/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1081 | declared |
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 751 | declared |
 
-[View all 309 interface plugins →](https://dshhub.org/?category=interface)
+[View all 348 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 64
+### memory · 78
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -138,9 +138,9 @@ Discover **1311 community plugins** across 11 categories. Each category highligh
 | [dsh-archived-sessions](https://github.com/Zephyr-vibe/dsh-archived-sessions) | DSH web plugin: an Archived Sessions manager in Settings — browse archived conversations, expand per-session details (disk usage, downloads, tool usage, lineag… | ★ 16 | declared |
 | [dsh-continual-evolve](https://github.com/ZK-Andy/dsh-continual-evolve) | Continual self-evolution plugin for DeepSeek Harness: versioned, auditable, rollback-safe harness state (prompt notes, memories, skills, subagent specs) refine… | ★ 14 | declared |
 
-[View all 64 memory plugins →](https://dshhub.org/?category=memory)
+[View all 78 memory plugins →](https://dshhub.org/?category=memory)
 
-### notifications · 42
+### notifications · 47
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -150,9 +150,9 @@ Discover **1311 community plugins** across 11 categories. Each category highligh
 | [dsh-telegram-relay](https://github.com/congchuanling-dot/DSH-Telegram-Relay) | A DeepSeek Harness plugin bundle for Telegram relay integration. | ★ 6 | declared |
 | [@dsh-external/dsh-refusal-guard](https://github.com/SeaOf0/dsh-redteam-model/tree/94d5e25b2b834a3f5cb611556859e6cb86389f3e/plugins/dsh-refusal-guard) | DSH host-plane refusal-repair proximity injection for the five security presets: watches assistant turn text on session/event, detects refusal/moralizing patte… | ★ 5 | declared |
 
-[View all 42 notifications plugins →](https://dshhub.org/?category=notifications)
+[View all 47 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 401
+### other · 658
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -160,35 +160,35 @@ Discover **1311 community plugins** across 11 categories. Each category highligh
 | [@cocofhu/anime-find](https://github.com/cocofhu/anime-find) | DeepSeek Harness 插件：对话内多源搜番，卡片详情、磁力复制与规则流媒体在线播放 | ★ 152 | declared |
 | [dsh-plugin-liang-calibrator](https://github.com/BruzWJ/Liang-Saint-Slider) | 滑动变祖器 — the liang-intensity-calibrator as the DeepSeek Harness model + thinking-effort slider. Clicking the composer's model seat opens the 31-level calibrator… | ★ 89 | declared |
 | [dsh-skin-market](https://github.com/kingOfSoySauce/dsh-skin-market) | Native skin marketplace and lifecycle manager for DeepSeek Harness | ★ 49 | declared |
-| [dsh-prompt-enhancer](https://github.com/Fishsb/dsh-prompt-enhancer) | One-click prompt enhancement for DeepSeek Harness: fuzzy draft -> independent LLM call -> polished text in the composer, with undo. | ★ 29 | declared |
+| [dsh-codex-connect](https://github.com/franksong2702/dsh-codex-connect) | ChatGPT OAuth and Codex models for DeepSeek Harness. | ★ 30 | declared |
 
-[View all 401 other plugins →](https://dshhub.org/?category=other)
+[View all 658 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 265
+### productivity · 304
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
+| [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/dbbab6fd7610cf1472d0e0377fc0e966faf7acda/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 41178 | declared |
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 2331 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/f3ce8eec13e1909719ad86819ddaa24916bc86eb/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1081 | declared |
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 751 | declared |
 | [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive terminal UI plugin for the official DeepSeek Harness — streaming markdown/tool cards, 16+ themes, slash commands, session tabs,… | ★ 220 | declared |
-| [dsh-slides](https://github.com/Dominic789654/awesome-deepseek-harness/tree/ee8a6299b17cb0e39da085f8adc19004c4a1cff1/plugins/dsh-slides) | Slide-deck generation for DeepSeek Harness: slides_generate turns a markdown outline into a self-contained reveal.js HTML deck in the active workspace. | ★ 159 | declared |
 
-[View all 265 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 304 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 251
+### skills · 299
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@dshhubs/plugin-search](https://github.com/coderPerseus/dsh-hub/tree/65215d345547f70ba670d46904e6ac2a655da4f9/packages/dsh-plugin) | DeepSeek Harness tools for finding and inspecting plugins in the dshhub catalog | ★ 3 | declared |
 | [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/057b0f4e10636dd5bbb09cef546d0e47f1090661/packages/dsh-runtime) | DeepSeek Harness profile runtime for OpenDesign | ★ 89324 | declared |
+| [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/dbbab6fd7610cf1472d0e0377fc0e966faf7acda/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 41178 | declared |
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 751 | declared |
 | [@omdsh-dev/dsh-genui](https://github.com/omdsh-dev/dsh-genui) | GenUI for DeepSeek Harness: interactive UI components rendered inline in assistant replies via the ```dsh-ui fence — layout, charts, plots, forms, quizzes, mer… | ★ 250 | declared |
-| [dsh-code-review](https://github.com/Dominic789654/awesome-deepseek-harness/tree/ee8a6299b17cb0e39da085f8adc19004c4a1cff1/plugins/dsh-code-review) | Code review assistant for DeepSeek Harness: code_review_context collects deterministic git diff context; a bundled skill drives the review checklist. | ★ 159 | declared |
 
-[View all 251 skills plugins →](https://dshhub.org/?category=skills)
+[View all 299 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 85
+### vision · 97
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -198,9 +198,9 @@ Discover **1311 community plugins** across 11 categories. Each category highligh
 | [@zseven-w/dsh-crew](https://github.com/ZSeven-W/dsh-crew) | DeepSeek Harness plugin: dispatch work to DSH agents from Claude Code / Codex, as native subagents with live progress | ★ 61 | declared |
 | [picturereader](https://github.com/jing-hy/picturereader) | Unified image understanding plugin for DeepSeek Harness (DSH). Visual twin adapter for native thumbnails + auto-analysis on any text-only model (incl. pi-ai pr… | ★ 26 | declared |
 
-[View all 85 vision plugins →](https://dshhub.org/?category=vision)
+[View all 97 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-19T23:40:55.929Z-65215d345547`, generated 2026-08-19T23:40:55.929Z.</sub>
+<sub>Catalog snapshot `2026-08-20T01:54:02.418Z-c4bb7c1251d1`, generated 2026-08-20T01:54:02.418Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
