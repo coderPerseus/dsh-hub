@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **9027 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **9032 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 2755
+### agents · 2757
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,7 +78,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 
-[View all 2755 agents plugins →](https://dshhub.org/?category=agents)
+[View all 2757 agents plugins →](https://dshhub.org/?category=agents)
 
 ### development · 1415
 
@@ -92,7 +92,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 
 [View all 1415 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 517
+### finance · 518
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -102,7 +102,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 | [dsh-context-doctor](https://github.com/Zhenyu98/dsh-context-doctor) | DSH 上下文注入审计插件：统计 AGENTS.md 指令链 / 技能目录 / 工具 schema / MCP 工具的 token 成本，检测重复与冲突；原生 Context Doctor 面板 + context_audit 工具。 | ★ 12 | declared |
 | [dsh-opencode-go-usage](https://github.com/Xenia0922/dsh-opencode-go-usage) | OpenCode Go 用量与花费面板 — DeepSeek Harness 插件:可拖拽缩放的悬浮仪表盘,实时展示 OpenCode Go 配额、逐请求用量与花费 | ★ 10 | declared |
 
-[View all 517 finance plugins →](https://dshhub.org/?category=finance)
+[View all 518 finance plugins →](https://dshhub.org/?category=finance)
 
 ### integrations · 1011
 
@@ -116,7 +116,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 
 [View all 1011 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 2426
+### interface · 2427
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,7 +126,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [@anionex/dsh-vision-toolkit](https://github.com/Anionex/dsh-vision-toolkit) | DeepSeek Harness-native integration for agent-vision-toolkit: image Q&A, OCR, grounding, UI restoration, pixel diff, Artifacts, and Web UI. | ★ 550 | declared |
 
-[View all 2426 interface plugins →](https://dshhub.org/?category=interface)
+[View all 2427 interface plugins →](https://dshhub.org/?category=interface)
 
 ### memory · 492
 
@@ -152,7 +152,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 
 [View all 314 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 2279
+### other · 2280
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,9 +162,9 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 2279 other plugins →](https://dshhub.org/?category=other)
+[View all 2280 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 2100
+### productivity · 2101
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,9 +174,9 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [dsh-tongflow](https://github.com/tong-io/tongflow/tree/a5f2bac33f963d950a1721c3b3e59951a8f01e3e/packages/dsh-tongflow) | TongFlow studio plugin for DeepSeek Harness (dsh): film-crew style project model, agent-authored TongFlow workflows, deterministic media generation, embedded c… | ★ 859 | declared |
 
-[View all 2100 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 2101 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 889
+### skills · 891
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -186,7 +186,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 
-[View all 889 skills plugins →](https://dshhub.org/?category=skills)
+[View all 891 skills plugins →](https://dshhub.org/?category=skills)
 
 ### vision · 642
 
@@ -200,7 +200,7 @@ Discover **9027 community plugins** across 11 categories. Each category highligh
 
 [View all 642 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-22T19:38:53.916Z-8e7d46417d8f`, generated 2026-08-22T19:38:53.916Z.</sub>
+<sub>Catalog snapshot `2026-08-22T20:42:54.794Z-2f13e4671a72`, generated 2026-08-22T20:42:54.794Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
