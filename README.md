@@ -66,7 +66,7 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **9025 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **9027 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
 ### agents · 2755
 
@@ -152,7 +152,7 @@ Discover **9025 community plugins** across 11 categories. Each category highligh
 
 [View all 314 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 2277
+### other · 2279
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,7 +162,7 @@ Discover **9025 community plugins** across 11 categories. Each category highligh
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 2277 other plugins →](https://dshhub.org/?category=other)
+[View all 2279 other plugins →](https://dshhub.org/?category=other)
 
 ### productivity · 2100
 
@@ -200,7 +200,7 @@ Discover **9025 community plugins** across 11 categories. Each category highligh
 
 [View all 642 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-22T18:51:19.793Z-9a6ea2bd0224`, generated 2026-08-22T18:51:19.793Z.</sub>
+<sub>Catalog snapshot `2026-08-22T19:38:53.916Z-8e7d46417d8f`, generated 2026-08-22T19:38:53.916Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
