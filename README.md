@@ -66,7 +66,7 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **9396 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **9398 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
 ### agents · 2864
 
@@ -92,7 +92,7 @@ Discover **9396 community plugins** across 11 categories. Each category highligh
 
 [View all 1469 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 537
+### finance · 538
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -102,7 +102,7 @@ Discover **9396 community plugins** across 11 categories. Each category highligh
 | [dsh-context-doctor](https://github.com/Zhenyu98/dsh-context-doctor) | DSH 上下文注入审计插件：统计 AGENTS.md 指令链 / 技能目录 / 工具 schema / MCP 工具的 token 成本，检测重复与冲突；原生 Context Doctor 面板 + context_audit 工具。 | ★ 12 | declared |
 | [dsh-opencode-go-usage](https://github.com/Xenia0922/dsh-opencode-go-usage) | OpenCode Go 用量与花费面板 — DeepSeek Harness 插件:可拖拽缩放的悬浮仪表盘,实时展示 OpenCode Go 配额、逐请求用量与花费 | ★ 10 | declared |
 
-[View all 537 finance plugins →](https://dshhub.org/?category=finance)
+[View all 538 finance plugins →](https://dshhub.org/?category=finance)
 
 ### integrations · 1058
 
@@ -116,7 +116,7 @@ Discover **9396 community plugins** across 11 categories. Each category highligh
 
 [View all 1058 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 2561
+### interface · 2563
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,7 +126,7 @@ Discover **9396 community plugins** across 11 categories. Each category highligh
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [@vibeinging/dsh-canvas-tools](https://github.com/vibeinging/dsh-desktop/tree/3e647be1e946f17227647b2154208e7a521173eb/packages/dsh-canvas-tools) | Session-scoped versioned Canvas and local Site tools over productHost | ★ 621 | declared |
 
-[View all 2561 interface plugins →](https://dshhub.org/?category=interface)
+[View all 2563 interface plugins →](https://dshhub.org/?category=interface)
 
 ### memory · 516
 
@@ -188,7 +188,7 @@ Discover **9396 community plugins** across 11 categories. Each category highligh
 
 [View all 916 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 659
+### vision · 660
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -198,9 +198,9 @@ Discover **9396 community plugins** across 11 categories. Each category highligh
 | [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive TUI layer over the dsh-base profile, installable as a plugin (`dsh plugin --profile tui add @huiliyi37/dsh-tianshu-tui`) | ★ 194 | declared |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 
-[View all 659 vision plugins →](https://dshhub.org/?category=vision)
+[View all 660 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-23T19:39:09.235Z-4e15c1dcf904`, generated 2026-08-23T19:39:09.235Z.</sub>
+<sub>Catalog snapshot `2026-08-23T20:42:07.620Z-6f1a045807df`, generated 2026-08-23T20:42:07.620Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
