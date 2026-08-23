@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **9393 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **9396 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 2862
+### agents · 2864
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,9 +78,9 @@ Discover **9393 community plugins** across 11 categories. Each category highligh
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 
-[View all 2862 agents plugins →](https://dshhub.org/?category=agents)
+[View all 2864 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 1467
+### development · 1469
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,7 +90,7 @@ Discover **9393 community plugins** across 11 categories. Each category highligh
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 | [dsh-deja](https://github.com/vshulcz/deja-vu/tree/659019f2f845d0de31116785035a0548a0229358/packages/dsh-deja) | Brings the session history of nineteen other coding agents into DeepSeek Harness: recall, session digest and per-file history tools over a local index, plus op… | ★ 656 | declared |
 
-[View all 1467 development plugins →](https://dshhub.org/?category=development)
+[View all 1469 development plugins →](https://dshhub.org/?category=development)
 
 ### finance · 537
 
@@ -128,7 +128,7 @@ Discover **9393 community plugins** across 11 categories. Each category highligh
 
 [View all 2561 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 515
+### memory · 516
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -138,7 +138,7 @@ Discover **9393 community plugins** across 11 categories. Each category highligh
 | [dsh-mnemon](https://github.com/Grivn/dsh-mnemon) | Three-tier memory control plane for DeepSeek Harness: persistent runtime context, searchable project documents, pluggable long-term memory, smart routing, supe… | ★ 156 | declared |
 | [dsh-mnemon](https://github.com/omdsh-dev/dsh-mnemon) | Three-tier memory system for DeepSeek Harness with nine pluggable providers, smart routing, independent task Agents, WebUI, and headless tools. | ★ 60 | declared |
 
-[View all 515 memory plugins →](https://dshhub.org/?category=memory)
+[View all 516 memory plugins →](https://dshhub.org/?category=memory)
 
 ### notifications · 333
 
@@ -152,7 +152,7 @@ Discover **9393 community plugins** across 11 categories. Each category highligh
 
 [View all 333 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 2352
+### other · 2353
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,7 +162,7 @@ Discover **9393 community plugins** across 11 categories. Each category highligh
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 2352 other plugins →](https://dshhub.org/?category=other)
+[View all 2353 other plugins →](https://dshhub.org/?category=other)
 
 ### productivity · 2217
 
@@ -200,7 +200,7 @@ Discover **9393 community plugins** across 11 categories. Each category highligh
 
 [View all 659 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-23T18:50:55.886Z-b82c48e35398`, generated 2026-08-23T18:50:55.886Z.</sub>
+<sub>Catalog snapshot `2026-08-23T19:39:09.235Z-4e15c1dcf904`, generated 2026-08-23T19:39:09.235Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
