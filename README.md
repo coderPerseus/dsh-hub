@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **10101 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **10106 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 3066
+### agents · 3067
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,7 +78,7 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 | [@agentscope-ai/reme](https://github.com/agentscope-ai/ReMe/tree/01ef1a6efb6e84be29347334b9043ab284e0ca73/packages/typescript) | ReMe client and memory integrations for TypeScript agents | ★ 3339 | declared |
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 
-[View all 3066 agents plugins →](https://dshhub.org/?category=agents)
+[View all 3067 agents plugins →](https://dshhub.org/?category=agents)
 
 ### development · 1583
 
@@ -104,7 +104,7 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 
 [View all 578 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 1144
+### integrations · 1145
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -114,9 +114,9 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 | [dsh-deja](https://github.com/vshulcz/deja-vu/tree/659019f2f845d0de31116785035a0548a0229358/packages/dsh-deja) | Brings the session history of nineteen other coding agents into DeepSeek Harness: recall, session digest and per-file history tools over a local index, plus op… | ★ 656 | declared |
 | [@vibeinging/dsh-canvas-tools](https://github.com/vibeinging/dsh-desktop/tree/3e647be1e946f17227647b2154208e7a521173eb/packages/dsh-canvas-tools) | Session-scoped versioned Canvas and local Site tools over productHost | ★ 621 | declared |
 
-[View all 1144 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 1145 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 2809
+### interface · 2810
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,9 +126,9 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [@vibeinging/dsh-canvas-tools](https://github.com/vibeinging/dsh-desktop/tree/3e647be1e946f17227647b2154208e7a521173eb/packages/dsh-canvas-tools) | Session-scoped versioned Canvas and local Site tools over productHost | ★ 621 | declared |
 
-[View all 2809 interface plugins →](https://dshhub.org/?category=interface)
+[View all 2810 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 553
+### memory · 554
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -138,7 +138,7 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 | [graph-memory](https://github.com/adoresever/graph-memory) | Knowledge graph memory for DeepSeek Harness and OpenClaw — cross-session recall, PageRank, communities, and vector search | ★ 563 | declared |
 | [dsh-mnemon](https://github.com/Grivn/dsh-mnemon) | Three-tier memory control plane for DeepSeek Harness: persistent runtime context, searchable project documents, pluggable long-term memory, smart routing, supe… | ★ 156 | declared |
 
-[View all 553 memory plugins →](https://dshhub.org/?category=memory)
+[View all 554 memory plugins →](https://dshhub.org/?category=memory)
 
 ### notifications · 356
 
@@ -152,7 +152,7 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 
 [View all 356 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 2502
+### other · 2504
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,7 +162,7 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 2502 other plugins →](https://dshhub.org/?category=other)
+[View all 2504 other plugins →](https://dshhub.org/?category=other)
 
 ### productivity · 2410
 
@@ -188,7 +188,7 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 
 [View all 973 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 693
+### vision · 694
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -198,9 +198,9 @@ Discover **10101 community plugins** across 11 categories. Each category highlig
 | [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive TUI layer over the dsh-base profile, installable as a plugin (`dsh plugin --profile tui add @huiliyi37/dsh-tianshu-tui`) | ★ 194 | declared |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 
-[View all 693 vision plugins →](https://dshhub.org/?category=vision)
+[View all 694 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-25T20:48:58.122Z-871bd80bd44d`, generated 2026-08-25T20:48:58.122Z.</sub>
+<sub>Catalog snapshot `2026-08-25T21:46:21.303Z-35ad3546cf5c`, generated 2026-08-25T21:46:21.303Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
