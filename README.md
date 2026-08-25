@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **10115 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **10123 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 3071
+### agents · 3072
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,9 +78,9 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 | [@agentscope-ai/reme](https://github.com/agentscope-ai/ReMe/tree/01ef1a6efb6e84be29347334b9043ab284e0ca73/packages/typescript) | ReMe client and memory integrations for TypeScript agents | ★ 3339 | declared |
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 
-[View all 3071 agents plugins →](https://dshhub.org/?category=agents)
+[View all 3072 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 1583
+### development · 1586
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,7 +90,7 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 | [aegis](https://github.com/GanyuanRan/Aegis) | Make AI coding agents architecture-aware: baseline-first, evidence-verified, drift-checked, and safe across long tasks. | ★ 1032 | declared |
 | [dsh-deja](https://github.com/vshulcz/deja-vu/tree/659019f2f845d0de31116785035a0548a0229358/packages/dsh-deja) | Brings the session history of nineteen other coding agents into DeepSeek Harness: recall, session digest and per-file history tools over a local index, plus op… | ★ 656 | declared |
 
-[View all 1583 development plugins →](https://dshhub.org/?category=development)
+[View all 1586 development plugins →](https://dshhub.org/?category=development)
 
 ### finance · 578
 
@@ -104,7 +104,7 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 
 [View all 578 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 1145
+### integrations · 1146
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -114,7 +114,7 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 | [dsh-deja](https://github.com/vshulcz/deja-vu/tree/659019f2f845d0de31116785035a0548a0229358/packages/dsh-deja) | Brings the session history of nineteen other coding agents into DeepSeek Harness: recall, session digest and per-file history tools over a local index, plus op… | ★ 656 | declared |
 | [@vibeinging/dsh-canvas-tools](https://github.com/vibeinging/dsh-desktop/tree/3e647be1e946f17227647b2154208e7a521173eb/packages/dsh-canvas-tools) | Session-scoped versioned Canvas and local Site tools over productHost | ★ 621 | declared |
 
-[View all 1145 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 1146 integrations plugins →](https://dshhub.org/?category=integrations)
 
 ### interface · 2812
 
@@ -152,7 +152,7 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 
 [View all 357 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 2506
+### other · 2509
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,9 +162,9 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 2506 other plugins →](https://dshhub.org/?category=other)
+[View all 2509 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 2415
+### productivity · 2418
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,7 +174,7 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [dsh-tongflow](https://github.com/tong-io/tongflow/tree/a5f2bac33f963d950a1721c3b3e59951a8f01e3e/packages/dsh-tongflow) | TongFlow studio plugin for DeepSeek Harness (dsh): film-crew style project model, agent-authored TongFlow workflows, deterministic media generation, embedded c… | ★ 859 | declared |
 
-[View all 2415 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 2418 productivity plugins →](https://dshhub.org/?category=productivity)
 
 ### skills · 973
 
@@ -200,7 +200,7 @@ Discover **10115 community plugins** across 11 categories. Each category highlig
 
 [View all 694 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-08-25T22:47:54.439Z-4e1048b57aea`, generated 2026-08-25T22:47:54.439Z.</sub>
+<sub>Catalog snapshot `2026-08-25T23:41:18.606Z-ee733c2e8161`, generated 2026-08-25T23:41:18.606Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
