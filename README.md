@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **12424 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **12434 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 3806
+### agents · 3807
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,7 +78,7 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 | [@dsh-external/dsh-super-injector](https://github.com/yjh051108/dsh-routing-suite) | dsh-routing-suite 分发入口：DSH 超级模组注入器（BepInEx 式运行时注入，免重启）+ router-standard 预设仓库。插件入口为 injector/，预设位于 preset/。 | ★ 6930 | declared |
 | [dsh-loopx-plugin](https://github.com/huangruiteng/loopx/tree/f3f25d327c6f0076677cf54036e1640660b79050/packages/dsh-loopx-plugin) | One-step LoopX bootstrap, same-session driver, and local GoalBar for DeepSeek Harness | ★ 5353 | declared |
 
-[View all 3806 agents plugins →](https://dshhub.org/?category=agents)
+[View all 3807 agents plugins →](https://dshhub.org/?category=agents)
 
 ### development · 1982
 
@@ -92,7 +92,7 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 
 [View all 1982 development plugins →](https://dshhub.org/?category=development)
 
-### finance · 665
+### finance · 667
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -102,9 +102,9 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 | [@pinkbanana/dsh-balance](https://github.com/crazywoola/dsh-balance) | DeepSeek Harness plugin that shows API balances and models in Settings, with balance below the chat composer | ★ 19 | declared |
 | [dsh-context-doctor](https://github.com/Zhenyu98/dsh-context-doctor) | DSH 上下文注入审计插件：统计 AGENTS.md 指令链 / 技能目录 / 工具 schema / MCP 工具的 token 成本，检测重复与冲突；原生 Context Doctor 面板 + context_audit 工具。 | ★ 12 | declared |
 
-[View all 665 finance plugins →](https://dshhub.org/?category=finance)
+[View all 667 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 1508
+### integrations · 1510
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -114,9 +114,9 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 | [dsh-deja](https://github.com/vshulcz/deja-vu/tree/659019f2f845d0de31116785035a0548a0229358/packages/dsh-deja) | Brings the session history of nineteen other coding agents into DeepSeek Harness: recall, session digest and per-file history tools over a local index, plus op… | ★ 656 | declared |
 
-[View all 1508 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 1510 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 3427
+### interface · 3432
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,7 +126,7 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 | [@open-pets/dsh](https://github.com/alvinunreal/openpets/tree/042844d8e3cd43d8984a2742865d100c3a7be4a4/packages/dsh) | Local first, desktop companion platform with animated pets, plugin SDK and coding-agent integrations. | ★ 1078 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 
-[View all 3427 interface plugins →](https://dshhub.org/?category=interface)
+[View all 3432 interface plugins →](https://dshhub.org/?category=interface)
 
 ### memory · 696
 
@@ -164,7 +164,7 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 
 [View all 2955 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 3007
+### productivity · 3012
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,7 +174,7 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 
-[View all 3007 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 3012 productivity plugins →](https://dshhub.org/?category=productivity)
 
 ### skills · 1204
 
@@ -200,7 +200,7 @@ Discover **12424 community plugins** across 11 categories. Each category highlig
 
 [View all 841 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-09-03T22:37:44.357Z-efd9769db807`, generated 2026-09-03T22:37:44.357Z.</sub>
+<sub>Catalog snapshot `2026-09-04T01:01:53.415Z-b1d51d331b9b`, generated 2026-09-04T01:01:53.415Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
