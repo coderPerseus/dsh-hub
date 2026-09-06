@@ -66,7 +66,7 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **12814 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **12819 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
 ### agents · 3935
 
@@ -152,7 +152,7 @@ Discover **12814 community plugins** across 11 categories. Each category highlig
 
 [View all 445 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 3034
+### other · 3038
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,9 +162,9 @@ Discover **12814 community plugins** across 11 categories. Each category highlig
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 3034 other plugins →](https://dshhub.org/?category=other)
+[View all 3038 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 3126
+### productivity · 3127
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,7 +174,7 @@ Discover **12814 community plugins** across 11 categories. Each category highlig
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 
-[View all 3126 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 3127 productivity plugins →](https://dshhub.org/?category=productivity)
 
 ### skills · 1229
 
@@ -200,7 +200,7 @@ Discover **12814 community plugins** across 11 categories. Each category highlig
 
 [View all 869 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-09-06T19:14:52.200Z-6a699a76d977`, generated 2026-09-06T19:14:52.200Z.</sub>
+<sub>Catalog snapshot `2026-09-06T21:26:08.281Z-3a990445b3bc`, generated 2026-09-06T21:26:08.281Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
