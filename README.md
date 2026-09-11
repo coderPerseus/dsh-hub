@@ -66,21 +66,21 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **13356 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **13411 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 4088
+### agents · 4111
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@dshhubs/plugin-search](https://github.com/coderPerseus/dsh-hub/tree/c3c80405693d4edbc341315cb5143be36f7a8b31/packages/dsh-plugin) | DeepSeek Harness tools for finding and inspecting plugins in the dshhub catalog | ★ 1 | declared |
 | [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eee03776fbffc24e40f8278b38ef6e95c011f870/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 87709 | declared |
+| [dsh-plugin-reactive-resume](https://github.com/reactive-resume/app/tree/0a4608bf9d1dcafcbeba97b6217d5557b9f10221/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 42449 | declared |
 | [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/ab811b5f10296871ede5c6cf913050269239f11c/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 40988 | declared |
 | [@dsh-external/dsh-super-injector](https://github.com/yjh051108/dsh-routing-suite) | dsh-routing-suite 分发入口：DSH 超级模组注入器（BepInEx 式运行时注入，免重启）+ router-standard 预设仓库。插件入口为 injector/，预设位于 preset/。 | ★ 6930 | declared |
-| [dsh-loopx-plugin](https://github.com/huangruiteng/loopx/tree/f3f25d327c6f0076677cf54036e1640660b79050/packages/dsh-loopx-plugin) | One-step LoopX bootstrap, same-session driver, and local GoalBar for DeepSeek Harness | ★ 5353 | declared |
 
-[View all 4088 agents plugins →](https://dshhub.org/?category=agents)
+[View all 4111 agents plugins →](https://dshhub.org/?category=agents)
 
-### development · 2124
+### development · 2142
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -90,7 +90,7 @@ Discover **13356 community plugins** across 11 categories. Each category highlig
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 | [@open-pets/dsh](https://github.com/OpenPetsHQ/openpets/tree/39ba8c539b4a628bcfbc94cdbb2ce4e2bdb9f10b/packages/dsh) | Local first, desktop companion platform with animated pets, plugin SDK and coding-agent integrations. | ★ 1156 | declared |
 
-[View all 2124 development plugins →](https://dshhub.org/?category=development)
+[View all 2142 development plugins →](https://dshhub.org/?category=development)
 
 ### finance · 709
 
@@ -104,19 +104,19 @@ Discover **13356 community plugins** across 11 categories. Each category highlig
 
 [View all 709 finance plugins →](https://dshhub.org/?category=finance)
 
-### integrations · 1615
+### integrations · 1620
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
+| [dsh-plugin-reactive-resume](https://github.com/reactive-resume/app/tree/0a4608bf9d1dcafcbeba97b6217d5557b9f10221/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 42449 | declared |
 | [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/ab811b5f10296871ede5c6cf913050269239f11c/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 40988 | declared |
 | [@open-pets/dsh](https://github.com/OpenPetsHQ/openpets/tree/39ba8c539b4a628bcfbc94cdbb2ce4e2bdb9f10b/packages/dsh) | Local first, desktop companion platform with animated pets, plugin SDK and coding-agent integrations. | ★ 1156 | declared |
 | [@open-pets/dsh](https://github.com/alvinunreal/openpets/tree/042844d8e3cd43d8984a2742865d100c3a7be4a4/packages/dsh) | Local first, desktop companion platform with animated pets, plugin SDK and coding-agent integrations. | ★ 1078 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
-| [dsh-deja](https://github.com/vshulcz/deja-vu/tree/659019f2f845d0de31116785035a0548a0229358/packages/dsh-deja) | Brings the session history of nineteen other coding agents into DeepSeek Harness: recall, session digest and per-file history tools over a local index, plus op… | ★ 656 | declared |
 
-[View all 1615 integrations plugins →](https://dshhub.org/?category=integrations)
+[View all 1620 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 3664
+### interface · 3676
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,9 +126,9 @@ Discover **13356 community plugins** across 11 categories. Each category highlig
 | [@open-pets/dsh](https://github.com/alvinunreal/openpets/tree/042844d8e3cd43d8984a2742865d100c3a7be4a4/packages/dsh) | Local first, desktop companion platform with animated pets, plugin SDK and coding-agent integrations. | ★ 1078 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 
-[View all 3664 interface plugins →](https://dshhub.org/?category=interface)
+[View all 3676 interface plugins →](https://dshhub.org/?category=interface)
 
-### memory · 765
+### memory · 767
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -138,7 +138,7 @@ Discover **13356 community plugins** across 11 categories. Each category highlig
 | [dsh-deja](https://github.com/vshulcz/deja-vu/tree/659019f2f845d0de31116785035a0548a0229358/packages/dsh-deja) | Brings the session history of nineteen other coding agents into DeepSeek Harness: recall, session digest and per-file history tools over a local index, plus op… | ★ 656 | declared |
 | [graph-memory](https://github.com/adoresever/graph-memory) | Knowledge graph memory for DeepSeek Harness and OpenClaw — cross-session recall, PageRank, communities, and vector search | ★ 563 | declared |
 
-[View all 765 memory plugins →](https://dshhub.org/?category=memory)
+[View all 767 memory plugins →](https://dshhub.org/?category=memory)
 
 ### notifications · 467
 
@@ -152,7 +152,7 @@ Discover **13356 community plugins** across 11 categories. Each category highlig
 
 [View all 467 notifications plugins →](https://dshhub.org/?category=notifications)
 
-### other · 3165
+### other · 3173
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -162,33 +162,33 @@ Discover **13356 community plugins** across 11 categories. Each category highlig
 | [deepseek-idesign](https://github.com/Devin-AXIS/deepseek-design/tree/0781cb6f619bd617b6b64512d168fa47de6da88c/packages/deepseek-idesign) | iPolloWork Design Studio and its curated design templates as a native DeepSeek Harness conversation view. | ★ 67 | declared |
 | [zat-dsh-engine](https://github.com/mishibeikejie/zat-dsh-engine) | Zat-DSH Engine — the visual plugin marketplace for DeepSeek Harness. Browse, search, install, update and uninstall community plugins from GitHub's dsh-plugin t… | ★ 64 | declared |
 
-[View all 3165 other plugins →](https://dshhub.org/?category=other)
+[View all 3173 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 3272
+### productivity · 3287
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
+| [dsh-plugin-reactive-resume](https://github.com/reactive-resume/app/tree/0a4608bf9d1dcafcbeba97b6217d5557b9f10221/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 42449 | declared |
 | [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/ab811b5f10296871ede5c6cf913050269239f11c/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 40988 | declared |
 | [dsh-loopx-plugin](https://github.com/huangruiteng/loopx/tree/f3f25d327c6f0076677cf54036e1640660b79050/packages/dsh-loopx-plugin) | One-step LoopX bootstrap, same-session driver, and local GoalBar for DeepSeek Harness | ★ 5353 | declared |
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
-| [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 
-[View all 3272 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 3287 productivity plugins →](https://dshhub.org/?category=productivity)
 
-### skills · 1267
+### skills · 1275
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
 | [@dshhubs/plugin-search](https://github.com/coderPerseus/dsh-hub/tree/c3c80405693d4edbc341315cb5143be36f7a8b31/packages/dsh-plugin) | DeepSeek Harness tools for finding and inspecting plugins in the dshhub catalog | ★ 1 | declared |
 | [@open-design/dsh-runtime](https://github.com/nexu-io/open-design/tree/eee03776fbffc24e40f8278b38ef6e95c011f870/packages/dsh-runtime) | DeepSeek Harness profile runtime for Open Design | ★ 87709 | declared |
+| [dsh-plugin-reactive-resume](https://github.com/reactive-resume/app/tree/0a4608bf9d1dcafcbeba97b6217d5557b9f10221/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 42449 | declared |
 | [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/ab811b5f10296871ede5c6cf913050269239f11c/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 40988 | declared |
 | [@zilliz/memsearch-dsh](https://github.com/zilliztech/memsearch/tree/7f2a1e7d26455823657f96731fd861e6709b66c0/plugins/dsh) | MemSearch plugin for DeepSeek Harness: shared markdown memory across agents, with capture, pre-step context injection, memory-recall skill, and a skill-candida… | ★ 2519 | declared |
-| [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 
-[View all 1267 skills plugins →](https://dshhub.org/?category=skills)
+[View all 1275 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 904
+### vision · 913
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -198,9 +198,9 @@ Discover **13356 community plugins** across 11 categories. Each category highlig
 | [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive TUI layer over the dsh-base profile, installable as a plugin (`dsh plugin --profile tui add @huiliyi37/dsh-tianshu-tui`) | ★ 194 | declared |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 
-[View all 904 vision plugins →](https://dshhub.org/?category=vision)
+[View all 913 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-09-11T01:09:22.554Z-7fcdae97ad64`, generated 2026-09-11T01:09:22.554Z.</sub>
+<sub>Catalog snapshot `2026-09-11T06:04:03.896Z-6b6cedcb35cb`, generated 2026-09-11T06:04:03.896Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
