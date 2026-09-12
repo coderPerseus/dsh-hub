@@ -10,14 +10,13 @@ import { pluginPackageDirectory, pluginRepositoryUrl, readmeExcerpt } from "../l
 import { PluginReadme } from "../app/plugins/[owner]/[repository]/plugin-readme";
 import { categoryLabel, formatDate, formatStars } from "../lib/presentation";
 import { absoluteUrl } from "../lib/site";
-import { localizedDescription } from "../../../../packages/catalog/src/i18n";
 
 export default function Detail({plugin, related}: {plugin: CatalogPlugin; related: PluginSummary[]}) {
   const {locale, t} = useTranslator();
   const catalogLocale = locale === "zh-TW" ? "zh-CN" : locale;
   const isChineseLocale = locale === "zh-CN" || locale === "zh-TW";
   const pluginAiAnalysis = plugin.aiAnalysis;
-  const descriptionText = (localizedDescription(plugin, catalogLocale) || plugin.description).trim();
+  const descriptionText = (plugin.i18n?.[catalogLocale]?.description || plugin.description).trim();
   const aiAnalysis = pluginAiAnalysis?.[catalogLocale] || pluginAiAnalysis?.["zh-CN"] || null;
   const aiAnalysisLabel = isChineseLocale ? "AI 分析" : "AI Analysis";
   const aiAnalysisText = aiAnalysis
