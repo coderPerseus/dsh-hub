@@ -1,0 +1,17 @@
+name: Submit a plugin / 提交插件
+description: Suggest a DeepSeek Harness plugin for the catalog / 推荐插件收录
+title: "[Plugin] "
+body:
+  - type: input
+    id: repository
+    attributes:
+      label: GitHub repository / 仓库链接
+      placeholder: https://github.com/owner/repository
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description and installation / 用途与安装方式
+    validations:
+      required: true

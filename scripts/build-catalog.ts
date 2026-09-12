@@ -14,20 +14,10 @@ import {
 
 async function readPreviousSnapshot(minimumPluginCount: number): Promise<CatalogSnapshot | undefined> {
   if (process.env.CATALOG_FORCE_FULL === "true") return undefined;
-  const apiUrl = process.env.CATALOG_API_URL?.trim();
-  const token = process.env.CATALOG_INGEST_TOKEN?.trim();
-  if (!apiUrl || !token) return undefined;
-  const response = await fetch(
-    new URL("internal/catalog-snapshot", `${apiUrl.replace(/\/$/, "")}/`),
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      signal: AbortSignal.timeout(30_000),
-    },
-  );
-  if (response.status === 404) return undefined;
-  if (!response.ok) throw new Error(`Catalog API returned ${response.status} while reading the previous snapshot.`);
-  const snapshot = catalogSnapshotSchema.parse(await response.json());
-  return snapshot.plugins.length >= minimumPluginCount ? snapshot : undefined;
+  const filename = process.env.CATALOG_PREVIOUS_SNAPSHOT ?? path.resolve(process.cwd(), '../../.catalog/catalog.snapshot.json');
+  const snapshot = catalogSnapshotSchema.parse(JSON.parse(await readFile(filename, 'utf8')));
+  if (snapshot.plugins.length < minimumPluginCount) throw new Error('Previous catalog is incomplete; refusing data loss.');
+  return snapshot;
 }
 
 async function main(): Promise<void> {
@@ -65,10 +55,15 @@ async function main(): Promise<void> {
     discoveryQueries: targetRepository ? [`repo:${targetRepository}`] : undefined,
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,
+    refreshLimit: 300,
+    failOnDiscoveryError: true,
     previousSnapshot,
     source: { repository: sourceRepository, commit: sourceCommit },
   });
   const snapshot = stripCatalogTranslations(discoveredSnapshot);
+  if (previousSnapshot && snapshot.plugins.length < previousSnapshot.plugins.length * 0.9) {
+    throw new Error('Catalog lost more than 10% of plugins; keep the previous release and investigate.');
+  }
 
   await mkdir(outputDirectory, { recursive: true });
   await writeFile(

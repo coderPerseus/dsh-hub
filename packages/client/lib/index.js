@@ -1,3 +1,5 @@
+import { detailShard, searchStaticCatalog } from './static.js';
+export { detailShard, searchStaticCatalog } from './static.js';
 export const DEFAULT_DSHHUB_API_URL = "https://dshhub.org/api/v1";
 export class DshHubApiError extends Error {
     status;
@@ -10,11 +12,22 @@ export class DshHubApiError extends Error {
 export class DshHubClient {
     baseUrl;
     fetcher;
+    transport;
+    manifest;
+    index;
+    expiresAt = 0;
     constructor(options = {}) {
         this.baseUrl = (options.baseUrl ?? DEFAULT_DSHHUB_API_URL).replace(/\/+$/, "");
         this.fetcher = options.fetch ?? globalThis.fetch;
+        this.transport = options.transport ?? (options.baseUrl && options.baseUrl !== DEFAULT_DSHHUB_API_URL ? "api" : "static");
     }
     async search(input = {}) {
+        if (this.transport === "static") {
+            return this.withCurrentCatalog(async (manifest) => {
+                this.index ??= this.request(new URL(manifest.index, this.baseUrl)).catch(e => { this.index = undefined; throw e; });
+                return searchStaticCatalog(await this.index, input);
+            });
+        }
         const url = new URL(`${this.baseUrl}/plugins`);
         if (input.query)
             url.searchParams.set("query", input.query);
@@ -37,6 +50,12 @@ export class DshHubClient {
         if (segments.length !== 2 || segments.some(segment => !segment)) {
             throw new Error("Plugin slug must use owner/repository format");
         }
+        if (this.transport === "static") {
+            return this.withCurrentCatalog(async (manifest) => {
+                const plugins = await this.request(new URL(manifest.details[detailShard(slug)], this.baseUrl));
+                return plugins.find(p => p.slug.toLowerCase() === slug.toLowerCase()) ?? null;
+            });
+        }
         const url = new URL(`${this.baseUrl}/plugins/${encodeURIComponent(segments[0])}/${encodeURIComponent(segments[1])}`);
         if (locale)
             url.searchParams.set("locale", locale);
@@ -49,9 +68,35 @@ export class DshHubClient {
             throw error;
         }
     }
+    async withCurrentCatalog(read) {
+        const manifest = await this.getManifest();
+        try {
+            return await read(manifest);
+        }
+        catch (error) {
+            if (!(error instanceof DshHubApiError) || error.status !== 404)
+                throw error;
+            // A deployment replaces versioned assets; refresh a cached manifest once.
+            this.expiresAt = 0;
+            return read(await this.getManifest());
+        }
+    }
+    getManifest() {
+        if (Date.now() >= this.expiresAt) {
+            this.manifest = undefined;
+            this.index = undefined;
+        }
+        if (!this.manifest) {
+            this.expiresAt = Date.now() + 5 * 60_000;
+            this.manifest = this.request(new URL('/catalog/manifest.json', this.baseUrl))
+                .catch(e => { this.manifest = undefined; throw e; });
+        }
+        return this.manifest;
+    }
     async request(url) {
         const response = await this.fetcher(url, {
             headers: { Accept: "application/json" },
+            cache: url.pathname.endsWith('/manifest.json') ? 'no-cache' : 'default',
             signal: AbortSignal.timeout(15_000),
         });
         if (!response.ok) {

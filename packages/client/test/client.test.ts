@@ -28,6 +28,7 @@ describe("DshHubClient", () => {
 
   it("returns null for a missing plugin", async () => {
     const client = new DshHubClient({
+      transport: "api",
       fetch: async () => Response.json({ error: "Plugin not found" }, { status: 404 }),
     });
 

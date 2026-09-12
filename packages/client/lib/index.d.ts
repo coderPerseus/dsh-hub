@@ -1,3 +1,5 @@
+export { detailShard, searchStaticCatalog } from './static.js';
+export type { StaticEntry, StaticIndex, StaticManifest } from './static.js';
 export declare const DEFAULT_DSHHUB_API_URL = "https://dshhub.org/api/v1";
 export type CompatibilityStatus = "compatible" | "incompatible" | "unknown";
 export type CompatibilityLevel = "unverified" | "declared" | "validated" | "tested";
@@ -76,12 +78,19 @@ export declare class DshHubApiError extends Error {
 export type DshHubClientOptions = {
     baseUrl?: string;
     fetch?: typeof globalThis.fetch;
+    transport?: "static" | "api";
 };
 export declare class DshHubClient {
     private readonly baseUrl;
     private readonly fetcher;
+    private readonly transport;
+    private manifest?;
+    private index?;
+    private expiresAt;
     constructor(options?: DshHubClientOptions);
     search(input?: SearchPluginsInput): Promise<SearchPluginsResult>;
     plugin(slug: string, locale?: SearchPluginsInput["locale"]): Promise<PluginDetail | null>;
+    private withCurrentCatalog;
+    private getManifest;
     private request;
 }

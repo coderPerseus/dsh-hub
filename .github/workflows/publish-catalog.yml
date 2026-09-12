@@ -1,99 +1,71 @@
 name: Publish plugin catalog
-
 on:
   workflow_dispatch:
     inputs:
       mode:
         description: Catalog operation
-        required: true
-        default: discover
+        default: publish
         type: choice
-        options:
-          - discover
-          - refresh
-          - backfill
+        options: [publish, discover, refresh, backfill]
       since:
-        description: ISO timestamp required for backfill mode
-        required: false
+        description: ISO timestamp for backfill
         type: string
       repository:
         description: Optional owner/repo to discover
-        required: false
         type: string
   schedule:
-    - cron: "17 * * * *"
-    - cron: "37 3 * * 0"
+    - cron: '17 3 * * *'
   push:
     branches: [main]
-    paths:
-      - "packages/catalog/**"
-      - "scripts/build-catalog.ts"
-      - "scripts/publish-catalog.ts"
-      - ".github/workflows/publish-catalog.yml"
-
+    paths: ['apps/web/**', 'packages/client/**', 'packages/catalog/**', 'scripts/**', '.github/workflows/publish-catalog.yml', 'pnpm-lock.yaml']
 concurrency:
   group: publish-plugin-catalog
   cancel-in-progress: false
-
 permissions:
   contents: write
-
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 90
+    env:
+      CLOUDFLARE_ACCOUNT_ID: de7749886db8f5df040c27a20388fdcc
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 1
-
-      - name: Capture catalog source
-        id: catalog-source
-        run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-
       - run: pnpm install --frozen-lockfile
-
-      - name: Build catalog snapshot
-        run: pnpm catalog:build
+      - name: Restore durable catalog
+        run: pnpm --filter @dshhub/web exec tsx ../../scripts/restore-catalog.mts
+        working-directory: .
+      - name: Update catalog offline
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.mode != 'publish')
+        run: |
+          pnpm catalog:build
+          if [ "$GITHUB_EVENT_NAME" = schedule ]; then CATALOG_MODE=refresh pnpm catalog:build; fi
         env:
-          CATALOG_API_URL: ${{ secrets.CATALOG_API_URL }}
-          CATALOG_INGEST_TOKEN: ${{ secrets.CATALOG_INGEST_TOKEN }}
-          CATALOG_MIN_PLUGIN_COUNT: "50"
-          CATALOG_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '37 3 * * 0' && 'refresh' || 'discover') }}
-          CATALOG_REPOSITORY: ${{ github.event_name == 'workflow_dispatch' && inputs.repository || '' }}
-          CATALOG_DISCOVERY_SINCE: ${{ github.event_name == 'workflow_dispatch' && inputs.since || '' }}
-          CATALOG_SOURCE_COMMIT: ${{ steps.catalog-source.outputs.commit }}
           GITHUB_TOKEN: ${{ github.token }}
-
-      # Publish repository-authored catalog content without machine translation.
-
-      - name: Validate catalog packages
+          CATALOG_MODE: ${{ inputs.mode || 'discover' }}
+          CATALOG_REPOSITORY: ${{ inputs.repository }}
+          CATALOG_DISCOVERY_SINCE: ${{ inputs.since }}
+          CATALOG_SOURCE_COMMIT: ${{ github.sha }}
+      - name: Verify and build static site
         run: |
-          pnpm --filter @dshhub/catalog test
-          pnpm --filter @dshhub/catalog typecheck
-          pnpm --filter @dshhub/api test
-
-      - name: Publish snapshot to Cloudflare
-        run: pnpm catalog:publish
+          pnpm typecheck
+          pnpm test
+          pnpm --filter @dshhub/web build
+      - name: Deploy static assets only
+        run: OPEN_NEXT_DEPLOY=true pnpm --filter @dshhub/web exec wrangler deploy --config wrangler.ci.jsonc
+      - name: Save successful catalog snapshot
         env:
-          CATALOG_API_URL: ${{ secrets.CATALOG_API_URL }}
-          CATALOG_INGEST_TOKEN: ${{ secrets.CATALOG_INGEST_TOKEN }}
-
-      - name: Commit generated README catalog
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          if ! git diff --cached --quiet; then
-            git commit -m "docs(catalog): refresh generated index"
-            git pull --rebase origin main
-            git push
-          fi
+          gzip -c .catalog/catalog.snapshot.json > .catalog/catalog.snapshot.json.gz
+          tag="catalog-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          gh release create "$tag" .catalog/catalog.snapshot.json.gz --title "$tag" --notes 'Verified static catalog backup.' --latest=false
+          gh release upload catalog-current .catalog/catalog.snapshot.json.gz --clobber

@@ -1,0 +1,14 @@
+import path from 'node:path';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { gunzipSync } from 'node:zlib';
+import { catalogSnapshotSchema } from '../packages/catalog/src/index';
+const url = process.env.CATALOG_SNAPSHOT_URL ?? 'https://github.com/coderPerseus/dsh-hub/releases/download/catalog-current/catalog.snapshot.json.gz';
+const response = await fetch(url, {signal:AbortSignal.timeout(60_000)});
+if (!response.ok) throw new Error(`Previous catalog backup unavailable: ${response.status}. Refusing to start from empty data.`);
+const bytes = Buffer.from(await response.arrayBuffer());
+const snapshot = catalogSnapshotSchema.parse(JSON.parse(gunzipSync(bytes).toString('utf8')));
+if (snapshot.plugins.length < 50) throw new Error('Previous catalog is incomplete');
+const root = path.resolve(import.meta.dirname, '..');
+await mkdir(root + '/.catalog',{recursive:true});
+await writeFile(root + '/.catalog/catalog.snapshot.json',JSON.stringify(snapshot));
+console.log(`Restored ${snapshot.plugins.length} plugins from ${snapshot.snapshotId}`);

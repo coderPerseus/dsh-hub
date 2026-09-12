@@ -1,6 +1,6 @@
 {
   "name": "@dshhubs/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Search and inspect plugins from the dshhub catalog",
   "type": "module",
   "bin": {

@@ -10,19 +10,20 @@
     "build": "pnpm -r --if-present run build",
     "catalog:build": "pnpm --filter @dshhub/catalog run build:catalog",
     "catalog:refresh": "CATALOG_MODE=refresh pnpm catalog:build",
-    "catalog:publish": "pnpm --filter @dshhub/catalog exec tsx ../../scripts/publish-catalog.ts",
+    "catalog:publish": "pnpm deploy:web",
     "catalog:translate": "pnpm --filter @dshhub/catalog exec tsx ../../scripts/translate-catalog.ts",
     "cf:typegen": "pnpm --filter @dshhub/api run cf:typegen && pnpm --filter @dshhub/web run cf:typegen",
-    "deploy": "pnpm deploy:api && pnpm deploy:web",
-    "deploy:api": "pnpm --filter @dshhub/api run deploy",
+    "deploy": "pnpm deploy:web",
+    "deploy:api": "echo \"Legacy API retired. Deploy the static web catalog instead.\" && exit 1",
     "deploy:web": "pnpm --filter @dshhub/web run deploy",
-    "dev": "pnpm --parallel --filter @dshhub/api --filter @dshhub/web run dev",
+    "dev": "pnpm dev:web",
     "dev:api": "pnpm --filter @dshhub/api run dev",
     "dev:web": "pnpm --filter @dshhub/web run dev",
     "test": "pnpm -r --if-present run test",
     "typecheck": "pnpm -r run typecheck"
   },
   "devDependencies": {
+    "esbuild": "0.28.2",
     "typescript": "5.9.3"
   }
 }

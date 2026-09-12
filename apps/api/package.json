@@ -8,7 +8,7 @@
     "cf:typegen": "wrangler types --env-interface CloudflareBindings worker-configuration.d.ts",
     "db:migrate:local": "wrangler d1 migrations apply dshhub --local",
     "db:migrate:remote": "wrangler d1 migrations apply dshhub --remote",
-    "deploy": "wrangler deploy",
+    "deploy": "echo \"Legacy API retired; use pnpm deploy:web from the repository root.\" && exit 1",
     "dev": "wrangler dev --port 8787",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"

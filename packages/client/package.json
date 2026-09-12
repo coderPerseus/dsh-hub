@@ -1,6 +1,6 @@
 {
   "name": "@dshhubs/client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Typed client for the dshhub plugin catalog API",
   "type": "module",
   "main": "lib/index.js",

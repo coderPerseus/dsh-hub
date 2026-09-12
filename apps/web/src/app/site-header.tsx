@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import type { Messages } from "../lib/i18n/messages";
-import { SubmissionDialog } from "./submission-dialog";
+
 
 function Mark() {
   return (
@@ -28,7 +28,7 @@ export function SiteHeader({
   submission: Messages["submission"];
 }) {
   const [scrolled, setScrolled] = useState(false);
-  const [submissionOpen, setSubmissionOpen] = useState(false);
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -54,17 +54,11 @@ export function SiteHeader({
             GitHub
           </a>
         </nav>
-        <button
-          aria-haspopup="dialog"
-          className="header-submit-button"
-          onClick={() => setSubmissionOpen(true)}
-          type="button"
-        >
-          <span aria-hidden="true">＋</span>
-          {submission.button}
-        </button>
+        <a className="header-submit-button" href="https://github.com/coderPerseus/dsh-hub/issues/new?template=submit-plugin.yml" target="_blank" rel="noreferrer">
+          <span aria-hidden="true">＋</span>{submission.button}
+        </a>
       </div>
-      {submissionOpen && <SubmissionDialog labels={submission} onClose={() => setSubmissionOpen(false)} />}
+
     </header>
   );
 }
