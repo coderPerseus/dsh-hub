@@ -10,6 +10,15 @@ import { normalizeReadme, pluginPackageDirectory } from '../apps/web/src/lib/plu
 import { googleAnalyticsScript } from '../apps/web/src/lib/google-analytics';
 
 const root = path.resolve(import.meta.dirname, '..');
+// Reject changes that would reintroduce request-based compute or storage billing.
+for (const filename of ['wrangler.jsonc', 'wrangler.ci.jsonc']) {
+  const config = JSON.parse(await readFile(path.join(root, 'apps/web', filename), 'utf8'));
+  const allowed = new Set(['$schema', 'name', 'account_id', 'compatibility_date', 'assets', 'routes', 'observability']);
+  if (Object.keys(config).some(key => !allowed.has(key)) || !config.assets?.directory
+    || config.assets.run_worker_first || config.assets.binding || config.observability?.enabled) {
+    throw new Error(`${filename}: only static assets are permitted by the monthly cost policy`);
+  }
+}
 const output = path.join(root, 'apps/web/dist');
 const snapshot = catalogSnapshotSchema.parse(JSON.parse(await readFile(path.join(root, '.catalog/catalog.snapshot.json'), 'utf8')));
 if (snapshot.plugins.length < Number(process.env.CATALOG_MIN_PLUGIN_COUNT ?? 50)) throw new Error('Refusing to publish an incomplete catalog');
