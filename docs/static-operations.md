@@ -22,6 +22,8 @@ CI needs `CLOUDFLARE_API_TOKEN` for this account with Workers Scripts Edit and A
 
 ## Clients
 
+The 0.2.0 source migration is complete and the CLI has been checked against production; publishing these packages to npm is pending maintainer npm login. Run the CLI from this checkout until that release is available.
+
 Version 0.2.0 of the client, CLI and native plugin uses `/catalog/manifest.json`, an index and one detail shard. The typed client caches the index for five minutes. Explicit custom API URLs retain the legacy transport; `transport: 'static'` selects a static mirror. The old dynamic `/api/v1/plugins` search endpoint is retired and must not return an unfiltered list as if it had searched successfully.
 
 ## Cost boundary

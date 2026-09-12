@@ -34,6 +34,8 @@ DSH Hub 提供两种使用方法。
 
 也可以通过 CLI 在终端中搜索和查看详情：
 
+> 静态目录需要客户端 0.2.0。npm 发布目前等待维护者登录；发布前可在本仓库执行 `pnpm install && pnpm --filter @dshhubs/cli build`，再运行 `node packages/cli/lib/bin.js search "记忆" --json`。旧版 0.1.0 的动态 API 已下线。
+
 ```bash
 # 搜索插件
 npx -y @dshhubs/cli@0.2.0 search "跨会话记忆" --limit 10
