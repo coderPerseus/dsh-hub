@@ -66,9 +66,9 @@ Agent 会先搜索并检查候选项，不会自动安装搜索结果。仓库�
 <!-- catalog:start -->
 ## Explore plugins by category
 
-Discover **13572 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
+Discover **13578 community plugins** across 11 categories. Each category highlights five plugins; open the category to search and browse the complete list.
 
-### agents · 4178
+### agents · 4179
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -78,7 +78,7 @@ Discover **13572 community plugins** across 11 categories. Each category highlig
 | [dsh-plugin-reactive-resume](https://github.com/amruthpillai/reactive-resume/tree/ab811b5f10296871ede5c6cf913050269239f11c/packages/dsh-plugin) | DeepSeek Harness plugin for Reactive Resume: bridges your resumes and job applications into a Harness session over MCP. | ★ 40988 | declared |
 | [@dsh-external/dsh-super-injector](https://github.com/yjh051108/dsh-routing-suite) | dsh-routing-suite 分发入口：DSH 超级模组注入器（BepInEx 式运行时注入，免重启）+ router-standard 预设仓库。插件入口为 injector/，预设位于 preset/。 | ★ 6930 | declared |
 
-[View all 4178 agents plugins →](https://dshhub.org/?category=agents)
+[View all 4179 agents plugins →](https://dshhub.org/?category=agents)
 
 ### development · 2166
 
@@ -116,7 +116,7 @@ Discover **13572 community plugins** across 11 categories. Each category highlig
 
 [View all 1641 integrations plugins →](https://dshhub.org/?category=integrations)
 
-### interface · 3757
+### interface · 3760
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -126,7 +126,7 @@ Discover **13572 community plugins** across 11 categories. Each category highlig
 | [@open-pets/dsh](https://github.com/alvinunreal/openpets/tree/042844d8e3cd43d8984a2742865d100c3a7be4a4/packages/dsh) | Local first, desktop companion platform with animated pets, plugin SDK and coding-agent integrations. | ★ 1078 | declared |
 | [@agentrq/dsh-plugin-agentrq](https://github.com/agentrq/agentrq/tree/b63a82b6228e61034a9a6cc37f551b2e912f1aa5/plugins/deepseek-harness) | AgentRQ task manager for DeepSeek Harness: create, manage, and auto-pull AgentRQ tasks without leaving the harness | ★ 1074 | declared |
 
-[View all 3757 interface plugins →](https://dshhub.org/?category=interface)
+[View all 3760 interface plugins →](https://dshhub.org/?category=interface)
 
 ### memory · 778
 
@@ -164,7 +164,7 @@ Discover **13572 community plugins** across 11 categories. Each category highlig
 
 [View all 3192 other plugins →](https://dshhub.org/?category=other)
 
-### productivity · 3335
+### productivity · 3337
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -174,7 +174,7 @@ Discover **13572 community plugins** across 11 categories. Each category highlig
 | [dsh-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | DSH web plugin: a VSCode-like right sidebar (explorer / editor / terminal / git / browser), isolated per conversation session. Exposes a service for other plug… | ★ 1712 | declared |
 | [@wxg-prc-cpg/browser-skill-dsh-plugin](https://github.com/Tencent/BrowserSkill/tree/a9489282fa614d105e30fd131ed2692cd71308a6/packages/dsh-plugin-browserskill) | DeepSeek Harness tool plugin that exposes BrowserSkill (bsk) browser automation to the model | ★ 1135 | declared |
 
-[View all 3335 productivity plugins →](https://dshhub.org/?category=productivity)
+[View all 3337 productivity plugins →](https://dshhub.org/?category=productivity)
 
 ### skills · 1289
 
@@ -188,7 +188,7 @@ Discover **13572 community plugins** across 11 categories. Each category highlig
 
 [View all 1289 skills plugins →](https://dshhub.org/?category=skills)
 
-### vision · 927
+### vision · 929
 
 | Plugin | Description | Stars | Evidence |
 | --- | --- | ---: | --- |
@@ -198,9 +198,9 @@ Discover **13572 community plugins** across 11 categories. Each category highlig
 | [@huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | dsh-tianshu-tui: an interactive TUI layer over the dsh-base profile, installable as a plugin (`dsh plugin --profile tui add @huiliyi37/dsh-tianshu-tui`) | ★ 194 | declared |
 | [@dsh-external/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | DSH ad-infestation plugin: localized Chinese portal ads and English scam-ad parody, with fake pop-ups, a jackpot wheel, rewarded inference ads, and fake-game a… | ★ 163 | declared |
 
-[View all 927 vision plugins →](https://dshhub.org/?category=vision)
+[View all 929 vision plugins →](https://dshhub.org/?category=vision)
 
-<sub>Catalog snapshot `2026-09-11T22:38:16.736Z-07c19f629d36`, generated 2026-09-11T22:38:16.736Z.</sub>
+<sub>Catalog snapshot `2026-09-12T01:10:55.039Z-bb6d43aa49a2`, generated 2026-09-12T01:10:55.039Z.</sub>
 <!-- catalog:end -->
 
 ## 提交插件
