@@ -1,4 +1,5 @@
 name: Publish plugin catalog
+run-name: "Catalog ${{ github.event_name == 'schedule' && 'daily sync' || github.event_name == 'push' && 'site publish' || inputs.mode }}"
 on:
   workflow_dispatch:
     inputs:

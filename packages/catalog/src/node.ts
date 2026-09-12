@@ -84,6 +84,13 @@ export function isFeaturedPlugin(repository: string, packageName: string): boole
     && packageName === DSHHUB_PLUGIN_PACKAGE;
 }
 
+export async function availableRefreshLimit(fetcher: typeof fetch, token?: string): Promise<number> {
+  const quota = await githubJson<{resources: {core: {remaining: number}}}>(fetcher, '/rate_limit', token);
+  const remaining = quota.resources.core.remaining;
+  // At most three REST calls per repository; reserve capacity for publishing.
+  return Number.isSafeInteger(remaining) ? Math.min(300, Math.max(0, Math.floor((remaining - 100) / 3))) : 0;
+}
+
 function discoveryCutoff(previousSnapshot?: CatalogSnapshot): string | null {
   if (!previousSnapshot) return null;
   return new Date(

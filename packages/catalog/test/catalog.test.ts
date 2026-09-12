@@ -11,6 +11,7 @@ import {
   type CatalogSnapshot,
 } from "../src/schema";
 import {
+  availableRefreshLimit,
   discoverCatalogSnapshot,
   isFeaturedPlugin,
   renderCatalogSection,
@@ -18,6 +19,13 @@ import {
   selectCategoryHighlights,
 } from "../src/node";
 import { firstPlainParagraph, isSubstantialDocumentation } from "../src/readme";
+
+it('reserves API quota for publishing while bounding repository refresh work', async () => {
+  for (const [remaining, expected] of [[1000,300], [500,133], [103,1], [100,0], [0,0]]) {
+    const fetcher = (async () => Response.json({resources:{core:{remaining}}})) as typeof fetch;
+    expect(await availableRefreshLimit(fetcher)).toBe(expected);
+  }
+});
 
 function monorepoReadmeFixture(options: { packageReadme?: string } = {}) {
   const repository = {

@@ -7,6 +7,7 @@ import {
   type CatalogSnapshot,
 } from "../packages/catalog/src";
 import {
+  availableRefreshLimit,
   discoverCatalogSnapshot,
   renderCatalogSection,
   replaceCatalogSection,
@@ -49,13 +50,22 @@ async function main(): Promise<void> {
     throw new Error("CATALOG_MIN_PLUGIN_COUNT must be a positive integer.");
   }
   const previousSnapshot = await readPreviousSnapshot(minimumPluginCount);
+  let refreshLimit = 300;
+  if (catalogMode === 'refresh') {
+    refreshLimit = await availableRefreshLimit(globalThis.fetch, process.env.GITHUB_TOKEN);
+    console.log(`GitHub quota allows refreshing ${refreshLimit} repositories this run.`);
+    if (refreshLimit === 0) {
+      console.log('Preserving the catalog and refresh cursor until GitHub quota is available.');
+      return;
+    }
+  }
   const discoveredSnapshot = await discoverCatalogSnapshot({
     catalogMode,
     discoverySince,
     discoveryQueries: targetRepository ? [`repo:${targetRepository}`] : undefined,
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,
-    refreshLimit: 300,
+    refreshLimit,
     failOnDiscoveryError: true,
     previousSnapshot,
     source: { repository: sourceRepository, commit: sourceCommit },
