@@ -61,6 +61,10 @@ async function main(): Promise<void> {
     source: { repository: sourceRepository, commit: sourceCommit },
   });
   const snapshot = stripCatalogTranslations(discoveredSnapshot);
+  if (targetRepository && previousSnapshot) {
+    // Inspecting one submission must not skip repositories in the next global scan.
+    snapshot.discoveryAt = previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt;
+  }
   if (previousSnapshot && snapshot.plugins.length < previousSnapshot.plugins.length * 0.9) {
     throw new Error('Catalog lost more than 10% of plugins; keep the previous release and investigate.');
   }

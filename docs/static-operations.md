@@ -4,6 +4,8 @@ DSH Hub now serves pre-rendered HTML and versioned JSON assets. No Worker applic
 
 ## Data and recovery
 
+The legacy `dshhub-api` Worker has been deleted and the `dshhub-catalog-imports` consumer removed. The public Worker has no application bindings.
+
 The initial migration preserved 13,617 plugins and 46 submissions. The verified private SQL backup (including submissions) and catalog JSON are in `/Users/luckysnail/Documents/dshhub-backup-2026-09-12/`. Do not upload the SQL backup or submissions to public Releases. D1 FTS tables can be rebuilt from the canonical plugin records and are excluded from the SQL export.
 
 Public catalog snapshots are compressed GitHub Release assets. `catalog-current/catalog.snapshot.json.gz` is the last successfully published snapshot. Each successful workflow also creates an immutable `catalog-RUN_ID-ATTEMPT` backup. If discovery, validation, or deployment fails, the published site and the successful cursor remain unchanged. Restore refuses to silently start with empty data. Drops greater than 10% and builds exceeding 19,500 files or 24 MiB per asset fail closed. If a save fails after deployment, a later run may repeat discovery from the older successful snapshot; records merge by repository identity.
