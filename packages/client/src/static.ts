@@ -1,6 +1,10 @@
 import type { PluginSummary, SearchPluginsInput, SearchPluginsResult } from './index.js';
 
-export type StaticEntry = PluginSummary & { searchText: string };
+export type StaticEntry = PluginSummary & {
+  searchText: string;
+  descriptionZh?: string;
+  searchTextZh?: string;
+};
 export type StaticIndex = { schemaVersion: 1; snapshotId: string; generatedAt: string; items: StaticEntry[]; categories: Array<{id: string; count: number}> };
 export type StaticManifest = { schemaVersion: 1; snapshotId: string; index: string; details: string[]; pluginCount: number; generatedAt: string };
 
@@ -11,8 +15,13 @@ export function detailShard(slug: string): number {
 }
 
 export function searchStaticCatalog(index: StaticIndex, input: SearchPluginsInput = {}): SearchPluginsResult {
-  const tokens = (input.query ?? '').trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-  const score = (p: StaticEntry) => tokens.reduce((n, t) => n + (p.name.toLocaleLowerCase().includes(t) ? 10 : p.searchText.includes(t) ? 1 : 0), 0);
+  const locale = input.locale ?? "en";
+  const isChineseLocale = locale === "zh-CN" || locale === "zh-TW";
+  const tokens = (input.query ?? "").trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+  const score = (p: StaticEntry) => tokens.reduce(
+    (n, t) => n + (p.name.toLocaleLowerCase().includes(t) ? 10 : (p.searchText.includes(t) || p.searchTextZh?.includes(t)) ? 1 : 0),
+    0,
+  );
   const items = index.items.filter(p =>
     (!input.categories?.length || input.categories.some(c => p.categories.includes(c))) &&
     (!input.compatibility?.length || input.compatibility.includes(p.compatibilityStatus)) &&
@@ -27,6 +36,6 @@ export function searchStaticCatalog(index: StaticIndex, input: SearchPluginsInpu
   let offset = 0;
   try { const n = Number(atob(input.cursor ?? '')); if (Number.isSafeInteger(n) && n >= 0) offset = n; } catch { /* first page */ }
   const limit = Math.min(100, Math.max(1, Math.trunc(input.limit ?? 24) || 24));
-  return { items: items.slice(offset, offset + limit).map(({searchText: _, ...p}) => p), total: items.length,
+  return { items: items.slice(offset, offset + limit).map(({searchText: _, searchTextZh: _zh, ...p}) => ({...p, description: isChineseLocale && p.descriptionZh ? p.descriptionZh : p.description})), total: items.length,
     nextCursor: offset + limit < items.length ? btoa(String(offset + limit)) : null };
 }

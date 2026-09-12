@@ -10,12 +10,20 @@ import { pluginPackageDirectory, pluginRepositoryUrl, readmeExcerpt } from "../l
 import { PluginReadme } from "../app/plugins/[owner]/[repository]/plugin-readme";
 import { categoryLabel, formatDate, formatStars } from "../lib/presentation";
 import { absoluteUrl } from "../lib/site";
+import { localizedDescription } from "../../../../packages/catalog/src/i18n";
+
 export default function Detail({plugin, related}: {plugin: CatalogPlugin; related: PluginSummary[]}) {
   const {locale, t} = useTranslator();
-
-
+  const catalogLocale = locale === "zh-TW" ? "zh-CN" : locale;
+  const isChineseLocale = locale === "zh-CN" || locale === "zh-TW";
+  const pluginAiAnalysis = plugin.aiAnalysis;
+  const descriptionText = (localizedDescription(plugin, catalogLocale) || plugin.description).trim();
+  const aiAnalysis = pluginAiAnalysis?.[catalogLocale] || pluginAiAnalysis?.["zh-CN"] || null;
+  const aiAnalysisLabel = isChineseLocale ? "AI 分析" : "AI Analysis";
+  const aiAnalysisText = aiAnalysis
+    || (isChineseLocale ? "该插件暂无 AI 分析内容。" : "AI analysis is not available for this plugin yet.");
   const readme = { markdown: plugin.usage.markdown || plugin.installation.markdown, sourceUrl: plugin.usage.readmeUrl };
-  const description = plugin.description.trim() || readmeExcerpt(readme.markdown);
+  const description = descriptionText || readmeExcerpt(readme.markdown);
   const installCommand = plugin.installation.command
     ? displayInstallCommand(plugin.installation.command)
     : null;
@@ -85,6 +93,10 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
                 </p>
                 <h1>{plugin.name}</h1>
                 <p className="detail-summary">{description || t.missingDescription}</p>
+                <section className="detail-analysis">
+                  <h2>{aiAnalysisLabel}</h2>
+                  <p>{aiAnalysisText}</p>
+                </section>
                 {plugin.categories.length > 0 && (
                   <div className="tags">
                     {plugin.categories.map(category => (

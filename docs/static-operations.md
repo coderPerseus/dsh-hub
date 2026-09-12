@@ -1,6 +1,6 @@
 # Static catalog operations
 
-DSH Hub now serves pre-rendered HTML and versioned JSON assets. No Worker application code, D1 binding, queue, or R2 binding is required for public traffic. The frontend retains the original cards, search filters, detail pages, multilingual UI, and install commands. Search runs in the browser; descriptions and README content remain repository-authored.
+DSH Hub now serves pre-rendered HTML and versioned JSON assets. No Worker application code, D1 binding, queue, or R2 binding is required for public traffic. The frontend retains the original cards, search filters, detail pages, multilingual UI, and install commands. Search runs in the browser; original descriptions and README content remain repository-authored. Chinese descriptions and the AI Analysis section are generated offline from that official source material.
 
 ## Data and recovery
 
@@ -13,6 +13,13 @@ Public catalog snapshots are compressed GitHub Release assets. `catalog-current/
 ## Deployment
 
 `pnpm --filter @dshhub/web exec tsx ../../scripts/restore-catalog.mts`
+
+`data/catalog-enrichment.json` stores pinned Chinese plugin copy and AI-analysis sidecar entries keyed by plugin id and source hash. The build step now applies this file after translating snapshot fields are stripped so stable catalog snapshots keep curated Chinese descriptions and analysis.
+
+`pnpm --filter @dshhub/web exec tsx ../../scripts/enrich-catalog.mts`
+Rerun this command to resume generation from the current partial cache after any interruption. It defaults to three concurrent GPT-5.3-Codex-Spark processes, with 40 plugins per batch. Generated Chinese descriptions and analysis are each limited to 100 Unicode characters. Logs and failure reports live in `.catalog/`. Account usage limits stop further dispatch; successfully saved entries remain reusable. To explicitly select another model, set `CATALOG_ENRICH_MODEL`. For the Midway Gemini endpoint, set `CATALOG_ENRICH_PROVIDER=midway`, `CATALOG_ENRICH_MODEL=gemini-3.5-flash`, and `MIDWAY_API_KEY` (or `MIDWAY_API_KEY_FILE` pointing to a private file outside the repository). The key is never included in output logs. Model listings do not guarantee an active upstream channel; smoke-test before a full run.
+
+Before publishing a full enrichment pass, run `pnpm --filter @dshhub/web exec tsx ../../scripts/check-catalog-enrichment.mts` to verify every current plugin has matching Chinese copy and analysis. Source changes invalidate the matching sidecar entry; rerun enrichment after refreshing official metadata.
 
 `pnpm deploy:web`
 

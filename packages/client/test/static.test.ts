@@ -1,12 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { DshHubClient, detailShard, searchStaticCatalog, type StaticIndex } from '../src/index';
 const index: StaticIndex = {schemaVersion:1,snapshotId:'v1',generatedAt:'2026-09-12T00:00:00Z',categories:[],items:[
-  {id:'a',slug:'owner/a',name:'中文记忆',packageName:'memory',description:'跨会话保存',repositoryUrl:'https://github.com/owner/a',stars:10,pushedAt:null,featured:false,categories:['memory'],compatibilityStatus:'unknown',compatibilityLevel:'unverified',installCommand:'npm i memory',searchText:'中文记忆 memory 跨会话保存'},
+  {id:'a',slug:'owner/a',name:'中文记忆',packageName:'memory',description:'cross-session memory',repositoryUrl:'https://github.com/owner/a',descriptionZh:'跨会话记忆保存',searchText:'memory cross-session memory',searchTextZh:'memory 跨会话 记忆 保存',stars:10,pushedAt:null,featured:false,categories:['memory'],compatibilityStatus:'unknown',compatibilityLevel:'unverified',installCommand:'npm i memory'},
   {id:'b',slug:'owner/b',name:'Tools',packageName:'tools',description:'tools',repositoryUrl:'https://github.com/owner/b',stars:20,pushedAt:null,featured:true,categories:['development'],compatibilityStatus:'compatible',compatibilityLevel:'declared',installCommand:null,searchText:'tools development'},
 ]};
 describe('static catalog',()=>{
   it('searches Chinese and filters categories without a server',()=>{
-    expect(searchStaticCatalog(index,{query:'记忆'}).items.map(p=>p.id)).toEqual(['a']);
+    expect(searchStaticCatalog(index,{query:'记忆',locale:'zh-CN'}).items.map(p=>p.id)).toEqual(['a']);
+    expect(searchStaticCatalog(index,{query:'保存',locale:'en'}).items[0].description).toBe('cross-session memory');
+    expect(searchStaticCatalog(index,{query:'cross-session',locale:'zh-CN'}).items[0].description).toBe('跨会话记忆保存');
+    expect(searchStaticCatalog(index,{query:'记忆',locale:'zh-TW'}).items.map(p=>p.id)).toEqual(['a']);
+    expect(searchStaticCatalog(index,{query:'记忆',locale:'zh-CN'}).items[0].description).toBe('跨会话记忆保存');
     expect(searchStaticCatalog(index,{categories:['memory'],compatibility:['compatible']}).total).toBe(0);
   });
   it('paginates deterministically and handles invalid cursors',()=>{

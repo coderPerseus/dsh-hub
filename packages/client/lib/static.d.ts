@@ -1,6 +1,8 @@
 import type { PluginSummary, SearchPluginsInput, SearchPluginsResult } from './index.js';
 export type StaticEntry = PluginSummary & {
     searchText: string;
+    descriptionZh?: string;
+    searchTextZh?: string;
 };
 export type StaticIndex = {
     schemaVersion: 1;

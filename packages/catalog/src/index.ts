@@ -8,6 +8,7 @@ export {
 } from "./i18n";
 export { createCatalogImportBatches } from "./import";
 export {
+  catalogAiAnalysisSchema,
   catalogI18nEntrySchema,
   catalogI18nSchema,
   catalogLocaleSchema,
@@ -16,8 +17,13 @@ export {
   catalogSnapshotSchema,
 } from "./schema";
 export type {
+  CatalogAiAnalysis,
   CatalogI18nEntry,
   CatalogLocale,
   CatalogPlugin,
   CatalogSnapshot,
 } from "./schema";
+export type {
+  CatalogEnrichmentData,
+  CatalogEnrichmentEntry,
+} from "./enrichment";

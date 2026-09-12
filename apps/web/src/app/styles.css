@@ -899,6 +899,26 @@ button, input, select { font: inherit; color: inherit; }
   font-size: 16px;
   line-height: 1.7;
 }
+.detail-analysis {
+  margin: 18px 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(4, 10, 18, .22));
+}
+.detail-analysis h2 {
+  margin: 0;
+  font-family: var(--ds-font-display);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+.detail-analysis p {
+  margin: 10px 0 0;
+  color: var(--ds-color-text-description);
+  font-size: 14px;
+  line-height: 1.7;
+}
 .detail-meta {
   display: flex;
   flex-wrap: wrap;

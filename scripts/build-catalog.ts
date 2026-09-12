@@ -1,3 +1,4 @@
+import { applyCatalogEnrichment, catalogEnrichmentDataSchema } from "../packages/catalog/src/enrichment";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -25,6 +26,7 @@ async function main(): Promise<void> {
   const root = path.resolve(process.cwd(), "../..");
   const outputDirectory = path.join(root, ".catalog");
   const readmePath = path.join(root, "README.md");
+  const enrichmentDataPath = path.join(root, "data/catalog-enrichment.json");
   const sourceRepository = process.env.GITHUB_REPOSITORY ?? "local/dshhub";
   const sourceCommit = process.env.CATALOG_SOURCE_COMMIT
     ?? process.env.GITHUB_SHA
@@ -73,24 +75,39 @@ async function main(): Promise<void> {
     source: { repository: sourceRepository, commit: sourceCommit },
   });
   const snapshot = stripCatalogTranslations(discoveredSnapshot);
+  let enrichedSnapshot = snapshot;
+  try {
+    const rawData = await readFile(enrichmentDataPath, "utf8");
+    enrichedSnapshot = applyCatalogEnrichment(
+      snapshot,
+      catalogEnrichmentDataSchema.parse(JSON.parse(rawData)),
+    );
+  } catch (error) {
+    if (error instanceof Error && "code" in error && (error as NodeJS.ErrnoException).code === "ENOENT") {
+      console.warn("Skipping missing catalog enrichment sidecar: data/catalog-enrichment.json");
+    } else {
+      throw error;
+    }
+  }
+  const snapshotWithEnrichment = enrichedSnapshot;
   if (targetRepository && previousSnapshot) {
     // Inspecting one submission must not skip repositories in the next global scan.
-    snapshot.discoveryAt = previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt;
+    snapshotWithEnrichment.discoveryAt = previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt;
   }
-  if (previousSnapshot && snapshot.plugins.length < previousSnapshot.plugins.length * 0.9) {
+  if (previousSnapshot && snapshotWithEnrichment.plugins.length < previousSnapshot.plugins.length * 0.9) {
     throw new Error('Catalog lost more than 10% of plugins; keep the previous release and investigate.');
   }
 
   await mkdir(outputDirectory, { recursive: true });
   await writeFile(
     path.join(outputDirectory, "catalog.snapshot.json"),
-    `${JSON.stringify(snapshot, null, 2)}\n`,
+    `${JSON.stringify(snapshotWithEnrichment, null, 2)}\n`,
   );
 
   const readme = await readFile(readmePath, "utf8");
   await writeFile(
     readmePath,
-    replaceCatalogSection(readme, renderCatalogSection(snapshot)),
+    replaceCatalogSection(readme, renderCatalogSection(snapshotWithEnrichment)),
   );
 
   console.log(`Built catalog snapshot ${snapshot.snapshotId} with ${snapshot.plugins.length} plugins.`);

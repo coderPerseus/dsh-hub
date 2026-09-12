@@ -19,8 +19,14 @@ const compatibilityCheckSchema = z.object({
   summary: z.string().min(1),
 });
 
+const catalogAiAnalysisEntrySchema = z
+  .string()
+  .min(1)
+  .refine(value => [...value].length <= 100, "aiAnalysis value must be at most 100 unicode characters");
+
 export const catalogLocales = ["zh-CN", "en", "ja", "ko", "zh-TW"] as const;
 export const catalogLocaleSchema = z.enum(catalogLocales);
+export const catalogAiAnalysisSchema = z.record(z.string(), catalogAiAnalysisEntrySchema);
 
 export const catalogI18nEntrySchema = z.object({
   description: z.string().optional(),
@@ -78,6 +84,7 @@ export const catalogPluginSchema = z.object({
     markdown: z.string(),
     readmeUrl: z.url(),
   }),
+  aiAnalysis: catalogAiAnalysisSchema.optional(),
   i18n: catalogI18nSchema.optional(),
 });
 
@@ -111,4 +118,5 @@ export const catalogSnapshotSchema = z.object({
 export type CatalogPlugin = z.infer<typeof catalogPluginSchema>;
 export type CatalogSnapshot = z.infer<typeof catalogSnapshotSchema>;
 export type CatalogLocale = z.infer<typeof catalogLocaleSchema>;
+export type CatalogAiAnalysis = z.infer<typeof catalogAiAnalysisSchema>;
 export type CatalogI18nEntry = z.infer<typeof catalogI18nEntrySchema>;
