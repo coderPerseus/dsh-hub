@@ -23,7 +23,3 @@ export type {
   CatalogPlugin,
   CatalogSnapshot,
 } from "./schema";
-export type {
-  CatalogEnrichmentData,
-  CatalogEnrichmentEntry,
-} from "./enrichment";
