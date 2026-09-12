@@ -100,7 +100,7 @@ function discoveryCutoff(previousSnapshot?: CatalogSnapshot): string | null {
 
 function discoveryQueries(options: CatalogBuildOptions, generatedAt: Date): string[] {
   const queries = options.discoveryQueries ?? DEFAULT_DISCOVERY_QUERIES;
-  if (options.catalogMode !== "backfill") return queries;
+  if (options.catalogMode !== "backfill" && !options.discoverySince) return queries;
   if (!options.discoverySince) throw new Error("Backfill discovery requires a start time.");
   if (options.discoverySince >= generatedAt) {
     throw new Error("Backfill discovery start time must be before the generated time.");
@@ -350,7 +350,7 @@ async function discoverRepositories(
       if (result.incomplete_results) {
         throw new Error(`GitHub discovery returned incomplete results for ${query}.`);
       }
-      if (options.catalogMode === "backfill" && result.total_count > 1_000) {
+      if (options.discoverySince && result.total_count > 1_000) {
         throw new Error(`GitHub discovery query exceeds 1000 repositories: ${query}.`);
       }
       for (const repository of result.items) {

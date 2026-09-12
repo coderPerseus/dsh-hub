@@ -61,7 +61,9 @@ async function main(): Promise<void> {
   }
   const discoveredSnapshot = await discoverCatalogSnapshot({
     catalogMode,
-    discoverySince,
+    discoverySince: discoverySince ?? (catalogMode === 'discover' && !targetRepository && previousSnapshot
+      ? new Date(new Date(previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt).getTime() - 5 * 60_000)
+      : undefined),
     discoveryQueries: targetRepository ? [`repo:${targetRepository}`] : undefined,
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,

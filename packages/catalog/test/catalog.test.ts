@@ -284,6 +284,20 @@ describe("catalog discovery", () => {
     expect(incremental.plugins).toEqual(snapshot.plugins);
     expect(incremental.changedRepositories).toEqual([]);
 
+    searchQueries.length = 0;
+    const windowed = await discoverCatalogSnapshot({
+      catalogMode: 'discover',
+      discoverySince: new Date('2026-08-14T00:00:00Z'),
+      discoveryQueries: ['topic:dsh-plugin'],
+      fetch: fetcher as typeof fetch,
+      generatedAt: new Date('2026-08-14T02:00:00Z'),
+      previousSnapshot: snapshot,
+      source: {repository:'owner/catalog',commit:'windowed'},
+    });
+    expect(searchQueries).toHaveLength(2);
+    expect(searchQueries.every(query => query.includes('pushed:'))).toBe(true);
+    expect(windowed.plugins).toEqual(snapshot.plugins);
+
     const searchResult = JSON.parse(responses.get("/search/repositories") ?? "{}") as {
       items: Array<{ stargazers_count: number }>;
     };
