@@ -4,6 +4,8 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { catalogSnapshotSchema, type CatalogPlugin } from '../packages/catalog/src/index';
+import { applyCatalogEnrichment, catalogEnrichmentDataSchema } from '../packages/catalog/src/enrichment';
+import { localizedDescription } from '../packages/catalog/src/i18n';
 import { detailShard, searchStaticCatalog, type StaticIndex, type StaticEntry } from '../packages/client/src/static';
 import { normalizeReadme, pluginPackageDirectory } from '../apps/web/src/lib/plugin-readme';
 
@@ -20,7 +22,11 @@ for (const filename of ['wrangler.jsonc', 'wrangler.ci.jsonc']) {
   }
 }
 const output = path.join(root, 'apps/web/dist');
-const snapshot = catalogSnapshotSchema.parse(JSON.parse(await readFile(path.join(root, '.catalog/catalog.snapshot.json'), 'utf8')));
+const rawSnapshot = JSON.parse(await readFile(path.join(root, '.catalog/catalog.snapshot.json'), 'utf8'));
+const snapshot = applyCatalogEnrichment(
+  catalogSnapshotSchema.parse(rawSnapshot),
+  catalogEnrichmentDataSchema.parse(JSON.parse(await readFile(path.join(root, 'data', 'catalog-enrichment.json'), 'utf8'))),
+);
 if (snapshot.plugins.length < Number(process.env.CATALOG_MIN_PLUGIN_COUNT ?? 50)) throw new Error('Refusing to publish an incomplete catalog');
 const version = createHash('sha256').update(JSON.stringify(snapshot)).digest('hex').slice(0,16);
 const prefix = `/catalog/${version}`;
@@ -38,8 +44,13 @@ const assets = JSON.parse(await readFile(root+'/.catalog/assets.json','utf8'));
 const categories = new Map<string,number>();
 const items: StaticEntry[] = snapshot.plugins.map(p => {
   for (const c of p.categories) categories.set(c, (categories.get(c) ?? 0)+1);
+  const descriptionZh = localizedDescription(p, 'zh-CN');
+  const usageSummaryZh = p.i18n?.["zh-CN"]?.usageSummary ?? p.usage.summary;
   return {id:p.id,slug:p.slug,name:p.name,description:p.description,packageName:p.package.name,repositoryUrl:p.repository.url,stars:p.repository.stars,pushedAt:p.repository.pushedAt,featured:p.featured,categories:p.categories,compatibilityStatus:p.compatibility.status,compatibilityLevel:p.compatibility.level,installCommand:p.installation.command,
-    searchText:[p.name,p.package.name,p.description,...p.repository.topics,p.usage.summary].join(' ').toLowerCase()};
+    descriptionZh,
+    searchText:[p.name,p.package.name,p.description,...p.repository.topics,p.usage.summary].join(' ').toLowerCase(),
+    searchTextZh:[p.name,p.package.name,descriptionZh,...p.repository.topics,usageSummaryZh].join(' ').toLowerCase(),
+  };
 });
 const index: StaticIndex = {schemaVersion:1,snapshotId:snapshot.snapshotId,generatedAt:snapshot.generatedAt,items,categories:[...categories].sort(([a],[b])=>a.localeCompare(b)).map(([id,count])=>({id,count}))};
 const manifest = {schemaVersion:1 as const,snapshotId:snapshot.snapshotId,generatedAt:snapshot.generatedAt,pluginCount:items.length,index:prefix+'/index.json',details:Array.from({length:256},(_,i)=>`${prefix}/details-${i}.json`)};
