@@ -55,6 +55,9 @@ jobs:
           CATALOG_REPOSITORY: ${{ inputs.repository }}
           CATALOG_DISCOVERY_SINCE: ${{ inputs.since }}
           CATALOG_SOURCE_COMMIT: ${{ github.sha }}
+      - name: Verify full enrichment for site publishing
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'publish')
+        run: pnpm --filter @dshhub/web exec tsx ../../scripts/check-catalog-enrichment.mts
       - name: Verify and build static site
         run: |
           pnpm typecheck
