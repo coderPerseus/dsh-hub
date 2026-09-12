@@ -167,6 +167,9 @@ importers:
       '@deepseek-ai/dsh-tools':
         specifier: 0.1.0-rc.6
         version: 0.1.0-rc.6(f8724372086ccc1457fc84e7becee2e0)
+      '@types/node':
+        specifier: 24.3.0
+        version: 24.3.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
