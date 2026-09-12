@@ -31,8 +31,9 @@ await build({entryPoints:[path.join(root,'apps/web/src/static/browser.tsx')], bu
   const outputs = Object.keys(result.metafile!.outputs);
   await writeFile(path.join(root,'.catalog/assets.json'), JSON.stringify({js:'/' + path.relative(output,outputs.find(x=>x.endsWith('.js'))!), css:'/' + path.relative(output,outputs.find(x=>x.endsWith('.css'))!)}));
 });
-await build({entryPoints:[path.join(root,'apps/web/src/static/render.tsx')], bundle:true, platform:'node', format:'esm', packages:'external', outfile:root+'/.catalog/render.mjs', jsx:'automatic'});
-const {render} = await import(pathToFileURL(root+'/.catalog/render.mjs').href);
+const rendererPath = path.join(root, 'apps/web/.static-build/render.mjs');
+await build({entryPoints:[path.join(root,'apps/web/src/static/render.tsx')], bundle:true, platform:'node', format:'esm', packages:'external', outfile:rendererPath, jsx:'automatic'});
+const {render} = await import(pathToFileURL(rendererPath).href);
 const assets = JSON.parse(await readFile(root+'/.catalog/assets.json','utf8'));
 const categories = new Map<string,number>();
 const items: StaticEntry[] = snapshot.plugins.map(p => {
