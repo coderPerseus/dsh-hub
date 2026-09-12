@@ -1,3 +1,5 @@
+> 2026-09-12：生产已改为静态 HTML + JSON 目录。当前部署、CI、客户端 0.2.0 和费用边界以 [static-operations.md](static-operations.md) 为准；下文涉及 D1/SSR/导入队列的内容为旧架构参考。
+
 # DSH Hub development
 
 本文档面向参与 DSH Hub 开发、部署和目录维护的贡献者。产品介绍和插件分类请从[项目 README](../README.md) 开始。

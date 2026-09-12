@@ -53,6 +53,8 @@ export type CatalogBuildOptions = {
   githubToken?: string;
   mainline?: CatalogSnapshot["mainline"];
   minimumPluginCount?: number;
+  refreshLimit?: number;
+  failOnDiscoveryError?: boolean;
   previousSnapshot?: CatalogSnapshot;
   source: CatalogSnapshot["source"];
 };
@@ -85,7 +87,7 @@ export function isFeaturedPlugin(repository: string, packageName: string): boole
 function discoveryCutoff(previousSnapshot?: CatalogSnapshot): string | null {
   if (!previousSnapshot) return null;
   return new Date(
-    new Date(previousSnapshot.generatedAt).getTime() - DISCOVERY_OVERLAP_MS,
+    new Date(previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt).getTime() - DISCOVERY_OVERLAP_MS,
   ).toISOString();
 }
 
@@ -365,7 +367,12 @@ async function loadExistingRepositories(
   const names = new Set((options.previousSnapshot?.plugins ?? []).map(plugin => (
     `${plugin.repository.owner}/${plugin.repository.name}`
   )));
-  const loaded = await mapConcurrent([...names], GITHUB_CONCURRENCY, async (name) => {
+  const sorted = [...names].sort();
+  const start = (options.previousSnapshot?.refreshCursor ?? 0) % Math.max(sorted.length, 1);
+  const selected = options.refreshLimit
+    ? [...sorted.slice(start), ...sorted.slice(0, start)].slice(0, options.refreshLimit)
+    : sorted;
+  const loaded = await mapConcurrent(selected, GITHUB_CONCURRENCY, async (name) => {
     try {
       return await githubJson<GithubRepository>(options.fetch, `/repos/${name}`, options.githubToken);
     } catch (error) {
@@ -599,6 +606,10 @@ export async function discoverCatalogSnapshot(
   const failedRepositories = new Set(built
     .filter(result => !result.succeeded)
     .map(result => result.source.repository.full_name.toLowerCase()));
+  if (options.failOnDiscoveryError && options.catalogMode !== 'refresh'
+    && (failedRepositories.size > 0 || discovered.some(result => !result.succeeded))) {
+    throw new Error('Discovery failed for a repository; preserve the successful cursor and retry next run.');
+  }
   const refreshedRepositories = new Set(discovered
     .filter(result => result.succeeded && !failedRepositories.has(result.repository.full_name.toLowerCase()))
     .map(result => result.repository.full_name.toLowerCase()));
@@ -642,6 +653,12 @@ export async function discoverCatalogSnapshot(
     schemaVersion: 1,
     snapshotId: `${generatedAt.toISOString()}-${options.source.commit.slice(0, 12)}`,
     generatedAt: generatedAt.toISOString(),
+    discoveryAt: options.catalogMode === 'refresh'
+      ? options.previousSnapshot?.discoveryAt ?? options.previousSnapshot?.generatedAt ?? generatedAt.toISOString()
+      : generatedAt.toISOString(),
+    refreshCursor: options.catalogMode === 'refresh' && options.refreshLimit
+      ? ((options.previousSnapshot?.refreshCursor ?? 0) + options.refreshLimit) % Math.max(1, new Set(plugins.map(p => `${p.repository.owner}/${p.repository.name}`)).size)
+      : options.previousSnapshot?.refreshCursor,
     changedRepositories: options.previousSnapshot
       ? changedRepositories.sort()
       : undefined,

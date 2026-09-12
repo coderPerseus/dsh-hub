@@ -305,6 +305,17 @@ describe("catalog discovery", () => {
     });
     expect(refreshed.plugins[0]?.repository.stars).toBe(43);
     expect(refreshed.changedRepositories).toEqual(["owner/plugin"]);
+    expect(refreshed.discoveryAt).toBe(snapshot.generatedAt);
+
+    const rotation = await discoverCatalogSnapshot({
+      catalogMode: 'refresh', refreshLimit: 1,
+      fetch: (async () => new Response(null, {status:404})) as typeof fetch,
+      previousSnapshot: {...snapshot, plugins:[snapshot.plugins[0]!, {...snapshot.plugins[0]!, id:'github:other/plugin', slug:'other/plugin', repository:{...snapshot.plugins[0]!.repository,owner:'other'}}]},
+      source: {repository:'owner/catalog',commit:'rotation'},
+    });
+    expect(rotation.refreshCursor).toBe(1);
+    expect(rotation.plugins).toHaveLength(2);
+    expect(rotation.discoveryAt).toBe(snapshot.generatedAt);
 
     responses.set("/repos/owner/plugin", JSON.stringify({
       archived: false,

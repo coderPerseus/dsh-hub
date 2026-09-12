@@ -1,3 +1,6 @@
+import { detailShard, searchStaticCatalog, type StaticIndex, type StaticManifest } from './static.js';
+export { detailShard, searchStaticCatalog } from './static.js';
+export type { StaticEntry, StaticIndex, StaticManifest } from './static.js';
 export const DEFAULT_DSHHUB_API_URL = "https://dshhub.org/api/v1";
 
 export type CompatibilityStatus = "compatible" | "incompatible" | "unknown";
@@ -81,18 +84,30 @@ export class DshHubApiError extends Error {
 export type DshHubClientOptions = {
   baseUrl?: string;
   fetch?: typeof globalThis.fetch;
+  transport?: "static" | "api";
 };
 
 export class DshHubClient {
   private readonly baseUrl: string;
   private readonly fetcher: typeof globalThis.fetch;
+  private readonly transport: "static" | "api";
+  private manifest?: Promise<StaticManifest>;
+  private index?: Promise<StaticIndex>;
+  private expiresAt = 0;
 
   constructor(options: DshHubClientOptions = {}) {
     this.baseUrl = (options.baseUrl ?? DEFAULT_DSHHUB_API_URL).replace(/\/+$/, "");
     this.fetcher = options.fetch ?? globalThis.fetch;
+    this.transport = options.transport ?? (options.baseUrl && options.baseUrl !== DEFAULT_DSHHUB_API_URL ? "api" : "static");
   }
 
   async search(input: SearchPluginsInput = {}): Promise<SearchPluginsResult> {
+    if (this.transport === "static") {
+      return this.withCurrentCatalog(async manifest => {
+        this.index ??= this.request<StaticIndex>(new URL(manifest.index, this.baseUrl)).catch(e => { this.index = undefined; throw e; });
+        return searchStaticCatalog(await this.index, input);
+      });
+    }
     const url = new URL(`${this.baseUrl}/plugins`);
     if (input.query) url.searchParams.set("query", input.query);
     for (const category of input.categories ?? []) url.searchParams.append("category", category);
@@ -109,6 +124,12 @@ export class DshHubClient {
     if (segments.length !== 2 || segments.some(segment => !segment)) {
       throw new Error("Plugin slug must use owner/repository format");
     }
+    if (this.transport === "static") {
+      return this.withCurrentCatalog(async manifest => {
+        const plugins = await this.request<PluginDetail[]>(new URL(manifest.details[detailShard(slug)], this.baseUrl));
+        return plugins.find(p => p.slug.toLowerCase() === slug.toLowerCase()) ?? null;
+      });
+    }
     const url = new URL(
       `${this.baseUrl}/plugins/${encodeURIComponent(segments[0])}/${encodeURIComponent(segments[1])}`,
     );
@@ -121,9 +142,32 @@ export class DshHubClient {
     }
   }
 
+  private async withCurrentCatalog<T>(read: (manifest: StaticManifest) => Promise<T>): Promise<T> {
+    const manifest = await this.getManifest();
+    try {
+      return await read(manifest);
+    } catch (error) {
+      if (!(error instanceof DshHubApiError) || error.status !== 404) throw error;
+      // A deployment replaces versioned assets; refresh a cached manifest once.
+      this.expiresAt = 0;
+      return read(await this.getManifest());
+    }
+  }
+
+  private getManifest(): Promise<StaticManifest> {
+    if (Date.now() >= this.expiresAt) { this.manifest = undefined; this.index = undefined; }
+    if (!this.manifest) {
+      this.expiresAt = Date.now() + 5 * 60_000;
+      this.manifest = this.request<StaticManifest>(new URL('/catalog/manifest.json', this.baseUrl))
+        .catch(e => { this.manifest = undefined; throw e; });
+    }
+    return this.manifest;
+  }
+
   private async request<T>(url: URL): Promise<T> {
     const response = await this.fetcher(url, {
       headers: { Accept: "application/json" },
+      cache: url.pathname.endsWith('/manifest.json') ? 'no-cache' : 'default',
       signal: AbortSignal.timeout(15_000),
     });
     if (!response.ok) {

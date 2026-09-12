@@ -85,6 +85,8 @@ export const catalogSnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   snapshotId: z.string().min(1),
   generatedAt: z.iso.datetime(),
+  discoveryAt: z.iso.datetime().optional(),
+  refreshCursor: z.number().int().nonnegative().optional(),
   changedRepositories: z.array(repositoryNameSchema).optional(),
   source: z.object({
     repository: z.string().min(1),

@@ -4,7 +4,7 @@
 
 **发现、比较和安装 DeepSeek Harness 社区插件。**
 
-[浏览插件](https://dshhub.org) · [DeepSeek Harness](https://deepseek-harness.github.io/deepseek-harness/guide/quickstart) · [开发文档](docs/development.md) · [目录流水线](docs/catalog-pipeline.md)
+[浏览插件](https://dshhub.org) · [DeepSeek Harness](https://deepseek-harness.github.io/deepseek-harness/guide/quickstart) · [开发文档](docs/development.md) · [静态部署与费用边界](docs/static-operations.md)
 
 </div>
 
@@ -14,14 +14,14 @@
 
 ## 关于 DSH Hub
 
-DSH Hub 是 DeepSeek Harness 社区插件的发现入口。它持续扫描 GitHub 上可安装的插件，整理能力分类、项目说明、兼容性线索和安装命令，让使用者和 Agent 更快找到适合当前任务的扩展。
+DSH Hub 是 DeepSeek Harness 社区插件的发现入口。它每天扫描 GitHub 上可安装的插件，整理能力分类、项目说明、兼容性线索和安装命令，让使用者和 Agent 更快找到适合当前任务的扩展。
 
 你可以在 DSH Hub：
 
 - 按能力分类、关键词、stars、更新时间和兼容状态查找插件；
 - 在详情页查看插件用途、安装方式、使用说明和来源仓库；
 - 复制安装命令，回到 DeepSeek Harness 中启用插件；
-- 从网页、公共 API、CLI 或 DSH 原生工具访问同一份目录；
+- 从网页、静态目录 SDK、CLI 或 DSH 原生工具访问同一份目录；
 - 提交自己的插件，让社区更容易发现它。
 
 ## 开始使用
@@ -36,10 +36,10 @@ DSH Hub 提供两种使用方法。
 
 ```bash
 # 搜索插件
-npx -y @dshhubs/cli@0.1.0 search "跨会话记忆" --limit 10
+npx -y @dshhubs/cli@0.2.0 search "跨会话记忆" --limit 10
 
 # 查看某个搜索结果的详情
-npx -y @dshhubs/cli@0.1.0 plugin owner/repository
+npx -y @dshhubs/cli@0.2.0 plugin owner/repository
 ```
 
 需要让脚本处理结果时加上 `--json`。

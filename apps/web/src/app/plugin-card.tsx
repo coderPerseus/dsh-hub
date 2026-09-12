@@ -1,6 +1,6 @@
 import type { CatalogPluginSummary } from "@dshhub/contracts";
 import type { CSSProperties } from "react";
-import Link from "next/link";
+import Link from "../static/link";
 
 import { CopyButton } from "./copy-button";
 import { displayInstallCommand } from "../lib/install-command";
