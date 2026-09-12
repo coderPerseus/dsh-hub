@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "dshhub-web",
   "account_id": "de7749886db8f5df040c27a20388fdcc",
-  "compatibility_date": "2026-09-12",
+  "compatibility_date": "2026-08-01",
   "assets": {"directory": "./dist", "html_handling": "auto-trailing-slash", "not_found_handling": "404-page"},
   "observability": {"enabled": false}
 }
