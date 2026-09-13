@@ -3,6 +3,7 @@ import path from 'node:path';
 import { locales } from '../apps/web/src/lib/i18n/locales';
 const root = path.resolve(import.meta.dirname, '..');
 const ci = process.argv.includes('--ci');
+const uploadOnly = process.argv.includes('--upload');
 const requested = process.argv.find(x=>x.startsWith('--locale='))?.slice(9);
 if (requested && !locales.includes(requested as typeof locales[number])) throw new Error('Unknown locale');
 const configs = requested
@@ -12,7 +13,7 @@ const configs = requested
 for (const config of configs) {
   console.log(`Deploying ${config}`);
   await new Promise<void>((resolve,reject)=>{
-    const child = spawn('pnpm',['exec','wrangler','deploy','--config',config],{
+    const child = spawn('pnpm',['exec','wrangler',...(uploadOnly ? ['versions','upload'] : ['deploy']),'--config',config],{
       cwd:path.join(root,'apps/web'),env:{...process.env,OPEN_NEXT_DEPLOY:'true'},stdio:'inherit',
     });
     child.on('error',reject);

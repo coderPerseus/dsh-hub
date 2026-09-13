@@ -9,7 +9,8 @@
     "deploy": "pnpm build && tsx ../../scripts/deploy-static-locales.mts",
     "dev": "pnpm build && pnpm preview",
     "preview": "tsx ../../scripts/preview-static-locales.mts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "upload": "pnpm build && tsx ../../scripts/deploy-static-locales.mts --upload"
   },
   "dependencies": {
     "@dshhub/contracts": "workspace:*",
