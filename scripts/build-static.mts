@@ -9,6 +9,9 @@ import { localizedDescription } from '../packages/catalog/src/i18n';
 import { detailShard, searchStaticCatalog, type StaticIndex, type StaticEntry } from '../packages/client/src/static';
 import { normalizeReadme, pluginPackageDirectory } from '../apps/web/src/lib/plugin-readme';
 
+import { locales, type Locale } from '../apps/web/src/lib/i18n/locales';
+import { localizedHref } from '../apps/web/src/lib/i18n/routing';
+import { getMessages } from '../apps/web/src/lib/i18n/messages';
 import { googleAnalyticsScript } from '../apps/web/src/lib/google-analytics';
 
 const root = path.resolve(import.meta.dirname, '..');
@@ -63,24 +66,64 @@ const plugins = [...snapshot.plugins].sort((a,b)=>a.id.localeCompare(b.id));
 for (const plugin of plugins) shards[detailShard(plugin.slug)].push(plugin);
 for (let i=0;i<256;i++) await put(manifest.details[i],JSON.stringify(shards[i]));
 const escape = (s:string) => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
-function html(data:any, title:string, description:string, url:string) { return `<!doctype html><html lang="zh-CN" data-theme="dark"><head><script>${googleAnalyticsScript}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${escape(title)}</title><meta name="description" content="${escape(description.slice(0,160))}"><link rel="canonical" href="https://dshhub.org${escape(url)}"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description.slice(0,160))}"><meta property="og:url" content="https://dshhub.org${escape(url)}"><meta property="og:type" content="website"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="${assets.css}"></head><body><div id="root">${render(data)}</div><script id="page-data" type="application/json">${JSON.stringify(data).replaceAll('<','\\u003c')}</script><script type="module" src="${assets.js}"></script></body></html>`; }
-await put('/index.html',html({manifest,initial,related:[]},'DSH Hub · DeepSeek Harness 插件目录','发现、搜索和安装 DeepSeek Harness 社区插件。','/'));
-await put('/404.html',html({manifest,initial:{...initial,items:[]},related:[],notFound:true},'404 · DSH Hub','页面不存在','/404'));
+const localeOutput = (locale: Locale) => path.join(root, 'apps/web/.static-build/locales', locale);
+async function writeAsset(directory: string, file: string, content: string) {
+  if (Buffer.byteLength(content) > 24*1024*1024) throw new Error(`Asset too large: ${file}`);
+  const target = path.join(directory, file);
+  await mkdir(path.dirname(target), {recursive:true});
+  await writeFile(target, content);
+}
+function html(data:any, title:string, description:string, pagePath:string) {
+  const locale: Locale = data.locale;
+  const url = localizedHref(pagePath, locale);
+  const alternates = data.notFound ? '' : [...locales.map(l => `<link rel="alternate" hreflang="${l}" href="https://dshhub.org${escape(localizedHref(pagePath,l))}">`), `<link rel="alternate" hreflang="x-default" href="https://dshhub.org${escape(localizedHref(pagePath,'zh-CN'))}">`].join('');
+  return `<!doctype html><html lang="${locale}" data-theme="dark"><head><script>${googleAnalyticsScript}</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${escape(title)}</title><meta name="description" content="${escape([...description].slice(0,160).join(''))}">${data.notFound ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="https://dshhub.org${escape(url)}">`}${alternates}<meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape([...description].slice(0,160).join(''))}"><meta property="og:url" content="https://dshhub.org${escape(url)}"><meta property="og:locale" content="${({'zh-CN':'zh_CN','zh-TW':'zh_TW',en:'en_US',ja:'ja_JP',ko:'ko_KR'})[locale]}"><meta property="og:type" content="website"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/${locale}${assets.css}"></head><body><div id="root">${render(data)}</div><script id="page-data" type="application/json">${JSON.stringify(data).replaceAll('<','\\u003c')}</script><script type="module" src="/${locale}${assets.js}"></script></body></html>`;
+}
+const emptyInitial = {...initial,items:[]};
+for (const locale of locales) {
+  const directory = localeOutput(locale);
+  await rm(directory,{recursive:true,force:true});
+  await mkdir(directory,{recursive:true});
+  await cp(output+'/assets',directory+'/'+locale+'/assets',{recursive:true});
+  const t = getMessages(locale);
+  await writeAsset(directory, `/${locale}/index.html`, html({locale,manifest,initial,related:[]},t.siteTitle,t.siteDescription,'/'));
+  await writeAsset(directory, '/404.html', html({locale,manifest,initial:emptyInitial,related:[],notFound:true},'404 · DSH Hub',t.notFoundHint,'/404'));
+  await writeAsset(directory, '/_headers', '/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/'+locale+'/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n');
+  const config = {
+    name: 'dshhub-web-'+locale.toLowerCase(), workers_dev:false, account_id:'de7749886db8f5df040c27a20388fdcc', compatibility_date:'2026-08-01',
+    assets:{directory,html_handling:'auto-trailing-slash',not_found_handling:'404-page'},observability:{enabled:false},
+  };
+  await writeFile(root+`/apps/web/.static-build/wrangler-${locale}.ci.json`,JSON.stringify(config,null,2));
+  await writeFile(root+`/apps/web/.static-build/wrangler-${locale}.json`,JSON.stringify({...config,routes:[{pattern:`dshhub.org/${locale}/*`,zone_name:'dshhub.org'},{pattern:`dshhub.org/${locale}`,zone_name:'dshhub.org'}]},null,2));
+}
 const seen = new Set<string>();
 const recommended = [...items].sort((a,b)=>b.stars-a.stars);
 for (const source of plugins) {
   if (seen.has(source.slug)) continue; seen.add(source.slug);
   const plugin = {...source, usage:{...source.usage,markdown:normalizeReadme(source.usage.markdown || source.installation.markdown,{owner:source.repository.owner,name:source.repository.name,ref:source.repository.commit || source.repository.defaultBranch,file:(pluginPackageDirectory(source.id) ? pluginPackageDirectory(source.id)+'/' : '')+'README.md'})}};
   const related = recommended.filter(p=>p.slug!==plugin.slug && p.categories.some(c=>plugin.categories.includes(c))).slice(0,6).map(({searchText:_,...p})=>p);
-  const url='/plugins/'+plugin.slug;
-  await put(url+'/index.html',html({manifest,initial:{...initial,items:[]},plugin,related},plugin.name+' · DSH Hub',plugin.description,url));
-  if (seen.size % 1000 === 0) console.log(`Rendered ${seen.size} detail pages`);
+  for (const locale of locales) {
+    const description = localizedDescription(plugin,locale === 'zh-TW' ? 'zh-CN' : locale) || getMessages(locale).missingDescription;
+    const url='/plugins/'+plugin.slug;
+    await writeAsset(localeOutput(locale),localizedHref(url,locale)+'index.html',html({locale,manifest,initial:emptyInitial,plugin,related},plugin.name+' · DSH Hub',description,url));
+  }
+  if (seen.size % 1000 === 0) console.log(`Rendered ${seen.size} plugins in ${locales.length} languages`);
 }
-await put('/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+['/',...[...seen].map(s=>'/plugins/'+s)].map(url=>`<url><loc>https://dshhub.org${escape(url)}</loc></url>`).join('')+'</urlset>');
+for (const locale of locales) {
+  const urls = ['/',...[...seen].map(s=>'/plugins/'+s)];
+  await writeAsset(localeOutput(locale),`/${locale}/sitemap.xml`,'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+urls.map(url=>`<url><loc>https://dshhub.org${escape(localizedHref(url,locale))}</loc></url>`).join('')+'</urlset>');
+}
+await put('/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+locales.map(locale=>`<sitemap><loc>https://dshhub.org/${locale}/sitemap.xml</loc></sitemap>`).join('')+'</sitemapindex>');
+await put('/_redirects','/ /zh-CN/ 301\n/plugins/* /zh-CN/plugins/:splat 301\n'+locales.map(locale=>`/${locale} /${locale}/ 301`).join('\n')+'\n');
+await put('/404.html',html({locale:'zh-CN',manifest,initial:emptyInitial,related:[],notFound:true},'404 · DSH Hub','页面不存在','/404'));
 await put('/robots.txt','User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: https://dshhub.org/sitemap.xml\n');
 await put('/api/v1/plugins/index.html',JSON.stringify({error:'The live search API has been retired. Upgrade @dshhubs/client and @dshhubs/cli to 0.2.0. Static catalog: https://dshhub.org/catalog/manifest.json'}));
 await put('/_headers','/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/catalog/*\n  Access-Control-Allow-Origin: *\n  Cache-Control: public, max-age=300\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n');
 for (const name of ['favicon.ico','icon.png','apple-icon.png']) await cp(root+'/apps/web/src/app/'+name,output+'/'+name);
 async function files(dir:string):Promise<string[]> { const entries=await readdir(dir,{withFileTypes:true});return (await Promise.all(entries.map(e=>e.isDirectory()?files(path.join(dir,e.name)):Promise.resolve([path.join(dir,e.name)])))).flat(); }
-const all=await files(output); if(all.length>19500) throw new Error('Static asset count exceeds safety limit; shard or consolidate pages before publishing');
-console.log(JSON.stringify({plugins:items.length,detailPages:seen.size,files:all.length,version}));
+const counts: Record<string,number> = {};
+for (const [name,directory] of [['shared',output],...locales.map(locale=>[locale,localeOutput(locale)])]) {
+  const all=await files(directory); if(all.length>19500) throw new Error(`${name}: static asset count exceeds safety limit`);
+  counts[name]=all.length;
+}
+console.log(JSON.stringify({plugins:items.length,detailPages:seen.size*locales.length,files:counts,version}));

@@ -6,11 +6,10 @@
     "build": "tsx ../../scripts/build-static.mts",
     "build:cloudflare": "pnpm build",
     "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "deploy": "pnpm build && OPEN_NEXT_DEPLOY=true wrangler deploy",
-    "dev": "pnpm build && wrangler dev --port 3000",
-    "preview": "wrangler dev --port 3000",
-    "typecheck": "tsc --noEmit",
-    "upload": "pnpm build && wrangler versions upload"
+    "deploy": "pnpm build && tsx ../../scripts/deploy-static-locales.mts",
+    "dev": "pnpm build && pnpm preview",
+    "preview": "tsx ../../scripts/preview-static-locales.mts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@dshhub/contracts": "workspace:*",
