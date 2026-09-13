@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { searchStaticCatalog, type StaticIndex, type StaticManifest } from "../../../../packages/client/src/static";
 import { useTranslator } from "./locale";
 
+import { localizedHref } from "../lib/i18n/routing";
 import { CatalogSearch } from "../app/catalog-search";
 import { HeroBackdrop } from "../app/hero-backdrop";
 import { PluginCard } from "../app/plugin-card";
@@ -25,6 +26,8 @@ function scalar(value: string | string[] | undefined): string {
 }
 
 export default function Home({ initial, manifest }: { initial: StaticIndex; manifest: StaticManifest }) {
+  const { locale, t } = useTranslator();
+  const homePath = localizedHref("/", locale);
   const [index, setIndex] = useState(initial);
   const [raw, setRaw] = useState<Record<string, string[]>>({});
   const [failed, setFailed] = useState(false);
@@ -36,13 +39,13 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
     const click = (event: MouseEvent) => {
       const a = (event.target as Element).closest('a');
       if (!a || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || a.target || a.hasAttribute('download')) return;
-      const url = new URL(a.href); if (url.origin !== location.origin || url.pathname !== '/') return;
-      event.preventDefault(); history.pushState(null, '', url); update();
+      const url = new URL(a.href); if (url.origin !== location.origin || url.pathname !== homePath) return;
+      event.preventDefault(); history.pushState(null, '', url); window.dispatchEvent(new PopStateEvent('popstate'));
     };
     const submit = (event: SubmitEvent) => {
       const form = event.target as HTMLFormElement; if (form.getAttribute('role') !== 'search') return;
       event.preventDefault(); const params = new URLSearchParams(new FormData(form) as unknown as Record<string,string>);
-      history.pushState(null, '', '/?' + params); update();
+      history.pushState(null, '', homePath + '?' + params); window.dispatchEvent(new PopStateEvent('popstate'));
     };
     document.addEventListener('click', click); document.addEventListener('submit', submit);
     const controller = new AbortController();
@@ -50,8 +53,7 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
       .then((data: StaticIndex) => { if (data.schemaVersion !== 1 || !Array.isArray(data.items)) throw new Error('Invalid catalog'); setIndex(data); setReady(true); })
       .catch(e => { if (e.name !== 'AbortError') setFailed(true); });
     return () => { controller.abort(); window.removeEventListener('popstate', update); document.removeEventListener('click', click); document.removeEventListener('submit', submit); };
-  }, [manifest]);
-  const { locale, t } = useTranslator();
+  }, [manifest, homePath]);
   const query = scalar(raw.q).slice(0, 100);
   const categories = values(raw.category).slice(0, 10);
   const compatibility = values(raw.compatibility)
@@ -104,7 +106,7 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
 
           {failed && <p role="alert">目录加载失败，请刷新重试。 / Could not load catalog. Please reload.</p>}
           {!ready && !failed && <p role="status">正在加载搜索目录… / Loading search index…</p>}
-          <CatalogSearch
+          <CatalogSearch action={homePath}
             key={query}
             categories={categories}
             compatibility={compatibility}

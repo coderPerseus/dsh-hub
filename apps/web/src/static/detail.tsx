@@ -9,6 +9,7 @@ import { displayInstallCommand } from "../lib/install-command";
 import { pluginPackageDirectory, pluginRepositoryUrl, readmeExcerpt } from "../lib/plugin-readme";
 import { PluginReadme } from "../app/plugins/[owner]/[repository]/plugin-readme";
 import { categoryLabel, formatDate, formatStars } from "../lib/presentation";
+import { localizedHref } from "../lib/i18n/routing";
 import { absoluteUrl } from "../lib/site";
 
 export default function Detail({plugin, related}: {plugin: CatalogPlugin; related: PluginSummary[]}) {
@@ -18,7 +19,7 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
   const pluginAiAnalysis = plugin.aiAnalysis;
   const descriptionText = (plugin.i18n?.[catalogLocale]?.description || plugin.description).trim();
   const aiAnalysis = pluginAiAnalysis?.[catalogLocale] || pluginAiAnalysis?.["zh-CN"] || null;
-  const aiAnalysisLabel = isChineseLocale ? "AI 分析" : "AI Analysis";
+  const aiAnalysisLabel = ({"zh-CN":"AI 分析", "zh-TW":"AI 分析", en:"AI Analysis", ja:"AI 分析", ko:"AI 분석"})[locale];
   const aiAnalysisText = aiAnalysis
     || (isChineseLocale ? "该插件暂无 AI 分析内容。" : "AI analysis is not available for this plugin yet.");
   const readme = { markdown: plugin.usage.markdown || plugin.installation.markdown, sourceUrl: plugin.usage.readmeUrl };
@@ -26,7 +27,7 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
   const installCommand = plugin.installation.command
     ? displayInstallCommand(plugin.installation.command)
     : null;
-  const pluginUrl = absoluteUrl(`/plugins/${plugin.slug}`);
+  const pluginUrl = absoluteUrl(localizedHref(`/plugins/${plugin.slug}`, locale));
   const repositoryUrl = pluginRepositoryUrl(plugin);
   const packageDirectory = pluginPackageDirectory(plugin.id);
   const homepage = plugin.repository.homepage?.trim() || null;
@@ -63,8 +64,8 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", item: absoluteUrl(), name: "DSH Hub", position: 1 },
-          { "@type": "ListItem", item: absoluteUrl("/#catalog"), name: t.plugins, position: 2 },
+          { "@type": "ListItem", item: absoluteUrl(localizedHref("/", locale)), name: "DSH Hub", position: 1 },
+          { "@type": "ListItem", item: absoluteUrl(localizedHref("/#catalog", locale)), name: t.plugins, position: 2 },
           { "@type": "ListItem", item: pluginUrl, name: plugin.name, position: 3 },
         ],
       },
@@ -94,7 +95,7 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
                 <p className="detail-summary">{description || t.missingDescription}</p>
                 <section className="detail-analysis">
                   <h2>{aiAnalysisLabel}</h2>
-                  <p>{aiAnalysisText}</p>
+                  <p lang={pluginAiAnalysis?.[catalogLocale] ? catalogLocale : "zh-CN"}>{aiAnalysisText}</p>
                 </section>
                 {plugin.categories.length > 0 && (
                   <div className="tags">

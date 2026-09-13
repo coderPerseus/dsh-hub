@@ -15,12 +15,14 @@ function Mark() {
 }
 
 export function SiteHeader({
+  homeHref = "/",
   docsLabel,
   homeAria,
   navAria,
   pluginsLabel,
   submission,
 }: {
+  homeHref?: string;
   docsLabel: string;
   homeAria: string;
   navAria: string;
@@ -39,14 +41,14 @@ export function SiteHeader({
 
   return (
     <header className={scrolled ? "site-header is-scrolled" : "site-header"}>
-      <a className="wordmark" href="/" aria-label={homeAria}>
+      <a className="wordmark" href={homeHref} aria-label={homeAria}>
         <Mark />
         <span className="wordmark-text"><span className="wordmark-lead">DeepSeek </span>Harness</span>
         <b>Hub</b>
       </a>
       <div className="header-actions">
         <nav className="site-nav" aria-label={navAria}>
-          <a href="/">{pluginsLabel}</a>
+          <a href={homeHref}>{pluginsLabel}</a>
           <a href="https://deepseek-harness.github.io/deepseek-harness/guide/quickstart" rel="noreferrer" target="_blank">
             {docsLabel}
           </a>

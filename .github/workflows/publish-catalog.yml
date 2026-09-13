@@ -63,8 +63,9 @@ jobs:
           pnpm typecheck
           pnpm test
           pnpm --filter @dshhub/web build
+          pnpm --filter @dshhub/web exec tsx ../../scripts/check-static-locales.mts
       - name: Deploy static assets only
-        run: OPEN_NEXT_DEPLOY=true pnpm --filter @dshhub/web exec wrangler deploy --config wrangler.ci.jsonc
+        run: pnpm --filter @dshhub/web exec tsx ../../scripts/deploy-static-locales.mts --ci
       - name: Save successful catalog snapshot
         env:
           GH_TOKEN: ${{ github.token }}

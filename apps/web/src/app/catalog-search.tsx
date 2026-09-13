@@ -1,6 +1,7 @@
 "use client";
 
 type CatalogSearchProps = {
+  action?: string;
   categories: string[];
   compatibility: string[];
   placeholder: string;
@@ -10,6 +11,7 @@ type CatalogSearchProps = {
 };
 
 export function CatalogSearch({
+  action = "/",
   categories,
   compatibility,
   placeholder,
@@ -18,7 +20,7 @@ export function CatalogSearch({
   submitLabel,
 }: CatalogSearchProps) {
   return (
-    <form className="ocean-search" action="/" method="get" role="search">
+    <form className="ocean-search" action={action} method="get" role="search">
       {categories.map(category => (
         <input key={category} name="category" type="hidden" value={category} />
       ))}
