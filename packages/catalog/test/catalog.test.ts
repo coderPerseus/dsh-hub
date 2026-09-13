@@ -697,3 +697,58 @@ describe("readme projection", () => {
     ].join("\n"))).toBe("Give a text-only model sight, and just paste the image.");
   });
 });
+
+it('publishes healthy repositories and retries skipped 409 repositories outside the discovery window', async () => {
+  const { fetcher } = monorepoReadmeFixture();
+  const search = await (await fetcher('https://api.github.com/search/repositories')).json();
+  const good = search.items[0];
+  const bad = {...good, full_name:'owner/broken', name:'broken'};
+  let recovered = false;
+  let searchesEmpty = false;
+  const requests: string[] = [];
+  const mixedFetch = (async (input: string | URL | Request) => {
+    const url = String(input); requests.push(url);
+    if (url.includes('/search/repositories')) return Response.json({...search,items:searchesEmpty ? [] : [good,bad]});
+    if (url === 'https://api.github.com/repos/owner/broken') return Response.json(bad);
+    if (url.includes('/owner/broken/')) {
+      if (!recovered) return new Response(null,{status:url.includes('/git/trees/') ? 409 : 404});
+      return fetcher(url.replace('/owner/broken/','/owner/monorepo/'));
+    }
+    return fetcher(input);
+  }) as typeof fetch;
+  const source = {repository:'owner/catalog',commit:'test'};
+  const first = await discoverCatalogSnapshot({fetch:mixedFetch,source,catalogMode:'discover'});
+  expect(first.plugins).toHaveLength(1);
+  expect(first.pendingRepositories).toEqual(['owner/broken']);
+  searchesEmpty = true;
+  const stillFailed = await discoverCatalogSnapshot({fetch:mixedFetch,source,catalogMode:'discover',previousSnapshot:first});
+  expect(stillFailed.plugins).toEqual(first.plugins);
+  expect(stillFailed.pendingRepositories).toEqual(['owner/broken']);
+  recovered = true;
+  const next = await discoverCatalogSnapshot({fetch:mixedFetch,source,catalogMode:'discover',previousSnapshot:stillFailed});
+  expect(next.plugins).toHaveLength(2);
+  expect(next.pendingRepositories).toEqual([]);
+  expect(requests).toContain('https://api.github.com/repos/owner/broken');
+});
+
+it('retains existing plugin data when refresh hits a repository 409', async () => {
+  const {fetcher} = monorepoReadmeFixture();
+  const source = {repository:'owner/catalog',commit:'test'};
+  const first = await discoverCatalogSnapshot({fetch:fetcher as typeof fetch,source});
+  const repository = (await (await fetcher('https://api.github.com/search/repositories')).json()).items[0];
+  const next = await discoverCatalogSnapshot({source,catalogMode:'refresh',previousSnapshot:first,fetch:(async input => {
+    if (String(input)==='https://api.github.com/repos/owner/monorepo') return Response.json(repository);
+    return new Response(null,{status:409});
+  }) as typeof fetch});
+  expect(next.plugins).toEqual(first.plugins);
+  expect(next.pendingRepositories).toEqual(['owner/monorepo']);
+  expect(next.discoveryAt).toBe(first.discoveryAt);
+});
+
+it('does not swallow GitHub authentication failures as bad repository data', async () => {
+  const {fetcher} = monorepoReadmeFixture();
+  await expect(discoverCatalogSnapshot({source:{repository:'owner/catalog',commit:'test'},fetch:(async input => {
+    if (String(input).includes('/search/repositories')) return fetcher(input);
+    return new Response(null,{status:401});
+  }) as typeof fetch})).rejects.toThrow(/401/);
+});

@@ -54,7 +54,6 @@ export type CatalogBuildOptions = {
   mainline?: CatalogSnapshot["mainline"];
   minimumPluginCount?: number;
   refreshLimit?: number;
-  failOnDiscoveryError?: boolean;
   previousSnapshot?: CatalogSnapshot;
   source: CatalogSnapshot["source"];
 };
@@ -130,6 +129,8 @@ async function wait(milliseconds: number): Promise<void> {
   await new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
+class GitHubUnavailableError extends Error {}
+
 async function githubRequest(
   fetcher: typeof globalThis.fetch,
   input: string,
@@ -143,7 +144,10 @@ async function githubRequest(
         response.headers.has("retry-after")
         || response.headers.get("x-ratelimit-remaining") === "0"
       ));
-    if (!retryable || attempt === GITHUB_MAX_ATTEMPTS - 1) return response;
+    if (response.status === 401 || (retryable && attempt === GITHUB_MAX_ATTEMPTS - 1)) {
+      throw new GitHubUnavailableError(`GitHub request failed after retries or authentication error: ${response.status}`);
+    }
+    if (!retryable) return response;
 
     const retryAfter = Number(response.headers.get("retry-after"));
     const rateLimitReset = Number(response.headers.get("x-ratelimit-reset"));
@@ -370,6 +374,7 @@ async function discoverRepositories(
 
 async function loadExistingRepositories(
   options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
+  pending: Set<string>,
 ): Promise<GithubRepository[]> {
   const names = new Set((options.previousSnapshot?.plugins ?? []).map(plugin => (
     `${plugin.repository.owner}/${plugin.repository.name}`
@@ -383,6 +388,8 @@ async function loadExistingRepositories(
     try {
       return await githubJson<GithubRepository>(options.fetch, `/repos/${name}`, options.githubToken);
     } catch (error) {
+      if (error instanceof GitHubUnavailableError) throw error;
+      pending.add(name.toLowerCase());
       console.warn(`Kept stale ${name}: ${error instanceof Error ? error.message : String(error)}`);
       return null;
     }
@@ -571,9 +578,10 @@ export async function discoverCatalogSnapshot(
   const fetcher = options.fetch ?? globalThis.fetch;
   const resolvedOptions = { ...options, fetch: fetcher };
   const isIncremental = Boolean(options.previousSnapshot);
+  const pending = new Set(options.previousSnapshot?.pendingRepositories ?? []);
   let repositories: GithubRepository[];
   if (isIncremental && options.catalogMode === "refresh") {
-    repositories = await loadExistingRepositories(resolvedOptions);
+    repositories = await loadExistingRepositories(resolvedOptions, pending);
   } else {
     repositories = await discoverRepositories(resolvedOptions, generatedAt);
     if (isIncremental && options.catalogMode !== "backfill") {
@@ -582,6 +590,29 @@ export async function discoverCatalogSnapshot(
       )));
       repositories = repositories.filter(repository => !existing.has(repository.full_name.toLowerCase()));
     }
+  }
+  if (options.catalogMode !== 'refresh') {
+    const selected = [...pending].slice(0, 100);
+    const byName = new Map(repositories.map(repository => [repository.full_name.toLowerCase(), repository]));
+    // Rotate failures to the back so permanently unavailable repositories cannot starve retries.
+    for (const name of selected) pending.delete(name);
+    const retries = await mapConcurrent(selected, GITHUB_CONCURRENCY, async name => {
+      if (byName.has(name)) return byName.get(name)!;
+      try {
+        return await githubJson<GithubRepository>(fetcher, `/repos/${name}`, options.githubToken);
+      } catch (error) {
+        if (error instanceof GitHubUnavailableError) throw error;
+        pending.add(name);
+        console.warn(`Retry deferred ${name}: ${error instanceof Error ? error.message : String(error)}`);
+        return null;
+      }
+    });
+    for (const repository of retries) {
+      if (repository && !repository.archived && !repository.disabled && !repository.fork) {
+        byName.set(repository.full_name.toLowerCase(), repository);
+      }
+    }
+    repositories = [...byName.values()];
   }
   if (repositories.length === 0 && !options.previousSnapshot) {
     throw new Error("GitHub discovery returned no repositories.");
@@ -595,6 +626,7 @@ export async function discoverCatalogSnapshot(
         succeeded: true,
       };
     } catch (error) {
+      if (error instanceof GitHubUnavailableError) throw error;
       console.warn(`Skipped ${repository.full_name}: ${error instanceof Error ? error.message : String(error)}`);
       return { repository, sources: [], succeeded: false };
     }
@@ -604,6 +636,7 @@ export async function discoverCatalogSnapshot(
     try {
       return { plugin: await buildPlugin(source, resolvedOptions), source, succeeded: true };
     } catch (error) {
+      if (error instanceof GitHubUnavailableError) throw error;
       console.warn(
         `Skipped ${source.repository.full_name}/${source.packageDirectory || "package.json"}: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -613,13 +646,15 @@ export async function discoverCatalogSnapshot(
   const failedRepositories = new Set(built
     .filter(result => !result.succeeded)
     .map(result => result.source.repository.full_name.toLowerCase()));
-  if (options.failOnDiscoveryError && options.catalogMode !== 'refresh'
-    && (failedRepositories.size > 0 || discovered.some(result => !result.succeeded))) {
-    throw new Error('Discovery failed for a repository; preserve the successful cursor and retry next run.');
+  for (const result of discovered) {
+    if (!result.succeeded || failedRepositories.has(result.repository.full_name.toLowerCase())) {
+      pending.add(result.repository.full_name.toLowerCase());
+    }
   }
   const refreshedRepositories = new Set(discovered
     .filter(result => result.succeeded && !failedRepositories.has(result.repository.full_name.toLowerCase()))
     .map(result => result.repository.full_name.toLowerCase()));
+  for (const name of refreshedRepositories) pending.delete(name);
   const plugins = built
     .filter((result): result is typeof result & { plugin: CatalogPlugin } => (
       result.plugin !== null && refreshedRepositories.has(result.source.repository.full_name.toLowerCase())
@@ -663,6 +698,7 @@ export async function discoverCatalogSnapshot(
     discoveryAt: options.catalogMode === 'refresh'
       ? options.previousSnapshot?.discoveryAt ?? options.previousSnapshot?.generatedAt ?? generatedAt.toISOString()
       : generatedAt.toISOString(),
+    pendingRepositories: [...pending],
     refreshCursor: options.catalogMode === 'refresh' && options.refreshLimit
       ? ((options.previousSnapshot?.refreshCursor ?? 0) + options.refreshLimit) % Math.max(1, new Set(plugins.map(p => `${p.repository.owner}/${p.repository.name}`)).size)
       : options.previousSnapshot?.refreshCursor,

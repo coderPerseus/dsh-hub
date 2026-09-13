@@ -70,7 +70,6 @@ async function main(): Promise<void> {
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,
     refreshLimit,
-    failOnDiscoveryError: true,
     previousSnapshot,
     source: { repository: sourceRepository, commit: sourceCommit },
   });

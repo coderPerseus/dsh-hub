@@ -54,3 +54,14 @@ The deployment is split into the shared `dshhub-web` (catalog JSON, fonts, icons
 `pnpm deploy:web` builds and deploys locale Workers with at most two concurrent uploads, followed by the shared root Worker. The initial local deployment configures path routes using the existing Wrangler OAuth login (Zone Read and Workers Routes Write). CI runs `scripts/deploy-static-locales.mts --ci`, retaining these preconfigured routes without needing additional token permissions. A deployment failure stops subsequent deployments; an already-updated locale can remain live, so retry the same revision to complete the rollout. The shared root is updated last; this is a staged rollout, not an atomic switch across all six Workers. For rollback, rebuild and redeploy the last successful localized revision across all six Workers; do not deploy a pre-localization revision without also removing or reverting locale routes.
 
 For local inspection after building, `pnpm --filter @dshhub/web preview` serves all locale directories and shared assets together at `http://127.0.0.1:3000/zh-CN/`, so language switching, search and shared fonts work on one origin. This is a local-only static file server; Cloudflare production remains assets-only.
+
+
+### Repository failures during catalog updates
+
+A repository fetch or plugin build failure is isolated to that repository. Its previous
+plugins remain in the snapshot, while healthy repositories are published normally.
+The snapshot persists `pendingRepositories`; discovery retries up to 100 queued repositories
+per run independently of the search timestamp, rotating unresolved entries to the back.
+Successful retries leave the queue. Scheduled refresh also preserves this queue.
+Authentication failures, exhausted rate-limit/server retries, incomplete search results,
+and catalog size guards still fail the run instead of publishing an incomplete scan.
