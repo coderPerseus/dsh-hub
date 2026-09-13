@@ -10,7 +10,7 @@ const configs = requested
   ? [`.static-build/wrangler-${requested}${ci ? '.ci' : ''}.json`]
   : [...locales.map(locale=>`.static-build/wrangler-${locale}${ci ? '.ci' : ''}.json`),ci ? 'wrangler.ci.jsonc' : 'wrangler.jsonc'];
 // Publish locale pages and their own bundles before redirecting legacy URLs at the root.
-for (const config of configs) {
+async function deploy(config: string) {
   console.log(`Deploying ${config}`);
   await new Promise<void>((resolve,reject)=>{
     const child = spawn('pnpm',['exec','wrangler',...(uploadOnly ? ['versions','upload'] : ['deploy']),'--config',config],{
@@ -19,4 +19,20 @@ for (const config of configs) {
     child.on('error',reject);
     child.on('exit',code=>code===0 ? resolve() : reject(new Error(`Deployment failed: ${config} (${code})`)));
   });
+}
+
+if (requested) {
+  await deploy(configs[0]);
+} else {
+  const rootConfig = configs.pop()!;
+  let cursor = 0;
+  let failed = false;
+  const results = await Promise.allSettled(Array.from({length:2}, async()=>{
+    while (!failed && cursor < configs.length) {
+      const config = configs[cursor++];
+      try { await deploy(config); } catch (error) { failed = true; throw error; }
+    }
+  }));
+  for (const result of results) if (result.status === 'rejected') throw result.reason;
+  await deploy(rootConfig);
 }
