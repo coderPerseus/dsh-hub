@@ -1,3 +1,4 @@
+import { isSparkUnavailable, SPARK_UNAVAILABLE_EXIT } from "./lib/enrichment-fallback.mjs";
 import { generateMidwayJson } from "./lib/midway-generate.mjs";
 import { spawn } from "node:child_process";
 import { createWriteStream, existsSync, readFileSync } from "node:fs";
@@ -15,7 +16,7 @@ import {
 } from "../packages/catalog/src/enrichment";
 
 const PROVIDER = process.env.CATALOG_ENRICH_PROVIDER || "codex";
-const MODEL = process.env.CATALOG_ENRICH_MODEL || (PROVIDER === "midway" ? "gemini-3.8-flash" : "gpt-5.3-codex-spark");
+const MODEL = process.env.CATALOG_ENRICH_MODEL || (PROVIDER === "midway" ? "gemini-3.5-flash" : "gpt-5.3-codex-spark");
 let midwayApiKey = "";
 let fatalGenerationError: string | undefined;
 const DEFAULT_BATCH_SIZE = 40;
@@ -463,7 +464,8 @@ async function runCodexBatch(
   outputDir: string,
   timeoutMs: number,
 ): Promise<{ entries: SparkResponseItem[]; parseError?: string }> {
-  const prompt = buildPrompt(groups);
+  const aliases = new Map(groups.map((group, index) => [`p${index + 1}`, group.ids]));
+  const prompt = buildPrompt(groups.map((group, index) => ({...group, ids:[`p${index + 1}`]})));
   const outputPath = path.join(outputDir, `batch-${batchIndex}-attempt-${attempt}-${Date.now()}.txt`);
   const logPath = path.join(outputDir, `batch-${batchIndex}-attempt-${attempt}-${Date.now()}.log`);
   const logStream = createWriteStream(logPath, { flags: "a" });
@@ -546,8 +548,7 @@ async function runCodexBatch(
 
   if (exitCode !== 0) {
     const log = await readFile(logPath, "utf8");
-    const quota = log.split("\n").find(line => /hit your usage limit|usage_limit_reached|insufficient_quota/.test(line));
-    if (quota) fatalGenerationError = quota.slice(0, 800);
+    if (isSparkUnavailable(log)) fatalGenerationError = "Spark quota exhausted or model unavailable";
     return {
       entries: [],
       parseError: fatalGenerationError || (exitCode === null ? "process_killed" : `codex_exit_${exitCode}`),
@@ -558,7 +559,11 @@ async function runCodexBatch(
     const file = await readFile(outputPath, "utf8");
     const parsed = parseJsonFromOutput(file);
     if (!Array.isArray(parsed)) throw new Error("not_an_array");
-    return { entries: parsed as SparkResponseItem[] };
+    const entries = (parsed as SparkResponseItem[]).flatMap(item => {
+      const ids = item && typeof item === "object" ? aliases.get(item.id) : undefined;
+      return ids ? ids.map(id => ({...item, id})) : [item];
+    });
+    return { entries };
   } catch (error) {
     return {
       entries: [],
@@ -821,7 +826,7 @@ async function main(): Promise<void> {
       generated: allSuccesses.length,
       failed: allFailures.length,
     }));
-    process.exitCode = 1;
+    process.exitCode = PROVIDER === "codex" && fatalGenerationError ? SPARK_UNAVAILABLE_EXIT : 1;
     return;
   }
 
