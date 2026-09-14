@@ -65,3 +65,23 @@ per run independently of the search timestamp, rotating unresolved entries to th
 Successful retries leave the queue. Scheduled refresh also preserves this queue.
 Authentication failures, exhausted rate-limit/server retries, incomplete search results,
 and catalog size guards still fail the run instead of publishing an incomplete scan.
+
+
+### Daily Chinese descriptions and AI analysis
+
+The local Codex heartbeat `dsh-hub-ai` runs daily at 18:00 Asia/Shanghai after catalog
+sync. It waits for any catalog publishing run, restores the latest durable snapshot,
+and uses `pnpm catalog:enrich:auto`. This command starts three concurrent
+`gpt-5.3-codex-spark` jobs and reuses valid source-hash cache entries. If Spark quota
+is exhausted or the model is unavailable, it resumes remaining entries through
+Midway `gemini-3.5-flash`. Invalid output is rejected rather than silently accepted.
+Both fields must contain Chinese and stay within 100 Unicode characters.
+
+The fallback key is read from `MIDWAY_API_KEY_FILE`, defaulting to the owner's
+`~/.config/dshhub/midway-api-key` (owner-only permissions), or `MIDWAY_API_KEY`.
+Never commit or log the key. The local heartbeat needs the owner's Mac/Codex environment
+and existing Codex/GitHub login to run; it is separate from the GitHub catalog discovery
+schedule. No-change runs make no commit or deployment. Changed data is validated,
+published through the normal PR/CI flow, and checked against live catalog detail shards.
+The automatic generator locks `.catalog/enrichment-auto.lock`; if interrupted, verify
+that its recorded PID is no longer running before removing a stale lock.
