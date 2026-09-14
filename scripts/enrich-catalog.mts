@@ -733,7 +733,8 @@ async function main(): Promise<void> {
     const existing = jobsByHash.get(sourceHash);
     if (existing) {
       if (sourceFingerprintEqual(existing.source, source)) {
-        existing.ids.push(plugin.id);
+        // A snapshot may repeat an identical plugin; expand model output once per ID.
+        if (!existing.ids.includes(plugin.id)) existing.ids.push(plugin.id);
       } else {
         jobsByHash.set(`${sourceHash}::${plugin.id}`, {
           ids: [plugin.id],
