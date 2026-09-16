@@ -9,7 +9,7 @@ const types:Record<string,string>={'.html':'text/html; charset=utf-8','.js':'tex
 createServer(async(req,res)=>{
   try{
     const url=new URL(req.url||'/','http://localhost');
-    if(url.pathname==='/'||url.pathname.startsWith('/plugins/')){
+    if(url.pathname==='/'||url.pathname.startsWith('/plugins/')||url.pathname.startsWith('/categories/')||url.pathname.startsWith('/page/')){
       res.writeHead(301,{Location:'/zh-CN'+url.pathname+url.search});res.end();return;
     }
     const locale=localeFromPath(url.pathname);

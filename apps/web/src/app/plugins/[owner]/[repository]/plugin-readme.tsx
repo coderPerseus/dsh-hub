@@ -34,6 +34,11 @@ export function PluginReadme(props: PluginReadmeProps) {
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
+              h1: ({ children }) => <h3>{children}</h3>,
+              h2: ({ children }) => <h3>{children}</h3>,
+              h3: ({ children }) => <h4>{children}</h4>,
+              h4: ({ children }) => <h5>{children}</h5>,
+              h5: ({ children }) => <h6>{children}</h6>,
               a: ({ href, children }) => {
                 const safe = safeHref(href);
                 return safe

@@ -1,6 +1,11 @@
 import Link from "./link";
+import { categoryCopy, categoryLabels, listingTitle } from "../lib/i18n/categories";
+import { listingPath, type ListingPage } from "../lib/listing";
+import { loadBrowserIndex, type WebManifest } from "../lib/load-browser-index";
+import { discoveryCopy } from "../lib/i18n/discovery";
+import { absoluteUrl } from "../lib/site";
 import { useEffect, useState } from "react";
-import { searchStaticCatalog, type StaticIndex, type StaticManifest } from "../../../../packages/client/src/static";
+import { searchStaticCatalog, type StaticIndex } from "../../../../packages/client/src/static";
 import { useTranslator } from "./locale";
 
 import { localizedHref } from "../lib/i18n/routing";
@@ -25,13 +30,20 @@ function scalar(value: string | string[] | undefined): string {
   return Array.isArray(value) ? value[0] ?? "" : value ?? "";
 }
 
-export default function Home({ initial, manifest }: { initial: StaticIndex; manifest: StaticManifest }) {
+export default function Home({ initial, manifest, listing }: { initial: StaticIndex; manifest: WebManifest; listing?: ListingPage }) {
   const { locale, t } = useTranslator();
+  const copy = discoveryCopy[locale];
+  const labels = categoryLabels(locale);
+  const pageTitle = listing?.category || (listing?.page || 1) > 1 ? listingTitle(locale, listing?.category, listing?.page) : copy.title;
+  const intro = listing?.category ? categoryCopy(listing.category, locale).description : copy.intro;
+  const pagePath = localizedHref(listing?.path || '/', locale);
   const homePath = localizedHref("/", locale);
   const [index, setIndex] = useState(initial);
   const [raw, setRaw] = useState<Record<string, string[]>>({});
   const [failed, setFailed] = useState(false);
   const [ready, setReady] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [retry, setRetry] = useState(0);
   useEffect(() => {
     const update = () => { const params = new URLSearchParams(location.search); const next: Record<string,string[]> = {}; for (const key of new Set(params.keys())) next[key] = params.getAll(key); setRaw(next); };
     update();
@@ -39,23 +51,29 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
     const click = (event: MouseEvent) => {
       const a = (event.target as Element).closest('a');
       if (!a || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0 || a.target || a.hasAttribute('download')) return;
-      const url = new URL(a.href); if (url.origin !== location.origin || url.pathname !== homePath) return;
+      const url = new URL(a.href); if (location.pathname !== homePath) return; if (url.origin !== location.origin || url.pathname !== homePath || !url.search) return;
       event.preventDefault(); history.pushState(null, '', url); window.dispatchEvent(new PopStateEvent('popstate'));
     };
     const submit = (event: SubmitEvent) => {
-      const form = event.target as HTMLFormElement; if (form.getAttribute('role') !== 'search') return;
+      const form = event.target as HTMLFormElement; if (location.pathname !== homePath) return; if (form.getAttribute('role') !== 'search') return;
       event.preventDefault(); const params = new URLSearchParams(new FormData(form) as unknown as Record<string,string>);
       history.pushState(null, '', homePath + '?' + params); window.dispatchEvent(new PopStateEvent('popstate'));
     };
     document.addEventListener('click', click); document.addEventListener('submit', submit);
-    const controller = new AbortController();
-    fetch('/catalog/manifest.json', {signal: controller.signal, cache: 'no-cache'}).then(r => { if (!r.ok) throw new Error('Catalog unavailable'); return r.json() as Promise<StaticManifest>; }).then(current => fetch(current.index, {signal: controller.signal})).then(r => { if (!r.ok) throw new Error('Index unavailable'); return r.json() as Promise<StaticIndex>; })
-      .then((data: StaticIndex) => { if (data.schemaVersion !== 1 || !Array.isArray(data.items)) throw new Error('Invalid catalog'); setIndex(data); setReady(true); })
-      .catch(e => { if (e.name !== 'AbortError') setFailed(true); });
-    return () => { controller.abort(); window.removeEventListener('popstate', update); document.removeEventListener('click', click); document.removeEventListener('submit', submit); };
-  }, [manifest, homePath]);
+    return () => { window.removeEventListener('popstate', update); document.removeEventListener('click', click); document.removeEventListener('submit', submit); };
+  }, [homePath]);
+  const dynamic = ['q', 'category', 'compatibility', 'sort', 'cursor'].some(key => Boolean(raw[key]?.some(Boolean)));
+  useEffect(() => {
+    if (!dynamic || ready) return;
+    let active = true;
+    setLoading(true); setFailed(false);
+    loadBrowserIndex(manifest, locale).then(data => {
+      if (active) { setIndex(data); setReady(true); setLoading(false); }
+    }).catch(() => { if (active) { setFailed(true); setLoading(false); } });
+    return () => { active = false; };
+  }, [dynamic, ready, retry, manifest, locale]);
   const query = scalar(raw.q).slice(0, 100);
-  const categories = values(raw.category).slice(0, 10);
+  const categories = dynamic ? values(raw.category).slice(0, 10) : listing?.category ? [listing.category] : [];
   const compatibility = values(raw.compatibility)
     .filter((item): item is "compatible" | "incompatible" | "unknown" => (
       item === "compatible" || item === "incompatible" || item === "unknown"
@@ -65,12 +83,14 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
     ? requestedSort
     : "featured";
   const cursor = scalar(raw.cursor) || null;
-  const catalog = { ok: true, meta: {pluginCount: manifest.pluginCount}, categories: index.categories, list: searchStaticCatalog(index, { query, categories, compatibility, sort, cursor, locale }) };
-  if (!ready && !query && !categories.length && !cursor) catalog.list.total = manifest.pluginCount;
-  const hasFilters = Boolean(query || categories.length > 0 || compatibility.length > 0 || sort !== "featured");
-  const showPrevious = Boolean(cursor);
+  const list = dynamic && ready ? searchStaticCatalog(index, { query, categories, compatibility, sort, cursor, locale })
+    : {items: initial.items.map(({searchText: _, ...p}) => ({...p, description: (locale === 'zh-CN' || locale === 'zh-TW') && p.descriptionZh ? p.descriptionZh : p.description})), total: listing?.total ?? manifest.pluginCount, nextCursor: null};
+  const catalog = {ok: true, meta: {pluginCount: manifest.pluginCount}, categories: index.categories, list};
+  const hasFilters = dynamic;
+  const pending = dynamic && !ready;
+  const showPrevious = !pending && (dynamic ? Boolean(cursor) : Boolean(listing?.previousPath));
   const previousCursor = previousCatalogCursor(cursor);
-  const showNext = Boolean(catalog.ok && catalog.list.nextCursor);
+  const showNext = !pending && (dynamic ? Boolean(catalog.list.nextCursor) : Boolean(listing?.nextPath));
   const hrefState = { query, categories, compatibility, sort };
   const sortOptions = [
     { id: "featured", label: t.recommended },
@@ -86,15 +106,23 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
 
   return (
     <main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org', '@graph': [
+          {'@type': 'WebSite', '@id': absoluteUrl('/#website'), name: 'DSH Hub', url: absoluteUrl('/')},
+          {'@type': 'CollectionPage', url: absoluteUrl(pagePath), name: pageTitle, description: intro, inLanguage: locale, isPartOf: {'@id': absoluteUrl('/#website')},
+            mainEntity: {'@type': 'ItemList', itemListElement: initial.items.map((p, i) => ({'@type': 'ListItem', position: i + 1, name: p.name, url: absoluteUrl(localizedHref('/plugins/' + p.slug, locale))}))}},
+        ],
+      }).replace(/</g, "\\u003c") }} />
       <section className="hero" aria-hidden="true">
         <HeroBackdrop />
       </section>
       <section className="catalog" id="catalog" aria-labelledby="catalog-title">
         <div className="ds-container">
           <header className="catalog-intro">
-            <p className="slogan">{t.slogan}</p>
+            {listing?.category && <nav className="back-link" aria-label="Breadcrumb"><Link href="/">DSH Hub</Link> / <span>{categoryCopy(listing.category, locale).label}</span></nav>}
+            <p className="catalog-kicker">{t.slogan}</p>
             <div className="catalog-intro-row">
-              <h1 id="catalog-title">{t.catalogTitle}</h1>
+              <h1 id="catalog-title">{pageTitle}</h1>
               {catalog.ok && (
                 <p className="catalog-count">
                   <strong>{catalog.list.total}</strong>
@@ -102,10 +130,11 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
                 </p>
               )}
             </div>
+            <p className="catalog-description">{intro}</p>
           </header>
 
-          {failed && <p role="alert">目录加载失败，请刷新重试。 / Could not load catalog. Please reload.</p>}
-          {!ready && !failed && <p role="status">正在加载搜索目录… / Loading search index…</p>}
+          {pending && failed && <p role="alert">{t.errorHint} <button type="button" onClick={() => setRetry(n => n + 1)}>{t.search}</button></p>}
+          {pending && loading && <p role="status">正在加载搜索目录… / Loading search index…</p>}
           <CatalogSearch action={homePath}
             key={query}
             categories={categories}
@@ -118,7 +147,7 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
 
           <div className="filter-bar">
             <div className="chip-row" aria-label={t.categoriesLabel}>
-              <Link className={categories.length === 0 ? "chip is-active" : "chip"} href={catalogHref({ ...hrefState, categories: [] })}>
+              <Link className={categories.length === 0 ? "chip is-active" : "chip"} href={dynamic ? catalogHref({ ...hrefState, categories: [] }) : "/"}>
                 {t.allCategories}
               </Link>
               {catalog.ok && catalog.categories.map(category => {
@@ -129,10 +158,10 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
                 return (
                   <Link
                     className={active ? "chip is-active" : "chip"}
-                    href={catalogHref({ ...hrefState, categories: next })}
+                    href={dynamic ? catalogHref({ ...hrefState, categories: next }) : listingPath(category.id)}
                     key={category.id}
                   >
-                    {categoryLabel(category.id, t.categories)}
+                    {categoryLabel(category.id, labels)}
                     <small>{category.count}</small>
                   </Link>
                 );
@@ -175,7 +204,7 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
             </div>
           </div>
 
-          {!catalog.ok ? (
+          {pending ? null : !catalog.ok ? (
             <div className="empty-state error-state">
               <span>503</span>
               <h3>{t.errorTitle}</h3>
@@ -193,7 +222,7 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
               {catalog.list.items.map((plugin, index) => (
                 <PluginCard
                   categoriesLabel={t.categoriesLabel}
-                  categoryLabels={t.categories}
+                  categoryLabels={labels}
                   copiedLabel={t.copied}
                   copyLabel={t.copy}
                   index={index}
@@ -210,17 +239,25 @@ export default function Home({ initial, manifest }: { initial: StaticIndex; mani
           {catalog.ok && (showPrevious || showNext) && (
             <nav className="pager" aria-label="pagination">
               {showPrevious ? (
-                <Link className="pager-btn" href={catalogHref({ ...hrefState, cursor: previousCursor })}>
+                <Link className="pager-btn" href={dynamic ? catalogHref({ ...hrefState, cursor: previousCursor }) : listing!.previousPath!}>
                   {t.previousPage}
                 </Link>
               ) : <span />}
               {showNext ? (
-                <Link className="pager-btn pager-next" href={catalogHref({ ...hrefState, cursor: catalog.list.nextCursor })}>
+                <Link className="pager-btn pager-next" href={dynamic ? catalogHref({ ...hrefState, cursor: catalog.list.nextCursor }) : listing!.nextPath!}>
                   {t.nextPage}
                 </Link>
               ) : null}
             </nav>
           )}
+          <section className="discovery-guide" aria-labelledby="guide-title">
+            <h2 id="guide-title">{copy.guide}</h2>
+            <ol className="discovery-steps">{copy.steps.map(([title, body]) => <li key={title}><h3>{title}</h3><p>{body}</p></li>)}</ol>
+          </section>
+          <section className="discovery-faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">{copy.faq}</h2>
+            {copy.questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
+          </section>
         </div>
       </section>
     </main>

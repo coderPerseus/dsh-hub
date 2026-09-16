@@ -4,26 +4,20 @@ import Link from "./link";
 import { useTranslator } from "./locale";
 import { CopyButton } from "../app/copy-button";
 import { PageStage } from "../app/page-stage";
-import { catalogHref } from "../lib/catalog-href";
+import { listingPath } from "../lib/listing";
+import { categoryLabels } from "../lib/i18n/categories";
+import { pluginDescription } from "../lib/plugin-description";
 import { displayInstallCommand } from "../lib/install-command";
-import { pluginPackageDirectory, pluginRepositoryUrl, readmeExcerpt } from "../lib/plugin-readme";
+import { pluginPackageDirectory, pluginRepositoryUrl } from "../lib/plugin-readme";
 import { PluginReadme } from "../app/plugins/[owner]/[repository]/plugin-readme";
 import { categoryLabel, formatDate, formatStars } from "../lib/presentation";
 import { localizedHref } from "../lib/i18n/routing";
 import { absoluteUrl } from "../lib/site";
 
-export default function Detail({plugin, related}: {plugin: CatalogPlugin; related: PluginSummary[]}) {
+export default function Detail({plugin, related, variants = [], canonicalSlug}: {plugin: CatalogPlugin; related: PluginSummary[]; variants?: Array<{slug: string; repository: string}>; canonicalSlug?: string}) {
   const {locale, t} = useTranslator();
-  const catalogLocale = locale === "zh-TW" ? "zh-CN" : locale;
-  const isChineseLocale = locale === "zh-CN" || locale === "zh-TW";
-  const pluginAiAnalysis = plugin.aiAnalysis;
-  const descriptionText = (plugin.i18n?.[catalogLocale]?.description || plugin.description).trim();
-  const aiAnalysis = pluginAiAnalysis?.[catalogLocale] || pluginAiAnalysis?.["zh-CN"] || null;
-  const aiAnalysisLabel = ({"zh-CN":"AI 分析", "zh-TW":"AI 分析", en:"AI Analysis", ja:"AI 分析", ko:"AI 분석"})[locale];
-  const aiAnalysisText = aiAnalysis
-    || (isChineseLocale ? "该插件暂无 AI 分析内容。" : "AI analysis is not available for this plugin yet.");
   const readme = { markdown: plugin.usage.markdown || plugin.installation.markdown, sourceUrl: plugin.usage.readmeUrl };
-  const description = descriptionText || readmeExcerpt(readme.markdown);
+  const description = pluginDescription(plugin, locale);
   const installCommand = plugin.installation.command
     ? displayInstallCommand(plugin.installation.command)
     : null;
@@ -33,6 +27,9 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
   const homepage = plugin.repository.homepage?.trim() || null;
   const facts = [
     { label: t.package, value: plugin.package.name },
+    { label: t.compatibility.label, value: t.compatibility[plugin.compatibility.status] },
+    plugin.compatibility.harnessRange ? { label: t.harnessRange, value: plugin.compatibility.harnessRange } : null,
+    plugin.compatibility.cordisRange ? { label: t.cordisRange, value: plugin.compatibility.cordisRange } : null,
     plugin.package.version ? { label: t.version, value: plugin.package.version } : null,
     plugin.repository.license ? { label: t.license, value: plugin.repository.license } : null,
     plugin.repository.pushedAt
@@ -52,9 +49,9 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
         "@id": `${pluginUrl}#software`,
         "@type": "SoftwareApplication",
         applicationCategory: "DeveloperApplication",
-        codeRepository: plugin.repository.url,
+        sameAs: repositoryUrl,
+        inLanguage: locale,
         description: description || t.missingDescription,
-        isAccessibleForFree: true,
         license: plugin.repository.license ?? undefined,
         name: plugin.name,
         operatingSystem: "DeepSeek Harness",
@@ -93,16 +90,12 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
                 </p>
                 <h1>{plugin.name}</h1>
                 <p className="detail-summary">{description || t.missingDescription}</p>
-                <section className="detail-analysis">
-                  <h2>{aiAnalysisLabel}</h2>
-                  <p lang={pluginAiAnalysis?.[catalogLocale] ? catalogLocale : "zh-CN"}>{aiAnalysisText}</p>
-                </section>
                 {plugin.categories.length > 0 && (
                   <div className="tags">
                     {plugin.categories.map(category => (
                       <span key={category}>
-                        <Link href={`${catalogHref({ categories: [category] })}#catalog`}>
-                          {categoryLabel(category, t.categories)}
+                        <Link href={listingPath(category)}>
+                          {categoryLabel(category, categoryLabels(locale))}
                         </Link>
                       </span>
                     ))}
@@ -118,6 +111,8 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
                     ))}
                   </dl>
                 )}
+                {canonicalSlug && canonicalSlug !== plugin.slug && <p className="duplicate-note"><Link href={'/plugins/' + canonicalSlug}>{({'zh-CN':'查看内容一致的目录代表页','zh-TW':'查看內容一致的目錄代表頁',en:'View the directory representative for this identical content',ja:'同一内容の代表ページを見る',ko:'동일한 콘텐츠의 대표 페이지 보기'})[locale]}</Link></p>}
+                {variants.length > 0 && <section className="detail-variants"><h2>{({'zh-CN':'同名包的其他仓库','zh-TW':'同名套件的其他儲存庫',en:'Other repositories with this package name',ja:'同名パッケージの別リポジトリ',ko:'같은 패키지 이름의 다른 저장소'})[locale]}</h2><ul>{variants.map(v => <li key={v.slug}><Link href={'/plugins/' + v.slug}>{v.repository}</Link></li>)}</ul></section>}
                 <nav className="detail-links" aria-label={t.docs}>
                   {links.map(link => (
                     <a key={`${link.label}:${link.href}`} href={link.href} rel="noreferrer" target="_blank">
@@ -127,6 +122,9 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
                 </nav>
               </header>
 
+              <nav className="detail-section-nav" aria-label={t.pluginDetail}>
+                <a href="#install-title">{t.installTitle}</a><a href="#readme-title">{t.readmeTitle}</a><a href="#related-title">{t.relatedPlugins}</a>
+              </nav>
               <section className="detail-install" aria-labelledby="install-title">
                 <h2 id="install-title">{t.installTitle}</h2>
                 {installCommand ? (
@@ -152,7 +150,7 @@ export default function Detail({plugin, related}: {plugin: CatalogPlugin; relate
               />
             </div>
 
-            <aside className="similar-rail"><h2>{t.relatedPlugins}</h2><ol className="similar-list">{related.map(p => <li key={p.id}><Link className="similar-item" href={'/plugins/' + p.slug}><strong>{p.name}</strong><span>★ {formatStars(p.stars)}</span></Link></li>)}</ol></aside>
+            <aside className="similar-rail"><h2 id="related-title">{t.relatedPlugins}</h2><ol className="similar-list">{related.map(p => <li key={p.id}><Link className="similar-item" href={'/plugins/' + p.slug}><strong>{p.name}</strong><span>★ {formatStars(p.stars)}</span></Link></li>)}</ol></aside>
           </div>
         </div>
       </article>
