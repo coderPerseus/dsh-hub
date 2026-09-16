@@ -48,6 +48,7 @@ export type CatalogBuildOptions = {
   catalogMode?: "backfill" | "discover" | "refresh";
   discoverySince?: Date;
   discoveryQueries?: string[];
+  targetRepository?: string;
   fetch?: typeof globalThis.fetch;
   generatedAt?: Date;
   githubToken?: string;
@@ -318,7 +319,7 @@ const CATEGORY_RULES: Array<[string, RegExp]> = [
   ["interface", /\b(ui|tui|sidebar|theme|desktop|pet|favicon)\b|界面|侧边栏|桌宠/i],
   ["development", /\b(code|coding|developer|vscode|git|terminal|debug)\b|开发|终端/i],
   ["integrations", /\b(mcp|integration|bridge|connector|remote)\b|集成/i],
-  ["productivity", /\b(productivity|workflow|automation|session|workspace)\b|效率|工作流|会话/i],
+  ["productivity", /\b(productivity|workflow|automation|session|workspace|ecommerce|csv|data-analysis)\b|效率|工作流|会话/i],
 ];
 
 function inferCategories(source: DiscoveredPackage): string[] {
@@ -580,7 +581,13 @@ export async function discoverCatalogSnapshot(
   const isIncremental = Boolean(options.previousSnapshot);
   const pending = new Set(options.previousSnapshot?.pendingRepositories ?? []);
   let repositories: GithubRepository[];
-  if (isIncremental && options.catalogMode === "refresh") {
+  if (options.targetRepository) {
+    const repository = await githubJson<GithubRepository>(fetcher, `/repos/${options.targetRepository}`, options.githubToken);
+    if (repository.archived || repository.disabled || repository.fork) {
+      throw new Error(`Target repository ${options.targetRepository} is not eligible for the catalog.`);
+    }
+    repositories = [repository];
+  } else if (isIncremental && options.catalogMode === "refresh") {
     repositories = await loadExistingRepositories(resolvedOptions, pending);
   } else {
     repositories = await discoverRepositories(resolvedOptions, generatedAt);
@@ -591,7 +598,7 @@ export async function discoverCatalogSnapshot(
       repositories = repositories.filter(repository => !existing.has(repository.full_name.toLowerCase()));
     }
   }
-  if (options.catalogMode !== 'refresh') {
+  if (!options.targetRepository && options.catalogMode !== 'refresh') {
     const selected = [...pending].slice(0, 100);
     const byName = new Map(repositories.map(repository => [repository.full_name.toLowerCase(), repository]));
     // Rotate failures to the back so permanently unavailable repositories cannot starve retries.
@@ -695,11 +702,11 @@ export async function discoverCatalogSnapshot(
     schemaVersion: 1,
     snapshotId: `${generatedAt.toISOString()}-${options.source.commit.slice(0, 12)}`,
     generatedAt: generatedAt.toISOString(),
-    discoveryAt: options.catalogMode === 'refresh'
+    discoveryAt: options.targetRepository || options.catalogMode === 'refresh'
       ? options.previousSnapshot?.discoveryAt ?? options.previousSnapshot?.generatedAt ?? generatedAt.toISOString()
       : generatedAt.toISOString(),
     pendingRepositories: [...pending],
-    refreshCursor: options.catalogMode === 'refresh' && options.refreshLimit
+    refreshCursor: !options.targetRepository && options.catalogMode === 'refresh' && options.refreshLimit
       ? ((options.previousSnapshot?.refreshCursor ?? 0) + options.refreshLimit) % Math.max(1, new Set(plugins.map(p => `${p.repository.owner}/${p.repository.name}`)).size)
       : options.previousSnapshot?.refreshCursor,
     changedRepositories: options.previousSnapshot
@@ -760,13 +767,14 @@ function readmeDescription(value: string, limit = 160): string {
   return compact.length > limit ? `${compact.slice(0, limit - 1).trimEnd()}…` : compact;
 }
 
-function renderReadmePluginRows(plugins: CatalogPlugin[]): string {
+function renderReadmePluginRows(plugins: CatalogPlugin[], locale: "en" | "zh-CN"): string {
   return plugins.map(plugin => (
-    `| [${plugin.name}](${plugin.repository.url}) | ${readmeDescription(plugin.description)} | ★ ${plugin.repository.stars} | ${plugin.compatibility.level} |`
+    `| [${plugin.name}](${plugin.repository.url}) | ${readmeDescription(locale === "zh-CN" ? plugin.i18n?.["zh-CN"]?.description ?? plugin.description : plugin.description)} | ★ ${plugin.repository.stars} | ${plugin.compatibility.level} |`
   )).join("\n");
 }
 
-export function renderCatalogSection(snapshot: CatalogSnapshot): string {
+export function renderCatalogSection(snapshot: CatalogSnapshot, locale: "en" | "zh-CN" = "en"): string {
+  const chinese = locale === "zh-CN";
   const categories = new Map<string, CatalogPlugin[]>();
   for (const plugin of snapshot.plugins) {
     for (const category of plugin.categories) {
@@ -780,23 +788,23 @@ export function renderCatalogSection(snapshot: CatalogSnapshot): string {
     .map(([category, plugins]) => [
       `### ${category} · ${plugins.length}`,
       "",
-      "| Plugin | Description | Stars | Evidence |",
+      chinese ? "| 插件 | 简介 | Stars | 兼容性依据 |" : "| Plugin | Description | Stars | Evidence |",
       "| --- | --- | ---: | --- |",
-      renderReadmePluginRows(selectCategoryHighlights(plugins)),
+      renderReadmePluginRows(selectCategoryHighlights(plugins), locale),
       "",
-      `[View all ${plugins.length} ${category} plugins →](https://dshhub.org/?category=${encodeURIComponent(category)})`,
+      `[${chinese ? `查看全部 ${plugins.length} 个 ${category} 插件` : `View all ${plugins.length} ${category} plugins`} →](https://dshhub.org/${locale}/?category=${encodeURIComponent(category)})`,
     ].join("\n"))
     .join("\n\n");
 
   return [
     "<!-- catalog:start -->",
-    "## Explore plugins by category",
+    chinese ? "## 按分类探索插件" : "## Explore plugins by category",
     "",
-    `Discover **${snapshot.plugins.length} community plugins** across ${categories.size} categories. Each category highlights five plugins; open the category to search and browse the complete list.`,
+    chinese ? `目录包含 **${snapshot.plugins.length} 个社区插件**，覆盖 ${categories.size} 个分类。每类展示五个插件，完整列表请访问网站。` : `Discover **${snapshot.plugins.length} community plugins** across ${categories.size} categories. Each category highlights five plugins; open the category to search and browse the complete list.`,
     "",
-    categorySections || "No plugins registered yet.",
+    categorySections || (chinese ? "暂未收录插件。" : "No plugins registered yet."),
     "",
-    `<sub>Catalog snapshot \`${snapshot.snapshotId}\`, generated ${snapshot.generatedAt}.</sub>`,
+    chinese ? `<sub>目录快照 \`${snapshot.snapshotId}\`，生成于 ${snapshot.generatedAt}。</sub>` : `<sub>Catalog snapshot \`${snapshot.snapshotId}\`, generated ${snapshot.generatedAt}.</sub>`,
     "<!-- catalog:end -->",
   ].join("\n");
 }

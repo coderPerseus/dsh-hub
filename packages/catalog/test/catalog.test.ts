@@ -59,6 +59,7 @@ function monorepoReadmeFixture(options: { packageReadme?: string } = {}) {
   ].join("\n");
   const responses = new Map<string, string>([
     ["/search/repositories", JSON.stringify({ total_count: 1, incomplete_results: false, items: [repository] })],
+    ["/repos/owner/monorepo", JSON.stringify(repository)],
     ["/repos/owner/monorepo/commits/main", JSON.stringify({
       sha: "commit456",
       commit: { tree: { sha: "tree456" } },
@@ -88,6 +89,50 @@ function monorepoReadmeFixture(options: { packageReadme?: string } = {}) {
   };
   return { fetcher, rootReadme };
 }
+
+it.each(["discover", "refresh"] as const)("refreshes an explicit existing repository in %s mode without moving global cursors", async catalogMode => {
+  const { fetcher } = monorepoReadmeFixture();
+  const source = { repository: "owner/catalog", commit: "test" };
+  const previous = await discoverCatalogSnapshot({ fetch: fetcher, source });
+  previous.discoveryAt = "2026-08-01T00:00:00Z";
+  previous.refreshCursor = 7;
+  previous.pendingRepositories = ["unrelated/repository"];
+  previous.plugins[0].description = "Stale metadata";
+  const result = await discoverCatalogSnapshot({
+    fetch: fetcher, source, previousSnapshot: previous, catalogMode,
+    targetRepository: "owner/monorepo", refreshLimit: 1,
+  });
+  expect(result.plugins[0].description).not.toBe("Stale metadata");
+  expect(result.changedRepositories).toEqual(["owner/monorepo"]);
+  expect(result.discoveryAt).toBe(previous.discoveryAt);
+  expect(result.refreshCursor).toBe(7);
+  expect(result.pendingRepositories).toEqual(previous.pendingRepositories);
+});
+
+it("classifies ecommerce CSV demos as productivity and renders localized README descriptions", async () => {
+  const { fetcher } = monorepoReadmeFixture();
+  const snapshot = await discoverCatalogSnapshot({
+    source: { repository: "owner/catalog", commit: "test" },
+    targetRepository: "owner/monorepo",
+    fetch: async input => {
+      if (String(input).endsWith("/packages/memory/package.json")) {
+        return Response.json({ name: "dsh-commerce-cockpit", main: "index.js", description: "Ecommerce demo with CSV validation and rule-based Q&A." });
+      }
+      return fetcher(input);
+    },
+  });
+  const plugin = snapshot.plugins[0];
+  expect(plugin.categories).toEqual(["productivity"]);
+  plugin.i18n = { "zh-CN": { description: "电商演示与 CSV 校验" } };
+  const chinese = renderCatalogSection(snapshot, "zh-CN");
+  expect(chinese).toContain("电商演示与 CSV 校验");
+  expect(chinese).toContain("/zh-CN/?category=productivity");
+  expect(chinese).toContain("按分类探索插件");
+  expect(renderCatalogSection(snapshot)).toContain(plugin.description);
+  expect(renderCatalogSection(snapshot)).toContain("/en/?category=productivity");
+  delete plugin.i18n;
+  expect(renderCatalogSection(snapshot, "zh-CN")).toContain(plugin.description);
+});
 
 describe("catalog i18n", () => {
   it("falls back to the source description when a locale is missing", () => {
