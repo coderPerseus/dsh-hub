@@ -1,0 +1,23 @@
+{
+  "startedAt": "2026-09-16T09:28:56.424Z",
+  "completedAt": "2026-09-16T10:05:58.196Z",
+  "inventoryCutoff": "2026-09-16T09:27:03.000Z",
+  "inventoryRepositories": 15041,
+  "searchRequests": 212,
+  "scannedRepositories": 3209,
+  "statuses": {
+    "matched": 1269,
+    "no-installable-package": 1918,
+    "failed": 2,
+    "empty-repository": 20
+  },
+  "baselinePluginCount": 14416,
+  "recoveredPlugins": 4207,
+  "addedToLatestProduction": 4207,
+  "latestProductionPluginCount": 14416,
+  "publishedCandidatePluginCount": 18623,
+  "snapshotId": "2026-09-16T10:07:05.699Z-recovery",
+  "remainingRetryQueue": 22,
+  "provider": "Midway",
+  "requestedModel": "deepseek-flash"
+}
