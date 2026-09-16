@@ -13,6 +13,6 @@ export function localizedHref(href: string, locale: Locale): string {
   const suffix = split < 0 ? '' : href.slice(split);
   const existing = localeFromPath(pathname);
   if (existing) pathname = pathname.slice(existing.length + 1) || '/';
-  if (pathname !== '/' && !pathname.startsWith('/plugins/')) return href;
+  if (pathname !== '/' && !pathname.startsWith('/plugins/') && !pathname.startsWith('/categories/') && !pathname.startsWith('/page/')) return href;
   return `/${locale}${pathname.endsWith('/') ? pathname : pathname + '/'}${suffix}`;
 }
