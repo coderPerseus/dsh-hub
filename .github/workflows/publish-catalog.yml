@@ -12,7 +12,7 @@ on:
         description: ISO timestamp for backfill
         type: string
       repository:
-        description: Optional owner/repo to discover
+        description: Optional owner/repo to discover or refresh
         type: string
   schedule:
     - cron: '17 3 * * *'

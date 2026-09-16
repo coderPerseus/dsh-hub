@@ -25,7 +25,6 @@ async function readPreviousSnapshot(minimumPluginCount: number): Promise<Catalog
 async function main(): Promise<void> {
   const root = path.resolve(process.cwd(), "../..");
   const outputDirectory = path.join(root, ".catalog");
-  const readmePath = path.join(root, "README.md");
   const enrichmentDataPath = path.join(root, "data/catalog-enrichment.json");
   const sourceRepository = process.env.GITHUB_REPOSITORY ?? "local/dshhub";
   const sourceCommit = process.env.CATALOG_SOURCE_COMMIT
@@ -39,7 +38,7 @@ async function main(): Promise<void> {
   if (discoverySince && Number.isNaN(discoverySince.getTime())) {
     throw new Error("CATALOG_DISCOVERY_SINCE must be an ISO 8601 timestamp.");
   }
-  if (catalogMode === "backfill" && !discoverySince) {
+  if (catalogMode === "backfill" && !discoverySince && !process.env.CATALOG_REPOSITORY?.trim()) {
     throw new Error("CATALOG_DISCOVERY_SINCE is required in backfill mode.");
   }
   const targetRepository = process.env.CATALOG_REPOSITORY?.trim();
@@ -53,7 +52,7 @@ async function main(): Promise<void> {
   }
   const previousSnapshot = await readPreviousSnapshot(minimumPluginCount);
   let refreshLimit = 300;
-  if (catalogMode === 'refresh') {
+  if (catalogMode === 'refresh' && !targetRepository) {
     refreshLimit = await availableRefreshLimit(globalThis.fetch, process.env.GITHUB_TOKEN);
     console.log(`GitHub quota allows refreshing ${refreshLimit} repositories this run.`);
     if (refreshLimit === 0) {
@@ -66,7 +65,7 @@ async function main(): Promise<void> {
     discoverySince: discoverySince ?? (catalogMode === 'discover' && !targetRepository && previousSnapshot
       ? new Date(new Date(previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt).getTime() - 5 * 60_000)
       : undefined),
-    discoveryQueries: targetRepository ? [`repo:${targetRepository}`] : undefined,
+    targetRepository,
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,
     refreshLimit,
@@ -89,10 +88,6 @@ async function main(): Promise<void> {
     }
   }
   const snapshotWithEnrichment = enrichedSnapshot;
-  if (targetRepository && previousSnapshot) {
-    // Inspecting one submission must not skip repositories in the next global scan.
-    snapshotWithEnrichment.discoveryAt = previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt;
-  }
   if (previousSnapshot && snapshotWithEnrichment.plugins.length < previousSnapshot.plugins.length * 0.9) {
     throw new Error('Catalog lost more than 10% of plugins; keep the previous release and investigate.');
   }
@@ -103,11 +98,11 @@ async function main(): Promise<void> {
     `${JSON.stringify(snapshotWithEnrichment, null, 2)}\n`,
   );
 
-  const readme = await readFile(readmePath, "utf8");
-  await writeFile(
-    readmePath,
-    replaceCatalogSection(readme, renderCatalogSection(snapshotWithEnrichment)),
-  );
+  for (const [filename, locale] of [["README.md", "en"], ["README.zh-CN.md", "zh-CN"]] as const) {
+    const readmePath = path.join(root, filename);
+    const readme = await readFile(readmePath, "utf8");
+    await writeFile(readmePath, replaceCatalogSection(readme, renderCatalogSection(snapshotWithEnrichment, locale)));
+  }
 
   console.log(`Built catalog snapshot ${snapshot.snapshotId} with ${snapshot.plugins.length} plugins.`);
 }

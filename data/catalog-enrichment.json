@@ -17992,9 +17992,9 @@
       "analysisZh": "核心用途是在当前大模型API请求连续失败达到阈值时，自动切换到备用模型池。适合对服务稳定性要求极高、拥有多个API Key或提供商渠道的用户。支持冷却期后自动恢复。"
     },
     "github:guannan1031/dsh-commerce-cockpit": {
-      "sourceHash": "ef7575a1129646393238afa3d3526640aa5493a98db62b5a16b119bb811ad165",
-      "descriptionZh": "适用于 DeepSeek Harness Web GUI 的常驻电商经营驾驶舱，提供 KPI 总览、异常归因、行动清单及自然语言问答。",
-      "analysisZh": "核心用途是将原始电商数据转化为每日经营决策看板。适合电商企业创始人或运营主管，用于快速掌握每日盈亏原因并生成行动项。支持CSV数据导入，配置在重启后依然保留。"
+      "sourceHash": "1ee05fcc34b92a9cded42bd933f8c24c6ceb76e6140016d4858bd36c340e00b6",
+      "descriptionZh": "面向 DeepSeek Harness 的电商经营驾驶舱演示插件，提供经营指标看板、CSV 导入校验、明确隔离的 Demo 与 Imported 数据模式，以及规则式问数。",
+      "analysisZh": "适合体验电商指标看板与 CSV 数据校验。Demo 与导入数据隔离，问数采用规则；不连接真实平台 API，也不会自动修改广告、库存、价格或订单。"
     },
     "github:guanosine-diphosphate/dsh-retry-policy-settings": {
       "sourceHash": "8c2960f24bbc5499fa1461922c8c3d55f3b613c105369f717fc69b5b53408031",

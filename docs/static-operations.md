@@ -25,6 +25,27 @@ Before publishing a full enrichment pass, run `pnpm --filter @dshhub/web exec ts
 
 The daily GitHub workflow discovers plugins at 03:17 UTC; it splits the interval since the last successful discovery into hourly push-time windows to avoid silently truncating large search results at 1,000 repositories; Each daily run also refreshes up to 300 existing repositories using a persisted cursor (at least 42 days per full pass at the migration size). The batch shrinks according to remaining GitHub REST quota, reserving 100 calls for publishing; zero capacity preserves the refresh cursor. Workflow run names distinguish site-only publishing from actual discovery/backfill. Discovery and refresh cursors are separate so refresh never skips new repositories. A failed discovery preserves its successful cursor. Manual mode `publish` redeploys the last successful snapshot without crawling. `backfill` accepts an explicit ISO timestamp; `repository` targets one repository. Submitters open the GitHub Issue form; a maintainer validates the repository and runs the manual workflow. Existing database submissions remain in the private backup and must be reviewed separately.
 
+### Correct one existing listing
+
+Use the manual **Publish plugin catalog** workflow with `mode=discover` and
+`repository=owner/repo`. An explicit repository is fetched directly from its
+current default branch even if it is already in the catalog. Other repositories,
+the discovery timestamp, the refresh cursor, and unrelated retry entries are
+preserved. Omitting `repository` retains normal discovery/rotating-refresh behavior.
+For a local preview, restore the durable snapshot first, then run:
+
+```bash
+CATALOG_REPOSITORY=guannan1031/dsh-commerce-cockpit pnpm catalog:build
+```
+
+Provide `GITHUB_TOKEN` through your environment when needed. Review the refreshed
+package description and README, then update that plugin's source-hashed entry in
+`data/catalog-enrichment.json` before publishing so Chinese text matches the new
+capability boundaries. Both root READMEs receive generated catalog sections;
+English remains the default and `README.zh-CN.md` uses Chinese descriptions when
+available. Data-analysis, ecommerce, and CSV tools use the existing `productivity`
+category; there is no separate Tools/Data category.
+
 CI needs `CLOUDFLARE_API_TOKEN` for this account with Workers Scripts Edit and Account Settings Read. It deploys the existing worker with `wrangler.ci.jsonc`, leaving domain management to the first local deployment. Do not restore the legacy D1 binding or re-enable the old importer. Root `deploy` only deploys static assets. `OPEN_NEXT_DEPLOY=true` bypasses Wrangler's automatic OpenNext delegation; the retained Next sources and dependencies are legacy references, not the production entrypoint.
 
 ## Clients
