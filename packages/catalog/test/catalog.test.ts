@@ -87,8 +87,107 @@ function monorepoReadmeFixture(options: { packageReadme?: string } = {}) {
     const body = responses.get(key);
     return body === undefined ? new Response(null, { status: 404 }) : new Response(body);
   };
-  return { fetcher, rootReadme };
+  return { fetcher, rootReadme, responses, repository };
 }
+
+it("discovers nested DSH packages while excluding dependencies and build outputs", async () => {
+  const { fetcher, responses } = monorepoReadmeFixture();
+  const nested = "packages/browser/bridge-browser";
+  const ignored = ["packages/browser/node_modules/dsh-fake", "packages/browser/dist/dsh-fake", "plugins/build/dsh-fake", "packages/browser/lib/dsh-fake", "extensions/dsh-browser"];
+  responses.set("/repos/owner/monorepo/git/trees/main?recursive=1", JSON.stringify({
+    tree: [...ignored, nested].map(path => ({path: `${path}/package.json`, type: "blob"})),
+  }));
+  responses.set(`/owner/monorepo/main/${nested}/package.json`, JSON.stringify({
+    name: "@yuxianglin/dsh-bridge-browser", private: true, main: "lib/index.js",
+    dsh: {bundle: {patch: "./cordis.patch.yml"}},
+  }));
+  const requests: string[] = [];
+  const snapshot = await discoverCatalogSnapshot({
+    source: {repository: "owner/catalog", commit: "test"}, targetRepository: "owner/monorepo",
+    fetch: async input => { requests.push(String(input)); return fetcher(input); },
+  });
+  expect(snapshot.plugins.map(p => p.id)).toEqual([`github:owner/monorepo:${nested}`]);
+  expect(snapshot.plugins[0].installation.spec).toContain(`&path:${nested}`);
+  expect(requests.some(url => ignored.some(path => url.endsWith(`${path}/package.json`)))).toBe(false);
+});
+
+describe("bounded recovery", () => {
+  const source = {repository: "owner/catalog", commit: "test"};
+  async function fixture() {
+    const {fetcher, repository} = monorepoReadmeFixture();
+    const previousSnapshot = await discoverCatalogSnapshot({source, fetch: fetcher});
+    previousSnapshot.discoveryAt = "2026-09-15T00:00:00.000Z";
+    previousSnapshot.refreshCursor = 9;
+    const requests: string[] = [];
+    const recoveredFetch: typeof fetch = async input => {
+      const url = String(input);
+      requests.push(url);
+      if (url.includes("/search/repositories")) return Response.json({
+        total_count: 3, incomplete_results: false,
+        items: [repository, ...["missing1", "missing2"].map(name => ({
+          ...repository, name, full_name: `owner/${name}`,
+        }))],
+      });
+      const name = url.match(/owner\/(missing[12])/u)?.[1];
+      const response = await fetcher(name ? url.replaceAll(name, "monorepo") : url);
+      return new Response((await response.text()).replaceAll("monorepo", name ?? "monorepo"), {status: response.status});
+    };
+    return {previousSnapshot, requests, fetch: recoveredFetch};
+  }
+  const window = {
+    discoverySince: new Date("2026-08-14T00:00:00Z"),
+    discoveryUntil: new Date("2026-08-14T01:00:00Z"),
+    discoveryQueries: ["topic:dsh-plugin"],
+  };
+
+  it("skips known repositories, bounds scans, and resumes without another historical search", async () => {
+    const context = await fixture();
+    const first = await discoverCatalogSnapshot({...context, ...window, source, catalogMode: "recover", repositoryLimit: 1});
+    expect(first.plugins).toHaveLength(2);
+    expect(first.pendingRepositories).toEqual(["owner/missing2"]);
+    expect(first.discoveryAt).toBe(context.previousSnapshot.discoveryAt);
+    expect(first.refreshCursor).toBe(9);
+    expect(context.requests.filter(url => url.includes("/search/repositories"))).toHaveLength(1);
+    expect(context.requests.some(url => url.includes("/owner/monorepo/"))).toBe(false);
+    expect(context.requests.some(url => url.includes("/owner/missing2/"))).toBe(false);
+    context.requests.length = 0;
+    const second = await discoverCatalogSnapshot({source, fetch: context.fetch, previousSnapshot: first, catalogMode: "recover", repositoryLimit: 1});
+    expect(second.plugins).toHaveLength(3);
+    expect(second.pendingRepositories).toEqual([]);
+    expect(second.discoveryAt).toBe(first.discoveryAt);
+    expect(context.requests.some(url => url.includes("/search/repositories"))).toBe(false);
+  });
+
+  it("can queue candidates with zero scan budget without losing existing data", async () => {
+    const context = await fixture();
+    const snapshot = await discoverCatalogSnapshot({...context, ...window, source, catalogMode: "recover", repositoryLimit: 0});
+    expect(snapshot.plugins).toEqual(context.previousSnapshot.plugins);
+    expect(snapshot.pendingRepositories).toEqual(["owner/missing1", "owner/missing2"]);
+    expect(context.requests).toHaveLength(1);
+  });
+
+  it("keeps failed recovery candidates queued alongside deferred work", async () => {
+    const context = await fixture();
+    const snapshot = await discoverCatalogSnapshot({...context, ...window, source, catalogMode: "recover", repositoryLimit: 1,
+      fetch: async input => String(input).includes("/owner/missing1/") ? new Response(null, {status: 404}) : context.fetch(input),
+    });
+    expect(snapshot.plugins).toEqual(context.previousSnapshot.plugins);
+    expect(snapshot.pendingRepositories).toEqual(["owner/missing2", "owner/missing1"]);
+  });
+
+  it("rejects unbounded recovery searches before network work", async () => {
+    const context = await fixture();
+    for (const options of [
+      {discoverySince: window.discoverySince},
+      {discoverySince: window.discoverySince, discoveryUntil: new Date("2026-08-16T00:00:00Z")},
+      {discoveryUntil: window.discoveryUntil},
+      {repositoryLimit: 51},
+    ]) {
+      await expect(discoverCatalogSnapshot({...context, source, catalogMode: "recover", ...options})).rejects.toThrow();
+    }
+    expect(context.requests).toEqual([]);
+  });
+});
 
 it.each(["discover", "refresh"] as const)("refreshes an explicit existing repository in %s mode without moving global cursors", async catalogMode => {
   const { fetcher } = monorepoReadmeFixture();

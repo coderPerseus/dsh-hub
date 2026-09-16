@@ -7,9 +7,12 @@ on:
         description: Catalog operation
         default: publish
         type: choice
-        options: [publish, discover, refresh, backfill]
+        options: [publish, discover, refresh, backfill, recover]
       since:
-        description: ISO timestamp for backfill
+        description: ISO start for backfill/recover (omit in recover to drain queue)
+        type: string
+      until:
+        description: ISO end for recover (at most 24 hours after since)
         type: string
       repository:
         description: Optional owner/repo to discover or refresh
@@ -54,6 +57,7 @@ jobs:
           CATALOG_MODE: ${{ inputs.mode || 'discover' }}
           CATALOG_REPOSITORY: ${{ inputs.repository }}
           CATALOG_DISCOVERY_SINCE: ${{ inputs.since }}
+          CATALOG_DISCOVERY_UNTIL: ${{ inputs.until }}
           CATALOG_SOURCE_COMMIT: ${{ github.sha }}
       - name: Verify full enrichment for site publishing
         if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'publish')

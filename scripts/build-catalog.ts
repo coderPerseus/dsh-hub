@@ -30,9 +30,8 @@ async function main(): Promise<void> {
   const sourceCommit = process.env.CATALOG_SOURCE_COMMIT
     ?? process.env.GITHUB_SHA
     ?? "local-development";
-  const catalogMode = process.env.CATALOG_MODE === "refresh"
-    ? "refresh"
-    : process.env.CATALOG_MODE === "backfill" ? "backfill" : "discover";
+  const catalogMode = (["refresh", "backfill", "recover"] as const)
+    .find(mode => mode === process.env.CATALOG_MODE) ?? "discover";
   const discoverySinceValue = process.env.CATALOG_DISCOVERY_SINCE?.trim();
   const discoverySince = discoverySinceValue ? new Date(discoverySinceValue) : undefined;
   if (discoverySince && Number.isNaN(discoverySince.getTime())) {
@@ -40,6 +39,11 @@ async function main(): Promise<void> {
   }
   if (catalogMode === "backfill" && !discoverySince && !process.env.CATALOG_REPOSITORY?.trim()) {
     throw new Error("CATALOG_DISCOVERY_SINCE is required in backfill mode.");
+  }
+  const discoveryUntilValue = process.env.CATALOG_DISCOVERY_UNTIL?.trim();
+  const discoveryUntil = discoveryUntilValue ? new Date(discoveryUntilValue) : undefined;
+  if (discoveryUntil && Number.isNaN(discoveryUntil.getTime())) {
+    throw new Error("CATALOG_DISCOVERY_UNTIL must be an ISO 8601 timestamp.");
   }
   const targetRepository = process.env.CATALOG_REPOSITORY?.trim();
   if (targetRepository && !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(targetRepository)) {
@@ -60,11 +64,18 @@ async function main(): Promise<void> {
       return;
     }
   }
+  // Recovery and queued retries share the same conservative REST budget as refresh.
+  const repositoryLimit = !targetRepository && catalogMode !== 'refresh'
+    ? Math.min(50, await availableRefreshLimit(globalThis.fetch, process.env.GITHUB_TOKEN))
+    : undefined;
+  if (catalogMode === 'recover') console.log(`Recovery will inspect at most ${repositoryLimit} repositories; excess work stays queued.`);
   const discoveredSnapshot = await discoverCatalogSnapshot({
     catalogMode,
     discoverySince: discoverySince ?? (catalogMode === 'discover' && !targetRepository && previousSnapshot
       ? new Date(new Date(previousSnapshot.discoveryAt ?? previousSnapshot.generatedAt).getTime() - 5 * 60_000)
       : undefined),
+    discoveryUntil,
+    repositoryLimit,
     targetRepository,
     githubToken: process.env.GITHUB_TOKEN,
     minimumPluginCount,
