@@ -25,6 +25,49 @@ Before publishing a full enrichment pass, run `pnpm --filter @dshhub/web exec ts
 
 The daily GitHub workflow discovers plugins at 03:17 UTC; it splits the interval since the last successful discovery into hourly push-time windows to avoid silently truncating large search results at 1,000 repositories; Each daily run also refreshes up to 300 existing repositories using a persisted cursor (at least 42 days per full pass at the migration size). The batch shrinks according to remaining GitHub REST quota, reserving 100 calls for publishing; zero capacity preserves the refresh cursor. Workflow run names distinguish site-only publishing from actual discovery/backfill. Discovery and refresh cursors are separate so refresh never skips new repositories. A failed discovery preserves its successful cursor. Manual mode `publish` redeploys the last successful snapshot without crawling. `backfill` accepts an explicit ISO timestamp; `repository` targets one repository. Submitters open the GitHub Issue form; a maintainer validates the repository and runs the manual workflow. Existing database submissions remain in the private backup and must be reviewed separately.
 
+### Recover repositories missed by older package scanning
+
+Package discovery accepts nested `packages/**/package.json` and
+`plugins/**/package.json`, excluding dependency and build directories. The existing
+50-manifest cap and plugin eligibility checks still apply. Root workspace packages
+are not treated as plugins merely because their repository has a DSH topic.
+
+Use manual workflow mode **recover** instead of a full backfill to find missing
+repositories. Supply `since` and `until` as ISO timestamps, spanning at most 24 hours.
+Search uses the existing three DSH topics and hourly **push-time** windows, rejects
+incomplete or >1,000-result windows, and skips repositories already in the snapshot
+before downloading their manifests. Narrow an overflowing window further; do not
+ignore the search guard. Cover adjacent intervals to inventory older repositories.
+These searches reflect current GitHub metadata, not historical topic membership.
+
+Each recovery run scans at most 50 repositories, reduced to
+`min(50, floor((remaining REST quota - 100) / 3))` when necessary. Three REST calls
+cover repository metadata, tree and commit; raw manifest/README downloads and
+request retries are additional traffic, so this is a normal-request estimate, not
+a total HTTP request cap. GitHub search has a separate rate limit. A 24-hour interval
+uses at least 72 search requests (three topics per hour), plus pagination.
+
+Unprocessed candidates persist in the existing `pendingRepositories` queue. Run
+**recover with no timestamps** to drain another batch without repeating historical
+searches; daily discovery also drains quota-bounded batches of up to 50 queued
+repositories. Recovery preserves both normal discovery and refresh cursors. Failed
+repositories stay queued and existing catalog data is retained. As with other
+modes, the queue is durable only after a successful workflow publishes and saves
+its snapshot. A failed run uses the last successful checkpoint on retry.
+
+Old snapshots do not record repositories that produced zero packages, so a one-time
+metadata inventory is necessary to identify historical omissions. This process does
+not re-download all known repositories. It also does not discover untagged projects,
+rescue every possible unsupported manifest format, or revisit missing packages in
+already-listed repositories; use rotating refresh or an explicit repository refresh
+for those. Do not claim all historical omissions are recovered until the chosen
+intervals and remaining queue have been processed and verified.
+
+For `Lum1104/dsh-browser`, use an explicit repository refresh after merging the fix.
+It includes a DSH bridge and a separate browser extension; verify its README's full
+installation instructions rather than assuming the generic plugin command installs
+both components. No historical recovery scan is triggered by merging this change.
+
 ### Correct one existing listing
 
 Use the manual **Publish plugin catalog** workflow with `mode=discover` and
@@ -81,7 +124,7 @@ For local inspection after building, `pnpm --filter @dshhub/web preview` serves 
 
 A repository fetch or plugin build failure is isolated to that repository. Its previous
 plugins remain in the snapshot, while healthy repositories are published normally.
-The snapshot persists `pendingRepositories`; discovery retries up to 100 queued repositories
+The snapshot persists `pendingRepositories`; daily discovery retries up to 50 queued repositories (reduced by remaining REST quota)
 per run independently of the search timestamp, rotating unresolved entries to the back.
 Successful retries leave the queue. Scheduled refresh also preserves this queue.
 Authentication failures, exhausted rate-limit/server retries, incomplete search results,

@@ -45,7 +45,9 @@ type PackageManifest = {
 };
 
 export type CatalogBuildOptions = {
-  catalogMode?: "backfill" | "discover" | "refresh";
+  catalogMode?: "backfill" | "discover" | "refresh" | "recover";
+  discoveryUntil?: Date;
+  repositoryLimit?: number;
   discoverySince?: Date;
   discoveryQueries?: string[];
   targetRepository?: string;
@@ -100,19 +102,20 @@ function discoveryCutoff(previousSnapshot?: CatalogSnapshot): string | null {
 
 function discoveryQueries(options: CatalogBuildOptions, generatedAt: Date): string[] {
   const queries = options.discoveryQueries ?? DEFAULT_DISCOVERY_QUERIES;
-  if (options.catalogMode !== "backfill" && !options.discoverySince) return queries;
+  if (options.catalogMode !== "backfill" && options.catalogMode !== "recover" && !options.discoverySince) return queries;
+  const endAt = options.discoveryUntil ?? generatedAt;
   if (!options.discoverySince) throw new Error("Backfill discovery requires a start time.");
-  if (options.discoverySince >= generatedAt) {
-    throw new Error("Backfill discovery start time must be before the generated time.");
+  if (options.discoverySince >= endAt || endAt > generatedAt) {
+    throw new Error("Discovery interval must have start < end <= generated time.");
   }
 
   const windows: string[] = [];
   for (
     let start = options.discoverySince.getTime();
-    start < generatedAt.getTime();
+    start < endAt.getTime();
     start += BACKFILL_WINDOW_MS
   ) {
-    const end = Math.min(start + BACKFILL_WINDOW_MS, generatedAt.getTime());
+    const end = Math.min(start + BACKFILL_WINDOW_MS, endAt.getTime());
     for (const query of queries) {
       windows.push(`${query} pushed:${new Date(start).toISOString()}..${new Date(end).toISOString()}`);
     }
@@ -341,7 +344,7 @@ async function discoverRepositories(
   options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
   generatedAt: Date,
 ): Promise<GithubRepository[]> {
-  const cutoff = options.catalogMode === "backfill"
+  const cutoff = options.catalogMode === "backfill" || options.catalogMode === "recover"
     ? null
     : discoveryCutoff(options.previousSnapshot);
   const repositories = new Map<string, GithubRepository>();
@@ -428,7 +431,8 @@ async function discoverRepositoryPackages(
       options.githubToken,
     );
     const manifestPaths = tree.tree
-      .filter(item => item.type === "blob" && /^(?:packages|plugins)\/[^/]+\/package\.json$/.test(item.path))
+      .filter(item => item.type === "blob" && /^(?:packages|plugins)\/(?:[^/]+\/)+package\.json$/.test(item.path)
+        && !item.path.split("/").some(segment => ["node_modules", "dist", "build", "lib", "coverage", ".git"].includes(segment)))
       .map(item => item.path)
       .slice(0, MAX_PACKAGES_PER_REPOSITORY);
     for (const manifestPath of manifestPaths) {
@@ -580,6 +584,18 @@ export async function discoverCatalogSnapshot(
   const resolvedOptions = { ...options, fetch: fetcher };
   const isIncremental = Boolean(options.previousSnapshot);
   const pending = new Set(options.previousSnapshot?.pendingRepositories ?? []);
+  const recovering = options.catalogMode === "recover";
+  const repositoryLimit = options.repositoryLimit ?? (recovering ? 50 : 100);
+  if (!Number.isSafeInteger(repositoryLimit) || repositoryLimit < 0 || (recovering && repositoryLimit > 50)) {
+    throw new Error("Repository limit must be a nonnegative integer (at most 50 for recovery).");
+  }
+  if (options.discoveryUntil && !recovering) throw new Error("Discovery end time is only supported in recovery mode.");
+  if (recovering && !options.previousSnapshot) throw new Error("Recovery requires a previous snapshot.");
+  if (recovering && options.discoverySince && (!options.discoveryUntil
+    || options.discoveryUntil.getTime() - options.discoverySince.getTime() > 24 * BACKFILL_WINDOW_MS)) {
+    throw new Error("Recovery search requires an explicit end time and at most 24 hours per run.");
+  }
+  if (recovering && options.discoveryUntil && !options.discoverySince) throw new Error("Recovery search requires a start time.");
   let repositories: GithubRepository[];
   if (options.targetRepository) {
     const repository = await githubJson<GithubRepository>(fetcher, `/repos/${options.targetRepository}`, options.githubToken);
@@ -587,6 +603,8 @@ export async function discoverCatalogSnapshot(
       throw new Error(`Target repository ${options.targetRepository} is not eligible for the catalog.`);
     }
     repositories = [repository];
+  } else if (recovering && !options.discoverySince) {
+    repositories = [];
   } else if (isIncremental && options.catalogMode === "refresh") {
     repositories = await loadExistingRepositories(resolvedOptions, pending);
   } else {
@@ -599,8 +617,14 @@ export async function discoverCatalogSnapshot(
     }
   }
   if (!options.targetRepository && options.catalogMode !== 'refresh') {
-    const selected = [...pending].slice(0, 100);
-    const byName = new Map(repositories.map(repository => [repository.full_name.toLowerCase(), repository]));
+    if (recovering) {
+      // Queue only missing repositories; preserve the queue across bounded recovery runs.
+      for (const repository of repositories) pending.add(repository.full_name.toLowerCase());
+    }
+    const selected = [...pending].slice(0, repositoryLimit);
+    const byName = new Map(repositories
+      .filter(repository => !recovering || selected.includes(repository.full_name.toLowerCase()))
+      .map(repository => [repository.full_name.toLowerCase(), repository]));
     // Rotate failures to the back so permanently unavailable repositories cannot starve retries.
     for (const name of selected) pending.delete(name);
     const retries = await mapConcurrent(selected, GITHUB_CONCURRENCY, async name => {
@@ -702,7 +726,7 @@ export async function discoverCatalogSnapshot(
     schemaVersion: 1,
     snapshotId: `${generatedAt.toISOString()}-${options.source.commit.slice(0, 12)}`,
     generatedAt: generatedAt.toISOString(),
-    discoveryAt: options.targetRepository || options.catalogMode === 'refresh'
+    discoveryAt: options.targetRepository || recovering || options.catalogMode === 'refresh'
       ? options.previousSnapshot?.discoveryAt ?? options.previousSnapshot?.generatedAt ?? generatedAt.toISOString()
       : generatedAt.toISOString(),
     pendingRepositories: [...pending],
