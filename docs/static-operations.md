@@ -19,6 +19,32 @@ Public catalog snapshots are compressed GitHub Release assets. `catalog-current/
 `pnpm --filter @dshhub/web exec tsx ../../scripts/enrich-catalog.mts`
 Rerun this command to resume generation from the current partial cache after any interruption. It defaults to three concurrent GPT-5.3-Codex-Spark processes, with 40 plugins per batch. Generated Chinese descriptions and analysis are each limited to 100 Unicode characters. Logs and failure reports live in `.catalog/`. Account usage limits stop further dispatch; successfully saved entries remain reusable. To explicitly select another model, set `CATALOG_ENRICH_MODEL`. For the Midway Gemini endpoint, set `CATALOG_ENRICH_PROVIDER=midway`, `CATALOG_ENRICH_MODEL=gemini-3.5-flash`, and `MIDWAY_API_KEY` (or `MIDWAY_API_KEY_FILE` pointing to a private file outside the repository). The key is never included in output logs. Model listings do not guarantee an active upstream channel; smoke-test before a full run.
 
+For an explicitly selected DeepSeek run, use `CATALOG_ENRICH_PROVIDER=midway`
+and `CATALOG_ENRICH_MODEL=deepseek-flash` with the private `MIDWAY_API_KEY_FILE`.
+This routes through Midway's chat-completions endpoint; generation is non-thinking,
+and only complete JSON-array responses pass validation. It does not change the
+daily automation's model policy.
+
+For locally recovered and enriched data, upload a staged compressed snapshot to
+an immutable GitHub Release and pass its public URL as `snapshot_url` to manual
+workflow mode `publish`. The workflow runs full validation before deploying and
+updates `catalog-current` only after successful deployment. Leave `snapshot_url`
+empty for normal publishing. This avoids promoting an unpublished snapshot as the
+durable production checkpoint.
+
+Historical recovery uses topic-search metadata to skip known repositories, then
+collects at most 50 missing repositories per checkpoint with a GitHub REST quota
+reserve. Enrichment reuses source hashes and processes only missing or changed
+entries. Save the inventory and scan ledger alongside the staged snapshot for
+resumption and auditing; empty or inaccessible repositories are not successful
+plugin recoveries.
+
+Static builds deduplicate whitespace-separated search tokens without removing
+searchable terms or plugin descriptions. The per-file 24 MiB guard remains in
+place. The current account accepted a 21,000-file asset-upload manifest in the
+September 2026 recovery preflight, so the per-Worker build guard is 21,000 files.
+This check does not change the account subscription or enable runtime compute.
+
 Before publishing a full enrichment pass, run `pnpm --filter @dshhub/web exec tsx ../../scripts/check-catalog-enrichment.mts` to verify every current plugin has matching Chinese copy and analysis. Source changes invalidate the matching sidecar entry; rerun enrichment after refreshing official metadata.
 
 `pnpm deploy:web`

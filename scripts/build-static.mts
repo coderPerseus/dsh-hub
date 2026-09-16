@@ -19,6 +19,7 @@ import { listingPath } from '../apps/web/src/lib/listing';
 import { encodeBrowserIndex } from '../apps/web/src/lib/browser-index';
 import { governCatalog } from './lib/catalog-governance.mts';
 import { googleAnalyticsScript } from '../apps/web/src/lib/google-analytics';
+import { compactSearchText } from './lib/search-text.mts';
 
 const root = path.resolve(import.meta.dirname, '..');
 // Reject changes that would reintroduce request-based compute or storage billing.
@@ -57,10 +58,11 @@ const items: StaticEntry[] = snapshot.plugins.map(p => {
   for (const c of p.categories) categories.set(c, (categories.get(c) ?? 0)+1);
   const descriptionZh = localizedDescription(p, 'zh-CN');
   const usageSummaryZh = p.i18n?.["zh-CN"]?.usageSummary ?? p.usage.summary;
+  const searchText = compactSearchText([p.name,p.package.name,p.description,...p.repository.topics,p.usage.summary]);
   return {id:p.id,slug:p.slug,name:p.name,description:p.description,packageName:p.package.name,repositoryUrl:p.repository.url,stars:p.repository.stars,pushedAt:p.repository.pushedAt,featured:p.featured,categories:p.categories,compatibilityStatus:p.compatibility.status,compatibilityLevel:p.compatibility.level,installCommand:p.installation.command,
     descriptionZh,
-    searchText:[p.name,p.package.name,p.description,...p.repository.topics,p.usage.summary].join(' ').toLowerCase(),
-    searchTextZh:[p.name,p.package.name,descriptionZh,...p.repository.topics,usageSummaryZh].join(' ').toLowerCase(),
+    searchText,
+    searchTextZh:compactSearchText([descriptionZh,usageSummaryZh], searchText),
   };
 });
 const index: StaticIndex = {schemaVersion:1,snapshotId:snapshot.snapshotId,generatedAt:snapshot.generatedAt,items,categories:[...categories].sort(([a],[b])=>a.localeCompare(b)).map(([id,count])=>({id,count}))};
@@ -72,7 +74,7 @@ const uniqueWebItems = [...new Map(webItems.map(p => [p.slug, p])).values()];
 const webCategories = [...categories.keys()].sort().map(id => ({id, count: uniqueWebItems.filter(p => p.categories.includes(id)).length})).filter(c => c.count > 0);
 const webIndex: StaticIndex = {...index, items: uniqueWebItems, categories: webCategories};
 const initial = {...webIndex, items: searchStaticCatalog(webIndex,{limit:24}).items.map(p => ({...p,searchText:''}))};
-async function put(file:string, content:string) { const target=output+file; await mkdir(path.dirname(target),{recursive:true}); if (Buffer.byteLength(content)>24*1024*1024) throw new Error(`Asset too large: ${file}`); await writeFile(target,content); }
+async function put(file:string, content:string) { const target=output+file; await mkdir(path.dirname(target),{recursive:true}); if (Buffer.byteLength(content)>24*1024*1024) throw new Error(`Asset too large: ${file} (${Buffer.byteLength(content)} bytes)`); await writeFile(target,content); }
 await put('/catalog/manifest.json',JSON.stringify(manifest));
 await put(prefix+'/index.json',JSON.stringify(index));
 await put(manifest.browserIndexes.en, JSON.stringify(encodeBrowserIndex(webIndex, false)));
@@ -84,7 +86,7 @@ for (let i=0;i<256;i++) await put(manifest.details[i],JSON.stringify(shards[i]))
 const escape = (s:string) => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const localeOutput = (locale: Locale) => path.join(root, 'apps/web/.static-build/locales', locale);
 async function writeAsset(directory: string, file: string, content: string) {
-  if (Buffer.byteLength(content) > 24*1024*1024) throw new Error(`Asset too large: ${file}`);
+  if (Buffer.byteLength(content) > 24*1024*1024) throw new Error(`Asset too large: ${file} (${Buffer.byteLength(content)} bytes)`);
   const target = path.join(directory, file);
   await mkdir(path.dirname(target), {recursive:true});
   await writeFile(target, content);
@@ -159,8 +161,9 @@ await put('/_headers','/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy:
 for (const name of ['favicon.ico','icon.png','apple-icon.png']) await cp(root+'/apps/web/src/app/'+name,output+'/'+name);
 async function files(dir:string):Promise<string[]> { const entries=await readdir(dir,{withFileTypes:true});return (await Promise.all(entries.map(e=>e.isDirectory()?files(path.join(dir,e.name)):Promise.resolve([path.join(dir,e.name)])))).flat(); }
 const counts: Record<string,number> = {};
+// This account's asset-upload API accepts 21,000 files; retain a bounded guard.
 for (const [name,directory] of [['shared',output],...locales.map(locale=>[locale,localeOutput(locale)])]) {
-  const all=await files(directory); if(all.length>19500) throw new Error(`${name}: static asset count exceeds safety limit`);
+  const all=await files(directory); if(all.length>21000) throw new Error(`${name}: static asset count exceeds safety limit`);
   counts[name]=all.length;
 }
 console.log(JSON.stringify({plugins:items.length,uniquePlugins:plugins.length,canonicalPlugins:primarySlugs.size,listingPages:listingPaths.length,detailPages:seen.size*locales.length,files:counts,version}));

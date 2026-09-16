@@ -12,6 +12,24 @@ describe('Midway offline generation', () => {
     }});
     expect(result).toEqual([{id:'a'}]);
   });
+  it('uses the selected DeepSeek model through chat completions with bearer authentication', async () => {
+    const result = await generateMidwayJson({...options, model:'deepseek-flash', fetch:async (url, init) => {
+      expect(String(url)).toBe('https://mediocre-new-api.midway.run/v1/chat/completions');
+      expect(new Headers(init?.headers).get('Authorization')).toBe('Bearer test-secret');
+      const body = JSON.parse(String(init?.body));
+      expect(body.model).toBe('deepseek-flash');
+      expect(body.thinking).toEqual({type:'disabled'});
+      expect(body.messages).toEqual([{role:'user',content:'fixture'}]);
+      return Response.json({choices:[{finish_reason:'stop',message:{reasoning_content:'ignore',content:'[{"id":"a"}]'}}]});
+    }});
+    expect(result).toEqual([{id:'a'}]);
+  });
+  it('rejects unfinished DeepSeek answers and object-shaped output', async () => {
+    for (const finish_reason of ['length','content_filter',undefined]) {
+      await expect(generateMidwayJson({...options, model:'deepseek-flash', fetch:async () => Response.json({choices:[{finish_reason,message:{content:'[]'}}]})})).rejects.toThrow('incomplete');
+    }
+    await expect(generateMidwayJson({...options, model:'deepseek-flash', fetch:async () => Response.json({choices:[{finish_reason:'stop',message:{content:'{}'}}]})})).rejects.toThrow('non-array');
+  });
   it('rejects truncated output instead of saving a partial batch', async () => {
     await expect(generateMidwayJson({...options, fetch: async () => Response.json({candidates:[{finishReason:'MAX_TOKENS',content:{parts:[{text:'[]'}]}}]})})).rejects.toThrow('incomplete');
   });

@@ -14,6 +14,9 @@ on:
       until:
         description: ISO end for recover (at most 24 hours after since)
         type: string
+      snapshot_url:
+        description: Optional staged snapshot URL for manual publishing
+        type: string
       repository:
         description: Optional owner/repo to discover or refresh
         type: string
@@ -47,6 +50,8 @@ jobs:
       - name: Restore durable catalog
         run: pnpm --filter @dshhub/web exec tsx ../../scripts/restore-catalog.mts
         working-directory: .
+        env:
+          CATALOG_SNAPSHOT_URL: ${{ inputs.snapshot_url || 'https://github.com/coderPerseus/dsh-hub/releases/download/catalog-current/catalog.snapshot.json.gz' }}
       - name: Update catalog offline
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.mode != 'publish')
         run: |
