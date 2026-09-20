@@ -161,9 +161,11 @@ await put('/_headers','/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy:
 for (const name of ['favicon.ico','icon.png','apple-icon.png']) await cp(root+'/apps/web/src/app/'+name,output+'/'+name);
 async function files(dir:string):Promise<string[]> { const entries=await readdir(dir,{withFileTypes:true});return (await Promise.all(entries.map(e=>e.isDirectory()?files(path.join(dir,e.name)):Promise.resolve([path.join(dir,e.name)])))).flat(); }
 const counts: Record<string,number> = {};
-// This account's asset-upload API accepts 21,000 files; retain a bounded guard.
+// Workers Paid supports 100,000 static assets per Worker version.
+const maxStaticAssets = 100_000;
 for (const [name,directory] of [['shared',output],...locales.map(locale=>[locale,localeOutput(locale)])]) {
-  const all=await files(directory); if(all.length>21000) throw new Error(`${name}: static asset count exceeds safety limit`);
+  const all=await files(directory);
+  if(all.length>maxStaticAssets) throw new Error(`${name}: ${all.length} static assets exceed the Workers Paid limit of ${maxStaticAssets}`);
   counts[name]=all.length;
 }
 console.log(JSON.stringify({plugins:items.length,uniquePlugins:plugins.length,canonicalPlugins:primarySlugs.size,listingPages:listingPaths.length,detailPages:seen.size*locales.length,files:counts,version}));
