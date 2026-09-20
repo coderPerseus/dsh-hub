@@ -1,4 +1,5 @@
-import {readFile,open} from 'node:fs/promises';
+import {readFile} from 'node:fs/promises';
+import {readHtmlHead} from './lib/read-html-head.mjs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {locales} from '../apps/web/src/lib/i18n/locales';
@@ -22,9 +23,7 @@ for(const locale of locales){
   for(const slug of slugs) assert.equal(sitemapUrls.includes('https://dshhub.org'+localizedHref('/plugins/'+slug,locale)),!canonical.has(slug)||canonical.get(slug)===slug);
   for(const page of [...listingPaths,...slugs.map(s=>'/plugins/'+s)]){
     const url=localizedHref(page,locale);
-    const file=await open(path.join(base,url,'index.html'),'r');
-    const buffer=Buffer.alloc(8192);const {bytesRead}=await file.read(buffer,0,8192,0);await file.close();
-    const head=buffer.subarray(0,bytesRead).toString();
+    const head=await readHtmlHead(path.join(base,url,'index.html'));
     assert(head.includes(`<html lang="${locale}"`),url);
     const canonicalPage=page.startsWith('/plugins/') ? '/plugins/'+(canonical.get(page.slice(9))||page.slice(9)) : page;
     assert(head.includes(`<link rel="canonical" href="https://dshhub.org${escape(localizedHref(canonicalPage,locale))}">`),url);
