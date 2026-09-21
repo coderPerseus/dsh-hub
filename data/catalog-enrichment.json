@@ -29746,6 +29746,11 @@
       "descriptionZh": "DSH 视觉桥接插件：通过配置外部视觉接口，让无视觉能力的主模型能够识别会话中接收到的图片。",
       "analysisZh": "核心用途是为纯文本模型补充视觉能力。适合使用不支持图片的模型作为主对话模型，但又希望通过第三方视觉 API 自动解析图片内容并转译给主模型的用户。"
     },
+    "github:liumoqing/dsh-restar-dsh-": {
+      "sourceHash": "5418bb11ccffb856d17df647b18f9a7cf6fa6014fe004e960f3b2e3a5ade7c21",
+      "descriptionZh": "在页面右下角加入可收起悬浮窗，一点即可结束旧实例并按原命令重启。",
+      "analysisZh": "适合 Windows 上改完插件后不想手动重启的用户，依赖 PowerShell 结束并拉起进程。"
+    },
     "github:LiuMengxuan04/oh-my-dsh": {
       "sourceHash": "e3e19ae006bb8372ed2a7a2f516ef3e6dfdf2009019738a93e3841f6aea46851",
       "descriptionZh": "Oh My DSH：为 DeepSeek Harness 提供有界自主编排与动态 Cordis 自我扩展的持久控制层（DSH 自动驾驶仪）。",
