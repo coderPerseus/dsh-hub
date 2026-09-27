@@ -31332,9 +31332,9 @@
       "analysisZh": "核心用途是实时监控 DeepSeek API 余额与今日用量。适合需要直观掌控 API 消耗成本，并喜爱趣味性交互挂件的 DSH 用户。"
     },
     "github:MeteorNOX/DeepSeek-Balance-Whale-Widget": {
-      "sourceHash": "6bbb94b8e31b11b2f90cfc45598334e9db91b50c010c42c11eb1e165b24a2063",
-      "descriptionZh": "DSH Web 界面右下角的 DeepSeek 余额小鲸鱼挂件，含今日已用、峰谷定价及音效",
-      "analysisZh": "核心用途是实时监控 DeepSeek API 余额与今日用量。适合需要直观掌控 API 消耗成本，并喜爱趣味性交互挂件的 DSH 用户。"
+      "sourceHash": "555f12a1ac2ef8c81edf6bd4f0bf780a6750a7a8ee041e9520549fbd73d1b6ab",
+      "descriptionZh": "右下角常驻的余额、消耗及自定义气泡小鲸鱼挂件",
+      "analysisZh": "适合需要直观监控API余额、今日消耗，并喜爱个性化挂件的Web用户。"
     },
     "github:LoserFox/marisa-distro:plugins/interpreters": {
       "sourceHash": "4545532306ae2aec38ae26bdc142c1529ed47ccdba1460cd4ac0e32d7bff2ec5",
@@ -32477,9 +32477,9 @@
       "analysisZh": "核心用途是在侧边栏提供直观的工作区目录树视图。适合需要频繁查看、筛选项目文件结构，且不希望频繁使用终端列出文件的用户。"
     },
     "github:Machine-126/dsh-alert-sound": {
-      "sourceHash": "0970aa9b333f4266dec30463ee8d5e3be4563e000ad21da6d92ab356909b34af",
-      "descriptionZh": "DSH Web GUI 通知提醒音：提供四种合成音效及可选中文语音（针对需要审批、提问、输出完成和错误），支持在设置中配置开关与音量。",
-      "analysisZh": "核心用途是为 DSH 的关键事件（如等待审批、运行结束）提供声音警报。适合后台挂机运行任务、需要听觉提醒及时介入的用户。"
+      "sourceHash": "27b1cb4dec8b89ad6b287a85b2fe20e577d7d3f1de089fdf410243403214192d",
+      "descriptionZh": "为Web端各类通知事件提供自定义声音和语音提醒",
+      "analysisZh": "适合需要即时听觉反馈的用户，可对审批、报错、完成等状态进行声音提醒。"
     },
     "github:mackwan84/dsh-ui-mockup:packages/image": {
       "sourceHash": "28f4ac6487699e4cba52864de1cddbcbac2171a56b39e834cad709a35794358d",
@@ -32602,9 +32602,9 @@
       "analysisZh": "核心用途为招投标文件的合规性与风险筛查。适合需要快速检查标书废标项、错别字并生成专业报告的商务与技术人员。"
     },
     "github:MaimoryLab/dib:plugins/dsh-desktop": {
-      "sourceHash": "f84a71cd551682568585754895f7b2c5810d53dfc070c266efde36bcd846f9db",
-      "descriptionZh": "DeepSeek Harness 桌面端 UI 扩展插件，为客户端插件提供菜单注册、系统通知和文件选择等桌面能力。",
-      "analysisZh": "核心用途为桌面端底层能力扩展。适合开发 DSH 客户端插件并需要调用系统通知、菜单注册和文件选择接口的开发者。"
+      "sourceHash": "146e617d90d261364acf48ebd671292e81f738a79aea0119f16a5654b574a3b0",
+      "descriptionZh": "为客户端插件提供系统菜单注册与桌面通知工具",
+      "analysisZh": "适合需要调用系统原生通知和扩展桌面菜单功能的客户端插件开发者。"
     },
     "github:maiziman/cedardsh-model-probe": {
       "sourceHash": "f32cdf58c4726e05d453607be26ad8a38fd047c49e393b8e637bac22ce0d2614",
@@ -32702,9 +32702,9 @@
       "analysisZh": "核心用途为状态栏信息定制。适合需要个性化监控模型响应指标、精简或重组底部统计行显示内容的用户。"
     },
     "github:ManoloRemiddi/DSH-Metafolder-Plugin": {
-      "sourceHash": "00bfbb82930822e9f59e4bff94f2a51e2b97aee545426907f54efa5bc30cb3c7",
-      "descriptionZh": "DSH 侧边栏工作区虚拟文件夹插件，支持通过拖拽或菜单将真实工作区目录归类到可折叠的虚拟分组中。",
-      "analysisZh": "核心用途为侧边栏工作区整理。适合管理大量项目目录、需要通过虚拟分组进行视觉归类且不改变物理路径的用户。"
+      "sourceHash": "afe99a0390822714045e94b79c255c4f773d1f20279d144acabd5f7e1c267942",
+      "descriptionZh": "在侧边栏提供虚拟文件夹对工作区和会话进行分组",
+      "analysisZh": "适合有大量项目和会话的用户，在不改变物理路径的前提下进行视觉分类整理。"
     },
     "github:mantonlove/dsh-conversation-landmarks": {
       "sourceHash": "a23d6c140d79910521950aed9fb35211df5b32726a80509f2760a22a28e727d2",
@@ -33012,9 +33012,9 @@
       "analysisZh": "核心用途是通过 Cron 表达式在系统后台执行 headless 任务，并在 Web 端进行规则管理、部署与结果归类。适合需要自动化定时运行 DSH 任务的用户。"
     },
     "github:Mappedinfo/dsh-tool-vision-read": {
-      "sourceHash": "1ab7a825a547618a49a2edfb02f1e8e8b2ba4b26b4233908c6196e48ecc8c5fd",
-      "descriptionZh": "DeepSeek Harness 视觉读取工具插件",
-      "analysisZh": "核心用途是将图像读取任务路由给专用的视觉模型（如 Kimi K3），使纯文本 Agent 具备视觉能力。适合需要让不支持多模态的 Agent 解析图像内容的用户。"
+      "sourceHash": "9a1123679cd23efa6c091e9f17de57489ca4b1681d9639528f1bf770fb5e7218",
+      "descriptionZh": "将图片读取请求路由至专用视觉模型",
+      "analysisZh": "适合使用纯文本大模型作为主Agent、但又需要处理图片输入的用户。"
     },
     "github:maque2333/dsh-profile-manager:packages/cli": {
       "sourceHash": "6bab8fa61ec96cafa80bba9dd0007b8f24dde4eefeb6fc8129dcb3fbad40b0f7",
@@ -33037,14 +33037,14 @@
       "analysisZh": "核心用途是为 DSH Web 界面应用《尼尔：机械纪元》风格的视觉主题，包含米色调、网格纹理、CRT 滤镜及扫过填充悬停效果。适合喜爱该游戏 UI 风格的个性化用户。"
     },
     "github:MarchLiu/dsh-farm": {
-      "sourceHash": "07cc6836a676f5b418d6f75446bfaf5611e3c8371b17ff028639760ec3fa6d48",
-      "descriptionZh": "DeepSeek Harness 长期运行项目服务管理插件",
-      "analysisZh": "核心用途是注册、启动、停止和监控项目中的长期运行服务，支持 Web 界面日志查看和 Agent 工具调用。适合需要在 DSH 中统一管理和调度后台服务的用户。"
+      "sourceHash": "08b13c7be0c9fc0a8f70e4cdb7d2e78317465996ef2cb7d1534596063d94300e",
+      "descriptionZh": "注册、管理和监控工作区内长期运行的项目服务",
+      "analysisZh": "适合需要在DSH中运行和监控后台服务（如API、脚本）的用户，支持UI与Agent控制。"
     },
     "github:MarchLiu/dsh-rich-editor": {
-      "sourceHash": "56c856a8e210c50aa760f8fad17fd51c9af8e49e7a35c068feeda8cdf64bf107",
-      "descriptionZh": "用于 DSH 输入区域的富文本 Markdown 笔记本插件",
-      "analysisZh": "核心用途是在 DSH 会话输入区集成一个基于 CodeMirror 的富文本 Markdown 编辑器卡片，支持草稿跨会话保存。适合需要在输入框中编写和编辑长篇 Markdown 文本的用户。"
+      "sourceHash": "14fb42a1c45717551f937bc38e9c0697649b0249b841035b072850004d76a2f8",
+      "descriptionZh": "在输入区提供富文本Markdown笔记本编辑器",
+      "analysisZh": "适合需要编写复杂、长篇草稿的用户，支持分会话暂存和CodeMirror编辑。"
     },
     "github:MarchLiu/dsh-uno-office": {
       "sourceHash": "15513b03369f09385865f9dcc8ddc2bb05d3c41b76354368b6bd805bf30f936c",
@@ -33057,9 +33057,9 @@
       "analysisZh": "核心用途是为 DSH 提供一个独立的桌面客户端，通过 DSH 主机 HTTP API 实现自定义 UI 和交互。适合不希望在浏览器中运行 DSH、偏好独立桌面应用的用户。"
     },
     "github:MarecGents/deepseek-harness-hub": {
-      "sourceHash": "653ab9fd393b3f97d3917714294103a9b0a0ce4372582f60c3cc338ddca8054e",
-      "descriptionZh": "基于 WebView2 的 DeepSeek Harness 桌面端外壳插件",
-      "analysisZh": "核心用途是为 DSH Web UI 提供一个带系统托盘、主题同步、窗口状态记忆和右侧边栏的本地桌面运行环境。适合需要更原生桌面体验的 Windows 用户。"
+      "sourceHash": "f0983cfb45b86e32d56ee2446bcca752d2a4ba11a72a8dd6078f33874c9f301c",
+      "descriptionZh": "提供基于Tauri的DSH桌面客户端外壳及配套插件",
+      "analysisZh": "适合想要开箱即用桌面应用体验的用户，内置私有Node环境且无需系统预装。"
     },
     "github:MarecGents/marec-dsh-desktop": {
       "sourceHash": "049cf37acf32b401ade88936966dd460b3bc2686df06a1582944872d668c4b7e",
@@ -33067,9 +33067,9 @@
       "analysisZh": "核心用途是在原生的 WebView2 窗口中启动 DSH Web UI，支持主题同步、窗口状态记忆，并集成插件配置页。适合需要一键式桌面化运行环境的 Windows 用户。"
     },
     "github:MaRi23333/dsh-fish-tts": {
-      "sourceHash": "dfea7c3c9474c37d48a11268da876e7f06117bdea50781f2cc2c4915d867adcc",
-      "descriptionZh": "基于 Fish Audio API 的文本转语音 (TTS) 插件",
-      "analysisZh": "核心用途是为 DSH 提供单条消息朗读和自动朗读功能，支持配置模型、音色及代理。适合需要语音合成播报的用户，使用前需自备 Fish Audio API 密钥。"
+      "sourceHash": "e0e8bbbf3924f0616f14d8fe0059ca5130cb4ddafa77a01033b66262ebb0e9f8",
+      "descriptionZh": "对接Fish Audio API提供文本转语音朗读功能",
+      "analysisZh": "适合需要语音朗读回复的用户，支持单条消息播放、自动朗读及多种音色配置。"
     },
     "github:MaRi23333/dsh-serverchan-watchdog": {
       "sourceHash": "8bbff11f3a692b2198d972d4bcbef849a8392fef2cc281aacbb9127289c704a4",
@@ -33077,9 +33077,9 @@
       "analysisZh": "核心用途是在 DSH 中有审批、计划确认或提问长时间未响应时，通过 Server酱向用户手机发送微信或 App 推送。适合需要离线接收 DSH 交互提醒的用户。"
     },
     "github:MaRi23333/dsh-subagent-library": {
-      "sourceHash": "e5b7b757c8a015d6b474093d2dc9694d09bffd2b20ee79c76500e11fc5ed703e",
-      "descriptionZh": "DeepSeek Harness 命名子代理库管理插件",
-      "analysisZh": "核心用途是提供一个可视化配置的子代理名录，允许主会话通过工具或命令分发任务给特定角色、模型和过滤了工具的子代理。适合需要构建多 Agent 协作工作流的用户。"
+      "sourceHash": "ade5b97fadd9a2a2a13174e26f7190490f2a102178a694a5b4bcedf4799674c6",
+      "descriptionZh": "提供基于目录管理的具名子代理库及调用工具",
+      "analysisZh": "适合需要构建和调用多角色Agent团队的用户，支持通过文件热更新子代理配置。"
     },
     "github:mariGoIds/dsh-lan-proxy": {
       "sourceHash": "88f34af5c610e862f79392a18ba825496dbcfc76d90469dba676777488a7ac3e",
@@ -33087,9 +33087,9 @@
       "analysisZh": "核心用途是在 DSH 进程内运行一个双栈反向代理，提供 IP 白名单、Basic 认证和访问日志功能。适合需要将本地 DSH 服务安全地暴露给局域网或公网访问的用户。"
     },
     "github:MariNanari/dsh-vulnsec-bridge": {
-      "sourceHash": "1298766d4422b1bee0e89142d28e7656d2ff8a2cb9ef25cea7ec49f87b93e3ba",
-      "descriptionZh": "VulnClaw 与 DeepSec AI 安全工具桥接插件",
-      "analysisZh": "核心用途是将 VulnClaw 渗透测试和 DeepSec 代码审计 CLI 包装为 DSH 工具，并提供图形化安全工具台界面。适合需要利用 AI 进行授权安全测试和代码审计的用户。"
+      "sourceHash": "38d1f29bb7a72dcd1ecf79bb6631acc43b74055e705918f9af4343449c659238",
+      "descriptionZh": "桥接安全工具CLI并提供图形化安全工具台",
+      "analysisZh": "适合安全从业人员，在DSH中直接进行授权渗透测试和代码安全审计。"
     },
     "github:mario03690/dsh-allrouter": {
       "sourceHash": "e30db813cb2fafc6974d7b51ce33fe15f99ad67a0b7f90e21420f7ae792b132c",
@@ -33162,29 +33162,29 @@
       "analysisZh": "核心用途是读取本地 Wallpaper Engine 壁纸库（支持图片和视频），一键应用为 DSH 界面背景，并支持明暗主题联动。适合想要个性化美化 DSH 界面视觉体验的用户。"
     },
     "github:Mars-Sea/dsh-deeppilot": {
-      "sourceHash": "feba68d83e7889881f2d40db061e6824d9832ccf75d713bfd5a15a50cb7b7568",
-      "descriptionZh": "DeepPilot 苹果手机端直连 Mac 伴侣插件",
-      "analysisZh": "核心用途是建立安全、直接的连接，允许用户通过 iPhone 上的 DeepPilot 原生 App 访问和使用运行在 Mac 上的 DSH 服务。适合需要在移动端使用本地 DSH 服务的苹果用户。"
+      "sourceHash": "3b7db50837ad3230cea46e98dbc649e70f2b6babe8de2ac46782bab0d274210e",
+      "descriptionZh": "提供与iPhone客户端DeepPilot直连的配套服务",
+      "analysisZh": "适合希望在iPhone上远程安全连接并使用Mac本地DSH服务的用户。"
     },
     "github:Marsax110/dsh-model-fixer": {
-      "sourceHash": "872912f83ae8d940bbedc91e1d2c9696f2a8c8f3ab2c54caf1d1fb2bf6a61da0",
-      "descriptionZh": "模型无关的沙箱升级修正与协议提示段注入插件",
-      "analysisZh": "核心用途是在工具执行前自动剥离模型错误携带的沙箱权限参数（解决死循环问题），并动态注入适配特定模型的协议提示。适合在使用第三方模型遇到沙箱越权报错时使用。"
+      "sourceHash": "6e964eab6cd271bc297b8a0b47a2a8fab211f921a181eec6d0ea3ae4850980b5",
+      "descriptionZh": "修正工具调用中的沙箱升级错误并定制协议提示",
+      "analysisZh": "适合遇到GPT等模型因错误携带沙箱参数导致死循环的用户，自动剥离无效参数。"
     },
     "github:MaRi23333/dsh-grok-kit": {
-      "sourceHash": "2c34e36e098ec8fce1f8e6a066ca29feb4a1add4734e21453446c7c68b6987b3",
-      "descriptionZh": "DeepSeek Harness 的非官方社区插件。支持通过 OAuth 订阅使用 Grok-4.6 对话、服务端网页与 X 搜索融合以及图像生成功能。",
-      "analysisZh": "适合拥有 SuperGrok 或 X Premium 订阅，且需要在 DSH 中使用 Grok 模型及 X 平台搜索与绘图功能的用户。"
+      "sourceHash": "1e387cd4227cccfd015d435f577cf9d4b2ed6dbf789b76381fb4862c3ebc5908",
+      "descriptionZh": "通过OAuth接入并使用Grok系列模型及搜索工具",
+      "analysisZh": "适合拥有SuperGrok或X Premium订阅的用户，在DSH中直接调用Grok模型。"
     },
     "github:Mars-Sea/dsh-commandcode-provider": {
-      "sourceHash": "b60c85a5658b1c5e0a889a251bc245f948f12ee57014a189c7bdae9bcceef173",
-      "descriptionZh": "非官方的 DeepSeek Harness LLM 服务商插件，移植自 pi-commandcode-provider。注册 'commandcode' 服务商路由，提供模型页面卡片和实时模型目录。",
-      "analysisZh": "用于在 DSH 中接入 Command Code 语言模型服务。适合需要使用 Command Code 模型，并希望在模型页面进行可视化管理与状态查询的用户。"
+      "sourceHash": "3fe879ab77b9e5822bcfe8a46b56575895adabf7f9295ffc9d0165ab4dfd32a6",
+      "descriptionZh": "为Command Code提供LLM服务商接入与模型目录",
+      "analysisZh": "适合Command Code用户，在DSH 0.1.7-rc.2中接入该服务商的模型。"
     },
     "github:Mby159/dsh-desktop-browser": {
-      "sourceHash": "90675235e8cd8c638cee8e6457cfd4dab992821c12f83e2616725e4fde99ed5d",
-      "descriptionZh": "宿主插件：在无地址栏的浏览器窗口（--app 模式）中打开 dsh Web 界面",
-      "analysisZh": "核心用途是提供无边框应用模式的 Web 界面。适合需要独立窗口体验、不希望受浏览器地址栏干扰的 DSH 用户。"
+      "sourceHash": "a1aaeae68beac3bb8a4af43e3fe65ecd83471e33b626fccb121133168b31d345",
+      "descriptionZh": "在无地址栏应用模式下打开Web UI的插件",
+      "analysisZh": "适合追求独立客户端体验、希望以无边框应用模式运行DSH Web的用户。"
     },
     "github:mc-lhz/dsh-add-headers-to-completions": {
       "sourceHash": "5a8fce403a6805bc1cc7f35911c22ebf2b137b1ec48358d7296ca6dbe21f4d5a",
@@ -33262,9 +33262,9 @@
       "analysisZh": "适合需要让Agent直接在远程服务器上进行开发的用户。"
     },
     "github:Me-Maped/dsh-ask": {
-      "sourceHash": "e61e2cc7df6c860fb465667f2d6f2a38020f83b901d5c2887e6871e374eda9c8",
-      "descriptionZh": "轻量级终端作用域流式提问模式插件：在当前目录运行单轮对话并退出",
-      "analysisZh": "核心用途是提供极简的命令行单轮提问工具，自动关联当前终端和目录上下文。适合喜欢在终端快速提问、无需打开完整 Web 界面的用户。"
+      "sourceHash": "b44ad1e95ded483f0ad028b7d6b5ffcf04df04cca25d5585326aed93139da4a3",
+      "descriptionZh": "轻量级终端范围流式提问模式插件",
+      "analysisZh": "适合习惯在终端快速发起单次提问、配置默认模型和提供商的用户。"
     },
     "github:me93-ghb/dsh-matrix-think": {
       "sourceHash": "2b5fe05f80fb0e3bb74c2373d5e9befb2bcfc3011510ff79a40f75782dd611b6",
@@ -33297,14 +33297,14 @@
       "analysisZh": "核心用途是通过 `/trading-agent` 命令一键运行复杂的 A 股多智能体投研分析。适合关注 A 股市场、需要多维度 AI 投研决策辅助的用户。"
     },
     "github:MeghanBao/dsh-backstory": {
-      "sourceHash": "66c1a63884bafa8b2f45306037f1e1980d7355ce7787ce32f2408c3002365da7",
-      "descriptionZh": "代码背景查询插件：结合 Git 历史与会话日志解释任意行代码的来龙去脉",
-      "analysisZh": "核心用途是让 Agent 能够查询代码行的 Git 提交历史（作者、日期、提交信息）。适合需要深入理解历史代码变更原因的软件维护和重构任务。"
+      "sourceHash": "a85ce7a778504730fe91e24e916d6bedb57ef86cdd6668430ff7d71aaa962075",
+      "descriptionZh": "结合Git历史与会话日志查询代码背景的插件",
+      "analysisZh": "适合需要追溯代码修改原因、作者及关联智能体对话的软件开发任务。"
     },
     "github:MeghanBao/dsh-crumbs": {
-      "sourceHash": "be346491f487c96f97f0064ce8381551c5dec57f53e2714fefcd2b77fb9f4244",
-      "descriptionZh": "趣味信息填充插件：在长任务运行的等待时间内展示与主题相关的趣味小知识",
-      "analysisZh": "核心用途是在 Agent 执行耗时工具（如 Bash 脚本）时，在界面展示趣味科普或问答。适合想要缓解长时间等待焦虑的用户。"
+      "sourceHash": "43e0eb6be9768ffb2896ba76ff9c06fc5656ab34358498e5f82f32dc96cd8db4",
+      "descriptionZh": "在长时间任务运行期间自动展示趣味小知识",
+      "analysisZh": "适合需要缓解长时间等待焦虑的用户，在后台任务运行时提供趣味调剂。"
     },
     "github:meilulin/dsh-moa": {
       "sourceHash": "82e45a17e92ccb7ff459a3910551372c68c2dc8aafdc55b4dfcaaf4ae5c4689c",
@@ -33322,9 +33322,9 @@
       "analysisZh": "核心用途是在 Web 界面侧边栏提供一个持久化的、按工作区划分的智能体看板。适合需要直观管理、跟踪和可视化智能体工作流与任务状态的用户。"
     },
     "github:Mekansm1/DSH-WebGIS": {
-      "sourceHash": "ddaef2b9f0cbdc7fa16cc1dbabec2b75882087f62d62f32a24f2c9083822a9a2",
-      "descriptionZh": "DeepSeek Harness WebGIS 插件：支持地图读取、操作与 3D 空间理解",
-      "analysisZh": "核心用途是为 DSH 引入地理信息系统（GIS）能力，支持地图操作和空间数据可视化。适合需要处理地图数据、进行地理空间分析的任务。"
+      "sourceHash": "42aa6a1bae895a282d17500241d5106b78d75c2639198b72caf217555701e099",
+      "descriptionZh": "提供地图阅读、操作及三维世界理解的WebGIS插件",
+      "analysisZh": "适合需要进行地图操作和三维地理信息可视化任务的用户，需web profile。"
     },
     "github:mekos2772/dsh-plugin-mimi": {
       "sourceHash": "002ccd2f603e734da2ef95a98f5a778cdbc8e98a3d29488c5eadb836bff0ed8d",
@@ -33382,9 +33382,9 @@
       "analysisZh": "适合进行DSH插件开发、调试，需要动态调整插件行为的开发者。"
     },
     "github:Mauit06/dsh-jinhsi-skin": {
-      "sourceHash": "1deec198b5d400ee3cd8913e609b508b29cde9a1ad342634c7269c663cdbce8e",
-      "descriptionZh": "DeepSeek Harness 网页 GUI 的今汐（《鸣潮》）主题皮肤插件，可将皮肤安装至皮肤中心的自定义皮肤目录中。",
-      "analysisZh": "核心用途是为 DSH 网页端提供《鸣潮》今汐主题的银白、墨黑、金丝与薄荷绿配色皮肤。适合喜爱该角色的用户美化界面。需要 DSH ≥ 0.1.5-rc.1、皮肤中心及 Node.js 22+。"
+      "sourceHash": "71205f447f296be76363dddd0b51f9d902e634fba74457ed30a7a4e5d813b044",
+      "descriptionZh": "内置动态壁纸的《鸣潮》今汐主题皮肤插件",
+      "analysisZh": "适合想要美化Web界面的用户，可选依赖皮肤中心插件以获得完整渲染能力。"
     },
     "github:Max-Null/dsh-capture": {
       "sourceHash": "19128eff888d3a6392082f75f0f56e1fb47d06324b154faa855e3af711c42155",
@@ -33392,9 +33392,9 @@
       "analysisZh": "适合在对话中需要频繁截图、快速发送视觉信息进行讨论的用户。"
     },
     "github:Max-Null/dsh-chat-rail": {
-      "sourceHash": "ff42df2eaa0907313521e5067bd0dde918e00744a7849fa4313c97f51d7c400c",
-      "descriptionZh": "画卷式消息导航栏插件：在右侧提供竖条导航，hover 时平滑展开消息列表，支持 scroll-spy 高亮跟随与点击跳转，并与 better-sidebar 动画同步避让。",
-      "analysisZh": "核心用途是为长会话提供平滑的画卷式消息定位与预览导航。适合需要频繁在历史消息间跳转、且使用了 better-sidebar 侧边栏的用户，能有效解决传统导航栏的遮挡与错位问题。"
+      "sourceHash": "99bed49cc1dbbd633a461da73400ac9c3fd5439f44c5e64f7823415f29efac55",
+      "descriptionZh": "画卷式消息导航栏与会话锚定过滤插件",
+      "analysisZh": "适合需要快速预览、高亮跟随和收藏过滤历史会话消息的用户。"
     },
     "github:Max-Null/dsh-chinese-thinking": {
       "sourceHash": "702551911f464900614c942da69ff56b305720e2741add76333125c8da00e439",
@@ -33407,9 +33407,9 @@
       "analysisZh": "适合在发送前需要优化表达、润色文字，且希望结合当前会话上下文的用户。"
     },
     "github:Max-Null/dsh-guardian": {
-      "sourceHash": "ffa2b579d8d0b24a17b7165d34bb8a3ced40775c4c9036890a97d9594dbdf975",
-      "descriptionZh": "提供断言计数、编辑审核队列和无反馈循环的事件监控",
-      "analysisZh": "适合需要对会话事件、状态机及编辑队列进行安全监控与审核的系统管理员。"
+      "sourceHash": "f895a1c15e3fcb00bbeb0c2cbba37357044a1c977945b92271960026317abc58",
+      "descriptionZh": "提供断言计数与编辑审核队列的状态引擎",
+      "analysisZh": "适合需要对会话事件进行无反馈循环监控和编辑审核的安全管理任务。"
     },
     "github:Max-Null/dsh-habit": {
       "sourceHash": "d5d2c5301a0f7b5081b0f21d8217e6965d420458f4e2c50a37fbad9907e4302d",
@@ -33417,19 +33417,19 @@
       "analysisZh": "适合希望智能体通过日常交互自动学习、纠正并固化个人偏好习惯的用户。"
     },
     "github:Max-Null/dsh-memory": {
-      "sourceHash": "4181d9a4c0e8657897bde0ed60a5ad82f26c17cd165200e2894b5f7ef2ef3c65",
-      "descriptionZh": "跨会话纯文本记忆管理插件",
-      "analysisZh": "适合需要跨会话持久化记忆、通过人工审核控制记忆注入的用户。"
+      "sourceHash": "c595bf455a912916a317155abc128219e3210389345d82e68c98e4d8fa15ce83",
+      "descriptionZh": "基于BM25检索的跨会话纯文本记忆插件",
+      "analysisZh": "适合需要管理提示词模板库、实现记忆自动常驻与召回的智能体任务。"
     },
     "github:Max-Null/dsh-node-appearance": {
-      "sourceHash": "edf42d6c44a0bf4edcf88c61db9b9029613ae552cc4b4b10c54cfdea2c01be72",
-      "descriptionZh": "会话节点外观插件：支持根据节点类型或工具名称进行个性化配色，并提供思考过程的显示开关。",
-      "analysisZh": "核心用途是美化和清晰化 DSH 网页端会话节点的视觉呈现。适合需要直观区分联网搜索、代码执行、文件操作等不同工具节点，或希望自由控制思考过程显隐的用户。"
+      "sourceHash": "98a61f2aa65fea58abf33026c00d2ef54609ee07cb9fad92a8e7aa1bfeeeb451",
+      "descriptionZh": "会话节点分类着色与思考过程显示外观插件",
+      "analysisZh": "适合需要个性化定制Web UI节点颜色、清晰展示交付文件和思考过程的用户。"
     },
     "github:Max-Null/dsh-plugin-center": {
-      "sourceHash": "a8c97df3231dcba8f38bca1ebf48eadaec2c36e765c93c3ba0c08daec33a5572",
-      "descriptionZh": "思灵桌面体验的插件中心管理工具",
-      "analysisZh": "适合使用SSID系列插件，需要管理元数据、市场及更新的用户。"
+      "sourceHash": "e6662dbc459986b65bd3d182e8eb453de47c918099ca11e54ba4a1ec02f8dd6a",
+      "descriptionZh": "提供已装元数据、社区市场及更新检测的插件中心",
+      "analysisZh": "适合需要统一管理已安装插件、浏览社区市场和获取更新提示的用户。"
     },
     "github:Max-Null/dsh-sidebar-preview-select": {
       "sourceHash": "a5b1b6e405781394e572c1e2bb7455aa474a05a1c73cf9e3ebedb44c45cf9e7b",
@@ -33437,24 +33437,24 @@
       "analysisZh": "核心用途是简化侧边栏文档预览与当前对话的交互。适合经常在侧边栏阅读 Markdown、代码或 Office 文档，并需要引用其中片段与 AI 讨论的用户。需配合 better-sidebar 使用。"
     },
     "github:Max-Null/dsh-skill-mcp-center": {
-      "sourceHash": "6febe367df89d6284119c7b8e299d3621b241fc9025230044fcc9617268d2b14",
-      "descriptionZh": "技能与MCP服务管理中心插件",
-      "analysisZh": "适合需要在设置中管理技能和MCP服务器，并监控其状态的用户。"
+      "sourceHash": "003af184351e56fdb129b8ee1d55f6ce309e05507ac791686d0b762c226edbb1",
+      "descriptionZh": "管理技能与MCP服务及状态的控制中心",
+      "analysisZh": "适合需要在设置中配置技能、管理MCP服务器并实时查看其状态的用户。"
     },
     "github:Max-Null/seek-soul-in-darkness:plugins/dsh-ssid-panels": {
-      "sourceHash": "5f689d3ece43f4fc4763a116ed1b102b8f87bcda5f4da1b216f588e771367f6c",
-      "descriptionZh": "思灵侧边栏面板集成插件",
-      "analysisZh": "适合需要将记忆、守护者状态、习惯和API余额集成到侧边栏的用户。"
+      "sourceHash": "12f109847e6b80381f460702348bf67b748e0760c2809c2d1c0e5cb95c4a4d4f",
+      "descriptionZh": "提供记忆、守护状态、习惯及余额的侧边栏面板",
+      "analysisZh": "适合需要将记忆、API余额等关键信息作为侧边栏标签页展示的SSiD用户。"
     },
     "github:Max-Null/seek-soul-in-darkness:plugins/dsh-ssid-zh-ui": {
-      "sourceHash": "b37cf0c98fab6ec12e6bbe5e8a18fb19233edee6c62a6888e7880f38b731ad1f",
-      "descriptionZh": "思灵输入栏中文本地化插件",
-      "analysisZh": "适合需要中文命令描述和权限预设标签的DSH Web GUI用户。"
+      "sourceHash": "ba05baf5bbe4005413c70ccedbd8e14bc7cedf383ce4918bb00558dffedbcaf3",
+      "descriptionZh": "提供中文指令描述与权限预设标签的本地化插件",
+      "analysisZh": "适合需要将DSH Web GUI的输入栏、指令及权限标签汉化的中文用户。"
     },
     "github:Max-Samson/dsh-usage-chart": {
-      "sourceHash": "675ce0f178526ccab7c00e5bec8ee7618159c24b6c4772586e5c4bd2dfd93e51",
-      "descriptionZh": "DeepSeek 用量、成本与余额仪表盘插件：在输入框下方提供实时指标指示器，并包含零依赖的 SVG 用量可视化图表。",
-      "analysisZh": "核心用途是直观监控 DeepSeek API 的 Token 消耗、花费及账户余额。适合需要精细化控制 API 预算、实时掌握用量开销的用户。要求 DSH ≥ 0.1.0-rc.6。"
+      "sourceHash": "abc9ab8687ed5441dc3ac6b2388bb0999b02c5881e77f7affb4c8b9b0e85f82f",
+      "descriptionZh": "用量、成本及余额实时监测仪表盘",
+      "analysisZh": "适合需要实时监控DeepSeek Token消耗、单轮成本及账户余额的用户。"
     },
     "github:MAXeaglet/dsh-bash-terminal": {
       "sourceHash": "3eebac78cebf731870809e3dea6f72c4654be1cfa07fdffe43733b9b5adbb221",
@@ -33472,9 +33472,9 @@
       "analysisZh": "核心用途是保障 DSH 开启局域网共享（0.0.0.0）时的访问安全。适合需要将本地 DSH 服务分享给局域网内其他设备，但又需要限制访问权限的用户。"
     },
     "github:MaxHou-infinity/dsh-scout": {
-      "sourceHash": "5c0e54d11354a4f8e07bd18faf7a6f13236375d2d3837898ac59a44b5ecdd15b",
-      "descriptionZh": "面向 DeepSeek Harness 的数据驱动型公司与岗位情报分析插件。",
-      "analysisZh": "核心用途是收集和验证企业及岗位情报，支持自动将分析案例落盘存储。适合进行求职调研、企业背景调查或行业情报收集的用户。要求 Node ≥ 22.19。"
+      "sourceHash": "b35562f51e34811eefdf665f59503c07db15d05c8f059564c09c28bd35a6c115",
+      "descriptionZh": "基于证据驱动的公司与职位情报分析插件",
+      "analysisZh": "适合需要进行企业调研、岗位情报收集与验证的分析任务。"
     },
     "github:maxiaovivi/dsh-cloak-browser": {
       "sourceHash": "7e55c44293692bb52b4481c669804ace1a465be9b3ee7814d71a132b28c2cea4",
@@ -33632,14 +33632,14 @@
       "analysisZh": "核心用途是提供图像问答、OCR、定位、UI 还原、像素对比等视觉处理能力。适合需要为 Agent 配置视觉模型并处理图像相关任务的用户。"
     },
     "github:Mengshang-spec/dsh-plugin-trustlens": {
-      "sourceHash": "c596b90be418d992ffd978dc5826c6daa827802a51c9b2e6e49f28462cc1e4b1",
-      "descriptionZh": "DSH 插件安全审查工具：静态扫描与模型语义审查",
-      "analysisZh": "核心用途是在启用或更新插件前进行安全审查。适合需要对第三方插件进行静态代码扫描、结合当前会话模型进行语义审查并由用户确认放行的安全防范任务。"
+      "sourceHash": "bb8fd87b7b67b55958a79276ab8fc079075350b39da2ba89bfa036a05c7e5962",
+      "descriptionZh": "对安装的插件进行静态扫描、语义审查与安全确认",
+      "analysisZh": "适合关注插件安全性的用户，在启用或更新插件前进行多重安全审查。"
     },
     "github:Mengshang-spec/dsh-third-party-api-balance-wallet": {
-      "sourceHash": "704d268a1aa4edcd0d1d3b84f50a4cdfc38ae703f4b37941b8ae6e43aaee3b27",
-      "descriptionZh": "第三方 API 接入 DSH 查询余额插件",
-      "analysisZh": "核心用途是接入第三方 API 查询账户余额。适合需要直接在 DSH 输入框底部配置网页登录令牌，并一键刷新显示 CNY 余额的用户。"
+      "sourceHash": "19bb22929a2f456f0ca068ca27b1e80dfaa373ecef028a1f037963bfd60c52fa",
+      "descriptionZh": "自动或手动查询第三方API余额的工具",
+      "analysisZh": "适合使用非官方第三方API并需要实时监控API余额的用户。"
     },
     "github:mengxingGG/dsh-plugin-marketplace": {
       "sourceHash": "53727c0cb0e58e3f6ac9aaf05a0d3c5fc2851fe1a917ad5c1dd73deab2c147ba",
@@ -33652,9 +33652,9 @@
       "analysisZh": "核心用途是解决长会话切换卡顿问题。适合需要对 DSH 会话进行体检、归档旧会话、清理空会话，并为 API 代理打上“跳过流式 chunk”补丁以提升响应速度的用户。"
     },
     "github:MengYuil/dsh-ponytail": {
-      "sourceHash": "9c398c48d67595b280151424695d56c335c29003c7fb255c25d6c2e3dea3869d",
-      "descriptionZh": "移植至 DeepSeek Harness 的懒惰资深开发模式插件",
-      "analysisZh": "核心用途是注入最少代码心智规则集。适合需要 7 级阶梯规则集每轮注入、强度切换以及使用快捷斜杠命令进行代码审查、技术债评估等任务的开发者。"
+      "sourceHash": "6e709d0ee9775081dbd550684865701cef4b67354730fe7f2d13f8527d097a45",
+      "descriptionZh": "适配极简编码原则、强度切换及代码审查的技能集",
+      "analysisZh": "适合追求极简代码、需要进行技术债追踪和代码精简的开发者。"
     },
     "github:mengyun233/dsh-codex-pet": {
       "sourceHash": "c75400b1f623d0f9ffa6c76d964b7b3aec6527002c8693a0ece1390480f0e497",
@@ -33687,9 +33687,9 @@
       "analysisZh": "核心用途是提供长期记忆存储与检索。适合需要让 Agent 记住用户偏好、保存关键信息并在后续对话中通过语义召回相关上下文的任务。"
     },
     "github:MeowLynxSea/dsh-cot-summerization": {
-      "sourceHash": "2817a0e328b9b0f718e3ed878d7c4f4237a166e6c6dce8ee182554754c96472e",
-      "descriptionZh": "DSH 插件：隐藏原始思维链并显示由小模型生成的摘要思维链",
-      "analysisZh": "核心用途是简化 UI 上的思维链展示。适合需要保持 Agent 多轮推理不受影响，但在界面上将冗长思维链压缩为精简摘要的用户，支持自定义风格和长度。"
+      "sourceHash": "1fa40b90b1006090242814145da3af0b03b4a071c2047e8ba9fe3a70c393194e",
+      "descriptionZh": "隐藏原始思维链并显示由轻量模型生成的摘要",
+      "analysisZh": "适合希望简化界面、只看精简版思维链而不影响模型推理的Web用户。"
     },
     "github:Meowrium/dsh-auto-continue": {
       "sourceHash": "9c2f78afda89da708fca9e5dc01f397339f7fe9d16743a6d225387f2f5c39479",
@@ -33702,9 +33702,9 @@
       "analysisZh": "核心用途是增强右侧边栏的图片预览体验。适合需要对工作区图片进行鼠标滚轮缩放（光标锚定）、鼠标拖拽平移、一键适应窗口或 1:1 还原的用户。需要 DSH 0.1.5+。"
     },
     "github:MeowTnT3r/catalog-capabilities-zh": {
-      "sourceHash": "a34618bda39f4a15b0a5da8d7b411618dfe9a2f802b96c95a3233fb9c03b986a",
-      "descriptionZh": "DSH 插件适配器：编排插件/技能安装并维护可搜索的中文能力目录",
-      "analysisZh": "核心用途是管理和检索 Agent 能力。适合需要扫描、筛选和维护中文能力目录，并在需要时调用系统可信安装器安装技能或插件的用户。内嵌 CLI 需 Python 3.11+。"
+      "sourceHash": "27dc2ee0824632b2e239e971320aaeabd7888e2061a37cba5979fc065fea6b52",
+      "descriptionZh": "编排可信安装器并维护中文能力目录的适配器",
+      "analysisZh": "适合需要扫描、筛选和维护中文技能与插件目录的Codex或DSH用户。"
     },
     "github:mercy719/dsh-client-ui-weather": {
       "sourceHash": "159a869699ce0ee3b95081ccbd387798eec7346a26392c5e2b011b81b14d1c85",
@@ -33712,14 +33712,14 @@
       "analysisZh": "核心用途是在 Web 界面上展示天气信息。适合需要查看多城市当前天气、8小时温度趋势图、5天预测，并能将其折叠为紧凑状态且不阻挡底层操作的用户。"
     },
     "github:Meredith2328/dsh-sidebar-mode": {
-      "sourceHash": "0f4edc3f6f5e3d99b9cdcbd5e8b44e41947e25c23cfcb5c2ee7d2530fb3ce2f8",
-      "descriptionZh": "将默认四种模式切换整合进“新会话”按钮的 DSH 插件",
-      "analysisZh": "核心用途是简化新会话创建时的模式选择。适合需要快速在标准、PTC、创造、极简等预设间切换，并实现与设置中 Agent 预设双向同步的用户。"
+      "sourceHash": "e9903c44bb6fcf161730ae577138e49f9b68f53dafbfdf8cc49418292dd6a6b3",
+      "descriptionZh": "将模式切换整合至新会话按钮并同步预设",
+      "analysisZh": "适合需要频繁切换不同Agent预设并快速创建新会话的DSH用户。"
     },
     "github:Meredith2328/dsh-sticky-note": {
-      "sourceHash": "4427caa886060234a7010484c97aaf607a70a5abcbf6b1d6f3e441fff78b09e5",
-      "descriptionZh": "DSH 左下角便签插件：随手记点子/TODO并实时保存归档",
-      "analysisZh": "核心用途是提供随手记便签功能。适合需要快速记录点子、TODO，支持自动保存、分类管理、一键发送至对话、Markdown 预览及自动超期清理的用户。"
+      "sourceHash": "21e3ea1a31be05978877cd6c99b15002f4637348ca14f9b830ae68e3050aabff",
+      "descriptionZh": "左下角常驻便签，支持自动保存、分类与缩放",
+      "analysisZh": "适合需要在对话过程中随时记录灵感、TODO且需实时落盘的用户。"
     },
     "github:merenguesL/dsh-tool-normalizer": {
       "sourceHash": "aba213f204b0dde343e9bf18bb6a2ab68efedc4d9e0e937ba2a6936fec09d3a4",
@@ -33782,9 +33782,9 @@
       "analysisZh": "移植了 Matt Pocock 的 25 个核心技能（如 TDD、Code Review、需求流程）。适合希望在 DSH 中引入标准化工程研发工作流的开发者。"
     },
     "github:Meteor-system/superpowers-for-dsh": {
-      "sourceHash": "d44deb3fba822646992f97a50cf082e6a48a1aa3d84c5403479e7956bd9b50f6",
-      "descriptionZh": "将 Superpowers 通用工程工作流引入 DSH 的独立技能包插件",
-      "analysisZh": "集成 14 个通用工程技能，支持自动引导和 Windows 沙箱兼容。适合需要在 DSH 中执行复杂软件工程协作与自动化工作流的用户。"
+      "sourceHash": "a8ba2d980917014c9682da1eb3b59db5f6b6a9f0519861da7ff405eb30defe98",
+      "descriptionZh": "提供便携式技能、自动引导及沙箱兼容性支持",
+      "analysisZh": "适合需要系统化调试、测试驱动开发等高级研发工作流的团队。"
     },
     "github:mexiaosqwq/dsh-web-mobile": {
       "sourceHash": "4f34d2a9b45974c9909556fbf15f990a5e0943da0c884006990731f850878ca5",
@@ -33807,9 +33807,9 @@
       "analysisZh": "提供可视化卡片监控服务器 CPU、内存、磁盘和延迟，并支持点击直接进入 xterm 终端。适合需要便捷监控和管理多台服务器的运维与开发人员。"
     },
     "github:Mg-K-Mn/dsh-plugin-manager": {
-      "sourceHash": "b2b3d168500337385a2b33f6b48726d68aef22ef7db0b883b5c7aa89b6061052",
-      "descriptionZh": "DSH 网页端已安装插件管理器，支持一键启用/禁用插件",
-      "analysisZh": "在 Web 界面提供已下载插件的列表，支持一键启用或禁用，修改即时生效无需重启。适合需要便捷管理和调试 DSH 插件的用户。"
+      "sourceHash": "5c9837d731db2178ff2fdbe04b786d70b20517c33f133dff414e26b50dd8214f",
+      "descriptionZh": "在Web端一键启用、禁用及管理已下载插件",
+      "analysisZh": "适合需要便捷管理已安装插件、免重启即时生效的DSH Web用户。"
     },
     "github:mhdfy1988/dsh-codex-auth": {
       "sourceHash": "d806e17eb766db970114d7db4256489a4364018e0ddce4df2e2a2b15b38b89e4",
@@ -33877,69 +33877,69 @@
       "analysisZh": "在会话区域边缘提供消息导航条，Hover 时显示预览，点击可平滑滚动跳转。适合需要高效浏览和跳转当前会话历史消息的用户。"
     },
     "github:MichaelShii/dsh-plugin-teamflow": {
-      "sourceHash": "0c2320ff992dd8622ce6a0a6d1c8d7ebed0ae66e898444db2fef773614446d10",
-      "descriptionZh": "团队研发流水线与工作台插件",
-      "analysisZh": "适合需要管理从需求到验收的研发流程，并使用看板的Web团队。"
+      "sourceHash": "f10a566c31dd787521ff20f270293878df3e1fb89e5977b86e372f6bde626552",
+      "descriptionZh": "提供研发流水线管理、看板及团队工作台的插件",
+      "analysisZh": "适合需要进行需求分诊、并行开发、QA验收等全流程研发管理的团队。"
     },
     "github:MichengAI/dsh-agency-agents": {
-      "sourceHash": "1950f54285db046c1ee900039fcd614a09b67141d4096d28f7625233c4cc45e1",
-      "descriptionZh": "为 DSH 提供可召唤的领域专家名录插件（专家模式）",
-      "analysisZh": "提供专家管理面板和召唤工具，允许用户或主会话通过 `@` 或工具调用特定领域专家 Agent 执行任务。适合需要多专家协同处理复杂专业任务的用户。"
+      "sourceHash": "5d02eed61b04e80a676945c25f5c1ac827c35970039a903aaf76706e75247a58",
+      "descriptionZh": "提供321名可召唤的专业领域智能体专家",
+      "analysisZh": "适合需要在对话中快速召唤、切换不同专业领域专家协助任务的用户。"
     },
     "github:MichengAI/dsh-archive-manager": {
-      "sourceHash": "950d62dee3a7c474ef959c65d606132d9c318cd540da72f57d88e790eb9b38ad",
-      "descriptionZh": "用于管理 DSH 已归档会话的 Web 设置页插件",
-      "analysisZh": "在设置中提供“已归档会话”管理面板，支持按工作区查看、恢复或永久删除已归档的会话。适合需要整理和维护历史会话的用户。"
+      "sourceHash": "407735a32ac951dfdf0cf5341fe711f7d872ba2bafab1d12e8bdaaedf11354b1",
+      "descriptionZh": "管理、搜索、排序和恢复已归档会话的工具",
+      "analysisZh": "适合积累了大量历史会话，需要高效分类、检索和恢复归档的用户。"
     },
     "github:MichengAI/dsh-automation": {
-      "sourceHash": "0af27c94b3079673f74351ac0ef7276b782eeb3da34fad50347f230ae7e07623",
-      "descriptionZh": "在独立 DSH 会话中按计划执行编码任务的定时任务管理插件",
-      "analysisZh": "支持通过 Web 设置面板或聊天界面创建、暂停、立即运行和查看定时任务的历史记录。适合需要定期自动执行代码构建、检查或日常任务的用户。"
+      "sourceHash": "6baa28a0b65c1d6585a7c99b9fb05dff8bbdcfdda73e3e6a56a46d714ef429e3",
+      "descriptionZh": "在独立会话中按计划执行和管理编码任务",
+      "analysisZh": "适合需要定时自动运行特定提示词、执行周期性编码或检查任务的用户。"
     },
     "github:MichengAI/dsh-btw": {
-      "sourceHash": "aac2aee9a67a9c0b58469e180e863b988b1c8ba24d5d9a5a5d4283c60b5e3e3b",
-      "descriptionZh": "为 DSH 提供一次性只读旁问气泡功能的插件",
-      "analysisZh": "支持通过 `/btw` 指令在不打断主线任务的前提下，向模型发起独立的旁问，并在输入框上方气泡中展示回答。适合需要在长任务执行中临时提问的用户。"
+      "sourceHash": "10ddb70369f2eec5d487941b3be0a5b110eece2931790d193c36b1700e19ac61",
+      "descriptionZh": "基于当前上下文在独立气泡中进行一次性旁问",
+      "analysisZh": "适合需要在不打断主对话、不执行工具的情况下对局部文本提问的用户。"
     },
     "github:MichengAI/dsh-codex-ui": {
-      "sourceHash": "34ec855c5e0b59e367849b07ceb816fafa8f049fda27f7360dcd4ca950623d64",
-      "descriptionZh": "以 Codex 风格重构 DSH 网页端侧边栏的独立客户端插件",
-      "analysisZh": "重构 DSH 侧边栏，提供全局搜索、工作区固定、会话管理（重命名/归档/派生）等高级导航功能。适合追求高效、紧凑界面交互体验的用户。"
+      "sourceHash": "977016e8b69f7ce819f92dc773e20d0c9059689c462784a2d5c9e803c9520f9b",
+      "descriptionZh": "提供侧栏、工作区会话树、全局搜索和轮次导航",
+      "analysisZh": "适合需要更清晰的会话组织结构、全局搜索及便捷导航的Web端用户。"
     },
     "github:MichengAI/dsh-im-connect": {
-      "sourceHash": "b7d6c809eb4b6adb5e1bb89d7ce65b8934ebaadb473ebf1a74d08e664798994e",
-      "descriptionZh": "将本机智能体接入主流IM的助理插件",
-      "analysisZh": "适合需要通过微信、飞书、钉钉等IM工具与本机智能体交互的用户。"
+      "sourceHash": "c5c83ac95c04112b9835b02438849c0605e5aa66941920715d624642d6574ff3",
+      "descriptionZh": "将主流即时通讯平台接入本机智能体",
+      "analysisZh": "适合需要通过微信、飞书、Telegram等IM工具远程与本地智能体交互的用户。"
     },
     "github:MichengAI/dsh-simplify": {
-      "sourceHash": "4de8089dbc5100ab2af764acfc4d5f669f1ee52d2ea8629245194bbed025a2c7",
-      "descriptionZh": "限定 Git 变更范围的 DSH 代码简化与审查辅助插件",
-      "analysisZh": "通过 `/simplify` 指令限定 Git 变更范围，支持未跟踪文件、跨平台路径及异常处理。适合需要对特定 Git 提交或工作区变更进行代码简化的开发者。"
+      "sourceHash": "8fda484202d6efcb691e6207404b0e7eb21f3bc019f75ce5ab625dcb54b848eb",
+      "descriptionZh": "限定Git变更范围的代码简化与异常处理工具",
+      "analysisZh": "适合需要在Git项目中快速简化代码、重构未暂存或特定提交更改的开发者。"
     },
     "github:MichengAI/dsh-skills-manager": {
-      "sourceHash": "648fbe6aebb4578f7ea951d5edf3172df8a0cc1cff2d291a2bc60ce34af0f166",
-      "descriptionZh": "安全加载与管理技能的Web插件",
-      "analysisZh": "适合需要跨项目或全局安全导入、开关和管理技能的开发人员。"
+      "sourceHash": "56c4bf4415d390e4063ae5350600e851e3bec5600689c3c60945dc520fcbc32b",
+      "descriptionZh": "统一加载并安全管理本机Agent Skills的管理器",
+      "analysisZh": "适合需要从GitHub等渠道导入、更新、备份和开关管理技能的用户。"
     },
     "github:MicroHEROX/dsh-exa-mcp": {
-      "sourceHash": "fe16a252ac65575e02b07104293f5451068652be60e7db2a531d2fe1f7ac95b1",
-      "descriptionZh": "将 Exa 神经网络搜索引擎接入 DSH 的 MCP 桥接插件",
-      "analysisZh": "通过内置的 MCP 客户端将 Exa 远程搜索端点挂载为 DSH 工具，提供强大的网页搜索与内容获取能力。适合需要让 Agent 进行深度联网搜索的用户。"
+      "sourceHash": "64a05da301506225961662f220f0893be2d51da13c561c11b5692edab472420c",
+      "descriptionZh": "通过内置桥接器挂载远程Exa搜索端点",
+      "analysisZh": "适合需要将Exa神经网络搜索与提取引擎接入DSH会话的用户。"
     },
     "github:MicroHEROX/dsh-Kimi-WebBridge": {
-      "sourceHash": "c5a6ec8e644d4e68e7549740d7bc2b3f0392efd2c3a26eec35472cbe882ecc57",
-      "descriptionZh": "通过本地守护进程驱动真实浏览器执行网页操作的 DSH 插件",
-      "analysisZh": "允许 Agent 驱动真实浏览器进行导航、点击、截图、文件上传和 PDF 处理。适合需要 Agent 执行复杂网页自动化、爬虫或前端交互任务的用户。"
+      "sourceHash": "3aa8fcc8d84d41bffcc47c25630e3278d18106505881ffed155d93ed1c550b01",
+      "descriptionZh": "通过本地守护进程驱动真实浏览器执行操作",
+      "analysisZh": "适合需要控制真实浏览器进行网页导航、截图、上传及PDF处理的任务。"
     },
     "github:MicroHEROX/dsh-koboldcpp-hands": {
-      "sourceHash": "bcbd18996b2f7bab399e7fe8157b8cdd90f292b5d7b9ab51ad3eac8ceb2b625d",
-      "descriptionZh": "将 DSH 在线模型与本地 KoboldCpp 服务器连接的工具插件",
-      "analysisZh": "允许 DSH 在线模型将重复性的文本处理和视觉（OCR）任务分流给本地运行的 KoboldCpp（llama.cpp）服务器。适合需要结合本地算力节省 Token 的用户。"
+      "sourceHash": "4aed5f65c2fdcf337d5fcb47daf153137f52c1445b5517ca4d9144835220b65e",
+      "descriptionZh": "将重复的文本和视觉任务分派给本地服务器",
+      "analysisZh": "适合拥有本地KoboldCpp服务器并希望分担OCR和文本处理的用户。"
     },
     "github:MicroHEROX/dsh-unsloth-hands": {
-      "sourceHash": "503b9779dd0b3f749292a422d3fafb2feb50747f7ff9b488e583246cc233805e",
-      "descriptionZh": "将 DSH 在线模型与本地 Unsloth Desktop 服务器连接的工具插件",
-      "analysisZh": "允许 DSH 在线模型将重复性的文本和视觉（OCR）任务分流给本地运行的 Unsloth 桌面服务器。适合需要利用本地 GPU 算力辅助在线模型处理任务的用户。"
+      "sourceHash": "29220272540ffd9b8e16bfec7cecae3d89e6c628f56388c17bb654a7bbc7c6b4",
+      "descriptionZh": "连接本地Unsloth桌面服务器处理文本和视觉",
+      "analysisZh": "适合需要利用本地Unsloth Desktop进行文本与OCR协作的开发者。"
     },
     "github:MicroMilo/upstream-radar": {
       "sourceHash": "c426b09a19b06eb48899a60f7ea0980f910979dc73f626657fca7d23fa71a105",
@@ -33947,9 +33947,9 @@
       "analysisZh": "适合需要跨 headless、Web 和 TUI 监控插件依赖及上游变更的开发者。"
     },
     "github:MicroSpotlight/openharness-find-plugin": {
-      "sourceHash": "677b810deca75c999ef7a441dd0cd8294b2644b03d6127ddf7dacf776b3860e6",
-      "descriptionZh": "发现并展示 OpenHarness 插件目录的 DSH 插件",
-      "analysisZh": "提供 `openharness_find_plugins` 搜索工具，并在设置中增加“发现”标签页，方便浏览和获取插件信息。适合想要探索和寻找 DSH 插件的用户。"
+      "sourceHash": "4b2f1052f24aa64e164c6b7283dd6a887b4c10971cfc0413d45c0da344c81838",
+      "descriptionZh": "发现、安装和升级精选目录中的插件",
+      "analysisZh": "适合需要便捷管理、搜索和一键更新OpenHarness插件的用户。"
     },
     "github:MicroWearld/dsh-a2a-server": {
       "sourceHash": "b09d1ec5733653d7a98236294992d2f3a4a08f485929a0b0415ed08af63d8c04",
@@ -34017,9 +34017,9 @@
       "analysisZh": "核心用途是实时监控会话开销与高峰时段。适合需要紧密监控 API 余额、避免在高峰期高价时段无意消耗大量 token 的用户。"
     },
     "github:MikotoMyWife/dsh-mcp-loader": {
-      "sourceHash": "fa687b6cf785e0a1fc010071a848f7fc1a5823a727c6b45a6ce9e15bf52e7f89",
-      "descriptionZh": "DeepSeek Harness 的延迟加载 MCP 工具插件，支持多工具 MCP 服务器的单加载器代理、单 Agent 工具屏蔽及描述预设。",
-      "analysisZh": "核心用途是优化和按需加载 MCP 协议工具。适合接入了大量 MCP 服务、需要精细控制 Agent 工具可见性与描述的进阶用户。"
+      "sourceHash": "0f400c889278bd76589c9e24e7c0f77013708ba12b166db905eb30f42ce033eb",
+      "descriptionZh": "为多工具MCP服务器提供延迟加载和工具屏蔽",
+      "analysisZh": "适合需要按需加载MCP工具、配置工具屏蔽和描述预设的系统管理员。"
     },
     "github:miku00039-01/dsh-whale-pet": {
       "sourceHash": "b86a584bca5e7002de37c27c79df70518ede503ff6410240c11402af0720f413",
@@ -34037,9 +34037,9 @@
       "analysisZh": "核心用途是为 Agent 提供完整的软件开发生命周期管理能力。适合需要让 Agent 执行复杂、多阶段软件工程任务的用户。"
     },
     "github:Mikuzjc/dsh-office-for-mso": {
-      "sourceHash": "6893d9eaadf8bd2276cd567f088482034c8bd3f0c4fa024d3f47cb40eb8364fc",
-      "descriptionZh": "DSH 与微软 Office 桥接执行器，通过 Office 加载项控制打开的 Word/Excel/PPT 文档，支持 33 种 AI 编排动作。",
-      "analysisZh": "核心用途是实现 AI 对本地 Office 文档的直接控制。适合需要利用 AI 自动化处理、编辑或生成 Word、Excel 和 PPT 的用户。"
+      "sourceHash": "0914227b4eb4d9fea2a81ea989b8c62be39f3e37190e21f4d51619095a1a65db",
+      "descriptionZh": "通过加载项控制Word、Excel和PPT文档",
+      "analysisZh": "适合需要在Windows/macOS下通过AI指令自动化操作Office文档的用户。"
     },
     "github:Milbaxter/dsh-critique-loop": {
       "sourceHash": "8c2ad645165dcc8026afa1308596ef0f3e3525d3cf4563e23b0b74077fc553d2",
@@ -34062,9 +34062,9 @@
       "analysisZh": "核心用途是多 Agent 任务的协同与状态监控。适合同时运行多个 Agent 任务、需要频繁切换或接管工作上下文的用户。"
     },
     "github:MimicHunterZ/dsh-agent-compact": {
-      "sourceHash": "ed4cc466795164deda7f7b6e9e9e3f00cc50558867e5312d9972c324d43db831",
-      "descriptionZh": "上下文压缩工具插件，允许 Agent 自行编写替代检查点并提交给主机压缩引擎，从而跳过 LLM 摘要生成调用。",
-      "analysisZh": "核心用途是降低长对话中的 token 消耗。适合超长会话任务，希望通过 Agent 自主压缩上下文来节省 token 和费用的用户。"
+      "sourceHash": "97fc7f2f5a4497d4a84dbc4f142f5ca1588f2b9f45f39d53a54b7c2741c93fd3",
+      "descriptionZh": "由智能体自主编写替换检查点以压缩上下文",
+      "analysisZh": "适合需要跳过LLM摘要调用、实现高效上下文压缩的DSH会话。"
     },
     "github:minatoAI/dsh-net-proxy-plugin": {
       "sourceHash": "901f030fe1722e4944f5db235ef3174f54c37917eac020a89d1f736ed8f3f8ba",
@@ -34092,9 +34092,9 @@
       "analysisZh": "核心用途是赋予 Agent 跨会话的长期记忆能力。适合需要构建个性化知识库、让 Agent 记住历史交互细节的用户；需先安装 CLI。"
     },
     "github:Minecraftbe/dsh-toolfold": {
-      "sourceHash": "9ae10e694bf1ba16dd4ee87e701027e05e2484cc9105ed9d6f64e38b52ec2757",
-      "descriptionZh": "工具调用与思考过程折叠显示插件，支持连续调用折叠、已完成思考随组折叠或保留，并提供性能统计与自定义动画时长。",
-      "analysisZh": "核心用途是美化和精简 Web UI 界面。适合嫌工具调用和思考链输出太长、希望保持聊天界面整洁清爽的用户。"
+      "sourceHash": "f419dbaae2cb0cad88f00c52582de59a18a4f82fbe66dd57c15e5ba92db9c9d6",
+      "descriptionZh": "折叠显示连续的工具调用并管理思考内容",
+      "analysisZh": "适合需要美化DSH对话界面、精简工具调用和思考过程展示的用户。"
     },
     "github:ming-xia/dsh-stickies": {
       "sourceHash": "ac4c9e042c0d92824b256f7676dda4602530e71724a821e1aaf79d74a749d868",
@@ -34122,9 +34122,9 @@
       "analysisZh": "核心用途是提供纯净、无工具干扰的系统级破甲。适合追求极致服从度、不需要额外工具辅助的纯文本对话用户。"
     },
     "github:Minglink/dsh-infinite-gen-4": {
-      "sourceHash": "4342edbef0029d806695b0e6b0e9acc8a60064a97ba55c14e93ad39d97013fa2",
-      "descriptionZh": "网络安全红队评测工具「无限四代」，专为 DeepSeek-V4.1 / V4 Flash 打造，采用双层协同系统提示词注入与实时状态投影。",
-      "analysisZh": "核心用途是辅助网络安全红队测试与安全边界评估。适合安全研究人员在合规前提下对模型进行对抗性评测与深度指令遵循测试。"
+      "sourceHash": "454553eb3b9e82361263eff56c468452b8044df928ed4c0b09739a476a220698",
+      "descriptionZh": "网络安全红队工具，提供协同注入与状态条",
+      "analysisZh": "适合进行网络安全红队测试、需要双层协同注入内核的专业安全人员。"
     },
     "github:Minglink/dsh-plugin-agent-workflow": {
       "sourceHash": "13bb995bfd7bef5a388ad789f70168177bcf8a3fb0dfdaff4e912bad328d8fe8",
@@ -34147,19 +34147,19 @@
       "analysisZh": "核心用途是接入 gateway.qoder.com.cn 接口服务。适合需要使用 Qoder 平台模型、拥有 PAT 凭据的特定企业或开发者用户。"
     },
     "github:MingoZhou/dsh-replay": {
-      "sourceHash": "8b133d6ae033ee9dc1f13cb1aa4be040dfe8f5f1f8a58f2f87045c6ed601f0dd",
-      "descriptionZh": "DSH 会话回放与审计插件，提供会话重放、分支树、审计与对比可视化功能，堪称 Agent 会话的“时光机”。",
-      "analysisZh": "核心用途是复盘、调试和对比 Agent 的执行过程。适合需要分析 Agent 决策路径、优化提示词或排查调用故障的开发者。"
+      "sourceHash": "7cf5afe8b4318dbfad8c76657bbfa38217b56eb890cdd949baf6c04ed993ae38",
+      "descriptionZh": "提供会话回放、分支树、审计与对比可视化",
+      "analysisZh": "适合需要对Agent会话进行回放、成本审计、分支分叉及对比的用户。"
     },
     "github:Mingxi2077/dsh-plugin-review": {
-      "sourceHash": "0e0eb152ade64aaa7226538424e10274b7614d2bb08e5ab7f64a24b9436fecc8",
-      "descriptionZh": "审查模式插件，提供项目/代码多维健康评分、雷达图展示、审查历史管理（含回收站）及 AI 主动触发审查功能。",
-      "analysisZh": "核心用途是代码和项目质量评估。适合在开发过程中需要 AI 自动或手动对代码进行多维度审查、打分并输出雷达图的用户。"
+      "sourceHash": "731578547167398fd68de27a2bb0c4817a79fd0ba2864a75194251db3cdb26d7",
+      "descriptionZh": "提供项目代码多维健康评分与雷达图审查",
+      "analysisZh": "适合需要对DSH项目或代码进行多维度健康度评估与审查的开发者。"
     },
     "github:MingYU-kalo/dsh-https-fix": {
-      "sourceHash": "301fb7f13f8459ed06e20130ec1cf2493b752c07c5a59a0217ae8d54a93fd771",
-      "descriptionZh": "DSH 内置 HTTPS 反向代理与统一配置管理插件，支持关闭外网 HTTP 访问、配置端口/域名/TLS 证书，并提供可用性校验。",
-      "analysisZh": "核心用途是提升 DSH 网页端服务的安全性。适合需要为本地 DSH 服务配置 HTTPS 加密传输、限制外网不安全访问的用户。"
+      "sourceHash": "bdb15432df1cc374eff7d0bd73924c043766f1cfecc78d80fd8cdb5b4e309243",
+      "descriptionZh": "内置HTTPS反向代理与统一配置管理插件",
+      "analysisZh": "适合需要为DSH Web GUI配置安全HTTPS访问、证书及登录校验的用户。"
     },
     "github:mingzeng21/dsh-notion": {
       "sourceHash": "4fbf706ef5e5d0feb7da86246f0b602aa2aa73f1c39f2bc6885964db0b6e957e",
@@ -34212,14 +34212,14 @@
       "analysisZh": "核心用途是根据智能体的工作、等待输入、报错等状态展示对应的宠物动画。适合追求趣味交互界面、喜爱 Codex 宠物功能的用户。"
     },
     "github:MiraculousGarfield/dsh-ops-health": {
-      "sourceHash": "926d08b19df00043e9f6ede4b87b8be0d1c5d38cb6e926cea29168211fde5f67",
-      "descriptionZh": "通过独立 HTTP 路由运行 PowerShell 脚本，一键检查 DSH 部署健康状态并生成报告",
-      "analysisZh": "核心用途是提供不依赖 Agent 工具注册表的独立系统体检。适合 Windows 平台下的运维人员，在 Agent 崩溃时仍能排查进程故障。"
+      "sourceHash": "9758aee7fa6ed9af4946d5b049d9882bdbfc66d66ced162bd85fccf16121004f",
+      "descriptionZh": "一键运行PowerShell脚本进行系统健康检查",
+      "analysisZh": "仅限Windows用户，适合需要快速诊断DSH部署状态与体检报告的运维。"
     },
     "github:MirDie/dsh-xai": {
-      "sourceHash": "1e4006f0272441b0e474e2df2d68eeea93f727b67496b2040380eda191a090fb",
-      "descriptionZh": "为 DeepSeek Harness 提供 xAI Grok SuperGrok / X Premium 免 API 密钥设备授权登录",
-      "analysisZh": "核心用途是让订阅了 X Premium 的用户通过设备码登录直接使用 Grok 模型。适合拥有相关订阅且需要流式传输和工具调用功能的用户。"
+      "sourceHash": "a2b2952dc8c4b16636773d885ce91fb9559aa439380f9d4d9fef104b0d36f113",
+      "descriptionZh": "通过设备码登录在DSH中使用Grok订阅",
+      "analysisZh": "适合拥有SuperGrok或X Premium订阅且不想配置API Key的用户。"
     },
     "github:Misaki14987/dsh-theme-taffy": {
       "sourceHash": "3bed0acc61fc22a726f5d5d40810c63586e3f83aa64e1a0592f52ccfe3ca328d",
@@ -34267,14 +34267,14 @@
       "analysisZh": "核心用途是在不训练模型权重的前提下，学习用户的工作流类别和固定偏好。适合注重隐私且希望智能体能逐渐适应个人习惯的用户。"
     },
     "github:Missher12/dsh-missher-memory": {
-      "sourceHash": "e43d8086766ba01c2d6385b4257ab04c454c47c06e27e9d5537e392786a24254",
-      "descriptionZh": "为长周期项目设计的项目级已审阅记忆恢复插件",
-      "analysisZh": "核心用途是帮助智能体在长期项目中检索架构、决策和历史尝试。适合进行大型、跨越多个会话的复杂项目开发任务。"
+      "sourceHash": "d880177ef3eb46aacdc3f1cc4e4a8eed7d542acf6346a879e07c7e54b4bcb637",
+      "descriptionZh": "提供项目范围的检索前审核记忆管理功能",
+      "analysisZh": "适合需要在DSH中恢复架构决策、进行项目级记忆检索与审核的用户。"
     },
     "github:Missher12/dsh-project-ops": {
-      "sourceHash": "351cd9490ed9033fedba555dd5470452e879116036af42f93019383874efe2bb",
-      "descriptionZh": "提供项目任务发现、执行凭证及能力搜索的 DSH 命名空间模型工具",
-      "analysisZh": "核心用途是让 Agent 能够自动发现并运行项目声明的特定任务。适合需要让智能体深度参与项目构建、测试和运维的开发人员。"
+      "sourceHash": "3bd9eeb7cef2f086d19dccf909fc4ffb15dfb4be4c6999d45e80a5375ee62982",
+      "descriptionZh": "提供项目任务规划、变更检查与原生执行验证",
+      "analysisZh": "适合需要让Agent规划项目任务、检查受影响文件并验证输出的开发者。"
     },
     "github:misterbig5222-oss/dsh-highlighter": {
       "sourceHash": "060e49aa0dd0dd552473629f851b202cbd10c88a5844e68d7a2981d184151ba6",
@@ -34282,9 +34282,9 @@
       "analysisZh": "核心用途是在对话文本中进行划词高亮、添加批注和快速复制。适合在阅读长篇回答时需要做笔记、整理关键信息的阅读型用户。"
     },
     "github:MistRain-1/dsh-reconnect": {
-      "sourceHash": "f880ada2d8b4c9a303ff085941045c0f804feecc15e07576904fb6b4c846758d",
-      "descriptionZh": "为 DSH 提供带指数退避和代理故障恢复的模型请求无限重试插件",
-      "analysisZh": "核心用途是解决网络波动、中转站或反向代理不稳定导致的请求中断。适合网络环境较差、需要保证长任务不因临时网络报错而中断的用户。"
+      "sourceHash": "4053b6598487e97ddeaa05328238f1a444516f84d4cba40808cd182fe7305abf",
+      "descriptionZh": "提供带指数退避和可用性恢复的模型请求重试",
+      "analysisZh": "适合需要应对模型请求超额或未知错误，实现自动安全重试的用户。"
     },
     "github:MistyBridge/dsh-agent-bus": {
       "sourceHash": "881206a8d0c458eb94adc56d7ba0878719da9d173bd2f1e02e88b3e4f505f18d",
@@ -34307,14 +34307,14 @@
       "analysisZh": "核心用途是接入 Command Code 提供的模型 API。适合需要使用 commandcode 渠道模型进行对话和文本处理任务的用户。"
     },
     "github:MitsukiJoe/dsh-better-ux": {
-      "sourceHash": "230869cd692193aac290a6ffd73fcd2ad9af613465dc9aa8cbe4c092480211fd",
-      "descriptionZh": "提供悬停会话操作和大型模型选择器的 DSH 网页端交互体验优化套件",
-      "analysisZh": "核心用途是优化 DSH 的日常操作细节，如快速管理会话和更直观地切换模型。适合追求高效、流畅网页交互体验的日常用户。"
+      "sourceHash": "22d193c258b57f861e441c1f5638734196dc9351d73947d99577baf6b67378ca",
+      "descriptionZh": "提供悬停会话操作和大型模型选择器的UX套件",
+      "analysisZh": "适合希望提升DSH Web端交互效率、优化移动端及模型选择体验的用户。"
     },
     "github:MitsukiJoe/dsh-vision-router-inline": {
-      "sourceHash": "617892d9aa8113bcb520c6fea6d4ccb21dc77a0c72cc8c4f0359c9405d927acb",
-      "descriptionZh": "为 dsh-vision-router 提供的显示伴侣，在原始模型行上添加方形图片按钮",
-      "analysisZh": "核心用途是优化自动视觉路由的界面呈现，提供直观的图片触发按钮。适合已安装 dsh-vision-router 并希望提升视觉交互便利性的用户。"
+      "sourceHash": "4de7d49b4e94a74651c620eb582a447cefe7bf6fe1cc602593c2fb93e85b4f42",
+      "descriptionZh": "在原始模型行上折叠并显示视觉路由图片按钮",
+      "analysisZh": "适合已安装dsh-vision-router并希望在模型行上直观切换视觉功能的用户。"
     },
     "github:miuzel/dsh-subagent-ui": {
       "sourceHash": "847d41aa1bba8f068a3994cae4e82799df5dea89564af7461de84a515cbf36ea",
@@ -34512,9 +34512,9 @@
       "analysisZh": "核心用途是让手机等移动设备便捷访问和操控 DSH。适合需要在局域网内通过手机扫码远程使用电脑端 DSH 服务的用户。"
     },
     "github:Mlte0907/dsh-teams-x": {
-      "sourceHash": "4d336ee20d1a4780f01deae26aa5d558742daac0d13c8287feea1372cf714cd8",
-      "descriptionZh": "DSH 的 TeamsX 插件：支持构建包含队长、成员、依赖感知任务和邮箱的持久化多智能体团队，并配备全 SVG 动态活动面板。",
-      "analysisZh": "核心用途是在单个会话中协调多智能体协同工作。适合需要将复杂目标拆解为任务 DAG 并由多个子代理分工执行的高级自动化任务。"
+      "sourceHash": "50876472cfd127aa5a9dd6dd945babba188f4e98753cc9baa7709e6061970326",
+      "descriptionZh": "提供多智能体团队协作管理及SVG活动面板",
+      "analysisZh": "适合需要将单会话扩展为多智能体协同、进行任务DAG编排的高级用户。"
     },
     "github:MmMmaru/dsh-vscode-sidebar": {
       "sourceHash": "4cabf32d1852e8247b0f9f62d1f569fe176a0720b4566668ec058271b384a43a",
@@ -34607,9 +34607,9 @@
       "analysisZh": "核心用途是提供非线性对话的全局可视化导航与多分支管理。适合进行复杂探索式思考、需要频繁开辟对话分支并对比不同回答的用户。"
     },
     "github:MarvekG/deepseek-harness-model-config": {
-      "sourceHash": "f1d863f31d75ccbbad58f6e94d784faf03a8d5949ed6b7157107ec63c616615b",
-      "descriptionZh": "为 DSH Web UI 添加模型高级配置页面，支持自定义端点、能力参数微调及容量编辑。",
-      "analysisZh": "核心用途是可视化管理自定义模型端点、协议及模型容量参数。适合需要接入非官方 API 端点并精细配置上下文窗口等参数的高级用户。"
+      "sourceHash": "f27b4694b4f45c2b14a15e7ad6c10b66f76081d96cb765c0a68a0c8eb8ec0ae9",
+      "descriptionZh": "为Web UI添加模型高级配置与自定义端点管理页面",
+      "analysisZh": "适合需要精细控制模型参数、自定义Header及管理多个API端点的进阶用户。"
     },
     "github:MarvekG/dsh-bug-fix": {
       "sourceHash": "635b26a0e8015e83fcfcbb7bd58541740b66664fadf25ea38873f38953463bca",
@@ -34632,14 +34632,14 @@
       "analysisZh": "核心用途是赋予 DSH 智能体只读的 Git 仓库感知能力，并为用户提供便捷的 Git 斜杠命令。适合需要在对话中结合版本控制上下文的开发任务。"
     },
     "github:MashedPotato817/dsh-tool-browser": {
-      "sourceHash": "b86e054a169d9cc1e63b926c01b644f95cd709f93f900f026896cc4b1043d757",
-      "descriptionZh": "基于 Playwright 和 Edge 的 DSH 原生浏览器自动化工具插件。",
-      "analysisZh": "核心用途是为 DSH 智能体提供网页浏览、截图及 DOM 操作等自动化能力。适合需要执行网页信息检索、自动化测试或舆情监控任务的用户。"
+      "sourceHash": "2e0281937e6ca4246fe0adfdd2ffa02e48623addafc1be53ffb0ff6cd8c83006",
+      "descriptionZh": "基于Playwright和Edge的浏览器自动化工具",
+      "analysisZh": "适合需要网页截图、导航及自动化操作任务的开发者，需配置浏览器路径。"
     },
     "github:MashedPotato817/dsh-tui": {
-      "sourceHash": "d50aee3c34163a119089d07e4b3577578907eb8d2ee8e472e054132caaeb2c56",
-      "descriptionZh": "基于 DSH 客户端协议（ctx.remote）的终端 TUI 客户端。",
-      "analysisZh": "核心用途是提供一个轻量级的终端界面来连接和操作本地运行的 DSH 服务。适合喜爱纯命令行交互、追求极简高效的终端极客用户。"
+      "sourceHash": "dad44d7fc15b047ccc1dcab06bc35f8dad0fbb5c5f91323a9c6afeca7299daa6",
+      "descriptionZh": "支持模态输入与智能体对话的终端客户端",
+      "analysisZh": "适合喜爱Vim操作和终端交互的用户，需在项目子目录下启动以避免沙箱报错。"
     },
     "github:masknull/dsh-fetch-models-search": {
       "sourceHash": "e916b97a9ebd45da5abff40f5802a5d5c5188c30bf2acc230df9ffb07fd3188c",
@@ -34682,14 +34682,14 @@
       "analysisZh": "核心用途是通过对抗评审与异源验证等机制，保障自主编码循环的可靠性。适合进行 TDD 并行开发、追求高代码交付质量的专业程序员。"
     },
     "github:Mason-1011/dsh-schematic": {
-      "sourceHash": "d30dd05e25b533e995e63f9e92b48d650cf645ecb0b425cbd2cb43ebbd1702cc",
-      "descriptionZh": "DSH 实时插件拓扑查看器与编辑工作台，提供可视化连线图、运行时活动监控及星图看板。",
-      "analysisZh": "核心用途是可视化展示并直接在图表上编辑 DSH 插件的挂载与装配关系。适合需要深度调试、重构或监控复杂插件生态的系统开发者。"
+      "sourceHash": "5875f98c84e704c9136dd76ce2b97e53876a7e307fb14f034f7c98b385bff2f4",
+      "descriptionZh": "可视化连线、追踪活动与自动化蓝图的控制面板",
+      "analysisZh": "适合需要监控智能体运行状态、工作流及进行可视化调试的开发者。"
     },
     "github:Mason-1011/dsh-task-center:packages/bundle": {
-      "sourceHash": "090ceeb47690959b8d3ca660e31ac0f095d723cf1ce50ebdca33254bcf611eb0",
-      "descriptionZh": "DSH 任务中心完整插件包，集成任务账本、模型工具、人类命令、配额恢复守护及 Web 看板等。",
-      "analysisZh": "核心用途是提供一站式的任务生命周期管理与智能体协同工作流。适合需要让 AI 智能体自主领单、汇报进度并配合看板进行任务跟踪的用户。"
+      "sourceHash": "8a8332fa787a244a712069323a4ff054616f8d053f031897a15a000cd13f42aa",
+      "descriptionZh": "包含任务账本、看板及调度工具的任务中心插件包",
+      "analysisZh": "适合需要一站式管理任务、排队、额度恢复及多智能体并行的重度用户。"
     },
     "github:Mason-1011/dsh-task-center:packages/task-sched": {
       "sourceHash": "ae7f8b6a8cfbb02277c3a8c1602dd5780acaf84b3adce2499e731a0979f78e1a",
@@ -34697,9 +34697,9 @@
       "analysisZh": "核心用途是实现消息的定时自动投递与会话唤醒。适合需要定时触发 AI 任务、执行周期性检查或在特定时间点进行自动化对话的用户。"
     },
     "github:Mason-1011/dsh-task-center:packages/task-web": {
-      "sourceHash": "160297b9d09ed69f4d98a3f52cb9cdf53dc756376cc7ce87f4858a43b76ae963",
-      "descriptionZh": "任务中心切面的 Web 看板与 RPC 接口插件，提供智能体任务工具与交互命令。",
-      "analysisZh": "核心用途是为任务管理提供直观的 Web 看板界面，并为智能体提供创建、认领和更新任务的工具。适合需要可视化跟踪智能体任务进度的团队。"
+      "sourceHash": "83cf59bcad5a25c6157db8383edf5b5298e0ec69574878c322628053a0d09c4a",
+      "descriptionZh": "任务中心看板界面与RPC服务接口插件",
+      "analysisZh": "适合需要通过Web看板直观管理任务、创建和更新任务状态的用户。"
     },
     "github:masquerator-coder/dsh-memory-plus": {
       "sourceHash": "a776e25fcc9f15ab1ac4e9c8b87241041f48340717fd4855bacc2ae9fa2a4107",
@@ -34802,14 +34802,14 @@
       "analysisZh": "核心用途是让仅支持文本的 DeepSeek 主智能体能够直接接收并处理来自 DSH 聊天框的图片。适合需要为 DeepSeek 官方适配器补充多模态视觉分析能力的用户。"
     },
     "github:MochiNek0/dsh-web-search-free": {
-      "sourceHash": "22580d39b0a984f993301f1bbfddd149916aabc024bc29953f19d761e59b97d1",
-      "descriptionZh": "支持 Firecrawl 和 Tavily 的 DSH 免费网页搜索插件",
-      "analysisZh": "核心用途是为 DSH 提供网页搜索与抓取接管能力，支持配置多个引擎及 Key 的轮换和 Fallback。适合需要免费且高可用网页检索功能的 DSH 用户。"
+      "sourceHash": "32e5f08da7524dae552bfd01daf9bf6b57d29d4c057175a34906bcd7757d9bfd",
+      "descriptionZh": "支持Firecrawl和Tavily的免费网页搜索插件",
+      "analysisZh": "适合需要在DSH中配置多引擎轮换、实现免费网页搜索与全文抓取的用户。"
     },
     "github:Modellix/dsh-modellix": {
-      "sourceHash": "bb9eb351dc5276d7816ca7ea283dce90496b06c2aae5ca7b0a3f3e0913d23b3a",
-      "descriptionZh": "适用于 DeepSeek Harness 的 Modellix 设计、LLM 和 Web 服务商插件",
-      "analysisZh": "核心用途是集成 Modellix 的媒体生成（设计视图）、模型目录和原生网页搜索。适合需要生成图片/视频/音频、切换 Modellix 模型及使用其检索服务的用户。"
+      "sourceHash": "d9a177a12829da90756844c0687dfcf26e68ce30ea1527626cc73ec397c420ca",
+      "descriptionZh": "集成Modellix媒体生成、LLM及网页研究服务",
+      "analysisZh": "适合希望在DSH会话中直接生成媒体、使用Modellix模型和网页研究的用户。"
     },
     "github:modestoma/dsh-webfile": {
       "sourceHash": "a697db1765188783302a3d67ec2ebb1ffc8dc40d6ec1cf2dbf182808b432176f",
@@ -34817,24 +34817,24 @@
       "analysisZh": "核心用途是为智能体提供 8 个文件操作工具（如列表、上传、下载等），支持审批拦截和传输进度显示。适合需要让 AI 智能体管理远程存储和文件传输的任务。"
     },
     "github:Modole/dsh-plugin-app-manager-laoboshi": {
-      "sourceHash": "f184365e98432fc16a330067c3ee577cfae704b9c6adb165354910da98c92625",
-      "descriptionZh": "为劳博士 DSH 桌面客户端提供本地应用登记、启动、日志和 API 文档管理插件",
-      "analysisZh": "核心用途是管理本地应用的登记、启动、日志及 API 文档。适合使用劳博士 DSH 桌面客户端并需要本地应用管理功能的用户；原生 DSH Web 会显示兼容性提示。"
+      "sourceHash": "3c2b3b950b1adf6794e87f2cee79e73d388c8491a753c27721d6709a417241f3",
+      "descriptionZh": "提供本地应用登记、启动、日志和API文档管理",
+      "analysisZh": "专为劳博士DSH桌面客户端用户设计，用于管理本地应用的生命周期与文档。"
     },
     "github:Modole/dsh-plugin-browserops-laoboshi": {
-      "sourceHash": "fbf0cbde6fc9bef720f02a9591fd0803c3015341aeff2297575124e09c3c1f69",
-      "descriptionZh": "为劳博士 DSH 桌面客户端提供浏览器预览与 BrowserOps 控制面板插件",
-      "analysisZh": "核心用途是提供浏览器预览和 BrowserOps 控制面板。适合使用劳博士 DSH 桌面客户端并需要进行浏览器自动化或预览操作的用户。"
+      "sourceHash": "51a1458397703ee8bce5b955a2b3339027a13cfddcde3fb3c1446bec8d8596cb",
+      "descriptionZh": "提供浏览器预览与BrowserOps控制面板",
+      "analysisZh": "专为劳博士DSH桌面客户端用户设计，用于实现浏览器预览与自动化控制。"
     },
     "github:Modole/dsh-plugin-file-manager-laoboshi": {
-      "sourceHash": "4dd197aae44d1cdff1bf5b68df9c99d91bf2c665de7df14f611f24a35a61066e",
-      "descriptionZh": "为劳博士 DSH 桌面客户端提供工作区文件浏览和预览插件",
-      "analysisZh": "核心用途是提供工作区文件的浏览与预览功能。适合使用劳博士 DSH 桌面客户端并需要直观管理工作区文件的用户。"
+      "sourceHash": "0962f15563c655ab2bb90b8fc7493a37e57f321932af3b9102b24b1cd2db1c68",
+      "descriptionZh": "提供工作区文件浏览和预览功能",
+      "analysisZh": "专为劳博士DSH桌面客户端用户设计，用于在界面中直接浏览和预览工作区文件。"
     },
     "github:Modole/dsh-plugin-git-laoboshi": {
-      "sourceHash": "32920c7b8476fbecd1a549e3b0a411a281c439709b768ecee920ae97dc91c528",
-      "descriptionZh": "为 DSH 提供受约束的 Git Agent 工具和劳博士桌面版本中心插件",
-      "analysisZh": "核心用途是提供受约束的 Git 智能体工具和版本管理中心。适合需要在 DSH 中进行 Git 版本控制和代码仓库管理的用户。"
+      "sourceHash": "41b4b1d120099ea3492d789366415e256c96b79183e4b757b9cff70b7251faef",
+      "descriptionZh": "提供受约束的Git Agent工具和版本中心",
+      "analysisZh": "适合需要在DSH中让Agent安全执行Git操作并管理版本的桌面端用户。"
     },
     "github:Modole/dsh-plugin-knowledge-laoboshi": {
       "sourceHash": "7702479050b4da01c9ae3c6453fbc43e30fa655077b0ce0744adce548d2cdc25",
@@ -34892,9 +34892,9 @@
       "analysisZh": "核心用途是提供一个极简的双工具编码预设，并补充了网络搜索和工作区指令加载功能。适合需要轻量级、带联网搜索且能读取本地配置的编码辅助任务。"
     },
     "github:Moeblack/dsh-preset-kit": {
-      "sourceHash": "104e6d4e2601840feb96f31ecc0661982f3d34838cdd9f096fac5d240ad55df8",
-      "descriptionZh": "在 DeepSeek Harness 中发布、管理和卸载智能体预设的工具包插件",
-      "analysisZh": "核心用途是解决 DSH 预设覆盖冲突问题，提供符号链接安装、热重载、所有权跟踪和干净卸载。适合开发和分发包含智能体预设的插件开发者。"
+      "sourceHash": "37d085ed83755e050a6245882dd4d60b1b86cd872193378a2cff33d1137945b7",
+      "descriptionZh": "将智能体预设发布至DSH并支持热重载与卸载",
+      "analysisZh": "适合需要向DSH分发、管理和干净卸载自定义智能体预设的插件开发者。"
     },
     "github:Moeblack/dsh-prompt-studio": {
       "sourceHash": "3ff6f91ee725bbc20da08fb1c8bf6fd6d88176371b4b2ac384224a83a26dc6e3",
@@ -34902,9 +34902,9 @@
       "analysisZh": "核心用途是在一个实时编辑器中撰写运行时提示词、覆盖原生组件以及插入请求局部的合成轮次。适合需要深度调试、预览和定制模型输入提示词结构的用户。"
     },
     "github:MoFeng2223/dsh-claude-provider": {
-      "sourceHash": "cd2806cbedbf7cfedb128feedc3838f0dbd5b54606959ebdc7fef1426f19bf88",
-      "descriptionZh": "适用于 DeepSeek Harness 的自定义 Claude 服务商支持插件",
-      "analysisZh": "核心用途是添加专用的 Claude 服务商类型，精确发送新版 Claude 模型所需的推理参数。适合在 DSH 中使用 Claude 模型并需要完美兼容其推理控制的用户。"
+      "sourceHash": "ebef45e4eb267c5680639198a546e748cd056bb372c9eddaa03cf19af32d5fa6",
+      "descriptionZh": "为DSH提供自定义Claude模型服务商支持",
+      "analysisZh": "适合需要在DSH 0.1.7及以上版本中使用自定义Claude模型渠道的用户。"
     },
     "github:moguiyu/dsh-tavily": {
       "sourceHash": "8f633a68863f9d6aff435aba609fd6d66df16fd32e709d371f5ca01f98019b12",
@@ -34942,9 +34942,9 @@
       "analysisZh": "核心用途是作为 SeismicX 地震目录技能的 DSH 增强层，提供调用边界参数校验和类型化 JSON 结果返回。适合需要进行地震数据查询和分析的专业任务。"
     },
     "github:Mombrane/dsh-subagent-monitor": {
-      "sourceHash": "a90533c9df3c5d6dc1223814ff09c87523b11c30474cb23f75351a0cd56a46c8",
-      "descriptionZh": "适用于 DSH Web 的子代理实时运行监视面板插件",
-      "analysisZh": "核心用途是在侧边栏添加入口，并在右上角常驻卡片面板，实时展示当前会话派生的子代理运行状态。适合需要监控和管理复杂多子代理任务执行的用户。"
+      "sourceHash": "179a941d1772fc819263aef045cd60c31df1c5ca01e747872525806ff7899aa6",
+      "descriptionZh": "提供子代理实时运行状态监视面板",
+      "analysisZh": "适合需要在DSH Web界面中直观监控子代理派生关系、运行状态和上下文的用户。"
     },
     "github:momo-gen/dsh-canvas": {
       "sourceHash": "bc83845c8a94fabd7c2cf86b5336632f8e1f4d5acfc19ac73a0a4b83a737d7ca",
@@ -34957,9 +34957,9 @@
       "analysisZh": "适合进行 HarmonyOS 应用开发、构建与模拟器调试的用户。"
     },
     "github:Momojie-S/dsh-archive-retention": {
-      "sourceHash": "7af152b2404fb953331b1861fb81f2717385d26ea9517a32a120b012d6b7738d",
-      "descriptionZh": "适用于 DSH 的归档会话定期自动物理清理插件",
-      "analysisZh": "核心用途是定期自动物理删除超出保留期（默认7天）的物理归档堆和页面归档会话记录。适合需要自动清理过期会话、释放存储空间的 DSH 用户。"
+      "sourceHash": "8ae0ef9b89d9330330b2610fbba2f989a76ef3fff24e6679a05e084a82b1df49",
+      "descriptionZh": "定期自动物理删除超出保留期的归档会话",
+      "analysisZh": "适合需要自动清理历史归档会话、释放磁盘空间并管理孤儿子代理的用户。"
     },
     "github:Momojie-S/dsh-right-dock": {
       "sourceHash": "fbd81ae2b9ef692937610cf3f5d66d3332032e39b02f7fb679cffe38705daff9",
@@ -34967,9 +34967,9 @@
       "analysisZh": "核心用途是提供一个非遮挡的右侧面板，支持多标签页，允许其他插件通过特定插槽贡献标签。适合需要扩展右侧工作区以容纳更多辅助工具界面的用户。"
     },
     "github:MochiNek0/dsh-vendor-login": {
-      "sourceHash": "ee4faab7031b57e560bbf10e6d1845a1c78bd651e9d5a891764d6fa9879603b9",
-      "descriptionZh": "在 dsh 设置界面中登录没有 API 密钥的第三方服务商编码计划（如 Claude Pro/Max/Team、ChatGPT Plus/Pro、GitHub Copilot、SuperGrok）。",
-      "analysisZh": "用于在dsh中登录无API Key的第三方订阅服务。适合需要集成Claude Pro、ChatGPT Plus、Copilot等高级编码计划的用户，需在dsh设置中配置对应服务商。"
+      "sourceHash": "5723aa8b6ae355ab65820a4e33ce1e0eae4c669840dcf79bb6e6ccf6d7a6e237",
+      "descriptionZh": "在设置界面免API Key登录第三方AI服务",
+      "analysisZh": "适合使用Claude Pro、ChatGPT Plus等无Key订阅计划并想在DSH中集成的用户。"
     },
     "github:Momojie-S/dsh-subagent-cleanup": {
       "sourceHash": "46a73915daadf447ed8062cb505d16629be691e22a038c5f82973c629a9cc5ad",
@@ -34977,14 +34977,14 @@
       "analysisZh": "用于清理和归档已停稳的子 agent 会话记录。适合需要释放磁盘空间、整理会话历史的 DSH 运维人员或重度用户。"
     },
     "github:Momojie-S/dsh-subagent-idle-delivery": {
-      "sourceHash": "79d79880520abdbaaf597f0c728b4b55982898c3bf70172a7264e17890c09f55",
-      "descriptionZh": "DSH 插件：子 agent 完成通知/汇报在父会话忙碌时先扣留，等空闲后作为新回合投递",
-      "analysisZh": "采用 hold-and-release 机制，在父会话忙碌时拦截并扣留子 agent 的通知，待空闲时再投递。适合需要避免多任务并发干扰、优化会话流的用户。"
+      "sourceHash": "794093fc2f79bd3514cfcb4e1302d941fd68a0a62fb6a84551839346bce99d33",
+      "descriptionZh": "在父会话忙碌时扣留子代理通知并等空闲投递",
+      "analysisZh": "适合需要避免子代理汇报打断父会话执行、实现平滑消息投递的复杂多代理场景。"
     },
     "github:Momojie-S/dsh-subagent-model": {
-      "sourceHash": "d2aa22e61a4aa7f9f2e7b5529a2ff3bed9483c2f8c5a3954e8aef32041c76ad0",
-      "descriptionZh": "DSH 插件：可按次指定模型路由的 subagent 委派工具",
-      "analysisZh": "允许在调用子代理时动态指定模型路由。适合需要对不同子任务灵活分配不同大模型以优化成本或效果的开发者。"
+      "sourceHash": "9a67558e018bc0e7930f6179ecd6d37826f4d44b3ab5c92f9777852da23b4a47",
+      "descriptionZh": "支持按次指定模型路由与上下文继承的委派工具",
+      "analysisZh": "适合需要灵活控制子代理上下文继承模式（全新或Fork）及路由策略的用户。"
     },
     "github:Momojie-S/dsh-subagent-steer": {
       "sourceHash": "b66695d4c59dd9ff1d77b3326240af4eab735bfc780ea16dc73e6121216f4d94",
@@ -35017,14 +35017,14 @@
       "analysisZh": "为不具备原生视觉能力的 DSH 主模型接入第三方 OpenAI 兼容视觉服务。适合需要让 AI 识别和分析图片的任务，需自备视觉模型 API Key。"
     },
     "github:Mongfayi/dsh-local-filetree": {
-      "sourceHash": "d2365aef30b81a3d5bb43cd342f1cb3f13a13865f69ebcf06e7d0cb93fe8ad56",
-      "descriptionZh": "DSH Web UI 的只读文件树面板：在右侧详情栏展示当前会话工作区树",
-      "analysisZh": "在右侧栏提供懒加载、只读的当前工作区文件树。适合需要随时对照项目目录结构，但无需复杂编辑操作的 DSH 用户。"
+      "sourceHash": "9176617475df0d31dd3c0350c7fe1498c09ac41c314e029878c191389ea79382",
+      "descriptionZh": "在Web UI右侧栏展示当前会话工作区文件树",
+      "analysisZh": "适合需要在DSH Web端右侧直观、懒加载查看当前工作区目录结构的用户。"
     },
     "github:Mongfayi/dsh-recall": {
-      "sourceHash": "7404078c93b4dd68927c89e6b98b5c6f4f40c46ad0f0b6b6f13017661a52fecd",
-      "descriptionZh": "DSH Web UI 的消息撤回插件：从对话中永久删除某条消息及其后续所有内容",
-      "analysisZh": "提供持久化的消息撤回功能，删除指定消息及之后的所有对话上下文。适合需要回滚对话进度、重新调整提示词的用户。"
+      "sourceHash": "365a5b59662b911a279719bfcfcee1766916e8409795fd68786f61e6eb37e415",
+      "descriptionZh": "提供持久化的消息撤回与输入框内容恢复功能",
+      "analysisZh": "适合需要在Web端撤回某轮对话并自动将文本退回输入框重新编辑的用户。"
     },
     "github:Monicaxixi/dsh-loglens": {
       "sourceHash": "d81d8f1877517ab22a4c87e964f2a54c1f35adbf1d7de0e83dc37bffad1e6f72",
@@ -35057,9 +35057,9 @@
       "analysisZh": "通过预加载影子副本和转换导入，使 DSH 能在 Bun 运行时中顺利启动。适合追求极速启动、希望用 Bun 替代 Node 运行 DSH 的开发者。"
     },
     "github:Mooling0602/dsh-web-file-uploader": {
-      "sourceHash": "48e3693740f828504697ea761dd946e50e93b85321ec8ffc01a07385d2665a79",
-      "descriptionZh": "DSH 插件：Web 输入框回形针附件上传按钮，支持模型感知适配与去重",
-      "analysisZh": "在输入框添加文件上传按钮，自动根据模型类型适配（多模态传图片块，纯文本传路径）。适合需要频繁向 AI 发送本地文件或图片的用户。"
+      "sourceHash": "8c5a2161c508d8bc84bbde4401da4d79df5bc1307b693fc53448bc281a0933e9",
+      "descriptionZh": "在输入框添加回形针按钮，上传文件至宿主机",
+      "analysisZh": "适合需要上传本地文件给模型分析的用户，能根据模型类型自动适配格式。"
     },
     "github:Moolmool114/dsh-client-ui-recipes": {
       "sourceHash": "d6262f6c0bb96d3fe64d73a9f3e582240275752c2bc3c74fb190987389af5f25",
@@ -35112,14 +35112,14 @@
       "analysisZh": "监听会话事件，在 Agent 结束运行、等待审批或报错时通过 macOS 扬声器发出提示音。适合挂机运行任务、需要声音提醒的用户。"
     },
     "github:MoonlitDropOfBlood/dsh-agent-approval": {
-      "sourceHash": "42e8f11086abbc3e84e239758b33a6e39bb97a9363112419155ba5a50b645cc4",
-      "descriptionZh": "DSH 插件：由独立审批子代理自动裁决沙箱提权请求，含审计日志",
-      "analysisZh": "引入独立的审批 Agent 代替人工弹窗确认提权，并在设置中提供完整审计。适合希望完全自动化运行、免去频繁人工点击审批的用户。"
+      "sourceHash": "b768c80104433cff1b45c1461ec864de4fc691824ab82cf775a66ee3246f9f65",
+      "descriptionZh": "为提权请求和工具调用提供自动审批与审查",
+      "analysisZh": "适合需要免弹窗自动授权沙箱提权或对工具调用进行安全审查的自动化任务。"
     },
     "github:MoonlitDropOfBlood/dsh-archive-manager": {
-      "sourceHash": "04b909f0275c5fb4a76107c0e7da43b5bfae418133dfdf6f93c6edb170b6ee61",
-      "descriptionZh": "DSH 插件：归档管理器，按项目分组管理归档会话，支持搜索、还原与删除",
-      "analysisZh": "在侧边栏底部添加归档入口，提供直观的归档会话管理面板。适合积累了大量历史会话、需要分类整理和快速检索的用户。"
+      "sourceHash": "848834cec87fa591dd72508679acbc892ae49d53e83ef50847cb1fead7d884ba",
+      "descriptionZh": "提供会话归档的搜索、还原与永久删除管理面板",
+      "analysisZh": "适合需要清理、检索或彻底删除已归档历史会话的用户。"
     },
     "github:MoonlitDropOfBlood/dsh-memory-manager": {
       "sourceHash": "1312a7a6d4916e5f5abc4a66c257f5e2a1fd3a69cb5d878eaad3388f80f1db91",
@@ -35127,9 +35127,9 @@
       "analysisZh": "提供项目级与全局记忆管理，通过“仅注入索引+按需读取”节省上下文。适合需要 Agent 长期记住项目约定、用户偏好和反馈的复杂任务。"
     },
     "github:MoonlitDropOfBlood/dsh-token-stats": {
-      "sourceHash": "9f45813463f2946c83507e8119184f13df534c80c56c1501e6c1daa95ca9708a",
-      "descriptionZh": "DSH 插件：Token 消耗统计，支持多模型每日消耗图表与年度活跃热力图",
-      "analysisZh": "在设置中提供近 7/30 天 Token 消耗堆叠图、占比饼图及类似 GitHub 的活跃热力图。适合需要监控和分析大模型使用额度与频次的用户。"
+      "sourceHash": "def6e3cfbd502689257415d9a24ac8a27263d65aa5ca3d082cc9ae83f648835a",
+      "descriptionZh": "展示Token使用图表、热力图及输入框余额",
+      "analysisZh": "适合需要监控多模型Token消耗额度及实时查看API账户余额的用户。"
     },
     "github:MoonlitDropOfBlood/dsh-whale-pet": {
       "sourceHash": "b5a1a179fc3c1337e1307330842b727ca8e966b1682803303210c6134a5e5cee",
@@ -35147,24 +35147,24 @@
       "analysisZh": "提供可视化的助手预设管理界面，新建助手自带思考意识块与记忆系统。适合需要精细化定制、管理多个不同性格与功能 Agent 的用户。"
     },
     "github:MoonShadow1976/chiral-pulse": {
-      "sourceHash": "553d75f23f8819cd3d5303634d286b61de4f4fbce180b763728802e8ebb3c8ea",
-      "descriptionZh": "DSH 插件：死亡搁浅风格 BB 舱生命体征监视器皮肤，脉冲波形随 Agent 活动变化",
-      "analysisZh": "将 DSH Web 界面重构为死亡搁浅风格，并在输入框下方提供随 Agent 思考和工具执行加速的实时心率纸带。适合该游戏粉丝及极客用户。"
+      "sourceHash": "ac849ae12406d96f9d91f162f95ed811fb37ec4eee4c92854cd1159436e2814b",
+      "descriptionZh": "提供死亡搁浅主题皮肤与实时心跳监护仪",
+      "analysisZh": "适合喜爱《死亡搁浅》视觉风格，并希望直观看到Agent活动心率的玩家。"
     },
     "github:Moonshile/moonshile-dsh-plugins:plugins/dsh-workspace-sort": {
-      "sourceHash": "02a7ab3905c5d405ed55841f7654a2140e5bbaba9d5efd6da51c71599947b34a",
-      "descriptionZh": "DSH 插件：侧边栏工作区每日按最近活动重新排序，当天内保持稳定",
-      "analysisZh": "每日自动根据最近活动刷新侧边栏工作区的排列顺序，避免频繁变动打乱视线。适合拥有大量工作区、需要自动整理侧边栏的用户。"
+      "sourceHash": "58995d6836ba17c82ece7530a5b4e4cab91c7a735dc795ef309adafd23699814",
+      "descriptionZh": "每日按最近活动重新排序侧边栏工作区",
+      "analysisZh": "适合侧边栏项目较多，需要每日自动整理且保持当天顺序稳定的用户。"
     },
     "github:MoRanYue/dsh-openrouter-providers": {
-      "sourceHash": "eb5969fdbe5e1fc0cc72a1e2e5a5b4fba40bb9447e2e6b6b4729b34a1d681191",
-      "descriptionZh": "DSH 插件：OpenRouter 提供商列表配置与路由参数注入",
-      "analysisZh": "允许在设置中指定 OpenRouter 的首选或唯一服务商，并自动注入到请求中。适合使用 OpenRouter 渠道并对底层服务商有特定偏好的用户。"
+      "sourceHash": "0c36e1e299b0c3e7bfbca639e6b2d10e0d6d89ff00ef6ebe5841d770ff8e8d39",
+      "descriptionZh": "配置并注入OpenRouter请求的提供商路由",
+      "analysisZh": "适合使用OpenRouter时需要指定特定服务商、路由顺序或量化限制的用户。"
     },
     "github:Moraxyc/dsh-cpa": {
-      "sourceHash": "c79c536760495228839a3cdfde28a5c82072a222793386d304c5d6322b0a799d",
-      "descriptionZh": "DSH 插件：CPA 服务商与运行时集成插件，支持额度查询与状态行展示",
-      "analysisZh": "集成外部或内部 CPA 额度管理，在 Web 界面展示当前套餐、主额度窗口和执行记录。适合使用 CPA 统一计费和额度管控的企业或团队。"
+      "sourceHash": "1dab623226c12fe60a73eb0d7bf7e609163e0a52a0fe0aaca421cda75ad85c43",
+      "descriptionZh": "集成外部CPA服务并展示额度与执行状态",
+      "analysisZh": "适合需要接入CPA服务，并在输入框下方查看账户额度及调用状态的用户。"
     },
     "github:more-nico/dshLiquidTheme": {
       "sourceHash": "b09d44192cc1cb36c97ecee304138a0ee714aa64ff4a22e936bc3d883b5e8266",
@@ -35182,9 +35182,9 @@
       "analysisZh": "核心用途是连接 Prime Agent 的持续记忆系统与 DeepSeek Harness。适合需要为智能体构建闭环学习记忆、实现上下文持久化与历史轮次导出的高级用户。"
     },
     "github:MorGogh/widget-dock": {
-      "sourceHash": "2f1a586f7c9dd1094488949d2ed0418a864157053dc0a9832e7c7f0b5fcd2ade",
-      "descriptionZh": "DSH 插件：对话旁可拖拽的迷你卡片工作台（包含 API 余额、Token 用量、会话统计、目标和成本估算）",
-      "analysisZh": "核心用途是在 DSH 对话界面旁提供一个可拖拽的悬浮状态面板，实时监控 API 余额、Token 消耗和成本。适合需要直观掌控 API 消费和会话状态的 DSH Web 用户。"
+      "sourceHash": "7debd197dc22640a4dd52def822717fedef9bdd963b45c972e764b4002abe030",
+      "descriptionZh": "提供可拖拽的侧边小卡片工作台",
+      "analysisZh": "适合需要在对话旁直观监控API余额、Token用量、成本估算等信息的用户。"
     },
     "github:Morinissleeping/dsh-pnc-theme": {
       "sourceHash": "36eadf3d086e415d524f15c5d95d67ebb65c94ae3d5863ba76034252f0886b97",
@@ -35252,9 +35252,9 @@
       "analysisZh": "核心用途是通过 Mixture of Agents 架构提升复杂任务的回答质量，作为按需调用的工具运行。适合需要对比多模型输出并进行高质量文本合成的复杂推理任务。"
     },
     "github:Morriaty-The-Murderer/dsh-plugin-abtest": {
-      "sourceHash": "f0b93da5585e3f58c873ce4811219063202aaca9816128e14fe2bc360901b600",
-      "descriptionZh": "DSH 插件的配对实验与晋级门禁工具",
-      "analysisZh": "核心用途是在隔离环境中并行运行当前插件与修改版插件，对比任务成功率和 Token 消耗。适合需要在发布前对 DSH 插件变更进行严谨 A/B 测试的开发者。"
+      "sourceHash": "c89d3e102a728982fff5244d56e73eb7a3f49b3f2752b14d9ecb9a1a3523225a",
+      "descriptionZh": "在隔离环境中对插件变更进行双路对比测试",
+      "analysisZh": "适合插件开发者在发布前评估新版插件对任务成功率及Token消耗的影响。"
     },
     "github:Mortal520/dsh-provider-pro": {
       "sourceHash": "f5bc5c600785baef957710489a04a564dc821a1951bbd8b03b3dc507270a2879",
@@ -69057,9 +69057,9 @@
       "analysisZh": "适合希望约束过度工程化并固定开发风格的场景，需配置默认模式与用户覆盖项。"
     },
     "github:ManoloRemiddi/dsh-adaptive-reasoning": {
-      "sourceHash": "2e833f9a3eef8323091f31a53b4995b9b20d081472e3214a7cb86ac119e55fa8",
-      "descriptionZh": "按路由自动选择推理强度，减少额外分类调用的成本控制策略",
-      "analysisZh": "适合需要按模型路由控制推理开销的场景，需先配置 allowlist 和 route 努力等级映射。"
+      "sourceHash": "4c2bb1bf323258a2f3dd5025a618ca98cafcd3c05756c7df66da42781326cf1e",
+      "descriptionZh": "按需自动调整特定路由的模型推理深度",
+      "analysisZh": "适合需要优化推理成本和速度的用户，在无需分类器模型的情况下动态控制思考强度。"
     },
     "github:ManoloRemiddi/dsh-prompt-library": {
       "sourceHash": "087f7ec2c2ce6e94e81827041d1dda00fed77ad38df00345f53a4a11090aca2d",
@@ -69317,19 +69317,19 @@
       "analysisZh": "适合同目录连续协作并避免重复输入上下文的用户；仅提供只读检索不持久化入库。"
     },
     "github:MichengAI/dsh-code-review": {
-      "sourceHash": "e17e7869dff6aa0ce71a91bfe57a3d2472a5cddea75b5255ea039786abf863f1",
-      "descriptionZh": "基于原生审查流程的会话改动复查与状态跟踪插件",
-      "analysisZh": "适合定期复核代码变更的场景，支持通过 /review 选定范围并持续查看报告与状态。"
+      "sourceHash": "dabcdc563b08fe029a2d335fa6ae3dadb16c56713415ba6f7d634e59fe8e31bc",
+      "descriptionZh": "提供代码审查、独立子Agent及中英文报告",
+      "analysisZh": "适合需要对未提交更改、特定分支或提交进行专业代码审查的开发者。"
     },
     "github:MichengAI/dsh-codex-pet": {
-      "sourceHash": "e9e7b036907709925cf0bf500536de12d463649199eb284969ba9cd011589e41",
-      "descriptionZh": "独立实现的宠物交互、任务通知与任务进度面板插件",
-      "analysisZh": "适合需要桌面宠物协作感知的用户，需在设置里开启后处理任务提醒与会话继续。"
+      "sourceHash": "81f9d6209020e8d9724b3ec016392969e35f1a7442c23233d50c46d6334ca3ac",
+      "descriptionZh": "提供宠物陪伴、多任务提醒交互及自定义宠物",
+      "analysisZh": "适合希望在工作时有虚拟宠物陪伴，并能通过宠物接收任务状态提醒的用户。"
     },
     "github:MichengAI/dsh-pua": {
-      "sourceHash": "741553c8af4eee6468404a1b5fd5844c72908a482ffb74ff6d53c3d655c4c01a",
-      "descriptionZh": "可配置对话人格与角色风格的会话增强与子代理策略插件",
-      "analysisZh": "适合希望自定义回复风格的用户，需在插件设置与会话配置中启用并选择 persona。"
+      "sourceHash": "768e1aa9ef480cb9e993203c7a4fbfa4cadd2db1026aa366a617e855517b2db5",
+      "descriptionZh": "提供任务推进、角色风味、验收循环和状态卡片",
+      "analysisZh": "适合需要设定特定角色风格、强化任务验收与状态跟踪的对话场景。"
     },
     "github:minghuo/dsh-github-sync": {
       "sourceHash": "e6770c32c1c891858cd01635a1193000831033b6feee2c35e9a349113df8ae0d",
@@ -70042,9 +70042,9 @@
       "analysisZh": "适合偏好该题材视觉风格的用户，需按 Windows 步骤安装并重启客户端"
     },
     "github:MarcSierszen/dsh-specify-lite": {
-      "sourceHash": "9577cd8c444a4013c74db1f5cbe17df7bd736aabec3d27a2d16a6652fe38e94c",
-      "descriptionZh": "专注规格驱动开发，覆盖需求澄清到实现验证闭环",
-      "analysisZh": "适合希望以规范流程推进开发的用户；提供从初始化到实现的命令链，需满足最小DSH版本与Node20+。"
+      "sourceHash": "fd1c137a1d03bb83af1bd13bbc1a24d81f0b22c74ff3d2c553bf372184d57776",
+      "descriptionZh": "在DSH中提供原生规范驱动开发工作流工具",
+      "analysisZh": "适合软件开发任务，通过结构化命令引导从需求明确到代码实现的完整流程。"
     },
     "github:MARIOMLY/dsh-desktop-app": {
       "sourceHash": "33b8f12ba9c949e1f65bd51d0ae10d077478f3e5c9f10ce1cd05494b4f966bf7",
@@ -70062,9 +70062,9 @@
       "analysisZh": "适合多窗口干扰场景下固定焦点窗口的用户；说明限定桌面应用窗口，普通浏览器标签页不受影响。"
     },
     "github:Meaple-SFKY/dsh-model-orchestrator": {
-      "sourceHash": "f786a414f2e300a9dc4930721c6109ee91ab2d7cb212d38d98dc2cc438e09159",
-      "descriptionZh": "基于可用模型能力的任务路由与编排，支持自动/指导模式",
-      "analysisZh": "适合要统一分派多类子任务模型的高复杂度会话；仅凭官方描述，安装与兼容细节需以说明文档为准。"
+      "sourceHash": "bcc655957e0334da7690c445dae171ca51383073ac3ab2aecd01aa425cf3b91a",
+      "descriptionZh": "自动发现模型池并智能路由任务的协调器",
+      "analysisZh": "适合拥有多模型、多提供商，需要根据任务类型自动分发至最佳模型的场景。"
     },
     "github:Missher12/dsh-missher-brain": {
       "sourceHash": "afa21947f6bcea76e5dce7e70df7cf791daa44a2070da4374caf15e3d4f20325",
@@ -70072,9 +70072,9 @@
       "analysisZh": "适合需要本地回忆共享与供应商状态统一的场景；需配置预算与超时参数，参数不足会影响召回质量。"
     },
     "github:Missher12/dsh-missher-enhance": {
-      "sourceHash": "2fb6fe31e6cfb8daff40b0dc0124e62c0194e139e62b7bec64e4f06ad4a3cf45",
-      "descriptionZh": "增强官方界面的体验模块，含统计、导航、会话与个性化扩展",
-      "analysisZh": "适合提升官方界面使用体验的用户；依赖文档中的版本与安装流程，开启前建议按官方说明核验。"
+      "sourceHash": "81c8b634e28e0d22503de041ccf1387dd213d5c8aec26e55a0a3902df68ee4fa",
+      "descriptionZh": "为DSH提供统计、导航及工作流等增强模块",
+      "analysisZh": "适合需要个性化、文档工作流和跨会话消息等增强功能的Harness用户。"
     },
     "github:Momonaka/commandcode-dash": {
       "sourceHash": "133fd58fa8060bb18c52afab31edd174ffd3f4057484dd2cf684ecb250450fad",
@@ -71857,9 +71857,9 @@
       "analysisZh": "适合在长回答中针对特定细节深入追问，且不想打乱主对话流的用户。"
     },
     "github:MoriTang/dsh-neubrutalism-theme": {
-      "sourceHash": "6d1da0e287af731d4a4e092ce09327e33fd5fa4479619ac4f7139a3e811dadd2",
-      "descriptionZh": "为DSH Web提供新野兽主义风格的视觉主题",
-      "analysisZh": "适合看腻了默认界面，追求强烈视觉个性和新野兽主义美学的用户。"
+      "sourceHash": "a94c6cebf2b5dcb13f818678b5a7dd00931bdb499350085267d8a27c42b7f4ad",
+      "descriptionZh": "提供新粗野主义风格的黑白双色主题皮肤",
+      "analysisZh": "适合喜爱硬阴影、粗边框、直角等新粗野主义视觉风格的用户。"
     },
     "github:neltharion11/dsh-luxar-embedding:packages/dsh-luxar-embedded-core": {
       "sourceHash": "cffd00ca5e5ce51ed2e8072b42dc64def5a25e33cac8bbbf47a16c3ba8472c96",
@@ -81862,9 +81862,9 @@
       "analysisZh": "适合需在浏览器收集主机操作授权的场景，依赖会话事件与输入区接管。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-attachment": {
-      "sourceHash": "4c0ae4f5ca02c112801b743a4a5552073fe9a54b60f62e3bbd002862a4196421",
-      "descriptionZh": "会话界面附件展示：草稿栏、拖放区、历史图片与灯箱。",
-      "analysisZh": "适合维护或使用网页端附件体验者，数据与回调由槽位提供方负责。"
+      "sourceHash": "bbe3569cc9972cc44b4584c857816f31d6f9c39fe1968da065205c80870e5333",
+      "descriptionZh": "提供Web端对话附件动态展示插件",
+      "analysisZh": "渲染输入框附件栏、拖拽目标、历史图片及灯箱。适合需要优化Web端附件交互体验的开发者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-brand-official": {
       "sourceHash": "3a835ccbd2c5b6dab389f0a6c33342f73fcdbce5eb543e4f141189a747bdacdc",
@@ -81872,24 +81872,24 @@
       "analysisZh": "适合以官方品牌部署的场景；其他身份需自备替代品牌包。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-chat": {
-      "sourceHash": "b899d80594921472a320985d4b9c52384135bc193b264c84466783fe0568c7f2",
-      "descriptionZh": "聊天会话目标、节点定义、渲染器与详情界面。",
-      "analysisZh": "适合构建或维护网页聊天会话视图者，含回合用量展示逻辑。"
+      "sourceHash": "2f0bde58b4538a6f02e83d15e07ed888ca516c6a2b7c63176a868e6cf45dc09f",
+      "descriptionZh": "提供聊天对话目标定义与渲染服务",
+      "analysisZh": "展示Token使用情况、耗时统计及对话细节。适合需要精细化展示聊天历史和性能指标的系统。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-commands": {
-      "sourceHash": "00f178cbec543551060fe8dc75e5cbd0964920cab82127368739ff41958e61b7",
-      "descriptionZh": "客户端命令界面：斜杠命令源、分发类型与弹窗注册。",
-      "analysisZh": "适合需在网页端接入斜杠命令与弹窗的业务包维护者。"
+      "sourceHash": "45b1465d62ec489144c22796ae1a4f01012aaf4284c965d1f135d665e3feefbc",
+      "descriptionZh": "提供Web客户端斜杠命令交互界面",
+      "analysisZh": "支持通过输入斜杠触发弹窗、客户端动作或主机命令。适合需要丰富快捷命令交互的开发者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-conversation": {
-      "sourceHash": "b766053796247fb1f210ac1282b526a1f4a6cd1f989731ce0195132e6081b46b",
-      "descriptionZh": "目标无关的会话装配、外壳、输入区与视图导航。",
-      "analysisZh": "适合构建网页会话外壳与输入状态的维护者，提供注册表与绑定。"
+      "sourceHash": "29cd0c102fa9721a21abafb7bb0afd40cad9c01a9a4e47c7f12b71b1d4fc8590",
+      "descriptionZh": "提供通用对话组装与浏览器外壳服务",
+      "analysisZh": "管理会话事件、输入状态、插槽绑定及临时输入框接管。适合构建自定义对话界面的开发者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-deliverables": {
-      "sourceHash": "5eb8ca0d1a1e6f1cb53a5f06ff0146a1529bec9da0eab60dd46c4cfbad3bfebf",
-      "descriptionZh": "产出文件行与可点击的最终回复文件引用。",
-      "analysisZh": "适合需在网页端展示回合产出文件并支持点击打开的用户。"
+      "sourceHash": "f362a1804d8612d35d3b66d04ab76f1d3ddd4151ff57fbf8bcc7e252b5ddd436",
+      "descriptionZh": "提供Web端变更文件与交付物展示卡片",
+      "analysisZh": "渲染Turn结束后的文件变更对比、交付卡片及代码内链接。适合需要直观审查代码变更的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-desktop-shell": {
       "sourceHash": "6157b43d485a4fbaf1a10b878bd496059633ef834f47d5419cc046a48e451c55",
@@ -81902,9 +81902,9 @@
       "analysisZh": "适合需在网页内选择工作区目录、不调用系统选择器的场景。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-directory-picker-native": {
-      "sourceHash": "8a6610495f29451684c55f53ce48e2c8e625473c9df398b4e7a6edf517a5566d",
-      "descriptionZh": "无渲染目录选择面，驱动主机操作系统的选择器。",
-      "analysisZh": "适合希望用系统原生目录选择器的工作区目录流程。"
+      "sourceHash": "f2bae47b61be92cbd0d34c6da289b9fb7439039b480522dcdb8b6db0717f526c",
+      "descriptionZh": "提供原生系统目录选择器交互界面",
+      "analysisZh": "调用本地操作系统或桌面的目录选择器并返回路径。适合需要本地工作区目录选择功能的系统。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-dockkit": {
       "sourceHash": "512f52e71091a341e2676d8809e5a8e62aef4c597ae62cef5474426aed896551",
@@ -81912,24 +81912,24 @@
       "analysisZh": "适合需嵌入分栏标签布局的开发者；属内部引擎非稳定 API。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-goal": {
-      "sourceHash": "b1e174a830f171cf398acae6c71fcd9a58942157c560eaa3e81682d67717195f",
-      "descriptionZh": "会话目标条：输入区上方展示并可编辑、暂停或清除目标。",
-      "analysisZh": "适合需在网页端查看与调整会话目标的用户，创建目标不在此包。"
+      "sourceHash": "057715ad2c48b61a35d742f93050d490dd59b6d051c170edbc2682fb6f8213ea",
+      "descriptionZh": "提供Web端会话目标状态展示与控制条",
+      "analysisZh": "在输入框上方显示当前目标，支持编辑、暂停、恢复或清除。适合需要目标导向任务管理的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-input-trigger": {
-      "sourceHash": "a4b1adaff44e7ad1d30247119ae4dfdce09a02767a3c8449a16197b96c6b220f",
-      "descriptionZh": "输入触发管线：斜杠与 @ 检测、候选菜单与选择路由。",
-      "analysisZh": "适合需在输入区接入命令与引用候选的维护者，不负责发送请求。"
+      "sourceHash": "023097eb22f35352c4ed8be8338dbc6b8d067eb3c04a374ab1562dfd3754b22b",
+      "descriptionZh": "提供输入框斜杠与艾特符号触发管道",
+      "analysisZh": "检测输入框中的字符并弹出命令、文件或会话引用菜单。适合需要快速引用和命令输入的场景。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-jobs": {
-      "sourceHash": "29f5d1f86cf49a166002e0d13241abce711227b04d656ba06ce9740cfbc47f92",
-      "descriptionZh": "会话头部后台任务列表，镜像会话任务帧状态。",
-      "analysisZh": "适合需查看本会话后台任务的用户，无任务时不显示入口。"
+      "sourceHash": "14bde52e2f2d7a218a99c38ad28f4202b9055f950d73d5e09b11b307f83b3ac4",
+      "descriptionZh": "提供Web端会话页眉后台任务列表展示",
+      "analysisZh": "在页眉展示当前会话可见的后台任务及运行状态。适合需要监控后台异步任务执行进度的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-layout": {
-      "sourceHash": "5467b623a351ea69d442df404c958cdbbc9db98be17573060da40b9b24c17227",
-      "descriptionZh": "三栏外壳布局、拖拽手柄与布局查看状态服务。",
-      "analysisZh": "适合维护网页窗口框架与主题呈现者，含面板几何控制。"
+      "sourceHash": "59159dcd34ab1f54096e0fedafd6cee3a8cde5b5f3d426c71648154fb284b0c1",
+      "descriptionZh": "提供Web端三栏式布局框架与状态服务",
+      "analysisZh": "提供带拖拽把手的三栏布局、侧边栏控制及主题呈现。适合需要定制Web界面整体布局的开发者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-message-feedback": {
       "sourceHash": "59c9b8d8c8057cb3a1c829a8c0450c8f135713fd71722fdc3432c327f39eb81a",
@@ -81937,29 +81937,29 @@
       "analysisZh": "适合需在网页端对助手消息评分并提交反馈的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-model-selection": {
-      "sourceHash": "e01ee79dbbf444ad422d10406ba0d8bcabbaa79d9de921e661104d01642ceaca",
-      "descriptionZh": "模型选择：斜杠弹窗与输入区模型控件，按提供方分组。",
-      "analysisZh": "适合需为已有会话切换模型与推理强度的用户。"
+      "sourceHash": "d02420d407fb0d203e3a77d4f401c679b863200ac6209a31454d3dcad13fe95b",
+      "descriptionZh": "提供Web端模型切换与推理配置界面",
+      "analysisZh": "支持通过命令或输入框控件切换当前会话的模型及思考细粒度。适合需要灵活调整模型参数的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-open-in-app": {
-      "sourceHash": "79e41469d915039f86fb8a0d410be0beb8fadc62c21ec74f66b4927b05f72a86",
-      "descriptionZh": "会话头部“打开方式”按钮，用本地应用打开工作区目录。",
-      "analysisZh": "适合需在本地已装应用中打开会话工作区目录的用户。"
+      "sourceHash": "f7f8538b85cbc0c20ddb6c4fe34d8413b9fc6188089c8e72407ded76dff9503f",
+      "descriptionZh": "提供在本地应用中打开工作区目录按钮",
+      "analysisZh": "在页眉提供按钮，一键在本地已安装的编辑器或应用中打开当前工作区。适合本地开发流用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-permission-presets": {
-      "sourceHash": "9ef367f9c0b5c1201ef2ed0630cd0f0b43d8ea7713eccf19f6a95810757a257c",
-      "descriptionZh": "权限预设界面：新会话默认设置与当前会话权限弹窗。",
-      "analysisZh": "适合需设置新会话默认权限或切换当前会话权限的用户。"
+      "sourceHash": "e2e4d16227715d8e85fee497a904ed1e41192bf55b81bcb4f7475464127c3895",
+      "descriptionZh": "提供Web端权限预设设置与选择界面",
+      "analysisZh": "支持为当前或未来会话选择只读、写入或完全访问等权限。适合需要精细控制安全策略的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-plan": {
-      "sourceHash": "7c6837b53bcef4e70ed87a7d7069f79c0cc50f7b310c45c904f528d1427c68d7",
-      "descriptionZh": "计划模式状态标签，显示并关闭输入区的计划模式。",
-      "analysisZh": "适合需在网页端查看并退出计划模式的用户，模式逻辑在别处。"
+      "sourceHash": "9ec8b2d1196123ab7a3f6fe462ba3fe8c9327726bcd8b0bebb8a5456abbc31b8",
+      "descriptionZh": "提供规划模式控制、卡片及侧边栏预览",
+      "analysisZh": "支持在实施前审查规划，提供侧边栏预览及历史规划卡片。适合需要先规划后执行的复杂任务。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-primitives": {
-      "sourceHash": "ca595497270565a3892071fe581032379cc17a83cc0e34dfd5971d0adb61b672",
-      "descriptionZh": "网页界面共享 React 原子组件：控件、图标、Markdown 与输出卡片。",
-      "analysisZh": "适合构建网页控件并渲染代理输出的开发者，含不可信输出处理。"
+      "sourceHash": "f73c542a6b940e3a81e5bc4d3c9b7da1b773a6729b6d80e3455dd39741b63e20",
+      "descriptionZh": "提供Web界面所需的React基础UI组件与渲染器",
+      "analysisZh": "适合需要构建DSH Web控件、渲染Markdown或终端输出的开发者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-reference": {
       "sourceHash": "96f9c4a64792697afe5f90902378d3e3b2ba06bb002d67996b2a8311fb8ec8c1",
@@ -81987,9 +81987,9 @@
       "analysisZh": "适合需在插件中受限读取工作区文件、列目录或获取元数据的开发者，可配置字节与行数上限。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/attachment/attachment": {
-      "sourceHash": "e5307b037d04a2e03b81a699d8c130075b7aa0abada75f9636c38a72dc364227",
-      "descriptionZh": "为提示与命令提供持久不可变的图片和文件附件存储接口。",
-      "analysisZh": "适合需在会话中附加图片或文件并跨重启复用的用户，图片会校验规范化，其他文件按原样存储。"
+      "sourceHash": "d3fe9ac120f343bc3fc21441b64650b7147d4b983f687d7c73277352569b2f50",
+      "descriptionZh": "提供持久化、不可变的图片与文件附件存储接口",
+      "analysisZh": "适合为提示词和命令接入持久化图片、文件附件，并在会话重启后复用。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/attachment/attachment-local": {
       "sourceHash": "3ac2a619996ff4c022b07bcea9c2992bfce35b4818144779d1b76721aac46134",
@@ -82002,9 +82002,9 @@
       "analysisZh": "适合需要本地私有附件存储的用户，可配置图片大小、数量与像素上限，默认无需额外配置。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/boot/app-boot": {
-      "sourceHash": "d46155984feb1a9771ed78caaa314d19784ad571f8b138d12b3d4cdc4febb189",
-      "descriptionZh": "为应用入口提供共享启动逻辑：环境加载、配置解析与启动序列。",
-      "analysisZh": "适合维护或调试应用启动流程的开发者，可在启动前预览最终生效配置。"
+      "sourceHash": "862c1503b144d246d9a302ad1650e7a93e0ea6f369802b8f5860fd97ca43a65e",
+      "descriptionZh": "提供环境变量加载、配置解析与插件加载器启动支持",
+      "analysisZh": "适合需要统一加载环境变量、解析有效配置并启动插件加载器的维护者。"
     },
     "github:my-dsh/oh-my-dsh:packages/boot/app-boot": {
       "sourceHash": "d46155984feb1a9771ed78caaa314d19784ad571f8b138d12b3d4cdc4febb189",
@@ -82022,29 +82022,29 @@
       "analysisZh": "适合需接入本地事实记忆或程序性学习提供者的用户，提供者各自持有数据，中心不存储用户记忆。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/bundle/acp-app": {
-      "sourceHash": "e419a1f38cc53ef5c7a30300abf9f70f09a5ec4a954138f0d25b6199a3475399",
-      "descriptionZh": "仅自动化的 ACP 标准输入输出应用配置包，基于 dsh-base 运行。",
-      "analysisZh": "适合以 JSON-RPC 标准输入输出方式启动持久代理的自动化场景，帮助命令不会占用标准流。"
+      "sourceHash": "d78445e067639cc8b90223b0a2baa1710888a0f0a47019b027659d3a4dadb029",
+      "descriptionZh": "提供自动化ACP stdio应用配置文件",
+      "analysisZh": "基于dsh-base构建，用于启动持久化Agent。适合需要无交互自动化运行环境的维护者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/bundle/base": {
-      "sourceHash": "6621123603a5e6f61155e4d88801909e0bf64d537f7d41e1865f0b38d8afc3e8",
-      "descriptionZh": "共享 dsh 核心配置包，提供模型、工具、会话与安全默认值。",
-      "analysisZh": "适合组合或自定义基于 base 的配置文件的用户，通常无需直接改动，自定义配置需首先引用它。"
+      "sourceHash": "5fc9972f53178a3e08a3a0c438ea4332e83b3640deec7099e93a7fa0f70ff0be",
+      "descriptionZh": "提供共享的dsh核心配置文件包",
+      "analysisZh": "包含模型连接、工具集和安全默认值。适合需要自定义或组合基础配置文件的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/bundle/headless": {
-      "sourceHash": "8c30a0622e81369ecbe69f4eb3738cd46fa71d2802b0ac1964d48576ef44d3c3",
-      "descriptionZh": "一次性任务运行包，从命令行执行单个任务并打印最终答案。",
-      "analysisZh": "适合脚本、CI 或一次性任务，进程不开放端口且退出码反映结果，无界面与服务层。"
+      "sourceHash": "be8f5576e020fca725c1e3672f55521b11f17b8015bc36560ac393136ce1c4f5",
+      "descriptionZh": "提供命令行单次任务运行模式",
+      "analysisZh": "无需GUI或浏览器，直接在命令行运行单次任务并输出结果。适合脚本编写和CI自动化。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/bundle/sdk-app": {
-      "sourceHash": "d8d399d515276e4f8017e2698f86b3971ba1ae4cd845aee95206f1903940535b",
-      "descriptionZh": "SDK 标准输入输出 JSON-RPC 服务配置包，基于 dsh-base 运行。",
-      "analysisZh": "适合需启动 JSON-RPC 运行时供 SDK 客户端调用的用户，帮助命令不会占用标准流。"
+      "sourceHash": "dc7accfc8493a1a3c63edea7cf5f28ad9c217de9ba737bbebffb1b36e89134d4",
+      "descriptionZh": "提供SDK stdio应用配置文件包",
+      "analysisZh": "基于dsh-base启动JSON-RPC服务。适合需要启动和维护harness运行时的开发者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/bundle/sdk-minimal": {
-      "sourceHash": "def40cbda929f1a46775ce057da47abfcd04eaba148c5e9abdd3545b29985e92",
-      "descriptionZh": "独立最小 SDK 配置包：JSON-RPC、单一适配器、持久 shell 与 JSONL 会话。",
-      "analysisZh": "适合需要小型显式编码代理运行时的 SDK 客户端，仅提供平台选择的持久 shell，不含共享 base。"
+      "sourceHash": "acc0a1c6d2d186b7da91dc8a5e33212280b1e9a0571f985266dda23e046e0f4a",
+      "descriptionZh": "提供独立极简的SDK配置文件包",
+      "analysisZh": "不依赖dsh-base，仅提供默认Shell工具和JSONL会话。适合需要轻量级编码Agent的用户。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/bundle/web-app": {
       "sourceHash": "9a9428d1e5097504e964a456516e4a69b23caf442b6308e2b8d0c045bf199190",
@@ -82057,19 +82057,19 @@
       "analysisZh": "适合通过浏览器使用 dsh 的用户，可配置是否自动打开浏览器、打印地址及受信主机。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/connection": {
-      "sourceHash": "6494829868ae94b8e059cb034325afb5018404c34d26b7fb93e0b766665c74b0",
-      "descriptionZh": "浏览器与主机间的认证 RPC 传输、连接代际与重连机制。",
-      "analysisZh": "适合维护 Web 界面通信层的开发者，负责远程调用、事件流投递与浏览器信任边界。"
+      "sourceHash": "b92c16eebe17a51e421cd953e52e92285ca164f13dc6605b82671faa610b61a7",
+      "descriptionZh": "提供网页端RPC传输与连接管理服务",
+      "analysisZh": "负责浏览器与Host之间的远程调用、事件流传输及重连。适合Web GUI的开发者和维护者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/file-upload": {
-      "sourceHash": "03ff119444767558efb8398996c41294de39bc2357c4d68de46ab3fc2cd02f71",
-      "descriptionZh": "面向会话的浏览器文件上传，支持流式接收、进度与取消。",
-      "analysisZh": "适合需在浏览器中为某会话上传文件并获取凭据供后续提示使用的功能开发者。"
+      "sourceHash": "ad60a857a5f101160badeb394f008f2c9e82a9c3e930b9cd2d1a0c21925f89b5",
+      "descriptionZh": "提供浏览器端文件上传与流式接收服务",
+      "analysisZh": "支持会话级文件上传、流式摄入及进度观察。适合需要在Web端处理大文件上传的场景。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/hmr": {
-      "sourceHash": "e47b2d00110aabdc1069cd0bb37ebdd2604eabbcbe11de1ebe04676f1e1694a0",
-      "descriptionZh": "仅开发用的客户端脚本热重载驱动，通过 SSE 重建帧并替换模块。",
-      "analysisZh": "适合开发调试客户端插件时使用，可配置轮询间隔，不适用于生产环境。"
+      "sourceHash": "581b993bb84076ba7ae6fa4a4a7563e4ae3387b2eee1a71390f6e4ce162fdcbb",
+      "descriptionZh": "提供Web客户端热更新同步传输服务",
+      "analysisZh": "通过轮询机制同步客户端图结构并重载构建包。适合开发调试阶段需要热更新的维护者。"
     },
     "github:my-dsh/oh-my-dsh:packages/client/hmr": {
       "sourceHash": "e47b2d00110aabdc1069cd0bb37ebdd2604eabbcbe11de1ebe04676f1e1694a0",
@@ -82082,9 +82082,9 @@
       "analysisZh": "适合需切换 Web 界面语言或添加语言的用户与插件作者，回环页面可持久化选择。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/modules": {
-      "sourceHash": "a528064d3e0370d4f4a059e5ace8a61e3a884be7c87e9161a20f77598157f0d1",
-      "descriptionZh": "客户端模块系统，主机侧组合启动图，浏览器侧惰性加载插件包。",
-      "analysisZh": "适合组合或调试客户端插件的用户与维护者，将插件的客户端声明转为可加载浏览器包。"
+      "sourceHash": "3bbcf2c80e678e75d519ef701aa00fbb7bfc5a2995b41c75b8ea8f6542ac02f2",
+      "descriptionZh": "提供Web客户端模块与插件加载系统",
+      "analysisZh": "在Host端构建启动图并在浏览器端懒加载插件。适合需要开发或调试客户端插件的维护者。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/resources": {
       "sourceHash": "05b26bb60416a0963a0526198717d00b4186d6275c447c82eaf3ab017ceb632a",
@@ -82102,9 +82102,9 @@
       "analysisZh": "适合客户端状态需发布稳定快照且不依赖 React 的场景，React 钩子由渲染器包提供。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/client/ui-agent-preset": {
-      "sourceHash": "4092c2c056f33eff60963471baa50bd8554bc762887fb43e39bd2dd7230e5c4c",
-      "descriptionZh": "Web 界面的代理预设界面：默认设置、会话标签与预设管理。",
-      "analysisZh": "适合需为新会话选择代理预设或管理预设列表的用户，预设创建后固定，仅影响后续会话。"
+      "sourceHash": "05b244fb1bb21b5864ba04b10003bc51c5fd970bbce54660cea7a580ea7ee228",
+      "descriptionZh": "提供Web端Agent预设选择与管理界面",
+      "analysisZh": "支持在新建会话时选择预设、在页眉查看状态及管理设置。适合需要定制Agent行为的用户。"
     },
     "github:mchenziyi/galgame-dsh-plugin": {
       "sourceHash": "9fcce639d1de4765a32d7438aa975a8cf5732974a3e112d8449e47c79ee53a26",
@@ -82202,19 +82202,19 @@
       "analysisZh": "适合需以 ACP 协议自动化驱动 DSH Agent 的开发者，需配置 provider 与模型。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/api/gateway": {
-      "sourceHash": "317306dbfb7575eac6780236b2e587abc1404643bde7fa0e25989942e9f12b03",
-      "descriptionZh": "Typert Remote 的 Host 调度器与客户端 API 端点，处理调用与流。",
-      "analysisZh": "面向 DSH 插件开发者的 RPC 网关包，普通用户具体用途尚不清楚，建议阅读仓库说明。"
+      "sourceHash": "dd347a4fccc894c8f156b08bccc0364692c3cfdb51f29d73c5bdbf929f9b3de2",
+      "descriptionZh": "提供双向Typert RPC端点与流式传输网关",
+      "analysisZh": "适合开发客户端与宿主之间的类型化RPC调用、事件流和重连通信。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/api/remotes": {
-      "sourceHash": "4418da2afab635bda3b1b20df2fe0bee011aecd21e791113e1a7e4771167d142",
-      "descriptionZh": "为应用所选 Host 能力组装 Remote BFF，供客户端消费。",
-      "analysisZh": "面向 DSH 插件开发者的 Remote 组装包，普通用户具体用途尚不清楚，建议阅读仓库说明。"
+      "sourceHash": "7195676e439b61e0882e1d22390f93a31d95aecc6683659f9559d63112a30786",
+      "descriptionZh": "为应用选择的主机功能提供远程BFF装配",
+      "analysisZh": "适合为客户端统一接入应用选定的宿主功能与转发事件。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/api/session-controller": {
-      "sourceHash": "2712ae6d7dbae8236d818feed6451e3914f653c6a4fd3f16bc94a6712357d122",
-      "descriptionZh": "会话 Remote 命令、冷读取与实时控制传输。",
-      "analysisZh": "面向 DSH 插件开发者的会话控制包，普通用户具体用途尚不清楚，建议阅读仓库说明。"
+      "sourceHash": "78f28e67fa653ef86dff802d7aab3bceeae95a5f7adbcf5d3c59a6bf868cb5bf",
+      "descriptionZh": "提供会话远程命令、冷读取与实时控制传输",
+      "analysisZh": "适合开发会话远程命令、历史读取与实时控制功能。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/api/settings-controller": {
       "sourceHash": "bebe8d31681421edbb5078f891325ae20976d95ee4cf2b69b27cd4c75536d707",
@@ -82227,9 +82227,9 @@
       "analysisZh": "面向 DSH 插件开发者的设置控制包，普通用户具体用途尚不清楚，建议阅读仓库说明。"
     },
     "github:Missher12/deepseek-harness-desktop:packages/api/workspace-controller": {
-      "sourceHash": "f4a2d971eaf719cc883cd4512cfc3a79e209cf345fdf1107c92e90194490e93a",
-      "descriptionZh": "工作区 Remote 命令与可重连的状态传输。",
-      "analysisZh": "面向 DSH 插件开发者的工作区控制包，普通用户具体用途尚不清楚，建议阅读仓库说明。"
+      "sourceHash": "445e7897fa55df0d7c58488366bf12b5a361c57216415336c92a8025bbb4d095",
+      "descriptionZh": "提供工作区远程命令与断线安全的状态传输",
+      "analysisZh": "适合开发工作区创建、重命名、排序及会话归档，并同步工作区状态的客户端。"
     },
     "github:mixin-ai/dsh-git-branch-switcher": {
       "sourceHash": "207292d24bc907c33dff72cd34d921c1792cb347aee8eb03124d9f4f1f66dd02",
@@ -96177,9 +96177,9 @@
       "analysisZh": "适合需要精细调整和编辑全局或项目级Agent系统提示词的用户。"
     },
     "github:Marquez807/dsh-experience-memory": {
-      "sourceHash": "a42cea697fcae52331c3727ccbda85f2b5980efc32a81928c03a68935220e671",
-      "descriptionZh": "提供跨会话的长期经验记忆管理系统",
-      "analysisZh": "适合需要让Agent在多轮对话中自动积累、检索和复用实测经验的场景。"
+      "sourceHash": "8281b21b03dd7ffc811658091746ff7ea433dc15d39e9cfc094336494c9be903",
+      "descriptionZh": "基于SQLite提供跨会话的长期经验记忆管理",
+      "analysisZh": "适合需要跨会话积累和复用经验的用户，通过严格的证据定级确保注入内容的可靠性。"
     },
     "github:mengge237/dsh-model-priority": {
       "sourceHash": "4ef4dc908ac3de8a5541d36a65a7f7d7c414acead41b16cf619228c391786f25",
@@ -98407,14 +98407,14 @@
       "analysisZh": "适合在Windows上遇到无法通过资源管理器打开DSH工作区目录的系统用户。"
     },
     "github:MaybeMeibeMaybi/dsh-harmonyos-hiboard": {
-      "sourceHash": "b38c08ab239127a91486d61e334b48d8c60869910f89acc9e255806a5ff10108",
-      "descriptionZh": "将对话和任务结果推送到鸿蒙负一屏卡片",
-      "analysisZh": "适合华为鸿蒙系统用户，以便在手机负一屏快速查看DSH的任务结果。"
+      "sourceHash": "2331299ec892e63581c0b79aa1fc77b7a4e8b812357bc41df2f5048b2ed0e455",
+      "descriptionZh": "将对话与任务结果推送到鸿蒙负一屏卡片的插件",
+      "analysisZh": "适合华为鸿蒙系统用户，需在手机负一屏快速查看Markdown格式的对话结果。"
     },
     "github:MaybeMeibeMaybi/dsh-lan-remote-access": {
-      "sourceHash": "bbdfc41f9103a09100923bea3b508d94f2332e55a8c9d62b4aa9b40805bb3837",
-      "descriptionZh": "允许局域网内其他设备访问DSH Web界面",
-      "analysisZh": "适合需要跨设备、在局域网内共享和访问DSH Web服务的用户。"
+      "sourceHash": "e971d6f6a8f9aea73c9295a99a7997b6f8e566ad5423ecc19c17103c6c5c30af",
+      "descriptionZh": "支持局域网设备访问Web GUI的反向代理插件",
+      "analysisZh": "适合需要从局域网内其他设备跨端访问DSH服务的用户，需配置可信主机。"
     },
     "github:memorax-ai/bites-the-dsh": {
       "sourceHash": "3bd24227cc9417ecbb8f126fff07c0fc9b454c83a5f0aaae477a219f65d84943",
@@ -98592,9 +98592,9 @@
       "analysisZh": "适合需要通过原生连接和网关进行双向RPC调用的开发者。"
     },
     "github:Miaotofu01/Study-Mate": {
-      "sourceHash": "57d8e8e48dacad68de72410f4e33f05548376478788c770b74f6981ae6ebca95",
-      "descriptionZh": "提供学习技能与课件渲染引擎",
-      "analysisZh": "适合在DSH中进行科目学习、课件生成与记忆管理的用户。"
+      "sourceHash": "e87cf9388cbefdf9221beaf6ac7380e1395f084b1e11ae4804a7ed5d5fab07d4",
+      "descriptionZh": "提供学习技能、课程生成与课件渲染的学习引擎",
+      "analysisZh": "适合需要构建系统化课程、进行科目学习与记忆追踪的用户。"
     },
     "github:mikulo/dsh-prompt-switcher": {
       "sourceHash": "9e85319027abd3ca6239f1cff0560b9a3924ffb5e25468d8afb9ccc24f4a39cc",
@@ -100040,6 +100040,801 @@
       "sourceHash": "b1a57c65da1edba885335d30d694faa125f11faef2c8b5dec97743e928653fc5",
       "descriptionZh": "在输入框旁常驻显示高驰手表运动数据",
       "analysisZh": "需先通过coros-mcp登录，适合高驰手表用户在DSH中查看运动状态与建议。"
+    },
+    "github:Fishsb/DSH-Mana:packages/consolidation": {
+      "sourceHash": "7e7f97009a1bcd33545eba6272adf9c38b855b70e51413265ecee328022744ce",
+      "descriptionZh": "合并记忆分块并进行SOAR目标栈巩固",
+      "analysisZh": "适合需要对记忆分块进行合并与SOAR巩固的认知内核开发者。"
+    },
+    "github:Fishsb/DSH-Mana:packages/core": {
+      "sourceHash": "66baf56dcbe251c4417c80e5716a901ac67bebecdf5c9b58171e17f6d0390620",
+      "descriptionZh": "提供末那识核心契约、事件与存储开库器",
+      "analysisZh": "适合需要定义记忆事件、领域模型和基础存储架构的开发者。"
+    },
+    "github:Fishsb/DSH-Mana:packages/forgetting": {
+      "sourceHash": "f2cb8063cbbac831c4250612e36e7166a97066dcb20e3add9b8cd5e933b47c82",
+      "descriptionZh": "实现艾宾浩斯衰减与间隔重复的记忆遗忘",
+      "analysisZh": "适合需要模拟记忆幂律衰减、活性分级和多通路遗忘的用户。"
+    },
+    "github:Fishsb/DSH-Mana:packages/jev": {
+      "sourceHash": "24cffbe54baa6510f2d15fc6f1ef607bf53e0c55fe3800199e074c2f25c9a62c",
+      "descriptionZh": "提供JEV判定、缓存、熔断及降级适配层",
+      "analysisZh": "适合需要通过本机Ollama进行判定、缓存和降级控制的系统。"
+    },
+    "github:Fishsb/DSH-Mana:packages/learning": {
+      "sourceHash": "78af65e3e42170e1b8f4c19bb196ddf214cefb706a3858c4d9092208d67f4374",
+      "descriptionZh": "基于Hebbian共激活计算记忆关联强度",
+      "analysisZh": "适合需要根据时间窗口共激活检测来更新记忆关联权重的任务。"
+    },
+    "github:Fishsb/DSH-Mana:packages/llm": {
+      "sourceHash": "2077ea1a10008808ef9dc56a94569f793563a6377466248d9cf76d4896bf81d5",
+      "descriptionZh": "注册路由使LLM生成拥有唯一出口",
+      "analysisZh": "适合需要将LLM生成路由统一接入宿主上下文管理的用户。"
+    },
+    "github:Fishsb/DSH-Mana:packages/long-term": {
+      "sourceHash": "a5dbea63fd7dd2ad9cf7c74a5618f2a56a0b1b4b4d055f9856424c0ab6ecf25d",
+      "descriptionZh": "提供长时记忆编码、激活方程与混合检索",
+      "analysisZh": "适合需要实现词法与向量混合检索及ACT-R激活计算的系统。"
+    },
+    "github:Fishsb/DSH-Mana:packages/metacognition": {
+      "sourceHash": "2d8fec0dbe33aceebc735060de27e679b57834eeb5790e9ef70cf86813195594",
+      "descriptionZh": "提供置信度、知识缺口及判据阈值层",
+      "analysisZh": "适合需要对认知过程进行置信度评估与知识缺口分析的任务。"
+    },
+    "github:Fishsb/DSH-Mana:packages/perception": {
+      "sourceHash": "fa866c44c81b62bff76c71debbb524e6fa81f2ad04bafea52234d7e5883c7041",
+      "descriptionZh": "实现输入采集、分块与实体抽取的前五识",
+      "analysisZh": "适合需要对原始输入进行预筛、分块和信息采集的编码任务。"
+    },
+    "github:Fishsb/DSH-Mana:packages/prompts": {
+      "sourceHash": "a8a5707f6ccd430be4c3a7e08fb604c05892c501d42dc95cebe23b94188435ab",
+      "descriptionZh": "提供20个Prompt常量的模板库",
+      "analysisZh": "适合需要标准Prompt常量作为真源进行提示词工程的开发者。"
+    },
+    "github:Fishsb/DSH-Mana:packages/reconsolidation": {
+      "sourceHash": "03694dd52937531e2da05a6feeda0067d2958ebf459813d5c0e3941cb1a924f1",
+      "descriptionZh": "提供去稳定化窗口与内容更新可追溯功能",
+      "analysisZh": "适合需要对记忆进行开窗更新、历史追加和重新稳定化的系统。"
+    },
+    "github:Fishsb/DSH-Mana:packages/scheduler": {
+      "sourceHash": "f353d0ed06b0e5d3af9d6a1ceb7d89f72d0aedd2cf6cf5dae943f772804f852c",
+      "descriptionZh": "提供SOAR目标栈与三阶段循环调度",
+      "analysisZh": "适合需要实现认知链条调度和目标栈管理的复杂Agent任务。"
+    },
+    "github:Fishsb/DSH-Mana:packages/ui": {
+      "sourceHash": "0c7f234f57f053faf708f9bcc29217262793bbe6a89ea447e066bb874ae8b534",
+      "descriptionZh": "提供激活值热力图与目标栈树等UI面板",
+      "analysisZh": "适合需要可视化监控认知轨迹、目标栈和激活值的调试任务。"
+    },
+    "github:Fishsb/DSH-Mana:packages/user-model": {
+      "sourceHash": "35f5f59381c8352391211fd8e50207d89637c65aed83ab6b03d13251d59d492d",
+      "descriptionZh": "提供偏好、习惯与项目管理的用户模型",
+      "analysisZh": "适合需要维护用户双画像、偏好及习惯的个性化Agent任务。"
+    },
+    "github:Fishsb/DSH-Mana:packages/vector": {
+      "sourceHash": "cba8915e7a692941054a4c4fb6e140018d801ae179ca573f9d7414fab95cf040",
+      "descriptionZh": "提供向量嵌入、纯JS余弦检索与RRF融合",
+      "analysisZh": "适合需要在无外部数据库时进行轻量向量检索与融合的用户。"
+    },
+    "github:Fishsb/DSH-Mana:packages/working-memory": {
+      "sourceHash": "2d7e69a2d76043b61fca141a2fdc727a856ceb520737ace47ef696a61cc74aee",
+      "descriptionZh": "提供工作记忆、容量管理与上下文组装",
+      "analysisZh": "适合需要对Agent工作记忆容量进行限制和上下文组装的任务。"
+    },
+    "github:functy23/dsh-mcp-studio": {
+      "sourceHash": "6ddc8892e529098c2ad97fde11bf53fcc9eb6ac2ec48dc567f1a14607615b12d",
+      "descriptionZh": "管理MCP服务、Skills与Agent配置",
+      "analysisZh": "适合DSH Web版用户在面板中增删改MCP和管理Skills。"
+    },
+    "github:Gaozx1/dsh-web-search-engine": {
+      "sourceHash": "e5e4d43f619d2f7046241a69410a60ad8a30fc17a1ef73b8f0018e7fc2f9e78a",
+      "descriptionZh": "用多引擎混合搜索替代默认网络搜索",
+      "analysisZh": "适合需要整合Bing、Google等多引擎结果以防单点故障的用户。"
+    },
+    "github:gezi-wen/dsh-guikit": {
+      "sourceHash": "d30f792ba3b31c7c630a70d10d95339eb6c0a2587e3448056d9a1ce5dee9797e",
+      "descriptionZh": "提供Windows桌面控制与UI自动化工具",
+      "analysisZh": "适合Windows 10/11用户让Agent执行截图、点击和打字等操作。"
+    },
+    "github:GIN0076/dsh-token-usage": {
+      "sourceHash": "509010ff15b293207e10f67dd279e91fb83de7625151329332c4210da00c7dc6",
+      "descriptionZh": "在设置面板提供词元用量统计图表",
+      "analysisZh": "适合需要直观监控每日、每周、每月模型Token消耗的用户。"
+    },
+    "github:GooDAnDReaDY/dsh-smart-restart": {
+      "sourceHash": "6e6a832df9e826dbf202be8d184253e7d1654f7091c40e6e5d06f0cd01759ea9",
+      "descriptionZh": "提供无特权的安全重启与状态验证",
+      "analysisZh": "适合使用systemd管理DSH并需要确保重启后服务可用的系统。"
+    },
+    "github:hanbernate/dsh-save-button": {
+      "sourceHash": "23913b8f1b4e53cb993da0e4dad14302bc42a6aa13edf7df581e2a9d9972a30b",
+      "descriptionZh": "在Web界面直接下载交付的文件",
+      "analysisZh": "适合需要从Web GUI直接下载文件而不想使用SFTP的用户。"
+    },
+    "github:hbgdjb/dsh-session-shield": {
+      "sourceHash": "55247e352165e64a925dc9ed97178d9be2da4739da53bfb42c957cbb9353ae85",
+      "descriptionZh": "拦截并过滤格式错误的模型工具调用",
+      "analysisZh": "适合需要防止异常工具调用导致会话无法加载的稳定性任务。"
+    },
+    "github:hiJoeLee/dsh-suggest-actions": {
+      "sourceHash": "513ea026579bb4ae7070aa87ebea423b6b1e72b60f344858671e6bf019674d6d",
+      "descriptionZh": "在回复下方提供可点击的下一步建议",
+      "analysisZh": "适合需要快捷点击发送后续建议消息以提高交互效率的用户。"
+    },
+    "github:hu568/dsh-plugin-browser-use": {
+      "sourceHash": "cc227fbe982f143dd0c93b568460adabaff95e177728acae4185b88d7556bb73",
+      "descriptionZh": "提供浏览器驱动操作与实时投屏面板",
+      "analysisZh": "适合需要让Agent驱动Chromium进行网页操作并实时观看的用户。"
+    },
+    "github:hu568/dsh-plugin-persona-memory": {
+      "sourceHash": "825ba37b86f3cbf6cc750d6deef0e45748e1d43add4e5f0e361e206d2434da4d",
+      "descriptionZh": "提供角色设定、两级记忆与长期日志管理",
+      "analysisZh": "适合需要为Agent配置长期记忆与角色设定的用户。"
+    },
+    "github:HuaimaoCy/dsh-agent-hub": {
+      "sourceHash": "553615b70d1c21a303e4d848a5b2a1e502220217601a507a76ca80e6f3461a8e",
+      "descriptionZh": "在单一看板上同时运行并监控多个Agent",
+      "analysisZh": "适合需要多模型Agent协同工作并观察交互过程的任务。"
+    },
+    "github:HuaimaoCy/dsh-codex-chatgpt": {
+      "sourceHash": "4210b192b7fff2067101cdc842408734d6af8d55031ceebe2b6ad5d20197e677",
+      "descriptionZh": "接入本地Codex桌面应用的ChatGPT模型",
+      "analysisZh": "适合已安装Codex桌面端并希望在DSH中使用其模型的人群。"
+    },
+    "github:HuaimaoCy/dsh-memory-vault": {
+      "sourceHash": "e4f26fe2c07484adeba6f9a20c9ace5322741beb8ca1d3ad75ae4bf6cb8b1e4f",
+      "descriptionZh": "提供带自动摘要和AI整理的知识与记忆库",
+      "analysisZh": "适合需要对对话记忆和知识库进行分类与自动摘要的任务。"
+    },
+    "github:Innocent-children/TaskBelay:packages/deepseek": {
+      "sourceHash": "6b521b7100e35be03f4db6b28ca86899e54088ceeb8ebfd47e1e7eb1bac145c3",
+      "descriptionZh": "运行持久化Core Task的Git任务分支适配器",
+      "analysisZh": "适合需要结合Git分支管理进行本地代码开发的任务。"
+    },
+    "github:jackie-cqz/dsh-jev-plugin": {
+      "sourceHash": "c8f944e1c54ff268078798790208d536916f85e74ba471f62e3862a959add51e",
+      "descriptionZh": "接入TypeSafe Jev决策系统的工具集",
+      "analysisZh": "适合需要调用TypeSafe API进行系统决策的用户。"
+    },
+    "github:jackxu925/dsh-pwa": {
+      "sourceHash": "d5f673b08d82aedce2278bd680303496bfee08353707e5b3680b3482833e77d1",
+      "descriptionZh": "提供适配手机端的免安装PWA移动端网页",
+      "analysisZh": "适合需要在手机上远程访问和管理DSH会话的用户。"
+    },
+    "github:JackZo400/dsh-memory-search": {
+      "sourceHash": "617044d77929465064875d701fc0134c681ce510cfc5f75980c9c7aab5c815b3",
+      "descriptionZh": "基于本地向量与FTS5的Markdown笔记检索",
+      "analysisZh": "适合需要将本地Markdown笔记作为Agent长期记忆的用户。"
+    },
+    "github:JackZo400/dsh-voice-transcribe": {
+      "sourceHash": "6360028627c880772477492547a872a5039cc66f52c2b0dc4c63f221da1db5b9",
+      "descriptionZh": "利用faster-whisper实现本地音视频转写",
+      "analysisZh": "适合需要免费、本地化转写微信语音或音视频文件的任务。"
+    },
+    "github:jameswatt139240-crypto/dsh-ATLAS": {
+      "sourceHash": "f71573b27db0b4241e5c70add86b3a6c60e4249df9ad4e074c97ccf245c912dd",
+      "descriptionZh": "提供工作区索引与技能体注入的统一管理",
+      "analysisZh": "适合需要对工作区文件和技能进行索引与注入的任务。"
+    },
+    "github:jcjyids/dsh-web-advanced-settings": {
+      "sourceHash": "f858398c2010cfdba25437eed75190b46bd64fbb59b661d23438cc4945c8b0bb",
+      "descriptionZh": "提供IP监听、端口设置及卸载清理等高级设置",
+      "analysisZh": "适合需要配置远程访问、取消鉴权或彻底清理插件的用户。"
+    },
+    "github:jetformat/dsh-plugin": {
+      "sourceHash": "5f981ba993aab519725d8f3c4871c5e5f8bf06f0591f297a0c58a3af1232dc8a",
+      "descriptionZh": "通过本地CLI将Office文档转为PDF或提取文本",
+      "analysisZh": "适合需要处理Word/Excel/PPT转PDF及文本提取的任务。"
+    },
+    "github:jevgpt/dsh-plugin-locale-tr": {
+      "sourceHash": "9842961d5d12965b971b8cfd297daee24ba2a749e01331eebe26f3df1e83b652",
+      "descriptionZh": "为Web界面提供土耳其语语言包支持",
+      "analysisZh": "适合需要使用土耳其语界面的用户。"
+    },
+    "github:jingchangzhao-gif/dsh-errkb": {
+      "sourceHash": "1b69e9ad5aaf827122726357be36dc4f9c44dc2826f98c326e49ba5a2ec32ca0",
+      "descriptionZh": "用于复用历史报错诊断与修复方案的知识库设计原型",
+      "analysisZh": "面向希望沉淀报错与修复经验的开发者；官方标注工具尚未实现，当前仅供评估设计。"
+    },
+    "github:jipika/dsh-preset-hotswap": {
+      "sourceHash": "420d0fdbd74065f1c41a9bece1adb8e6d106acda592999bdd8f2ec364eb04f0f",
+      "descriptionZh": "在进行中的会话头部热切换对话模式预设",
+      "analysisZh": "适合需要在不新建会话的情况下随时调整对话模式的用户。"
+    },
+    "github:john-walks-slow/dsh-live2d-voice": {
+      "sourceHash": "72e21d43e939635fa91767c64321b96fcfb9de0586e7d075d85d7fa8308c4f40",
+      "descriptionZh": "提供带实时语音输入和流式TTS的Live2D视图",
+      "analysisZh": "适合需要与Live2D角色进行语音互动和视觉反馈的用户。"
+    },
+    "github:jonah791/dsh-temporal-self": {
+      "sourceHash": "19970216b92344faad15924e1e5c0feb39c21128a55dfcdea21acb41798cab55",
+      "descriptionZh": "在模型请求末尾注入高精度的时距读数",
+      "analysisZh": "适合需要让Agent感知时间流逝和今日唤醒时长的任务。"
+    },
+    "github:jr-create/dsh-prompt-wisp": {
+      "sourceHash": "d0c18e2b5f187f29ca6da09d542c0dce37957f6823ae7061d84b09d3f97702ba",
+      "descriptionZh": "在输入区提供一键优化和结构化提示词按钮",
+      "analysisZh": "适合需要快速将草稿改写为高质量、结构化提示词的用户。"
+    },
+    "github:JWE24-code/moqi": {
+      "sourceHash": "9131d6fc38ed5bad1062fe718d7f137a0632bb858c11078676eb012c77479087",
+      "descriptionZh": "提供带Token计数和Markdown渲染的终端应用",
+      "analysisZh": "适合喜欢在终端（TUI）中使用DSH并监控Token消耗的用户。"
+    },
+    "github:kangtsang/dsh-worktree-space": {
+      "sourceHash": "fa19749c8299b3a154cc8dd098020b13a087cc2714edb8ec9d2dc6f378673705",
+      "descriptionZh": "为每个任务自动创建和管理Git工作区分支",
+      "analysisZh": "适合需要多任务并行开发且希望自动管理Git分支的程序员。"
+    },
+    "github:King20260919/dsh-open-folder-visible": {
+      "sourceHash": "123f69e69a7f26ce9887d341f80fdc538671389630e4dc8d4f65614e2a7b15a7",
+      "descriptionZh": "修复Windows下无法正常打开资源管理器的问题",
+      "analysisZh": "适合在Windows系统上遇到点击打开工作区无反应的用户。"
+    },
+    "github:kyle123740/dsh-message-recall": {
+      "sourceHash": "8e65f6e6d065cb02140f8b22c77c054dee907e5acb5c3c98b28063d87909117b",
+      "descriptionZh": "为会话中的单条消息提供撤回与就地删除功能",
+      "analysisZh": "适合需要精细调整上下文、删除错误回复或重新编辑的用户。"
+    },
+    "github:laohankk/dsh-crt-skins:packages/skins/crt-terminal": {
+      "sourceHash": "4f480ea84fadf08f2ecd7116241bab071437fe38bbd2eae74a27cd1658d3eea9",
+      "descriptionZh": "提供绿色荧光CRT复古终端主题及音效",
+      "analysisZh": "适合喜欢复古单色CRT显示风格和终端音效的用户。"
+    },
+    "github:laohankk/dsh-crt-skins:packages/skins/pipboy-terminal": {
+      "sourceHash": "8dd8842bb4c17aedd39a4ba73fce26c37b3c61beab8e9b0721180bd7c6b242d8",
+      "descriptionZh": "提供辐射Pip-Boy风格的琥珀色荧光主题及音效",
+      "analysisZh": "适合喜爱Pip-Boy风格、温暖琥珀色界面的用户。"
+    },
+    "github:Lgv-H/dsh-maibot-plugin-writer": {
+      "sourceHash": "a4af666c1cab5bc8d5d5229929c4f5811194e5f354d77bedf647477945263bb9",
+      "descriptionZh": "提供MaiBot插件的编写、校验与安装工具",
+      "analysisZh": "适合需要开发、测试和部署MaiBot机器人插件的开发者。"
+    },
+    "github:1497105876/dsh-text-inject": {
+      "sourceHash": "e97b7791ef51e3e81a083de33a0865712a4e6869e30ff7ab55ba25ab097408b7",
+      "descriptionZh": "在设置页添加文字注入系统提示词或上下文功能",
+      "analysisZh": "适合需要灵活管理、热加载和备份自定义系统提示词或上下文的 DSH 用户。"
+    },
+    "github:18569663yz-web/dsh-plugin-crypto-ticker": {
+      "sourceHash": "2d891fd17f2790e469afbc37377cdcbb702dd3913223ea7f9cf09a4ed5183f3a",
+      "descriptionZh": "在侧边栏左下角展示实时加密货币行情卡片",
+      "analysisZh": "适合需要在 DSH 界面中实时监控 BTC、ETH 等主流代币价格与走势的用户。"
+    },
+    "github:3289192-bot/dsh-adaptive-max-tokens": {
+      "sourceHash": "9b61a2ffefe821aeea149d56916ef749f2e4c1b33bc36a965f93cddd3354f792",
+      "descriptionZh": "动态调整输出预留额度以释放长对话上下文空间",
+      "analysisZh": "适合长对话任务，可减少上下文超限。需 DSH 0.1.6-alpha.1 或 0.1.7-rc.2 版本。"
+    },
+    "github:5havv/dsh-weixin": {
+      "sourceHash": "351f0a7b6d03df2432ce504b9e5809194575a2be985d1a93a7bc238ddf4b39b7",
+      "descriptionZh": "基于腾讯 iLink 接口的个人微信通道插件",
+      "analysisZh": "适合需要将 DSH 接入个人微信进行消息收发与交互的开发者或高级用户。"
+    },
+    "github:Aicksion/dsh-clean-desktop-shell-pro": {
+      "sourceHash": "72a6a3de6067a516f204cc431d2478c12bb62d78721a6b2f3d003ccd9007a992",
+      "descriptionZh": "自动管理后端生命周期的桌面外壳增强版插件",
+      "analysisZh": "适合使用 Web 模式但想要原生桌面体验、自动拉起后端且快速冷启动的用户。"
+    },
+    "github:AllenWES365/dsh-local-memory": {
+      "sourceHash": "15e2a85b1dbc82b001d9e77a7e89c4819b4b343c82cd3d06301ebb3574f0d65f",
+      "descriptionZh": "为项目提供隔离的长期记忆库与聚合视图",
+      "analysisZh": "适合需要按项目隔离长期记忆、支持跨库查看的用户。需配置 LLM 环境变量。"
+    },
+    "github:Amir83Nasr/dsh-rastin": {
+      "sourceHash": "9c6953f94da875c74c4ede3b67810c23bd29e6ef5f24a9f8d5364cd72f029c18",
+      "descriptionZh": "提供波斯语从右至左排版及内置字体的界面包",
+      "analysisZh": "适合需要波斯语 RTL 界面排版、特定终端字体及 Todo 栏默认展开的用户。"
+    },
+    "github:ArthurZhou/dsh-plugin-model-hub": {
+      "sourceHash": "fcd29dab97ae8470c232163c11fa7db7062b4574cb6ef2252687139ddbda729a",
+      "descriptionZh": "提供模型、服务商、上下文窗口及密钥配置页",
+      "analysisZh": "适合需要图形化配置多服务商、自定义上下文窗口及 API 错误重试策略的用户。"
+    },
+    "github:b8yg7vjstj-ctrl/dsh-llamacpp-bridge": {
+      "sourceHash": "c6518749181b9d271b0edfdca37edb5a102454946e73ed9aa7273238f073ae13",
+      "descriptionZh": "将本地 llama.cpp 接入并作为模型服务商管理",
+      "analysisZh": "适合需要本地运行 GGUF 模型、自动配对视觉投影并监控终端输出的用户。"
+    },
+    "github:Billwu18/dsh-cache-hit-monitor": {
+      "sourceHash": "da26d3363c978c572a1cb96079538c03491cd646f9005253de9ca0d905abd0d6",
+      "descriptionZh": "在右侧边栏实时监测并展示提示词缓存命中率",
+      "analysisZh": "适合需要监控当前会话 Token 使用情况和缓存命中状态的用户。需 DSH >=0.1.7-rc.1。"
+    },
+    "github:borgez/dsh-project-mcp": {
+      "sourceHash": "d50d3ed4a8e7b547c022a333a4c041acea4da1654596e9543b75d5216fac91df",
+      "descriptionZh": "将项目声明的 MCP 服务器挂载至对应会话中",
+      "analysisZh": "适合需要在不同项目中自动加载和使用特定 MCP 工具服务器的开发者。"
+    },
+    "github:bruc3van/safer-dsh-market": {
+      "sourceHash": "d2f8e85bff88909151d15061cc3faf7e2da841d98032050b138a75605f439a65",
+      "descriptionZh": "提供插件市场及已装插件的 AI 审计功能",
+      "analysisZh": "适合需要浏览社区插件目录、安全安装并对插件进行 AI 安全审查的用户。"
+    },
+    "github:bruceyork00-a11y/PinMe": {
+      "sourceHash": "168faf8090b1d908f5ae0258a4039fe1fa529e9b2fa667428b79966c0e0cb26b",
+      "descriptionZh": "提供快捷模型与思考强度组合的一键收藏与切换",
+      "analysisZh": "适合频繁切换不同模型及思考档位（如 Off/Low/High）以提高效率的用户。"
+    },
+    "github:CanaryJing/dsh-big-fat-whale-maid-adaptive": {
+      "sourceHash": "987370bdef3df66ffc600344de7cd58ba4ac7a75f34a8fe0f7159183a0f6c8d4",
+      "descriptionZh": "提供全量工具开放与环境自适应的智能体预设",
+      "analysisZh": "适合需要全量工具首轮可见、多系统环境自适应及特定女仆人设的 DSH 用户。"
+    },
+    "github:ChengqianHuang/dsh-personal": {
+      "sourceHash": "f65de39c255951c71e41b61e4eddc56be56e5aea87a7de5b33afc75e06e2f9b2",
+      "descriptionZh": "使用 SQLite 记录、查询和回顾个人数据的助理",
+      "analysisZh": "适合需要用自然语言在本地结构化记录和检索个人生活、工作日志的用户。"
+    },
+    "github:cjx12036/TaskWatch": {
+      "sourceHash": "a7ba2296310b3476e9da3c85da015ef8c2f84314e302f9e77b1b848d46fcde91",
+      "descriptionZh": "跟踪用户意图并对智能体进行监督的插件",
+      "analysisZh": "适合需要对 DSH 智能体执行的任务、工具调用及对话进行合规与效果监督的用户。"
+    },
+    "github:copylee711/dsh-proxy": {
+      "sourceHash": "2bcb25524e803d80a2b20a0dac6b563877bed2c288dec5f9a69541aac22dcb9c",
+      "descriptionZh": "提供全局或单个模型服务商的代理与直连配置",
+      "analysisZh": "适合需要精细控制不同 LLM 服务商网络代理路线以解决连接问题的用户。"
+    },
+    "github:dienlanhvietnam-lang/deepseek-harness-vietnamese": {
+      "sourceHash": "39d8cba0d49c522afff5416fdb5c057c1c62f3eadc42d9e55a08762ccfedc5d1",
+      "descriptionZh": "为 DSH 提供官方 API 级别的越南语本地化语言包",
+      "analysisZh": "适合需要将 DSH 界面语言切换为越南语的用户，支持未翻译文本退回到英文。"
+    },
+    "github:dpskk2/dsh-chatsync": {
+      "sourceHash": "0b5ff77bb50407fa11bf2ab6744d9e3a701487850916db2b627fc0db64d33cef",
+      "descriptionZh": "通过 GitHub 仓库同步会话、设置和工作区文件",
+      "analysisZh": "适合在多台电脑上使用 DSH，并需要安全、私密地同步个人数据与配置的用户。"
+    },
+    "github:drscrewdriver/dsh-browser-cdp": {
+      "sourceHash": "0e2d8146c8113299eeffafd30266c80c3e10647a97c6ed90984759b3e4e7f622",
+      "descriptionZh": "通过 CDP 协议连接并控制运行中的 Chrome 或 Edge",
+      "analysisZh": "适合需要让 Agent 执行网页自动化任务，并在侧边栏实时观看和交互的用户。"
+    },
+    "github:eighteentang/dsh-plugin-dev-tools": {
+      "sourceHash": "9276815d824e23c32270cbce6517c3e27b28faa584542997981a9e0fd24423d9",
+      "descriptionZh": "提供元素定位、开发经验库及 AI 工作流自检注入",
+      "analysisZh": "适合 DSH 插件开发者，用于快速定位界面元素、避坑及规范 AI 辅助开发流程。"
+    },
+    "github:ethanwong-hk/dsh-thinking-guard": {
+      "sourceHash": "1e5592155824d8bac3869bc6692d63ddc421fa134d74abfc75eaa13fafa8507a",
+      "descriptionZh": "防止智能体陷入纯思考死循环的熔断保护插件",
+      "analysisZh": "适合使用推理模型时，需要防止因重复或超时导致 Token 额度异常消耗的用户。"
+    },
+    "github:fatatalia/dsh-ollama-quota": {
+      "sourceHash": "0e8c0ee0fc67a03c9a428e614b87493cadd5944f7a3127bcb86e0e20fa60837a",
+      "descriptionZh": "在侧边栏展示 Ollama 云配额进度条与倒计时",
+      "analysisZh": "适合使用 Ollama 云服务，需要实时监控会话及每周用量配额限制的用户。"
+    },
+    "github:ffyfox/dsh-linux-integration": {
+      "sourceHash": "81f809b1edab4f302e96caf5d3a054200412f525d86f228ff8503bd3ebf3b965",
+      "descriptionZh": "提供 Linux 原生桌面集成与服务生命周期管理",
+      "analysisZh": "适合 Linux 桌面用户，需要 XDG 快捷方式、独立无边框窗口及随窗口关闭停用服务。"
+    },
+    "github:Fishsb/DSH-Mana:packages/attention": {
+      "sourceHash": "58dba6cef64d8a43a53b2261bd33afe80d3fd9428ee7caae1fe6c389d914af60",
+      "descriptionZh": "提供注意力门控、JEV 筛选与注入审计的认知内核",
+      "analysisZh": "适合需要对记忆进入模型上下文进行注意力门控、JEV筛选与注入审计的开发者。"
+    },
+    "github:maryasov/dsh-plugins-mp": {
+      "sourceHash": "fad452c6755d31242b39a2a2353cdb52cda6bcb96cca3640e1326dda4b54b751",
+      "descriptionZh": "提供插件市场侧边栏及智能体检索安装工具",
+      "analysisZh": "适合需要浏览、搜索和安装DSH插件的用户，需配合侧边栏插件使用。"
+    },
+    "github:Max-Null/seek-soul-in-darkness:plugins/dsh-ssid-env": {
+      "sourceHash": "f301103ae8be673c518d41ad9194e8243d030332c082a3583182075e37315318",
+      "descriptionZh": "向智能体报告其运行在思灵桌面壳内的环境插件",
+      "analysisZh": "适合在SSiD桌面环境下运行，需向智能体提供可验证环境证据的场景。"
+    },
+    "github:Max-Null/seek-soul-in-darkness:plugins/dsh-ssid-pwsh-retry": {
+      "sourceHash": "5e52fa9cce6b04ab74e09cab712e145d2a167d2538f609c137a2c4cbb6757df1",
+      "descriptionZh": "Windows进程创建失败时自动重试的适配插件",
+      "analysisZh": "适合在Windows环境下运行，解决pwsh工具因权限等问题导致启动失败的场景。"
+    },
+    "github:liuyun847/dsh-client-ui-session-rail": {
+      "sourceHash": "3deb62e6ac66865ac48d389e63b48ce7c631f1194bf2fa1817ae1aa2ce526f26",
+      "descriptionZh": "侧边栏收起时在空白区竖排显示活跃会话横条",
+      "analysisZh": "适合多会话并行的用户，便于在收起侧边栏时快速监控和跳转活跃会话。"
+    },
+    "github:liuyun847/dsh-host-restart": {
+      "sourceHash": "1d62ea11bd8d216f112628c18fa359d01f072bf77802393883b5b55a9b3d7025",
+      "descriptionZh": "为模型提供重启宿主并恢复原会话的工具",
+      "analysisZh": "适合需要让模型自主重启DSH宿主并无缝继续对话的自动化任务。"
+    },
+    "github:liuyun847/dsh-llm-auto": {
+      "sourceHash": "766f630564770a052711387c14e67f39a8be6b8cbceb54c62e15e60f68eb500a",
+      "descriptionZh": "注册自动尝试多条模型路由的备用路由服务",
+      "analysisZh": "适合需要模型请求在输出前失败时自动重试、按顺序切换备用路由的用户。"
+    },
+    "github:lovezi0/dsh-workspace-acl-allow": {
+      "sourceHash": "b3c53533971a1560e3f103146404c22edd13204ec68196438ecf3a33393a2282",
+      "descriptionZh": "自动为工作区目录配置Windows ACL完全控制权限",
+      "analysisZh": "适合Windows用户，用于解决沙箱授权导致的权限不足及危险模式弹框问题。"
+    },
+    "github:luckbiao/dsh-markdown-highlighter": {
+      "sourceHash": "3b2b448e29155214ccd2ecd2c203c93c4576f007a2a7b0edbd37d9117141ee2e",
+      "descriptionZh": "为Markdown代码块提供Shiki语法高亮与Diff样式",
+      "analysisZh": "适合需要美化代码展示的用户，提供丰富的编程语言高亮及直观的差异对比。"
+    },
+    "github:lychee888/galvanize-dsh": {
+      "sourceHash": "538ae5e86b4699f625e9d691dc588d110d68b3b88ba66ef36602e04a20f94a2a",
+      "descriptionZh": "为Agent提供管理和触发事件唤醒的工具集",
+      "analysisZh": "适合需要让Agent根据文件、邮件或Webhook等外部事件自动唤醒执行任务的用户。"
+    },
+    "github:lyp88997/dsh-browser-service": {
+      "sourceHash": "f49cba1d0fa7f906203166a22c0cfdd4f244a80c0b47dcb0e26653b6ec338ceb",
+      "descriptionZh": "提供单例CDP浏览器守护进程及配套工具面",
+      "analysisZh": "适合无GUI服务器环境，为DSH内置工具及其他插件提供一站式浏览器运行支持。"
+    },
+    "github:mingdui/dsh-growth-workbench": {
+      "sourceHash": "a742f35bf86f00ae27803a6ea9d0551b1b59c63505d63662514e97efd78f215d",
+      "descriptionZh": "提供90天计划、每日打卡和能力自评工作台",
+      "analysisZh": "适合需要通过Web页面与Agent协同管理个人成长与考核复盘的用户。"
+    },
+    "github:Missher12/deepseek-harness-desktop:packages/api/terminal-controller": {
+      "sourceHash": "b427e78802de70559422cb06c391c8f311c1d2549c03dfa88bff873da1296c5e",
+      "descriptionZh": "提供带Shell发现和屏幕恢复的交互式终端",
+      "analysisZh": "适合在Web侧栏接入会话专属交互终端，支持Shell选择、进程重连与屏幕恢复。"
+    },
+    "github:Missher12/deepseek-harness-desktop:packages/boot/hmr": {
+      "sourceHash": "f6b9db00be40854b926e00f92b86e47e539a708a68370c8dbb7828c7d429c145",
+      "descriptionZh": "协调模块与配置文件配置的热重载插件",
+      "analysisZh": "适合开发调试时监视模块和配置变更，并协调热重载的维护者。"
+    },
+    "github:Missher12/deepseek-harness-desktop:packages/boot/plugin-manager": {
+      "sourceHash": "c4f1651bd1b41dc069d7cb899eda37e35d20b528c6a1ae62d101f3e0cc45f566",
+      "descriptionZh": "提供当前配置文件的插件与Bundle管理功能",
+      "analysisZh": "适合为命令行、Web界面和Agent工具复用当前配置环境的插件管理功能。"
+    },
+    "github:Missher12/deepseek-harness-desktop:packages/browser-use/browser-use": {
+      "sourceHash": "4bdbccd228671466265608ba815afb18877e4123dc6c56fa86bb6d11f1a71ba8",
+      "descriptionZh": "注册独占的浏览器端服务提供商",
+      "analysisZh": "用于在部署中注册唯一的浏览器后端。适合需要管理独占浏览器会话和工具的开发者。"
+    },
+    "github:Missher12/deepseek-harness-desktop:packages/client/ui-plugin-manager": {
+      "sourceHash": "828cbfe9855299a8067f745cbdd666e60f4670d7f732d85caa90bd73fb513635",
+      "descriptionZh": "管理Web客户端插件的安装、启用与组合",
+      "analysisZh": "适合需要通过侧边栏面板直观管理和配置DSH插件的Web端用户。"
+    },
+    "github:MkaliezZ/dsh-agentfuse-plugin:packages/dsh-agentfuse": {
+      "sourceHash": "53880190f97795ed38ef3fd186b4f412c646b16be9c8abed2f180c1dc03e9eeb",
+      "descriptionZh": "提供确定性的Agent工具调用前置策略网关",
+      "analysisZh": "适合需要对AI工具调用进行确定性拦截、审核与凭证记录的安全管控场景。"
+    },
+    "github:Moonshile/moonshile-dsh-plugins:plugins/dsh-last-turn-delete": {
+      "sourceHash": "af2f0a0f8672807a576cb23fbb44a6fcbb9fcece6fe3dd0a8b6b4d5ac83331cb",
+      "descriptionZh": "在最新消息上添加软删除按钮以回退对话",
+      "analysisZh": "适合需要随时删除最新对话轮次或失败压缩卡片以调整上下文的用户。"
+    },
+    "github:Moonshile/moonshile-dsh-plugins:plugins/dsh-responses-replay-fix": {
+      "sourceHash": "db2521f7f80ca55f43fb5abab42469cab677737c74d3b1a3338110d1d475c263",
+      "descriptionZh": "修复严格网关下历史回放400报错的问题",
+      "analysisZh": "适合在使用中信等严格网关时遇到历史会话无法继续、报错400的用户。"
+    },
+    "github:mrbeandev/dsh-hypercompact": {
+      "sourceHash": "6b8cd5d8115ff6e4fb38a6b1bc5bd3ebfcedc41af62d153317ab5eb32fc71464",
+      "descriptionZh": "提供基于字节预算的零LLM历史上下文压缩",
+      "analysisZh": "适合需要精确控制上下文大小、减少Prompt缓存失效并能精确召回历史的用户。"
+    },
+    "github:NamesMT/dsh-home-hosted": {
+      "sourceHash": "274545bc666b8d59d3602da6448eb2777e31313b0cb87f5c5afde8d8e71ac645",
+      "descriptionZh": "实现Web服务开机自启并在系统内管理面板",
+      "analysisZh": "适合需要将DSH作为常驻服务，实现开机自启并统一管理服务器的用户。"
+    },
+    "github:NBagent-dev/metaflywheel": {
+      "sourceHash": "8374c4bdbeff54fa21eb2772e6ccf0432aa1c5ddaff15a3386334af2bec8fa23",
+      "descriptionZh": "运行元问题建模认知飞轮引擎",
+      "analysisZh": "适合需要将MPM问题方法论作为常驻认知引擎引入AI代理流程的用户。"
+    },
+    "github:Neo65536-engineer/dsh-agent-log": {
+      "sourceHash": "bd53fb8678856eb7cc2962bda2234c709c080f808daf0e22027dfb18a3a5836e",
+      "descriptionZh": "从本机会话日志生成只读的Agent工作报告",
+      "analysisZh": "适合需要复盘任务、统计工具调用、报错及Token消耗并生成报告的用户。"
+    },
+    "github:OctoberaYours/dsh-rightbar-default-width": {
+      "sourceHash": "755a425177be3300f9418ec2ec02dc547b6156145df9127231257190d89d0206",
+      "descriptionZh": "自定义并记住右侧栏的默认打开宽度比例",
+      "analysisZh": "适合觉得默认45%宽度不合适，希望自定义右栏初始宽度并保留拖拽记忆的用户。"
+    },
+    "github:overact/dsh-context-management": {
+      "sourceHash": "e2812b240456350f4d79db4f5553c3efc4c75fe61e4da13db4869cb0dde768bf",
+      "descriptionZh": "提供窗口化上下文压缩、私密笔记与历史召回",
+      "analysisZh": "适合需要精细化管理上下文、记录会话私密笔记并分页召回历史的用户。"
+    },
+    "github:Paimonshen/dsh-coding-plugin": {
+      "sourceHash": "15c09fc8898a6517fee9310d73e684a57f4e68a541a52eeda4a48e8513bea280",
+      "descriptionZh": "提供悬浮窗代码编辑器、多语言运行及关卡评判",
+      "analysisZh": "适合在DSH中进行代码编写、运行测试、代码分析或完成编程课程的用户。"
+    },
+    "github:pgnqukezrdxmhjso/dsh-llm-codebuddy-power": {
+      "sourceHash": "445b8b66719dedd3301bb01ed14e5ef8b1bae7a0560bdb4e2864c48e14d006a1",
+      "descriptionZh": "提供完整的CodeBuddy服务商多账号管理插件",
+      "analysisZh": "适合需要登录、切换、排序和管理多个CodeBuddy账号的用户。"
+    },
+    "github:Planckbaka/dsh-plugin-github-workflows": {
+      "sourceHash": "f52c14167e96dbd86deaf7b36f502876d65571dbdda797bf11acb71c46ff1a14",
+      "descriptionZh": "通过GitHub CLI执行代码提交、PR及Actions",
+      "analysisZh": "适合需要让AI Agent直接管理GitHub仓库、处理Issue、PR和工作流的用户。"
+    },
+    "github:ProgrammerAsahi/dsh-client-ui-tweaks": {
+      "sourceHash": "20cb4d65bcae37119d4388452ed87dd4962887f4315aac65dc95e5550492bade",
+      "descriptionZh": "提供修改重发分支切换、侧栏分组等UI优化",
+      "analysisZh": "适合进行多分支对话尝试，需要版本切换、侧栏分组及自动标题的用户。"
+    },
+    "github:rezon-aki/dsh-doc-kit": {
+      "sourceHash": "ed837312ab478e727916f426b783c5691a1d5f4c9adbb6096dd3e5be195c7314",
+      "descriptionZh": "注册文档体系体检工具并分发文档治理技能",
+      "analysisZh": "适合需要对项目文档进行规范检查、配额审计和合规性治理的用户。"
+    },
+    "github:rickwindman/dsh-destinywind-mcp": {
+      "sourceHash": "2f17b65a106708854be597f17c9b38e271b33f1486ba5ada5d06930b7300dfd5",
+      "descriptionZh": "提供可视化的MCP服务器配置与启停管理界面",
+      "analysisZh": "适合需要直观管理MCP服务器、勾选工具、配置环境变量和托管密钥的用户。"
+    },
+    "github:rickwindman/dsh-destinywind-memory": {
+      "sourceHash": "7a744803b61d23aa67e8ec321fc69ef95c8ebb939252575e0a0fa2a137861e1b",
+      "descriptionZh": "在设置页提供跨会话持久保存的长期记忆库",
+      "analysisZh": "适合需要跨会话保持特定背景信息或长期记忆的AI对话任务。"
+    },
+    "github:rickwindman/dsh-destinywind-tpm": {
+      "sourceHash": "2a03053a21ba39a23d9d5783c113e7dc4576b1148ac3e96ad9656316e52c8afc",
+      "descriptionZh": "跨平台硬件及用户级凭据安全封存与解封",
+      "analysisZh": "适合对凭据安全性要求极高、需利用本机TPM或密钥环保护数据的用户。"
+    },
+    "github:rinDBeans/codex-ui": {
+      "sourceHash": "5857353d4d9602a364ad65057ae1eaeae9b7bc25c24636a67415e49f2543ec62",
+      "descriptionZh": "为Web端提供Codex风格的界面与主题配色",
+      "analysisZh": "适合喜爱Codex视觉风格、想要美化DSH Web界面的用户。"
+    },
+    "github:s11phere/dsh-commandcode-quota": {
+      "sourceHash": "56f8343c9d49267f5c8ddcb635062d04f59023e31d334d135515ef8880b5dc7e",
+      "descriptionZh": "在右上角显示CC计划额度及重置倒计时",
+      "analysisZh": "适合使用Command Code服务并需要实时监控额度与账单周期的用户。"
+    },
+    "github:s11phere/dsh-tex-block-normalizer": {
+      "sourceHash": "f677b44c766a8f251f7211d36816f93d7ec6c091142a7776a5c03fc6b45cdd46",
+      "descriptionZh": "修复Pandoc风格双美元公式块的解析错误",
+      "analysisZh": "适合经常遇到KaTeX公式解析报错、公式首行被吞或显示为红字的用户。"
+    },
+    "github:s867968286/dsh-companion": {
+      "sourceHash": "4bb7bcc39e3610a9b398ab0cf753d76415700ff8a04a8affc1936c5b38e199a1",
+      "descriptionZh": "通过Markdown定义具有独立人设与记忆的伙伴",
+      "analysisZh": "适合想要为AI助手定制专属人格、长期记忆并自动记录对话日志的用户。"
+    },
+    "github:saihhold-zhao/polox_ai": {
+      "sourceHash": "9c27946b5af075e0c7ca36dc2ac9f8241e5e66edb6ac7cb7311fbad7102dc75c",
+      "descriptionZh": "基于DSH的多模态AI生成与无限画布创作平台",
+      "analysisZh": "适合需要通过对话在无限画布上进行多模态内容创作与编辑的用户。"
+    },
+    "github:seanchen88/dsh-pluginHive:packages/example-panel": {
+      "sourceHash": "dcd5472b8da5a34838481fccb74dd98314c7f599d210a7e7c21da97de112749e",
+      "descriptionZh": "提供无宿主端服务的设置面板模板骨架",
+      "analysisZh": "适合作为开发新面板插件的起步模板，供开发者参考骨架结构。"
+    },
+    "github:seanchen88/dsh-pluginHive:packages/mcp-panel": {
+      "sourceHash": "f6c27c333b68f1fb7d70a8b2136e5d8c60ef960f2b3b2153bae5074f8a38dd91",
+      "descriptionZh": "提供MCP服务管理面板及配置写入功能",
+      "analysisZh": "适合需要可视化添加、编辑和启停MCP服务（HTTP/STDIO）的用户。"
+    },
+    "github:seanchen88/dsh-pluginHive:packages/skill-panel": {
+      "sourceHash": "3e67bc9abdbd3297db3cfa08c4afa27dacaa0d8c3b8882fa9db87386c4f7cdcd",
+      "descriptionZh": "提供技能管理面板，支持ZIP导入与创建",
+      "analysisZh": "适合需要可视化管理、导入和创建DSH技能的用户。"
+    },
+    "github:Sen70s/dsh-workspace-plus": {
+      "sourceHash": "2630da6fa8a22442a0ce33c615139704e05586e937f4c3f62403d0b8adc0c4a4",
+      "descriptionZh": "管理工作区标签与绝对路径映射并注入请求",
+      "analysisZh": "适合需要让Agent通过简短标签直接访问工作区特定绝对路径的用户。"
+    },
+    "github:SFLAQiu/dsh-waker": {
+      "sourceHash": "ef1944ad5ed690c91f963cdcd08d0a888bc738eb09ddae4d9a28f8af203cef1a",
+      "descriptionZh": "将钉钉群消息转化为DSH会话并回传任务进度",
+      "analysisZh": "适合需要通过钉钉群聊@机器人来异步派发和跟踪DSH任务的用户。"
+    },
+    "github:ShineBreaker/dsh-agenote": {
+      "sourceHash": "d2a999ddd58ec0112299f95e0089e8049a7c96b3cb5805c22f0e337e37c15f47",
+      "descriptionZh": "集成agenote知识库健康度检测与流程转交",
+      "analysisZh": "适合使用agenote管理知识库、需在会话中自动检测完成信号的用户。"
+    },
+    "github:shuiiiiimu/dsh-selfharness": {
+      "sourceHash": "1984dabb186e0dffe701ee6845b9b974727c38488e59bb4df5ac8826faa2f852",
+      "descriptionZh": "通过真实会话轨迹递归评估与改进Harness",
+      "analysisZh": "适合需要对Harness进行自动化缺陷挖掘、版本评测与自进化的高级用户。"
+    },
+    "github:SJTUMalPan/dsh-ask-timeout-notify": {
+      "sourceHash": "1527814bf99edbe4af6fc90eb48088cf2e9ed46dab4f3e505b6deb5055d00f46",
+      "descriptionZh": "用户提问超时无人回答时向通知中心投递待办",
+      "analysisZh": "适合在无人值守或后台运行任务时，需要超时自动提醒的用户。"
+    },
+    "github:SJTUMalPan/dsh-subpages": {
+      "sourceHash": "4a58e89c64d7eb12e6feed8dd5d8aae8fe3a0b8fb5b100d10fd6516b5b8a02c8",
+      "descriptionZh": "提供网关与门户以一键挂载独立下级页面",
+      "analysisZh": "适合需要复用DSH端口来统一展示和访问多个独立子页面的开发者。"
+    },
+    "github:SJTUMalPan/dsh-usage-dashboard": {
+      "sourceHash": "95dc13d4be57400866476ab8faf3867868979034b621bfb02226434a0dac7f74",
+      "descriptionZh": "将用量报表挂载至Web端并复用登录态鉴权",
+      "analysisZh": "适合需要免密、安全地在浏览器中直接查看DSH用量统计报的用户。"
+    },
+    "github:Snowy117/dsh-direnv": {
+      "sourceHash": "159ab43530c4ca36e95c0db8fead940c306ad65b5699ef11e7f5945ed4b8203b",
+      "descriptionZh": "自动将工作区的direnv环境加载至子进程中",
+      "analysisZh": "适合在不同项目目录中依赖不同环境变量，需自动隔离环境的用户。"
+    },
+    "github:Sostay/dsh-wallpaper": {
+      "sourceHash": "24105b703507c29eb8c210bd91c242ab635efa9d7e9f04af89e9bb0475e34d86",
+      "descriptionZh": "提供渐变预设、网络图片及本地上传壁纸功能",
+      "analysisZh": "适合想要自定义DSH背景壁纸、调整磨砂玻璃不透明度与模糊度的用户。"
+    },
+    "github:Stolyarovmn/dsh-client-ui-plugin-market": {
+      "sourceHash": "9ceb43dadc04e306928a930fa1cfd91354ba0067821c3fe1594fa3c3853c8445",
+      "descriptionZh": "聚合多个信任源并通过原生管理器统一安装",
+      "analysisZh": "适合需要合并多个插件源、一键搜索和安装联邦插件的用户。"
+    },
+    "github:sunzphy/dsh-sidebar-status": {
+      "sourceHash": "731ddfa9a63855aae8b19d1092e5cb981dc784f5cd07e8b78376724417fe4437",
+      "descriptionZh": "在侧边栏底部固定显示账号余额与计费时段",
+      "analysisZh": "适合需要实时监控DeepSeek余额、避开高峰期以节省费用的用户。"
+    },
+    "github:supengpeng/dsh-ssh": {
+      "sourceHash": "43a85dbd817e932df5f821c46ec4a4b93a094ab90c9159913b32c41073969842",
+      "descriptionZh": "提供SSH连接管理、命令执行及SFTP传输",
+      "analysisZh": "适合需要在DSH右侧边栏直接管理远程服务器、执行命令和传输文件的用户。"
+    },
+    "github:superSizzzz/dsh-feishu-bridge": {
+      "sourceHash": "0b4c686fb92ec3937cc3cee6c589b8f489a43b6cff0217a052eecc5e6237275c",
+      "descriptionZh": "实现与飞书机器人双向桥接、推送及对话回流",
+      "analysisZh": "适合需要通过飞书与DSH进行双向交互、接收阶段结论和总结的用户。"
+    },
+    "github:superSizzzz/dsh-think-budget": {
+      "sourceHash": "2f2e1a359a0a31fa3278ba9960ce45dbf222ca763f58c51bc329442a0f62cd8b",
+      "descriptionZh": "限制单步思考字数并在无结论时强制输出结论",
+      "analysisZh": "适合需要控制模型思考预算、防止模型陷入无意义连续思考的用户。"
+    },
+    "github:suufon/dsh-429-guard": {
+      "sourceHash": "d64ddc6821a1137ffe60654d351257c7413b41331447dcd52f1b1f7df0c1474e",
+      "descriptionZh": "遇429或配额不足错误时自动进行无限次重试",
+      "analysisZh": "适合频繁遇到API限流或配额超限，需要自动重试以防任务中断的用户。"
+    },
+    "github:ZhaoZeW/dsh-rollback": {
+      "sourceHash": "92e121d846731a25ecc5ebe7769aed3d1e9ea08548a70a4147c649a5189ed7c8",
+      "descriptionZh": "提供对话回退、文件恢复与差异预览功能",
+      "analysisZh": "适合需要版本控制式对话回退、文件恢复及变更预览的开发者。"
+    },
+    "github:zhengjy01/dsh-mcp-manager": {
+      "sourceHash": "b4f0402cab09641fa7c9e9e7eae616799b90790b5d7f71176e2b986ddf414fc6",
+      "descriptionZh": "管理、编辑和测试 MCP 服务器",
+      "analysisZh": "适合需要在运行时动态管理、测试和配置 MCP 服务器的用户。"
+    },
+    "github:Zioove/gpt-6-astra-dsh-preset": {
+      "sourceHash": "5135d486ff724377f6d24e2cf639bcf2ef387caa99588ce63e6affe1a81ce328",
+      "descriptionZh": "提供 GPT-6 Astra 智能体预设与技能包",
+      "analysisZh": "适合需要使用 GPT-6 Astra 预设角色及配套标准工具集的用户。"
+    },
+    "github:suufon/dsh-turn-speed": {
+      "sourceHash": "6ece1b93d9b5d1e562eb19a2dc97c887219977046393375cf9d91ec950d86a81",
+      "descriptionZh": "在会话统计弹窗中追加本轮输出速度等指标",
+      "analysisZh": "适合需要精确监控单轮对话性能、对比会话平均与单轮速度的用户。"
+    },
+    "github:tayuLuc/dsh-ru-voice-input": {
+      "sourceHash": "be22fb7c0be2d4c2d288302052130115fbb9027ca0b3bf053d325c746a47a3a1",
+      "descriptionZh": "为输入框集成支持俄语的本地语音输入功能",
+      "analysisZh": "适合需要俄语语音输入的用户，默认使用本地GigaAM模型识别。"
+    },
+    "github:Theflowyears/dsh-arknights-theme": {
+      "sourceHash": "101755a69f781ce3a7d6a59a2cf8fae3cb020250e00a3e99f12951f1b20fab65",
+      "descriptionZh": "为Web界面提供明日方舟主题美化包",
+      "analysisZh": "适合想要个性化明日方舟主题界面、自适应壁纸和亚克力侧栏的用户。"
+    },
+    "github:Timebro9999/dsh-session-deck": {
+      "sourceHash": "06b77ee27c60d778551d7c73ec31ef3f5dda55ab9b09be442dfe14c5de157698",
+      "descriptionZh": "提供Codex风格的侧边栏会话与项目管理面板",
+      "analysisZh": "适合需要置顶会话、项目分类、最近活动预览等高级整理功能的用户。"
+    },
+    "github:toddpan/dsh-feyagate": {
+      "sourceHash": "6459fbf16c6c9dc619bb9d8d37379b23f3df1184a67b9b5b96d1e372d8aac5de",
+      "descriptionZh": "在系统内托管并配置飞阳网关及MCP服务",
+      "analysisZh": "适合需要一键部署、管理本地MCP服务并接入其工具链的开发者。"
+    },
+    "github:underworld-oddball/sh-volume-shuff": {
+      "sourceHash": "6c7af95d7e724419b1dfe71e92f5da7f468979185e00b78c97a5f72de8857abc",
+      "descriptionZh": "在输入框工具栏添加一键朗读最新提问功能",
+      "analysisZh": "适合需要快速语音朗读对话内容、自定义起点和调节音量的用户。"
+    },
+    "github:upcyan/dsh-mimo-usage": {
+      "sourceHash": "467924bcffa1dad0e79cb4920c12f60b5b42c466a9dffc93f62b0baefd38c5cf",
+      "descriptionZh": "在界面显示MiMo额度环并提供用量详情页",
+      "analysisZh": "适合使用MiMo计费模型、需要实时监控额度消耗与费用预测的用户。"
+    },
+    "github:uu88s/dsh-session-handoff": {
+      "sourceHash": "1a2b0ea951094f161c0edb3cac1cf805952f8bf1342e7579b1c2552efeb505f1",
+      "descriptionZh": "复制会话ID或将整个会话交接给Codex",
+      "analysisZh": "适合需要将当前会话无缝迁移、恢复至Codex Agent继续对话的用户。"
+    },
+    "github:VoodooB0Ys/dsh-desktop-notify": {
+      "sourceHash": "16cb6cb7d770b7d7b3866d04e77f30c6aaceb5e5fb80e778efbd462412c5b6e9",
+      "descriptionZh": "在Windows系统下提供多通道桌面事件提醒",
+      "analysisZh": "适合需要在授权、提问完成或出错时接收系统级弹窗通知的用户。"
+    },
+    "github:weibaohui/dsh-matrix": {
+      "sourceHash": "a328d1eaa63b3dd77c0a82da0d4dc5b3d2712007d5c67bff843d237b31cdce35",
+      "descriptionZh": "为对话窗口铺设黑客帝国数字雨动态背景",
+      "analysisZh": "适合追求极客视觉效果、希望背景雨势随AI活跃度起伏的用户。"
+    },
+    "github:Weihong-Liu/dsh-html-live-preview": {
+      "sourceHash": "987345e1ce790941458375a1ac09514b26699d3061c881e09b0084a86db7bfde",
+      "descriptionZh": "在对话中提供沙箱化的HTML实时预览卡片",
+      "analysisZh": "适合需要让模型直接生成、渲染并交互操作HTML/JS网页的用户。"
+    },
+    "github:wucl12/dsh-side-branch": {
+      "sourceHash": "7885b4bbbfdd2b35ebab332668735ee399bebb3138f6ac31f6677f163244bdbd",
+      "descriptionZh": "从主会话派生不污染上下文的只读侧枝会话",
+      "analysisZh": "适合需要在不打断主线的前提下，针对当前上下文进行追问探索的用户。"
+    },
+    "github:x102201/dsh-helper-plugin-workspace-browser": {
+      "sourceHash": "72c64a321502182fa8f95a888691230fbd5737c252f567f80f624f929e5b45dc",
+      "descriptionZh": "启动独立Chrome并在侧栏供模型阅读操作",
+      "analysisZh": "适合需要让AI模型直接控制、阅读和操作真实浏览器页面的任务。"
+    },
+    "github:XINGRUYU33224/dsh-liquid-glass-wallpaper": {
+      "sourceHash": "4fd55da6a9c7d9bc7782863e70bf6672c9848d388dafc18b5f4e697cbc5985fa",
+      "descriptionZh": "将Wallpaper Engine壁纸作为磨砂玻璃背景",
+      "analysisZh": "适合Windows用户，可将本地壁纸库作为Web界面的动态背景。"
+    },
+    "github:yoggu/dsh-brave-search-provider": {
+      "sourceHash": "21f4045252edce5a61980a1bf2207115f83687ce756ab295af734c28922e9ed0",
+      "descriptionZh": "为网页搜索工具集成Brave Search搜索引擎",
+      "analysisZh": "适合需要使用Brave Search API进行联网搜索增强的用户。"
+    },
+    "github:yoggu/dsh-codex-account": {
+      "sourceHash": "cb374b2c86e1578818cd015bcbd983c91f79438403e4eeb60b72d725e44cc808",
+      "descriptionZh": "通过OAuth集成并切换OpenAI Codex账号",
+      "analysisZh": "适合拥有多个ChatGPT/Codex账号、需要显式切换使用的用户。"
+    },
+    "github:yoggu/dsh-escape-to-stop": {
+      "sourceHash": "e784f768446abcf147227cd2d6803627c60d385e848f4223b4b5aa9b3ff4e95b",
+      "descriptionZh": "支持按Escape键停止当前正在进行的文本生成",
+      "analysisZh": "适合需要快速快捷键中断AI输出，同时保留队列任务的用户。"
+    },
+    "github:yoggu/dsh-git-graph": {
+      "sourceHash": "59b0f349427d7996e6175a334d488a49aaaa90f6e45b7ee4a97d4007a6f96083",
+      "descriptionZh": "在右侧栏提供Git历史图表及差异对比视图",
+      "analysisZh": "适合在对话中直接浏览代码提交历史、查看未提交变更的开发者。"
+    },
+    "github:yoggu/dsh-new-session": {
+      "sourceHash": "cf94f1fbecfc8bf6623fa20bfbb68940da050b5418c81dd76d2d54ceb53668b5",
+      "descriptionZh": "添加快捷命令在当前工作区快速新建会话",
+      "analysisZh": "适合习惯命令行操作、希望不干扰当前草稿快速开新对话的用户。"
+    },
+    "github:yoggu/dsh-qr-phone-login": {
+      "sourceHash": "9f2cadc5a7675d2be7f9e32a4b7a9bda03a10d89beab4b19c81177bf31000b2c",
+      "descriptionZh": "生成安全二维码以供手机扫码登录当前系统",
+      "analysisZh": "适合需要快速将当前登录状态同步到手机端浏览器的用户。"
+    },
+    "github:yoggu/dsh-restart": {
+      "sourceHash": "da984fb55062a8db36cb3a9d91559d3cb62a8434dafc872d61b3b9febe81f717",
+      "descriptionZh": "提供快捷命令以安全重启后台systemd服务",
+      "analysisZh": "适合需要远程或在对话中快速重启、重载系统服务的系统管理员。"
+    },
+    "github:yoggu/dsh-token-cost-estimate": {
+      "sourceHash": "d6f83163264d65d9791822d70622d037cc4fc9214d78c92ce19a4ed752910233",
+      "descriptionZh": "根据本地模型价格表估算当前会话Token花费",
+      "analysisZh": "适合需要对当前对话消耗进行成本估算、避免超支的用户。"
+    },
+    "github:yousj666/dsh-audio-converter": {
+      "sourceHash": "f31a5c2318f2f4073761798b90236bfff917aaae718862f40a89453c37d8b5a7",
+      "descriptionZh": "解密多平台加密音乐并提供格式转换与增强",
+      "analysisZh": "适合需要批量解密网易云/QQ音乐等加密格式、转换音频的用户。"
+    },
+    "github:YYK0402/dsh-siyuan-archive": {
+      "sourceHash": "97977a0b1181f2ee84f788bbc3c5f894b6d8c8f5b71d70a99e8df67c69b06522",
+      "descriptionZh": "将对话产出一键归档至思源笔记并管理权限",
+      "analysisZh": "适合使用思源笔记、需要将AI对话记录整理归档保存的用户。"
+    },
+    "github:Zessi-C/dsh-model-thinking-levels": {
+      "sourceHash": "94ec6dfa83a47a0f50099980bee35dfb7e7aa1fe1440f72342916318ab128cef",
+      "descriptionZh": "在自定义模型设置中提供思考强度档位配置",
+      "analysisZh": "适合使用自定义API路由、需要精细调节模型推理思考强度的用户。"
     }
   }
 }
