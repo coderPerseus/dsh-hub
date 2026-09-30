@@ -18452,9 +18452,9 @@
       "analysisZh": "核心用途是在 DSH 中实现专业的 AI 视频与漫剧（Motion-Comic）生产。适合有视频创作、漫剧出片需求，且追求高质量提示词生成的创作者。"
     },
     "github:hackernotfound/dsh-tacit": {
-      "sourceHash": "851f92c816951e282a75fdd58896514d61389fa610a8799673d2f5334854676c",
-      "descriptionZh": "Tacit 插件：通过分析历史对话和用户修改，自动学习用户未明说的偏好，并在每轮对话中通过系统提示词补偿 Agent",
-      "analysisZh": "核心用途是实现无感知的用户偏好个性化适配，让 Agent 越用越懂你。适合不愿频繁修改 System Prompt、希望 AI 自动适应自身习惯的用户。"
+      "sourceHash": "1cedccdcc64ce86c4c70ce9fd5dcdf6f2f8daff700ce756fa86b6ad3743e545c",
+      "descriptionZh": "从对话重试和用户纠正中学习偏好，将可查看、编辑的指令加入后续对话；提供可选的提示词改写和发送前上下文补充",
+      "analysisZh": "适合希望减少重复纠正的 DSH 用户。后台分析会调用模型并产生费用；可在设置中查看、编辑或关闭学习指令。"
     },
     "github:hacxy/dsh-live2d": {
       "sourceHash": "beb1d2380d52282ca134e6e3ad67d1741b0a6d7cb884f2eceda26b8871250fed",
