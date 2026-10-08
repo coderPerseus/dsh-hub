@@ -8,6 +8,7 @@ import { localeOptions, type Locale } from '../lib/i18n/locales';
 import { LocaleContext } from './locale';
 import { localizedHref } from '../lib/i18n/routing';
 import Home from './home';
+import { catalogLinkRel } from '../lib/catalog-href';
 import type { ListingPage } from '../lib/listing';
 import type { WebManifest } from '../lib/load-browser-index';
 import Detail from './detail';
@@ -28,6 +29,6 @@ export function App({data}: {data: PageData}) {
   return <LocaleContext.Provider value={locale}>
     <SiteHeader homeHref={localizedHref("/", locale)} docsLabel={t.docs} homeAria={t.homeAria} navAria={t.navAria} pluginsLabel={t.plugins} submission={t.submission} />
     {data.notFound ? <main className="detail-main"><div className="ds-container empty-state"><h1>{t.notFoundTitle}</h1><a href={localizedHref("/", locale)}>{t.backToCatalog}</a></div></main> : data.plugin ? <Detail plugin={data.plugin} related={data.related} variants={data.variants} canonicalSlug={data.canonicalSlug} /> : <Home initial={data.initial} manifest={data.manifest} listing={data.listing} />}
-    <footer className="site-footer"><div className="ds-container footer-inner"><span>{t.footerNote}</span><div className="footer-right"><a href="https://github.com/coderPerseus/dsh-hub" target="_blank" rel="noreferrer">GitHub</a><span>build by <a href="https://luckysnail.cn/" target="_blank" rel="noreferrer">luckySnail</a></span><a href="https://www.deepseek.com/harness/" target="_blank" rel="noreferrer">DeepSeek Harness</a><nav className="locale-switch" aria-label={t.language}>{localeOptions.map(o => <a key={o.id} href={localizedHref(pagePath + suffix, o.id)} hrefLang={o.id} lang={o.id} aria-current={o.id === locale ? "page" : undefined} className={o.id === locale ? 'is-active' : undefined} title={o.label}>{o.code}</a>)}</nav></div></div></footer>
+    <footer className="site-footer"><div className="ds-container footer-inner"><span>{t.footerNote}</span><div className="footer-right"><a href="https://github.com/coderPerseus/dsh-hub" target="_blank" rel="noreferrer">GitHub</a><span>build by <a href="https://luckysnail.cn/" target="_blank" rel="noreferrer">luckySnail</a></span><a href="https://www.deepseek.com/harness/" target="_blank" rel="noreferrer">DeepSeek Harness</a><nav className="locale-switch" aria-label={t.language}>{localeOptions.map(o => <a key={o.id} href={localizedHref(pagePath + suffix, o.id)} rel={catalogLinkRel(pagePath + suffix)} hrefLang={o.id} lang={o.id} aria-current={o.id === locale ? "page" : undefined} className={o.id === locale ? 'is-active' : undefined} title={o.label}>{o.code}</a>)}</nav></div></div></footer>
   </LocaleContext.Provider>;
 }

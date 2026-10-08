@@ -37,3 +37,11 @@ export function previousCatalogCursor(cursor: string | null, pageSize = PAGE_SIZ
     return null;
   }
 }
+
+/** Interactive searches and filter combinations are not standalone content pages. */
+export function catalogLinkRel(href: string, rel?: string): string | undefined {
+  if (!href.startsWith('/') || href.startsWith('//')) return rel;
+  const url = new URL(href, 'https://dshhub.org');
+  if (!['q', 'category', 'compatibility', 'sort', 'cursor'].some(key => url.searchParams.has(key))) return rel;
+  return [...new Set([...(rel?.split(/\s+/).filter(Boolean) || []), 'nofollow'])].join(' ');
+}

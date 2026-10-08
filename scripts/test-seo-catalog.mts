@@ -6,6 +6,7 @@ import {encodeBrowserIndex, decodeBrowserIndex} from '../apps/web/src/lib/browse
 import {pluginDescription} from '../apps/web/src/lib/plugin-description';
 import {searchStaticCatalog, type StaticIndex} from '../packages/client/src/static';
 import {localizedHref} from '../apps/web/src/lib/i18n/routing';
+import {catalogLinkRel} from '../apps/web/src/lib/catalog-href';
 import {listingPath} from '../apps/web/src/lib/listing';
 import type {CatalogPlugin} from '../packages/catalog/src/schema';
 const source: CatalogPlugin = JSON.parse(await readFile(new URL('../.catalog/catalog.snapshot.json', import.meta.url),'utf8')).plugins.find((p: CatalogPlugin) => (p.usage.markdown || '').length > 160 && p.package.version);
@@ -75,4 +76,15 @@ test('browser loader shares requests, retries after failure and recovers stale v
     assert.equal((await loadBrowserIndex(manifest,'zh-CN')).snapshotId,'new');
     assert.equal(calls,2);
   } finally { globalThis.fetch=original; }
+});
+
+test('interactive catalog links discourage crawling while content links stay followable', () => {
+  for (const href of ['/?sort=updated', '/zh-CN/?category=other&category=agents&cursor=MjQ%3D', '/en/?q=search', '/?compatibility=unknown']) {
+    assert.equal(catalogLinkRel(href), 'nofollow');
+    assert.equal(catalogLinkRel(href, 'noreferrer nofollow'), 'noreferrer nofollow');
+  }
+  for (const href of ['/zh-CN/', '/en/categories/agents/page/133/', '/zh-CN/plugins/a/b/', '/plugins/a/b/#readme', 'https://github.com/a/b?q=search']) {
+    assert.equal(catalogLinkRel(href), undefined);
+    assert.equal(catalogLinkRel(href, 'noreferrer'), 'noreferrer');
+  }
 });
