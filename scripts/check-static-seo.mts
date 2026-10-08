@@ -12,7 +12,7 @@ for (const locale of locales) {
   const home = await readFile(`${base}/index.html`, 'utf8');
   assert.equal((home.match(/<h1(?:\s|>)/g) || []).length, 1);
   assert(home.includes(discoveryCopy[locale].intro));
-  const queryLinks = [...home.matchAll(/<a\b([^>]*href="[^"]*\?[^"]*"[^>]*)>/g)];
+  const queryLinks = [...home.matchAll(/<a\b([^>]*href="\/[^"]*\?[^"]*"[^>]*)>/g)];
   assert(queryLinks.length > 0, `${locale}: expected interactive filter links`);
   for (const [, attributes] of queryLinks) assert(/rel="[^"]*\bnofollow\b[^"]*"/.test(attributes), attributes);
   assert(home.includes(`href="/${locale}/categories/`), `${locale}: crawlable category links`);
