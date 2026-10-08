@@ -155,9 +155,9 @@ for (const locale of locales) {
 await put('/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+locales.map(locale=>`<sitemap><loc>https://dshhub.org/${locale}/sitemap.xml</loc></sitemap>`).join('')+'</sitemapindex>');
 await put('/_redirects','/ /zh-CN/ 301\n/plugins/* /zh-CN/plugins/:splat 301\n/categories/* /zh-CN/categories/:splat 301\n/page/* /zh-CN/page/:splat 301\n'+locales.map(locale=>`/${locale} /${locale}/ 301`).join('\n')+'\n');
 await put('/404.html',html({locale:'zh-CN',manifest,initial:emptyInitial,related:[],notFound:true},'404 · DSH Hub','页面不存在','/404'));
-await put('/robots.txt','User-agent: *\nAllow: /\nDisallow: /api/\nSitemap: https://dshhub.org/sitemap.xml\n');
+await put('/robots.txt','User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /*?*q=\nDisallow: /*?*category=\nDisallow: /*?*compatibility=\nDisallow: /*?*sort=\nDisallow: /*?*cursor=\nSitemap: https://dshhub.org/sitemap.xml\n');
 await put('/api/v1/plugins/index.html',JSON.stringify({error:'The live search API has been retired. Upgrade @dshhubs/client and @dshhubs/cli to 0.2.0. Static catalog: https://dshhub.org/catalog/manifest.json'}));
-await put('/_headers','/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/catalog/*\n  Access-Control-Allow-Origin: *\n  Cache-Control: public, max-age=300\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n');
+await put('/_headers','/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/catalog/*\n  Access-Control-Allow-Origin: *\n  X-Robots-Tag: noindex\n  Cache-Control: public, max-age=300\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n');
 for (const name of ['favicon.ico','icon.png','apple-icon.png']) await cp(root+'/apps/web/src/app/'+name,output+'/'+name);
 async function files(dir:string):Promise<string[]> { const entries=await readdir(dir,{withFileTypes:true});return (await Promise.all(entries.map(e=>e.isDirectory()?files(path.join(dir,e.name)):Promise.resolve([path.join(dir,e.name)])))).flat(); }
 const counts: Record<string,number> = {};

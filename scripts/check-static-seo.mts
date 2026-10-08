@@ -12,6 +12,12 @@ for (const locale of locales) {
   const home = await readFile(`${base}/index.html`, 'utf8');
   assert.equal((home.match(/<h1(?:\s|>)/g) || []).length, 1);
   assert(home.includes(discoveryCopy[locale].intro));
+  const queryLinks = [...home.matchAll(/<a\b([^>]*href="[^"]*\?[^"]*"[^>]*)>/g)];
+  assert(queryLinks.length > 0, `${locale}: expected interactive filter links`);
+  for (const [, attributes] of queryLinks) assert(/rel="[^"]*\bnofollow\b[^"]*"/.test(attributes), attributes);
+  assert(home.includes(`href="/${locale}/categories/`), `${locale}: crawlable category links`);
+  assert(!home.includes('name="robots" content="noindex"'));
+
   const graph = structured(home);
   assert(graph.some(node => node['@type'] === 'WebSite'));
   const list = graph.find(node => node['@type'] === 'CollectionPage').mainEntity.itemListElement;
@@ -35,3 +41,11 @@ for (const locale of locales) {
   }
   console.log(`SEO verified: ${locale} home + linked plugin detail`);
 }
+
+const shared = `${root}/apps/web/dist`;
+const robots = await readFile(`${shared}/robots.txt`, 'utf8');
+for (const key of ['q', 'category', 'compatibility', 'sort', 'cursor']) assert(robots.includes(`Disallow: /*?*${key}=`));
+assert(!robots.includes('Disallow: /catalog/'), 'JSON must be crawlable to discover the noindex header');
+const headers = await readFile(`${shared}/_headers`, 'utf8');
+assert(/\/catalog\/\*\n(?:  [^\n]+\n)*  X-Robots-Tag: noindex\n/.test(headers));
+console.log('Crawl controls verified: filter links, query rules, JSON noindex, indexable content');
