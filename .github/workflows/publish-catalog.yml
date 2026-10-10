@@ -7,7 +7,7 @@ on:
         description: Catalog operation
         default: publish
         type: choice
-        options: [publish, discover, refresh, backfill, recover]
+        options: [publish, sync, discover, refresh, backfill, recover]
       since:
         description: ISO start for backfill/recover (omit in recover to drain queue)
         type: string
@@ -56,10 +56,11 @@ jobs:
         if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.mode != 'publish')
         run: |
           pnpm catalog:build
-          if [ "$GITHUB_EVENT_NAME" = schedule ]; then CATALOG_MODE=refresh pnpm catalog:build; fi
+          if [ "$GITHUB_EVENT_NAME" = schedule ] || [ "$CATALOG_OPERATION" = sync ]; then CATALOG_MODE=refresh pnpm catalog:build; fi
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          CATALOG_MODE: ${{ inputs.mode || 'discover' }}
+          CATALOG_MODE: ${{ inputs.mode == 'sync' && 'discover' || inputs.mode || 'discover' }}
+          CATALOG_OPERATION: ${{ inputs.mode }}
           CATALOG_REPOSITORY: ${{ inputs.repository }}
           CATALOG_DISCOVERY_SINCE: ${{ inputs.since }}
           CATALOG_DISCOVERY_UNTIL: ${{ inputs.until }}
