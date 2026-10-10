@@ -40,7 +40,7 @@ const snapshot = applyCatalogEnrichment(
 if (snapshot.plugins.length < Number(process.env.CATALOG_MIN_PLUGIN_COUNT ?? 50)) throw new Error('Refusing to publish an incomplete catalog');
 const governance = governCatalog(snapshot.plugins);
 await writeFile(path.join(root, '.catalog/seo-governance.report.json'), JSON.stringify(governance.report, null, 2));
-const version = createHash('sha256').update('browser-index-v1-governance-v1').update(JSON.stringify(snapshot)).digest('hex').slice(0,16);
+const version = createHash('sha256').update('browser-index-v1-governance-v1-search-v2').update(JSON.stringify(snapshot)).digest('hex').slice(0,16);
 const prefix = `/catalog/${version}`;
 await rm(output, {recursive: true, force: true});
 await mkdir(output, {recursive: true});
@@ -58,11 +58,12 @@ const items: StaticEntry[] = snapshot.plugins.map(p => {
   for (const c of p.categories) categories.set(c, (categories.get(c) ?? 0)+1);
   const descriptionZh = localizedDescription(p, 'zh-CN');
   const usageSummaryZh = p.i18n?.["zh-CN"]?.usageSummary ?? p.usage.summary;
-  const searchText = compactSearchText([p.name,p.package.name,p.description,...p.repository.topics,p.usage.summary]);
+  // Both languages share the same match score. Names are already searched by
+  // every client, so omit substrings covered by the name or another search word.
+  const searchText = compactSearchText([p.package.name,p.description,...p.repository.topics,p.usage.summary,descriptionZh,usageSummaryZh], p.name);
   return {id:p.id,slug:p.slug,name:p.name,description:p.description,packageName:p.package.name,repositoryUrl:p.repository.url,stars:p.repository.stars,pushedAt:p.repository.pushedAt,featured:p.featured,categories:p.categories,compatibilityStatus:p.compatibility.status,compatibilityLevel:p.compatibility.level,installCommand:p.installation.command,
-    descriptionZh,
+    ...(descriptionZh !== p.description ? {descriptionZh} : {}),
     searchText,
-    searchTextZh:compactSearchText([descriptionZh,usageSummaryZh], searchText),
   };
 });
 const index: StaticIndex = {schemaVersion:1,snapshotId:snapshot.snapshotId,generatedAt:snapshot.generatedAt,items,categories:[...categories].sort(([a],[b])=>a.localeCompare(b)).map(([id,count])=>({id,count}))};
