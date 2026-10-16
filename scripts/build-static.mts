@@ -20,6 +20,7 @@ import { encodeBrowserIndex } from '../apps/web/src/lib/browser-index';
 import { governCatalog } from './lib/catalog-governance.mts';
 import { googleAnalyticsScript } from '../apps/web/src/lib/google-analytics';
 import { compactSearchText } from './lib/search-text.mts';
+import { assertStaticAssetSize } from './lib/static-asset-limit.mts';
 
 const root = path.resolve(import.meta.dirname, '..');
 // Reject changes that would reintroduce request-based compute or storage billing.
@@ -75,7 +76,7 @@ const uniqueWebItems = [...new Map(webItems.map(p => [p.slug, p])).values()];
 const webCategories = [...categories.keys()].sort().map(id => ({id, count: uniqueWebItems.filter(p => p.categories.includes(id)).length})).filter(c => c.count > 0);
 const webIndex: StaticIndex = {...index, items: uniqueWebItems, categories: webCategories};
 const initial = {...webIndex, items: searchStaticCatalog(webIndex,{limit:24}).items.map(p => ({...p,searchText:''}))};
-async function put(file:string, content:string) { const target=output+file; await mkdir(path.dirname(target),{recursive:true}); if (Buffer.byteLength(content)>24*1024*1024) throw new Error(`Asset too large: ${file} (${Buffer.byteLength(content)} bytes)`); await writeFile(target,content); }
+async function put(file:string, content:string) { const target=output+file; await mkdir(path.dirname(target),{recursive:true}); assertStaticAssetSize(file, content); await writeFile(target,content); }
 await put('/catalog/manifest.json',JSON.stringify(manifest));
 await put(prefix+'/index.json',JSON.stringify(index));
 await put(manifest.browserIndexes.en, JSON.stringify(encodeBrowserIndex(webIndex, false)));
@@ -87,7 +88,7 @@ for (let i=0;i<256;i++) await put(manifest.details[i],JSON.stringify(shards[i]))
 const escape = (s:string) => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const localeOutput = (locale: Locale) => path.join(root, 'apps/web/.static-build/locales', locale);
 async function writeAsset(directory: string, file: string, content: string) {
-  if (Buffer.byteLength(content) > 24*1024*1024) throw new Error(`Asset too large: ${file} (${Buffer.byteLength(content)} bytes)`);
+  assertStaticAssetSize(file, content);
   const target = path.join(directory, file);
   await mkdir(path.dirname(target), {recursive:true});
   await writeFile(target, content);
