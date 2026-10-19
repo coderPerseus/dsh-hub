@@ -1,6 +1,6 @@
-import { detailShard, searchStaticCatalog, type StaticIndex, type StaticManifest } from './static.js';
-export { detailShard, searchStaticCatalog } from './static.js';
-export type { StaticEntry, StaticIndex, StaticManifest } from './static.js';
+import { detailShard, loadStaticIndex, searchStaticCatalog, type StaticIndex, type StaticManifest } from './static.js';
+export { detailShard, loadStaticIndex, searchStaticCatalog } from './static.js';
+export type { StaticEntry, StaticIndex, StaticIndexDirectory, StaticManifest } from './static.js';
 export const DEFAULT_DSHHUB_API_URL = "https://dshhub.org/api/v1";
 
 export type CompatibilityStatus = "compatible" | "incompatible" | "unknown";
@@ -104,7 +104,8 @@ export class DshHubClient {
   async search(input: SearchPluginsInput = {}): Promise<SearchPluginsResult> {
     if (this.transport === "static") {
       return this.withCurrentCatalog(async manifest => {
-        this.index ??= this.request<StaticIndex>(new URL(manifest.index, this.baseUrl)).catch(e => { this.index = undefined; throw e; });
+        this.index ??= loadStaticIndex(manifest.index, file => this.request(new URL(file, this.baseUrl)))
+          .catch(e => { this.index = undefined; throw e; });
         return searchStaticCatalog(await this.index, input);
       });
     }

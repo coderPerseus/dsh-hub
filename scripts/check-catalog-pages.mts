@@ -6,11 +6,20 @@ import {localizedHref} from '../apps/web/src/lib/i18n/routing';
 import {listingPath} from '../apps/web/src/lib/listing';
 import {decodeBrowserIndex} from '../apps/web/src/lib/browser-index';
 import {pluginDescription} from '../apps/web/src/lib/plugin-description';
-import {searchStaticCatalog, type StaticIndex} from '../packages/client/src/static';
+import {loadStaticIndex, searchStaticCatalog} from '../packages/client/src/static';
+import {STATIC_ASSET_MAX_BYTES} from './lib/static-asset-limit.mts';
 const root=new URL('../',import.meta.url).pathname;
 const manifest=JSON.parse(await readFile(root+'apps/web/dist/catalog/manifest.json','utf8'));
 const web=decodeBrowserIndex(JSON.parse(await readFile(root+'apps/web/dist'+manifest.browserIndexes.en,'utf8')));
-const legacy:StaticIndex=JSON.parse(await readFile(root+'apps/web/dist'+manifest.index,'utf8'));
+const indexFiles: string[] = [];
+const legacy=await loadStaticIndex(manifest.index, async file => {
+  indexFiles.push(file);
+  const bytes=await readFile(root+'apps/web/dist'+file);
+  assert(bytes.length<=STATIC_ASSET_MAX_BYTES, `Oversized catalog asset: ${file}`);
+  return JSON.parse(bytes.toString('utf8'));
+});
+assert.equal(legacy.items.length,manifest.pluginCount);
+assert.equal(legacy.snapshotId,manifest.snapshotId);
 const allowed=new Set(web.items.map(p=>p.id));
 const baseline={...legacy,items:[...new Map(legacy.items.filter(p=>allowed.has(p.id)).map(p=>[p.slug,p])).values()]};
 const escape=(s:string)=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
@@ -44,7 +53,7 @@ for(const locale of locales){
   assert(sample.includes(`<p class="detail-summary">${escape(description)}</p>`));
 }
 const sizes:Record<string,unknown>={};
-for(const [name,file] of Object.entries({legacy:manifest.index,...manifest.browserIndexes}) as [string,string][]){
+for(const [name,file] of Object.entries({...Object.fromEntries(indexFiles.map((file,i)=>[`index-${i}`,file])),...manifest.browserIndexes}) as [string,string][]){
   const bytes=await readFile(root+'apps/web/dist'+file);
   sizes[name]={bytes:bytes.length,gzip:gzipSync(bytes).length,brotli:brotliCompressSync(bytes).length};
 }

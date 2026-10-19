@@ -33,7 +33,7 @@ Open [dshhub.org/en](https://dshhub.org/en/), search for a capability, and open 
 
 ### Search from the terminal
 
-The static catalog requires client version 0.2.0. Until the npm release is available, build and run the CLI from this repository:
+The static catalog now uses manifest schema 2. `index` points to a schema 2 directory containing `itemCount` and ordered `shards` paths; each shard uses the schema 1 index shape with matching snapshot metadata. Clients must combine all shards before searching or paginating. Browser-specific indexes and detail shards remain independent. The repository client supports both the original single-file index and this format. Published client 0.2.0 cannot read the new directory; until a compatible npm release is available, build and run the CLI from this repository:
 
 ```bash
 git clone https://github.com/coderPerseus/dsh-hub.git
@@ -55,7 +55,7 @@ The native search plugin exposes two read-only tools:
 | `search_dsh_plugins` | Search by capability, category, and compatibility. |
 | `get_dsh_plugin` | Inspect documentation, compatibility evidence, and installation commands. |
 
-See the [plugin README](packages/dsh-plugin/README.md) for installation details. Use the 0.2.0 source build until the static-compatible npm release is available. The repository's [find-dsh-plugins skill](skills/find-dsh-plugins/SKILL.md) provides the same workflow with a CLI fallback.
+See the [plugin README](packages/dsh-plugin/README.md) for installation details. Use the latest source build until a shard-compatible npm release is available. The repository's [find-dsh-plugins skill](skills/find-dsh-plugins/SKILL.md) provides the same workflow with a CLI fallback.
 
 Example request:
 
