@@ -1,4 +1,4 @@
-import type { StaticIndex, StaticManifest } from '../../../../packages/client/src/static';
+import { loadStaticIndex, type StaticIndex, type StaticIndexDirectory, type StaticManifest } from '../../../../packages/client/src/static';
 import { decodeBrowserIndex, type BrowserIndex } from './browser-index';
 import type { Locale } from './i18n/locales';
 export type WebManifest = StaticManifest & {browserIndexes?: {en: string; zh: string}};
@@ -9,11 +9,14 @@ export function loadBrowserIndex(manifest: WebManifest, locale: Locale): Promise
   const existing = pending.get(key);
   if (existing) return existing;
   const read = async (current: WebManifest) => {
-    const url = current.browserIndexes?.[language] || current.index;
-    const response = await fetch(url, {signal: AbortSignal.timeout(30_000)});
-    if (!response.ok) throw Object.assign(new Error('Catalog unavailable'), {status: response.status});
-    const data = await response.json();
-    return current.browserIndexes?.[language] ? decodeBrowserIndex(data as BrowserIndex) : data as StaticIndex;
+    const readJson = async (url: string) => {
+      const response = await fetch(url, {signal: AbortSignal.timeout(30_000)});
+      if (!response.ok) throw Object.assign(new Error('Catalog unavailable'), {status: response.status});
+      return response.json();
+    };
+    const compact = current.browserIndexes?.[language];
+    return compact ? decodeBrowserIndex(await readJson(compact) as BrowserIndex)
+      : loadStaticIndex(current.index, async file => await readJson(file) as StaticIndex | StaticIndexDirectory);
   };
   const request = read(manifest).catch(async error => {
     if (error.status !== 404) throw error;

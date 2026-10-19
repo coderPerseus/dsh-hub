@@ -21,6 +21,7 @@ import { governCatalog } from './lib/catalog-governance.mts';
 import { googleAnalyticsScript } from '../apps/web/src/lib/google-analytics';
 import { compactSearchText } from './lib/search-text.mts';
 import { assertStaticAssetSize } from './lib/static-asset-limit.mts';
+import { shardStaticIndex } from './lib/static-index-shards.mts';
 
 const root = path.resolve(import.meta.dirname, '..');
 // Reject changes that would reintroduce request-based compute or storage billing.
@@ -41,7 +42,7 @@ const snapshot = applyCatalogEnrichment(
 if (snapshot.plugins.length < Number(process.env.CATALOG_MIN_PLUGIN_COUNT ?? 50)) throw new Error('Refusing to publish an incomplete catalog');
 const governance = governCatalog(snapshot.plugins);
 await writeFile(path.join(root, '.catalog/seo-governance.report.json'), JSON.stringify(governance.report, null, 2));
-const version = createHash('sha256').update('browser-index-v1-governance-v1-search-v2').update(JSON.stringify(snapshot)).digest('hex').slice(0,16);
+const version = createHash('sha256').update('browser-index-v1-governance-v1-search-v2-index-shards-v2').update(JSON.stringify(snapshot)).digest('hex').slice(0,16);
 const prefix = `/catalog/${version}`;
 await rm(output, {recursive: true, force: true});
 await mkdir(output, {recursive: true});
@@ -68,7 +69,7 @@ const items: StaticEntry[] = snapshot.plugins.map(p => {
   };
 });
 const index: StaticIndex = {schemaVersion:1,snapshotId:snapshot.snapshotId,generatedAt:snapshot.generatedAt,items,categories:[...categories].sort(([a],[b])=>a.localeCompare(b)).map(([id,count])=>({id,count}))};
-const manifest = {browserIndexes: {en: prefix+'/browser-en.json', zh: prefix+'/browser-zh.json'}, schemaVersion:1 as const,snapshotId:snapshot.snapshotId,generatedAt:snapshot.generatedAt,pluginCount:items.length,index:prefix+'/index.json',details:Array.from({length:256},(_,i)=>`${prefix}/details-${i}.json`)};
+const manifest = {browserIndexes: {en: prefix+'/browser-en.json', zh: prefix+'/browser-zh.json'}, schemaVersion:2 as const,snapshotId:snapshot.snapshotId,generatedAt:snapshot.generatedAt,pluginCount:items.length,index:prefix+'/index.json',details:Array.from({length:256},(_,i)=>`${prefix}/details-${i}.json`)};
 const primarySlugs = new Set(governance.plugins.filter(p => governance.canonical.get(p.slug) === p.slug).map(p => p.slug));
 const primaryIds = new Set(governance.plugins.filter(p => primarySlugs.has(p.slug)).map(p => p.id));
 const webItems = items.filter(p => primaryIds.has(p.id));
@@ -78,7 +79,9 @@ const webIndex: StaticIndex = {...index, items: uniqueWebItems, categories: webC
 const initial = {...webIndex, items: searchStaticCatalog(webIndex,{limit:24}).items.map(p => ({...p,searchText:''}))};
 async function put(file:string, content:string) { const target=output+file; await mkdir(path.dirname(target),{recursive:true}); assertStaticAssetSize(file, content); await writeFile(target,content); }
 await put('/catalog/manifest.json',JSON.stringify(manifest));
-await put(prefix+'/index.json',JSON.stringify(index));
+const fullIndex = shardStaticIndex(index, prefix);
+await put(manifest.index,JSON.stringify(fullIndex.directory));
+for (const file of fullIndex.files) await put(file.path, file.content);
 await put(manifest.browserIndexes.en, JSON.stringify(encodeBrowserIndex(webIndex, false)));
 await put(manifest.browserIndexes.zh, JSON.stringify(encodeBrowserIndex(webIndex, true)));
 const shards: CatalogPlugin[][] = Array.from({length:256},()=>[]);
