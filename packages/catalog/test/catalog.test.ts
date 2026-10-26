@@ -519,12 +519,41 @@ describe("catalog discovery", () => {
     expect(failedRefresh.changedRepositories).toEqual([]);
   });
 
-  it("rejects incomplete GitHub search results", async () => {
-    const fetcher = async (): Promise<Response> => new Response(JSON.stringify({
-      total_count: 100,
-      incomplete_results: true,
-      items: [],
-    }));
+  it("retries incomplete GitHub search results before accepting a complete page", async () => {
+    const fixture = monorepoReadmeFixture();
+    let requests = 0;
+    const urls: string[] = [];
+    const snapshot = await discoverCatalogSnapshot({
+      catalogMode: "backfill",
+      discoveryQueries: ["topic:dsh-plugin"],
+      discoverySince: new Date("2026-08-14T00:00:00Z"),
+      fetch: (async (input) => {
+        if (!String(input).includes('/search/repositories')) return fixture.fetcher(input);
+        urls.push(String(input));
+        requests += 1;
+        return requests < 3
+          ? Response.json({ total_count: 1, incomplete_results: true, items: [{ full_name: "discard/partial" }] })
+          : fixture.fetcher(input);
+      }) as typeof fetch,
+      generatedAt: new Date("2026-08-14T01:00:00Z"),
+      source: { repository: "owner/catalog", commit: "source123" },
+    });
+    expect(requests).toBe(3);
+    expect(new Set(urls).size).toBe(1);
+    expect(snapshot.plugins).toHaveLength(1);
+    expect(snapshot.plugins[0].repository.owner).toBe("owner");
+  });
+
+  it("rejects incomplete GitHub search results after bounded retries", async () => {
+    let requests = 0;
+    const fetcher = async (): Promise<Response> => {
+      requests += 1;
+      return new Response(JSON.stringify({
+        total_count: 100,
+        incomplete_results: true,
+        items: [],
+      }));
+    };
 
     await expect(discoverCatalogSnapshot({
       catalogMode: "backfill",
@@ -534,7 +563,8 @@ describe("catalog discovery", () => {
       generatedAt: new Date("2026-08-14T01:00:00Z"),
       source: { repository: "owner/catalog", commit: "source123" },
     })).rejects.toThrow(/incomplete results/);
-  });
+    expect(requests).toBe(4);
+  }, 15_000);
 
   it("rejects discovery queries that exceed GitHub's result window", async () => {
     const fetcher = async (): Promise<Response> => new Response(JSON.stringify({

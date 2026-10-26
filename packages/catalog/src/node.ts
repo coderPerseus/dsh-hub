@@ -350,11 +350,14 @@ async function discoverRepositories(
   const repositories = new Map<string, GithubRepository>();
   for (const query of discoveryQueries(options, generatedAt)) {
     for (let page = 1; page <= 10; page += 1) {
-      const result = await githubJson<GithubSearchResponse>(
-        options.fetch,
-        `/search/repositories?q=${encodeURIComponent(query)}&sort=updated&order=desc&per_page=100&page=${page}`,
-        options.githubToken,
-      );
+      const pathname = `/search/repositories?q=${encodeURIComponent(query)}&sort=updated&order=desc&per_page=100&page=${page}`;
+      let result = await githubJson<GithubSearchResponse>(options.fetch, pathname, options.githubToken);
+      // Search can return HTTP 200 with partial results. Retry the same page
+      // before consuming any rows or allowing the discovery watermark to advance.
+      for (let retry = 0; result.incomplete_results && retry < 3; retry += 1) {
+        await wait(1_000 * 2 ** retry);
+        result = await githubJson<GithubSearchResponse>(options.fetch, pathname, options.githubToken);
+      }
       if (result.incomplete_results) {
         throw new Error(`GitHub discovery returned incomplete results for ${query}.`);
       }
