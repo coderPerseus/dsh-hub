@@ -549,10 +549,10 @@ describe("catalog discovery", () => {
     const fetcher = async (): Promise<Response> => {
       requests += 1;
       return new Response(JSON.stringify({
-      total_count: 100,
-      incomplete_results: true,
-      items: [],
-    }));
+        total_count: 100,
+        incomplete_results: true,
+        items: [],
+      }));
     };
 
     await expect(discoverCatalogSnapshot({
