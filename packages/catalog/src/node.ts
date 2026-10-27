@@ -33,7 +33,9 @@ type GithubTree = { tree: Array<{ path: string; type: string }> };
 
 type PackageManifest = {
   description?: string;
-  dsh?: { bundle?: { patch?: string } };
+  dsh?: { bundle?: { patch?: string | string[] } };
+  engines?: { dsh?: string };
+  license?: string;
   exports?: unknown;
   keywords?: string[];
   main?: string;
@@ -470,6 +472,19 @@ async function discoverRepositoryPackages(
   return manifests.map(manifest => ({ ...manifest, head, repository }));
 }
 
+function officialInstallationSpec(markdown: string, packageName: string, repository: string): string | undefined {
+  const candidates = [...markdown.matchAll(/\bdsh\s+plugin\s+--profile\s+web\s+add\s+([^\s`]+)/g)].map(match => match[1]);
+  // Some official instructions present the release URL for the GUI instead of a CLI command.
+  candidates.push(...[...markdown.matchAll(/https:\/\/github\.com\/[^\s`<>"()]+\.tgz/g)].map(match => match[0]));
+  return candidates.find(spec => {
+    if (spec === packageName && /^(?:@[a-z0-9_.-]+\/)?[a-z0-9_.-]+$/i.test(spec)) return true;
+    if (/^(?:@[a-z0-9_.-]+\/)?[a-z0-9_.-]+$/i.test(packageName)
+      && spec.startsWith(`${packageName}@`) && /^[a-z0-9_.+-]+$/i.test(spec.slice(packageName.length + 1))) return true;
+    return spec.startsWith(`https://github.com/${repository}/releases/download/`)
+      && /^https:\/\/github\.com\/[a-z0-9_.-]+\/[a-z0-9_.-]+\/releases\/download\/[a-z0-9_.+-]+\/[a-z0-9_.+-]+\.tgz$/i.test(spec);
+  });
+}
+
 async function buildPlugin(
   source: DiscoveredPackage,
   options: Required<Pick<CatalogBuildOptions, "fetch">> & CatalogBuildOptions,
@@ -483,39 +498,45 @@ async function buildPlugin(
     repo.description,
     firstPlainParagraph(readme.text),
   );
-  const bundlePatch = manifest.dsh?.bundle?.patch ?? null;
-  const bundleExists = bundlePatch === null
-    ? null
-    : await githubRaw(
+  const declaredPatches = manifest.dsh?.bundle?.patch;
+  const bundlePatches = declaredPatches === undefined ? [] : Array.isArray(declaredPatches) ? declaredPatches : [declaredPatches];
+  if (bundlePatches.some(patch => typeof patch !== 'string' || !patch.trim())) throw new Error('Invalid bundle patch declaration');
+  // Retain the first-path field for existing clients; validate every declared patch.
+  const bundlePatch = bundlePatches[0] ?? null;
+  const bundleChecks = await Promise.all(bundlePatches.map(async (patch, index) => {
+    const contents = await githubRaw(
       options.fetch,
       repository,
-      joinRepositoryPath(packageDirectory, bundlePatch.replace(/^\.\//, "")),
+      joinRepositoryPath(packageDirectory, patch.replace(/^\.\//, "")),
       head.sha,
       options.githubToken,
     );
+    return {id: index === 0 ? 'bundle' : `bundle-${index + 1}`, status: contents === null ? 'fail' as const : 'pass' as const,
+      summary: `Bundle patch ${patch} ${contents === null ? 'is missing' : 'exists'}.`};
+  }));
   const peers = manifest.peerDependencies ?? {};
   const cordisRange = peers["@deepseek-ai/cordis"] ?? null;
-  const harnessRange = peerRange(peers, name => name.startsWith("@deepseek-ai/dsh-"));
+  const harnessRange = peers['@deepseek-ai/dsh'] ?? manifest.engines?.dsh ?? peerRange(peers, name => name.startsWith("@deepseek-ai/dsh-"));
   const checks: CatalogPlugin["compatibility"]["checks"] = [
     { id: "package-entry", status: "pass", summary: "Package entry is declared." },
-    bundlePatch === null
-      ? { id: "bundle", status: "warn", summary: "No dsh.bundle patch is declared." }
-      : bundleExists === null
-        ? { id: "bundle", status: "fail", summary: `Bundle patch ${bundlePatch} is missing.` }
-        : { id: "bundle", status: "pass", summary: `Bundle patch ${bundlePatch} exists.` },
+    ...(bundlePatch === null
+      ? [{ id: "bundle", status: "warn" as const, summary: "No dsh.bundle patch is declared." }]
+      : bundleChecks),
     harnessRange === null && cordisRange === null
       ? { id: "peer-dependencies", status: "warn", summary: "No Harness or Cordis peer range is declared." }
-      : { id: "peer-dependencies", status: "pass", summary: "Harness or Cordis peer ranges are declared." },
+      : { id: "peer-dependencies", status: "pass", summary: "Harness or Cordis compatibility ranges are declared." },
   ];
   const incompatible = checks.some(check => check.status === "fail");
-  const spec = `github:${repository}#${head.sha}${packageDirectory ? `&path:${packageDirectory}` : ""}`;
-  const commandSpec = packageDirectory ? spec : `github:${repository}`;
+  const sourceSpec = `github:${repository}#${head.sha}${packageDirectory ? `&path:${packageDirectory}` : ""}`;
   const notes = [
     ...(manifest.scripts?.prepare
       ? ["This source package declares a prepare script; pnpm may require allowBuilds approval."]
       : []),
   ];
   const installationMarkdown = extractDocumentation(readme.text, /(install|setup|quick start|安装|开始)/i);
+  const officialSpec = officialInstallationSpec(installationMarkdown, manifest.name, repository);
+  const spec = officialSpec ?? sourceSpec;
+  const commandSpec = officialSpec ?? (packageDirectory ? `'${sourceSpec}'` : `github:${repository}`);
   const extractedUsage = extractDocumentation(readme.text, /(usage|configuration|使用|配置)/i);
   const usageMarkdown = extractedUsage || (isSubstantialDocumentation(readme.text)
     ? readme.text.slice(0, README_STORE_MAX)
@@ -540,7 +561,7 @@ async function buildPlugin(
       defaultBranch: repo.default_branch,
       commit: head.sha,
       stars: repo.stargazers_count,
-      license: repo.license?.spdx_id ?? null,
+      license: typeof manifest.license === 'string' && manifest.license.trim() ? manifest.license.trim() : repo.license?.spdx_id ?? null,
       topics: repo.topics,
       pushedAt: repo.pushed_at,
       homepage: optionalHttpUrl(repo.homepage),
@@ -563,7 +584,7 @@ async function buildPlugin(
       checks,
     },
     installation: {
-      kind: bundlePatch === null || incompatible ? "manual" : "github",
+      kind: bundlePatch === null || incompatible ? "manual" : officialSpec && !officialSpec.startsWith('https://') ? "npm" : "github",
       spec,
       command: bundlePatch === null || incompatible
         ? null

@@ -111,6 +111,45 @@ it("discovers nested DSH packages while excluding dependencies and build outputs
   expect(requests.some(url => ignored.some(path => url.endsWith(`${path}/package.json`)))).toBe(false);
 });
 
+it("reads all bundle patches, engine compatibility and package license", async () => {
+  const {fetcher, responses} = monorepoReadmeFixture();
+  const key = '/owner/monorepo/main/packages/memory/package.json';
+  const manifest = JSON.parse(responses.get(key)!);
+  manifest.dsh.bundle.patch = ['./cordis.patch.yml', './extra.patch.yml'];
+  manifest.engines = {dsh: '0.2.1-rc.3'};
+  manifest.license = 'GPL-3.0-or-later';
+  responses.set(key, JSON.stringify(manifest));
+  responses.set('/owner/monorepo/commit456/packages/memory/extra.patch.yml', '- insert: []');
+  const options = {fetch: fetcher, targetRepository: 'owner/monorepo', source: {repository:'owner/catalog',commit:'test'}};
+  const snapshot = await discoverCatalogSnapshot(options);
+  expect(snapshot.plugins).toHaveLength(1);
+  expect(snapshot.plugins[0].compatibility.harnessRange).toBe('0.2.1-rc.3');
+  expect(snapshot.plugins[0].repository.license).toBe('GPL-3.0-or-later');
+  expect(snapshot.plugins[0].compatibility.checks.filter(c=>c.id.startsWith('bundle')).every(c=>c.status==='pass')).toBe(true);
+  responses.delete('/owner/monorepo/commit456/packages/memory/extra.patch.yml');
+  const missing = await discoverCatalogSnapshot(options);
+  expect(missing.plugins[0].compatibility.status).toBe('incompatible');
+  expect(missing.plugins[0].installation.command).toBeNull();
+});
+
+it("uses official package tags and same-repository release archives for installation", async () => {
+  for (const spec of ['@owner/dsh-memory@preview', 'https://github.com/owner/monorepo/releases/download/v1/plugin.tgz']) {
+    const {fetcher} = monorepoReadmeFixture({packageReadme: `# Memory\n\nA memory plugin.\n\n## Install\n\n\`\`\`sh\ndsh plugin --profile web add ${spec}\n\`\`\``});
+    const snapshot = await discoverCatalogSnapshot({fetch:fetcher,targetRepository:'owner/monorepo',source:{repository:'owner/catalog',commit:'test'}});
+    expect(snapshot.plugins[0].installation.spec).toBe(spec);
+    expect(snapshot.plugins[0].installation.command).toBe(`npx -p @deepseek-ai/dsh dsh plugin --profile web add ${spec}`);
+  }
+});
+
+it("does not copy unrelated packages or shell syntax into installation commands", async () => {
+  for (const spec of ['@other/dsh-memory@preview', '@owner/dsh-memory@preview;evil', 'https://github.com/other/repo/releases/download/v1/plugin.tgz']) {
+    const {fetcher} = monorepoReadmeFixture({packageReadme: `# Memory\n\n## Install\n\ndsh plugin --profile web add ${spec}`});
+    const snapshot = await discoverCatalogSnapshot({fetch:fetcher,targetRepository:'owner/monorepo',source:{repository:'owner/catalog',commit:'test'}});
+    expect(snapshot.plugins[0].installation.spec).toBe('github:owner/monorepo#commit456&path:packages/memory');
+    expect(snapshot.plugins[0].installation.command).toContain("'github:owner/monorepo#commit456&path:packages/memory'");
+  }
+});
+
 describe("bounded recovery", () => {
   const source = {repository: "owner/catalog", commit: "test"};
   async function fixture() {
