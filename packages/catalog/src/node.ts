@@ -480,8 +480,8 @@ function officialInstallationSpec(markdown: string, packageName: string, reposit
     if (spec === packageName && /^(?:@[a-z0-9_.-]+\/)?[a-z0-9_.-]+$/i.test(spec)) return true;
     if (/^(?:@[a-z0-9_.-]+\/)?[a-z0-9_.-]+$/i.test(packageName)
       && spec.startsWith(`${packageName}@`) && /^[a-z0-9_.+-]+$/i.test(spec.slice(packageName.length + 1))) return true;
-    return spec.startsWith(`https://github.com/${repository}/releases/download/`)
-      && /^https:\/\/github\.com\/[a-z0-9_.-]+\/[a-z0-9_.-]+\/releases\/download\/[a-z0-9_.+-]+\/[a-z0-9_.+-]+\.tgz$/i.test(spec);
+    return spec.startsWith(`https://github.com/${repository}/releases/`)
+      && /^https:\/\/github\.com\/[a-z0-9_.-]+\/[a-z0-9_.-]+\/releases\/(?:download\/[a-z0-9_.+-]+|latest\/download)\/[a-z0-9_.+-]+\.tgz$/i.test(spec);
   });
 }
 

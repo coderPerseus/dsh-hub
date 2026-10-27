@@ -95982,9 +95982,9 @@
       "analysisZh": "适合经常运行后台任务、需要便捷进行任务中断管理的用户。"
     },
     "github:gulagala001/oh-my-dsh": {
-      "sourceHash": "d9a0e15f2cc72e30a364d0682e6d575a299205d235f8d1e59d05f0f6363d1e18",
-      "descriptionZh": "提供长上下文、提示词优化与四套主题",
-      "analysisZh": "适合需要长上下文、提示词优化及个性化主题的 DSH 用户。"
+      "sourceHash": "120f31b0677f1576e0d7c8439da0c02da1923dd117cf9ce5728d691862389315",
+      "descriptionZh": "增强长上下文、任务验证、代码理解与电脑操作",
+      "analysisZh": "适合需要增强DSH上下文管理、任务验证及系统操作能力的开发者。"
     },
     "github:harmless0819-dev/dsh-agent-chat": {
       "sourceHash": "b66e0b21fef181bab62cc59e112b352d3efea7c2429ccd3a3709fdbb93559410",
@@ -99372,9 +99372,9 @@
       "analysisZh": "适合需要在手机端接收DSH运行结果或选择提示的安卓用户。"
     },
     "github:yangyu666/dsh-jev-prune": {
-      "sourceHash": "0aaa8c861a79b358339ccf808f8782a706757e207787ca37118c34a32f704948",
-      "descriptionZh": "提供基于Jev判断的上下文压缩与精简工具",
-      "analysisZh": "适合需要智能裁剪历史工具结果以节省上下文Token的用户。"
+      "sourceHash": "3db7a6b9e3ce131921893b81729b0ae11e3bddd99b69b1edc054c1bb0ca90de7",
+      "descriptionZh": "基于语义和收据机制压缩与修剪上下文",
+      "analysisZh": "适合在长对话中面临上下文压力、需要智能精简历史记录的用户。"
     },
     "github:yfwu2020/dsh-selection-explain": {
       "sourceHash": "abdd2d79c49d6fca2427c7065dff42befb31a7e7f49f0e29ad839881c9336ecc",
@@ -107577,9 +107577,9 @@
       "analysisZh": "适合需要让Agent解析和读取本地复杂格式文档的办公场景。"
     },
     "github:jingyi0605/Codingns4DSH": {
-      "sourceHash": "9d52bb4dd1abe1ad9b1899388a35cf430bffa1e7f403dab78c0215efbcd237ba",
-      "descriptionZh": "提供Codingns4DSH插件骨架与连接契约",
-      "analysisZh": "适合希望在DSH中接入外部Agent CLI、使用工作区终端及配置远程访问的开发者。"
+      "sourceHash": "29b00c7763870bd7067a149210ea74b98a50be652ddfe21af779ec02202ef2d3",
+      "descriptionZh": "集成多种编程Agent、项目管理与远程访问",
+      "analysisZh": "适合需要在 DSH 中使用多种编程 Agent、终端、Git 工具及跨设备访问的开发者。"
     },
     "github:Joker-Principal/dsh-proxy-control": {
       "sourceHash": "f599ac27fe06630ed9d313041f51b169d5d290540498cb492ab65eb9416bf2f8",
@@ -140780,6 +140780,26 @@
       "sourceHash": "92916bb922e3124e3fe9e50a68807bd4a3b7dee4e7c1d757704158ab6808f1b4",
       "descriptionZh": "结合项目与对话上下文重写并增强输入草稿",
       "analysisZh": "适合需要根据当前项目背景和历史对话自动优化提示词的用户。"
+    },
+    "github:gulagala001/dsh-intelligent-ui": {
+      "sourceHash": "d2920901153ab6f611551afbdde21dece7eb5f0bbf477acf196bd42b90aab112",
+      "descriptionZh": "提供智能聊天与按需技能的交互式回答功能",
+      "analysisZh": "适合需要动态调整、选择和操作交互式回答结果的用户。"
+    },
+    "github:gulagala001/oh-my-agents-above-all": {
+      "sourceHash": "c9a5e5daaf3fe489dc67291e40d3381a4e6e9467a72ba81b2822eeacf119e1e0",
+      "descriptionZh": "提供五种不同的代理工作预设与工作流控制",
+      "analysisZh": "适合需要在DSH中切换不同AI代理工作方式和提示词预设的用户。"
+    },
+    "github:YaJing0412/dsh-sao-animation": {
+      "sourceHash": "80e14556e1e2224392e46f8fac0cdb01a7b8b9bb74e15d9fc4e8d6a7b4ce8333",
+      "descriptionZh": "播放SAO风格的13.6秒启动动画",
+      "analysisZh": "适合想要个性化定制DSH启动视觉效果和音频的动漫爱好者。"
+    },
+    "github:znoujl/dsh-win-compat": {
+      "sourceHash": "35d53f9b07ef83d222ee2f3d68cb9d5d3e1e7c3ccd380110f0f87de3a7228e2a",
+      "descriptionZh": "修复Windows下pnpm编码并提供体检报告",
+      "analysisZh": "适合在Windows环境下遇到DSH运行或编码兼容性问题的用户。"
     }
   }
 }

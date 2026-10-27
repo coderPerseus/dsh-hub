@@ -133,7 +133,7 @@ it("reads all bundle patches, engine compatibility and package license", async (
 });
 
 it("uses official package tags and same-repository release archives for installation", async () => {
-  for (const spec of ['@owner/dsh-memory@preview', 'https://github.com/owner/monorepo/releases/download/v1/plugin.tgz']) {
+  for (const spec of ['@owner/dsh-memory@preview', 'https://github.com/owner/monorepo/releases/download/v1/plugin.tgz', 'https://github.com/owner/monorepo/releases/latest/download/plugin.tgz']) {
     const {fetcher} = monorepoReadmeFixture({packageReadme: `# Memory\n\nA memory plugin.\n\n## Install\n\n\`\`\`sh\ndsh plugin --profile web add ${spec}\n\`\`\``});
     const snapshot = await discoverCatalogSnapshot({fetch:fetcher,targetRepository:'owner/monorepo',source:{repository:'owner/catalog',commit:'test'}});
     expect(snapshot.plugins[0].installation.spec).toBe(spec);
@@ -697,7 +697,7 @@ describe("catalog discovery", () => {
       "github:owner/plugins#commit123&path:packages/memory",
     );
     expect(snapshot.plugins[0]?.installation.command).toBe(
-      "npx -p @deepseek-ai/dsh dsh plugin --profile web add github:owner/plugins#commit123&path:packages/memory",
+      "npx -p @deepseek-ai/dsh dsh plugin --profile web add 'github:owner/plugins#commit123&path:packages/memory'",
     );
   });
 
