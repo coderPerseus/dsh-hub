@@ -20,14 +20,14 @@ try {
 try {
   process.exitCode = await enrichWithFallback(async provider => {
     const env = {...process.env, CATALOG_ENRICH_PROVIDER:provider,
-      CATALOG_ENRICH_MODEL:provider === 'codex' ? 'gpt-5.3-codex-spark' : 'gemini-3.5-flash',
+      CATALOG_ENRICH_MODEL:provider === 'codex' ? 'gpt-6.1-terra' : 'gemini-3.5-flash',
       MIDWAY_API_KEY_FILE:process.env.MIDWAY_API_KEY_FILE || path.join(homedir(), '.config/dshhub/midway-api-key'),
     };
     if (provider === 'midway') {
       if (!process.env.MIDWAY_API_KEY && !(await readFile(env.MIDWAY_API_KEY_FILE,'utf8')).trim()) {
         throw new Error('Midway credential is empty');
       }
-      console.log('Spark unavailable; completing uncached entries with Midway gemini-3.5-flash.');
+      console.log('Codex unavailable; completing uncached entries with Midway gemini-3.5-flash.');
     }
     // Saved entries are reused automatically; only missing or changed official sources are generated.
     return await new Promise<number>((resolve,reject) => {
