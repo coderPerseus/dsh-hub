@@ -4,14 +4,14 @@ import path from 'node:path';
 import {createRequire} from 'node:module';
 import {spawnSync} from 'node:child_process';
 import {expect,it,vi} from 'vitest';
-import {enrichWithFallback,isSparkUnavailable} from '../../../scripts/lib/enrichment-fallback.mjs';
+import {enrichWithFallback,isCodexUnavailable} from '../../../scripts/lib/enrichment-fallback.mjs';
 
-it('uses Spark alone while quota is available',async()=>{
+it('uses Codex alone while quota is available',async()=>{
   const run=vi.fn(async()=>0);
   expect(await enrichWithFallback(run)).toBe(0);
   expect(run.mock.calls).toEqual([['codex']]);
 });
-it('switches to Midway only after Spark reports unavailable quota/model',async()=>{
+it('switches to Midway only after Codex reports unavailable quota/model',async()=>{
   const run=vi.fn().mockResolvedValueOnce(2).mockResolvedValueOnce(0);
   expect(await enrichWithFallback(run)).toBe(0);
   expect(run.mock.calls).toEqual([['codex'],['midway']]);
@@ -22,10 +22,10 @@ it('does not hide output validation errors and propagates fallback failure',asyn
   expect(invalid).toHaveBeenCalledTimes(1);
   expect(await enrichWithFallback(vi.fn().mockResolvedValueOnce(2).mockResolvedValueOnce(1))).toBe(1);
 });
-it('recognizes Spark exhaustion without treating arbitrary process errors as quota',()=>{
-  for(const log of ['You have hit your usage limit','usage_limit_reached','insufficient_quota','The model is not supported','model_not_found']) expect(isSparkUnavailable(log)).toBe(true);
-  expect(isSparkUnavailable('invalid_output missing:1')).toBe(false);
-  expect(isSparkUnavailable('codex_exit_1')).toBe(false);
+it('recognizes Codex exhaustion without treating arbitrary process errors as quota',()=>{
+  for(const log of ['You have hit your usage limit','usage_limit_reached','insufficient_quota','The model is not supported','model_not_found']) expect(isCodexUnavailable(log)).toBe(true);
+  expect(isCodexUnavailable('invalid_output missing:1')).toBe(false);
+  expect(isCodexUnavailable('codex_exit_1')).toBe(false);
 });
 
 it('preserves the quota exit code across actual child processes and releases its lock',()=>{
@@ -43,6 +43,7 @@ it('preserves the quota exit code across actual child processes and releases its
     writeFileSync(path.join(fixture,'scripts/enrich-catalog.mts'),`
       import {appendFileSync} from 'node:fs';
       appendFileSync('providers',process.env.CATALOG_ENRICH_PROVIDER+'\\n');
+      appendFileSync('models',process.env.CATALOG_ENRICH_MODEL+'\\n');
       process.exit(process.env.CATALOG_ENRICH_PROVIDER==='codex'?2:0);
     `);
     const result=spawnSync(process.execPath,[createRequire(import.meta.url).resolve('tsx/cli'),path.join(fixture,'scripts/enrich-catalog-auto.mts')],{
@@ -50,6 +51,7 @@ it('preserves the quota exit code across actual child processes and releases its
     });
     expect(result.status,result.stderr).toBe(0);
     expect(readFileSync(path.join(fixture,'providers'),'utf8')).toBe('codex\nmidway\n');
+    expect(readFileSync(path.join(fixture,'models'),'utf8')).toBe('gpt-6.1-terra\ngemini-3.5-flash\n');
     expect(existsSync(path.join(fixture,'.catalog/enrichment-auto.lock'))).toBe(false);
   } finally { rmSync(fixture,{recursive:true,force:true}); }
 });
