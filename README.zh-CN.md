@@ -33,7 +33,7 @@ DSH Hub 是 DeepSeek Harness 社区插件目录。它从 GitHub 发现可安装�
 
 ### 在终端中搜索
 
-静态目录需要 0.2.0 版客户端。在 npm 版本发布前，请从本仓库构建并运行 CLI：
+旧版 npm 客户端不支持分片目录，请从本仓库构建并运行兼容的 CLI：
 
 ```bash
 git clone https://github.com/coderPerseus/dsh-hub.git
@@ -55,7 +55,7 @@ node packages/cli/lib/bin.js plugin owner/repository --json
 | `search_dsh_plugins` | 按能力、分类和兼容状态搜索。 |
 | `get_dsh_plugin` | 查看使用文档、兼容性依据和安装命令。 |
 
-安装说明见[插件 README](packages/dsh-plugin/README.md)。支持静态目录的 npm 版本发布前，请使用 0.2.0 源码构建。仓库中的 [find-dsh-plugins Skill](skills/find-dsh-plugins/SKILL.md) 提供相同工作流，并支持回退到 CLI。
+请复制 [DSH Hub 官方插件详情页](https://dshhub.org/zh-CN/plugins/coderPerseus/dsh-hub--packages-dsh-plugin/)中的安装命令，安装包已包含支持分片目录的客户端。仓库中的 [find-dsh-plugins Skill](skills/find-dsh-plugins/SKILL.md) 提供相同工作流，并支持回退到 CLI。
 
 可以这样告诉 Agent：
 

@@ -83,6 +83,7 @@ jobs:
         run: |
           pnpm typecheck
           pnpm test
+          pnpm --filter @dshhub/web exec tsx --test ../../scripts/test-dshhub-plugin-distribution.mts
           pnpm --filter @dshhub/web build
           pnpm --filter @dshhub/web exec tsx ../../scripts/check-static-locales.mts
           pnpm --filter @dshhub/web exec tsx --test ../../scripts/test-seo-catalog.mts

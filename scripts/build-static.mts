@@ -22,6 +22,7 @@ import { googleAnalyticsScript } from '../apps/web/src/lib/google-analytics';
 import { compactSearchText } from './lib/search-text.mts';
 import { assertStaticAssetSize } from './lib/static-asset-limit.mts';
 import { shardStaticIndex } from './lib/static-index-shards.mts';
+import { buildDshHubPlugin, withDshHubPluginDistribution } from './lib/dshhub-plugin-distribution.mts';
 
 const root = path.resolve(import.meta.dirname, '..');
 // Reject changes that would reintroduce request-based compute or storage billing.
@@ -35,18 +36,20 @@ for (const filename of ['wrangler.jsonc', 'wrangler.ci.jsonc']) {
 }
 const output = path.join(root, 'apps/web/dist');
 const rawSnapshot = JSON.parse(await readFile(path.join(root, '.catalog/catalog.snapshot.json'), 'utf8'));
-const snapshot = applyCatalogEnrichment(
+const restoredSnapshot = applyCatalogEnrichment(
   catalogSnapshotSchema.parse(rawSnapshot),
   catalogEnrichmentDataSchema.parse(JSON.parse(await readFile(path.join(root, 'data', 'catalog-enrichment.json'), 'utf8'))),
 );
-if (snapshot.plugins.length < Number(process.env.CATALOG_MIN_PLUGIN_COUNT ?? 50)) throw new Error('Refusing to publish an incomplete catalog');
+if (restoredSnapshot.plugins.length < Number(process.env.CATALOG_MIN_PLUGIN_COUNT ?? 50)) throw new Error('Refusing to publish an incomplete catalog');
+await rm(output, {recursive: true, force: true});
+await mkdir(output, {recursive: true});
+await cp(path.join(root, 'apps/web/public'), output, {recursive: true});
+const distribution = await buildDshHubPlugin(root, output);
+const snapshot = {...restoredSnapshot, plugins: restoredSnapshot.plugins.map(p => withDshHubPluginDistribution(p, distribution))};
 const governance = governCatalog(snapshot.plugins);
 await writeFile(path.join(root, '.catalog/seo-governance.report.json'), JSON.stringify(governance.report, null, 2));
 const version = createHash('sha256').update('browser-index-v1-governance-v1-search-v2-index-shards-v2').update(JSON.stringify(snapshot)).digest('hex').slice(0,16);
 const prefix = `/catalog/${version}`;
-await rm(output, {recursive: true, force: true});
-await mkdir(output, {recursive: true});
-await cp(path.join(root, 'apps/web/public'), output, {recursive: true});
 await build({entryPoints:[path.join(root,'apps/web/src/static/browser.tsx')], bundle:true, external:['/fonts/*','/hero-*'], format:'esm', platform:'browser', outdir:output + '/assets', entryNames:'app-[hash]', minify:true, metafile:true, define:{'process.env.NODE_ENV':'"production"','process.env.NEXT_PUBLIC_SITE_URL':'"https://dshhub.org"'}, jsx:'automatic', write:true}).then(async result => {
   const outputs = Object.keys(result.metafile!.outputs);
   await writeFile(path.join(root,'.catalog/assets.json'), JSON.stringify({js:'/' + path.relative(output,outputs.find(x=>x.endsWith('.js'))!), css:'/' + path.relative(output,outputs.find(x=>x.endsWith('.css'))!)}));
@@ -161,7 +164,7 @@ await put('/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?><sitemapindex xm
 await put('/_redirects','/ /zh-CN/ 301\n/plugins/* /zh-CN/plugins/:splat 301\n/categories/* /zh-CN/categories/:splat 301\n/page/* /zh-CN/page/:splat 301\n'+locales.map(locale=>`/${locale} /${locale}/ 301`).join('\n')+'\n');
 await put('/404.html',html({locale:'zh-CN',manifest,initial:emptyInitial,related:[],notFound:true},'404 · DSH Hub','页面不存在','/404'));
 await put('/robots.txt','User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /*?*q=\nDisallow: /*?*category=\nDisallow: /*?*compatibility=\nDisallow: /*?*sort=\nDisallow: /*?*cursor=\nSitemap: https://dshhub.org/sitemap.xml\n');
-await put('/api/v1/plugins/index.html',JSON.stringify({error:'The live search API has been retired. Upgrade @dshhubs/client and @dshhubs/cli to 0.2.0. Static catalog: https://dshhub.org/catalog/manifest.json'}));
+await put('/api/v1/plugins/index.html',JSON.stringify({error:'The live search API has been retired. Use the source-built CLI documented at https://github.com/coderPerseus/dsh-hub#search-from-the-terminal or the native package on https://dshhub.org/en/plugins/coderPerseus/dsh-hub--packages-dsh-plugin/. Static catalog: https://dshhub.org/catalog/manifest.json'}));
 await put('/_headers','/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/catalog/*\n  Access-Control-Allow-Origin: *\n  X-Robots-Tag: noindex\n  Cache-Control: public, max-age=300\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n');
 for (const name of ['favicon.ico','icon.png','apple-icon.png']) await cp(root+'/apps/web/src/app/'+name,output+'/'+name);
 async function files(dir:string):Promise<string[]> { const entries=await readdir(dir,{withFileTypes:true});return (await Promise.all(entries.map(e=>e.isDirectory()?files(path.join(dir,e.name)):Promise.resolve([path.join(dir,e.name)])))).flat(); }
