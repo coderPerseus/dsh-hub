@@ -4,9 +4,7 @@ DeepSeek Harness plugin that gives agents structured access to the [dshhub](http
 
 ## Installation
 
-```bash
-npx -p @deepseek-ai/dsh dsh plugin --profile web add @dshhubs/plugin-search
-```
+Copy the install command from the [official DSH Hub plugin card](https://dshhub.org/en/plugins/coderPerseus/dsh-hub--packages-dsh-plugin/). The static site build publishes an installable package with the shard-compatible client bundled. The older npm release is not suitable for the current catalog.
 
 ## Usage
 
